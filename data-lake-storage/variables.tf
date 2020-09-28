@@ -36,22 +36,22 @@ variable "resource_group_name" {
 
 variable "datalake_storage_account_name" {
   type        = string
-  description = "A datacenter location in Azure"
+  description = "Name of a storage account"
 }
 
 variable "datalake_storage_account_tier" {
   type        = string
-  description = "A datacenter location in Azure"
+  description = ""
   default     = "Standard"
 }
 
 variable "datalake_storage_replication_type" {
   type        = string
-  description = "A datacenter location in Azure"
+  description = ""
   default     = "GRS"
 }
 
 variable "datalake_storage_container_name" {
   type        = string
-  description = "Name of the datalake storage container"
+  description = "Name of a storage container"
 }

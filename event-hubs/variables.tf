@@ -1,3 +1,8 @@
+variable "location" {
+  type        = string
+  description = "A datacenter location in Azure"
+}
+
 variable "tenant_id" {
   type        = string
   description = "Azure tenant ID"
@@ -26,7 +31,7 @@ variable "skip_provider_registration" {
 
 variable "resource_group_name" {
   type        = string
-  description = "The name of a resource group in Azure"
+  description = "The name of a resource group"
 }
 
 variable "eventhub_namespace_name" {
@@ -34,20 +39,15 @@ variable "eventhub_namespace_name" {
   description = "Name of the event hub namespace"
 }
 
-variable "location" {
+variable "eventhub_namespace_sku" {
   type        = string
-  description = "A datacenter location in Azure"
-}
-
-variable "sku" {
-  type        = string
-  description = "Azure Event hub pricing tier"
+  description = "Event hub namespace pricing tier"
   default     = "Standard"
 }
 
-variable "capacity" {
+variable "eventhub_namespace_capacity" {
   type        = number
-  description = "Number of throughput units for the Azure event hub"
+  description = "Number of throughput units for the event hub namespace"
   default     = 1
 }
 
@@ -56,19 +56,19 @@ variable "eventhub_name" {
   description = "Name of the event hub"
 }
 
-variable "partition_count" {
+variable "eventhub_partition_count" {
   type        = number
-  description = "Number of partitions for the azure Avent hub"
+  description = "Number of partitions for the event hub"
   default     = 2
 }
 
-variable "message_retention" {
+variable "eventhub_message_retention" {
   type        = number
-  description = "Retention period of messages for the Azure event hub"
+  description = "Retention period of messages for the event hub"
   default     = 1
 }
 
-variable "eventhub_rule_name" {
+variable "eventhub_consumer_group_name" {
   type        = string
-  description = "Name of the event hub authorization rule"
+  description = "Eventhub consumer group name"
 }
