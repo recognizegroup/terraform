@@ -1,4 +1,4 @@
-# terraform
+# Terraform
 
 This repository contains terraform modules which can be used in combination with [Terragrunt](https://terragrunt.gruntwork.io/). Terragrunt allows you to keep your Terraform backend configuration DRY (“Don’t Repeat Yourself”) by defining versioned modules once and reusing those modules inside terragrunt configuration files.
 
@@ -36,5 +36,24 @@ inputs = {
   storage_account_name   = dependency.storage.outputs.storage_account_name
   storage_container_name = dependency.storage.outputs.storage_container_name
   event_hub_name         = "my-event-hub"
+  ...
 }
+```
+
+### Azure authentication
+
+Terraform provides different ways to authenticate to Azure. When working locally, it is recommended that you use the Azure cli to login with our user account:
+
+```bash
+az login
+az account set --subscription <name or id>
+```
+
+When automating deployments from a CI/CD pipeline, it is recommended that you use environment variables to authenticate:
+
+```bash
+export ARM_CLIENT_ID="00000000-0000-0000-0000-000000000000"
+export ARM_CLIENT_SECRET="00000000-0000-0000-0000-000000000000"
+export ARM_SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
+export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
 ```

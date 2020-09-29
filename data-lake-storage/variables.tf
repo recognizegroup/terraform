@@ -1,57 +1,37 @@
 variable "location" {
   type        = string
-  description = "A datacenter location in Azure"
-}
-
-variable "tenant_id" {
-  type        = string
-  description = "Azure tenant ID"
-}
-
-variable "subscription_id" {
-  type        = string
-  description = "Azure subscription ID"
-}
-
-variable "client_id" {
-  type        = string
-  description = "Azure client ID"
-}
-
-variable "client_secret" {
-  type        = string
-  description = "Azure client secret"
+  description = "A datacenter location in Azure."
 }
 
 variable "skip_provider_registration" {
   type        = string
-  description = "Indicates whether the provider should be registered in Azure"
+  description = "Indicates whether the provider should be registered in Azure."
   default     = false
 }
 
 variable "resource_group_name" {
   type        = string
-  description = "The name of a resource group"
+  description = "Name of the resource group."
 }
 
 variable "datalake_storage_account_name" {
   type        = string
-  description = "Name of a storage account"
+  description = "Name of the storage account"
 }
 
 variable "datalake_storage_account_tier" {
   type        = string
-  description = ""
+  description = "Defines the Tier to use for this storage account."
   default     = "Standard"
 }
 
 variable "datalake_storage_replication_type" {
   type        = string
-  description = ""
+  description = "Defines the type of replication to use for this storage account."
   default     = "GRS"
 }
 
 variable "datalake_storage_container_name" {
   type        = string
-  description = "Name of a storage container"
+  description = "Name of the storage container."
 }
