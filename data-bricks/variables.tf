@@ -21,5 +21,6 @@ variable "databricks_name" {
 
 variable "databricks_namespace_sku" {
 	type		= string
-    description =  "The databricks sku"	
+  description =  "The databricks sku"
+  default = "standard"
 }
