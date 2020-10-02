@@ -15,12 +15,12 @@ variable "skip_provider_registration" {
 }
 
 variable "databricks_name" {
-	type        = string
-	description =  "The name of the databricks worskpace"
+  type        = string
+  description = "The name of the databricks worskpace."
 }
 
-variable "databricks_namespace_sku" {
-	type		= string
-  description =  "The databricks sku"
-  default = "standard"
+variable "databricks_sku" {
+  type        = string
+  description = "The databricks workspace sku."
+  default     = "standard"
 }
