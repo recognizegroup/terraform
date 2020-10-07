@@ -24,3 +24,15 @@ variable "databricks_sku" {
   description = "The databricks workspace sku."
   default     = "standard"
 }
+
+variable "autoscaling_cluster_min_workers" {
+  type = number
+  description = "Minimum number of workers for autoscaling cluster."
+  default = 0
+}
+
+variable "autoscaling_cluster_max_workers" {
+  type = number
+  description = "Minimum number of workers for autoscaling cluster."
+  default = 2
+}

@@ -18,36 +18,31 @@ provider "azurerm" {
 }
 
 provider "databricks" {
-  host  = azurerm_databricks_workspace.databricks.workspace_url
+  azure_workspace_resource_id = azurerm_databricks_workspace.databricks.id
+}
+
+data "azurerm_client_config" "current" {
 }
 
 resource "azurerm_databricks_workspace" "databricks" {
   name                = var.databricks_name
   resource_group_name = var.resource_group_name
   location            = var.location
-  sku                 = var.databricks_namespace_sku
+  sku                 = var.databricks_sku
 }
 
 resource "databricks_cluster" "shared_autoscaling_databricks_cluster" {
   cluster_name            = "Shared Autoscaling Databricks Cluster"
   node_type_id            = "Standard_DS3_v2"
-  spark_version           = "7.3.x-scala2.12"
+  spark_version           = "7.2.x-scala2.12"
   
   autoscale {
-      min_workers = 1
-      max_workers = 2
-  }
-    
-  library {
-      maven {
-      coordinates = "com.amazon.deequ:deequ:1.0.4"
-      }
-  }
-
+      min_workers = var.autoscaling_cluster_min_workers
+      max_workers = var.autoscaling_cluster_max_workers
+  } 
+  
   spark_env_vars = {
-    PYSPARK_PYTHON = "/databricks/python3/bin/python3"
-  }
-
+    }
   init_scripts {
   }
 } 
