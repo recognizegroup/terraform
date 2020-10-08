@@ -42,7 +42,9 @@ resource "databricks_cluster" "shared_autoscaling_databricks_cluster" {
   } 
   
   spark_env_vars = {
+        PYSPARK_PYTHON = "/databricks/python3/bin/python3"
     }
+    
   init_scripts {
   }
 } 
