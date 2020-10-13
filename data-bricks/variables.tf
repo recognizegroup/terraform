@@ -32,7 +32,14 @@ variable "autoscaling_cluster_min_workers" {
 }
 
 variable "autoscaling_cluster_max_workers" {
-  type = number
+  type        = number
   description = "Minimum number of workers for autoscaling cluster."
-  default = 2
+  default     = 2
+}
+
+variable "databricks_cluster_packages" {
+  type        = string
+  description = "The packages to install on the autoscaling cluster"
+  default     = "numpy, seaborn==0.11.1"
+
 }
