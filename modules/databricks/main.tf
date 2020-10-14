@@ -1,11 +1,11 @@
 terraform {
-  required_version = ">= 0.13.3"
+  required_version = ">=0.13.3"
 
   required_providers {
     azurerm = ">=2.24.0"
     databricks = {
       source  = "databrickslabs/databricks"
-      version = ">= 0.2.7"
+      version = ">=0.2.7"
     }
   }
 
@@ -36,7 +36,6 @@ resource "databricks_cluster" "shared_autoscaling_databricks_cluster" {
   node_type_id  = var.databricks_cluster_node_type
   spark_version = var.databricks_cluster_spark_version
 
-
   autoscale {
     min_workers = var.autoscaling_cluster_min_workers
     max_workers = var.autoscaling_cluster_max_workers
@@ -51,5 +50,4 @@ resource "databricks_cluster" "shared_autoscaling_databricks_cluster" {
       package = var.databricks_cluster_packages
     }
   }
-
 }
