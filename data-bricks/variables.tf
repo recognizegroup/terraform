@@ -14,7 +14,7 @@ variable "skip_provider_registration" {
   default     = false
 }
 
-variable "databricks_name" {
+variable "databricks_workspace_name" {
   type        = string
   description = "The name of the databricks worskpace."
 }
@@ -37,15 +37,15 @@ variable "databricks_cluster_node_type" {
 }
 
 variable "autoscaling_cluster_min_workers" {
-  type = number
+  type        = number
   description = "Minimum number of workers for autoscaling cluster."
-  default = 0
+  default     = 0
 }
 
 variable "autoscaling_cluster_max_workers" {
   type        = number
-  description = "Minimum number of workers for autoscaling cluster."
-  default     = 2
+  description = "Maximum number of workers for autoscaling cluster."
+  default     = 1
 }
 
 variable "databricks_cluster_spark_version" {
@@ -57,7 +57,7 @@ variable "databricks_cluster_spark_version" {
 variable "databricks_cluster_packages" {
   type        = string
   description = "The packages to install on the autoscaling cluster"
-  default     = "numpy, seaborn==0.11.1"
+  default     = "seaborn==0.11.1"
 }
 
 variable "databricks_cluster_python_location" {
