@@ -50,7 +50,7 @@ variable "autoscaling_cluster_max_workers" {
 
 variable "databricks_cluster_spark_version" {
   type        = string
-  description = "The spark version to use for the autoscaling cluster.
+  description = "The spark version to use for the autoscaling cluster."
   default     = "7.2.x-scala2.12"
 }
 
