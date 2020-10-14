@@ -27,12 +27,12 @@ variable "databricks_sku" {
 
 variable "databricks_cluster_name" {
   type        = string
-  description = "The name of the autoscaling cluster"
+  description = "The name of the autoscaling cluster."
 }
 
 variable "databricks_cluster_node_type" {
   type        = string
-  description = "The cluster node type id"
+  description = "The cluster node type id."
   default     = "Standard_DS3_v2"
 }
 
@@ -56,12 +56,11 @@ variable "databricks_cluster_spark_version" {
 
 variable "databricks_cluster_packages" {
   type        = string
-  description = "The packages to install on the autoscaling cluster"
-  default     = "seaborn==0.11.1"
+  description = "The packages to install on the autoscaling cluster."
 }
 
 variable "databricks_cluster_python_location" {
   type        = string
-  description = "The python instance on the autoscaling cluster"
+  description = "The python instance on the autoscaling cluster."
   default     = "/databricks/python3/bin/python3"
 }
