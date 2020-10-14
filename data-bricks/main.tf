@@ -32,17 +32,18 @@ resource "azurerm_databricks_workspace" "databricks" {
 }
 
 resource "databricks_cluster" "shared_autoscaling_databricks_cluster" {
-  cluster_name            = "Shared Autoscaling Databricks Cluster"
-  node_type_id            = "Standard_DS3_v2"
-  spark_version           = "7.2.x-scala2.12"
-  
+  cluster_name            = var.databricks_cluster_name
+  node_type_id            = var.databricks_cluster_node_type
+  spark_version           = var.databricks_cluster_spark_version
+
+
   autoscale {
       min_workers = var.autoscaling_cluster_min_workers
       max_workers = var.autoscaling_cluster_max_workers
-  } 
-  
+  }
+
   spark_env_vars = {
-        PYSPARK_PYTHON = "/databricks/python3/bin/python3"
+        PYSPARK_PYTHON = var.databricks_cluster_python_location
   }
 
   library {
