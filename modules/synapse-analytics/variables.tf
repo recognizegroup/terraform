@@ -14,6 +14,11 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
+variable "storage_account_name" {
+  type        = string
+  description = "Name of the storage account."
+}
+
 variable "key_vault_name" {
   type        = string
   description = "Name of the key vault."
@@ -54,5 +59,5 @@ variable "sql_database_name" {
 variable "sql_edition" {
   type        = string
   description = "Edition of the sql database."
-  default = "DataWarehouse"
+  default     = "DataWarehouse"
 }
