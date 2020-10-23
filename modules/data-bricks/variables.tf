@@ -64,3 +64,8 @@ variable "databricks_cluster_python_location" {
   description = "The python instance on the autoscaling cluster."
   default     = "/databricks/python3/bin/python3"
 }
+
+variable "databricks_groups" {
+  type        = map
+  description = "Groups and users within Databricks workspace."
+}
