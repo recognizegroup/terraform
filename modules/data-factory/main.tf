@@ -24,21 +24,41 @@ resource "azurerm_data_factory" "data_factory" {
   location            = var.location
 }
 
-resource "azurerm_data_factory_linked_service_web" "service_web" {
-  name                = var.service_web_name
+resource "azurerm_template_deployment" "service_http" {
+  name                = var.service_http_template_name
   resource_group_name = var.resource_group_name
-  data_factory_name   = azurerm_data_factory.data_factory.name
-  authentication_type = var.service_web_authentication_type
-  url                 = var.service_web_url
+  deployment_mode     = "Incremental"
+
+  template_body = <<DEPLOY
+  {
+    "contentVersion": "1.0.0.0",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "resources" : [
+    {
+        "name": "${var.data_factory_name}/${var.service_http_name}",
+        "type": "Microsoft.DataFactory/factories/linkedservices",
+        "apiVersion": "2018-06-01",
+        "properties": {
+            "type": "HttpServer",
+            "typeProperties": {
+                "authenticationType": "${var.service_http_authentication_type}",
+                "url": "${var.service_http_url}"
+            },
+            "annotations": []
+        }
+    }]
+  }
+  DEPLOY
 }
 
 resource "azurerm_data_factory_dataset_http" "dataset_web" {
   name                = var.dataset_web_name
   resource_group_name = var.resource_group_name
   data_factory_name   = azurerm_data_factory.data_factory.name
-  linked_service_name = azurerm_data_factory_linked_service_web.service_web.name
+  linked_service_name = var.service_http_name
   relative_url        = var.dataset_web_relative_url
   request_method      = var.dataset_web_request_method
+  depends_on          = [azurerm_template_deployment.service_http]
 }
 
 resource "azurerm_data_factory_linked_service_azure_blob_storage" "service_blob" {

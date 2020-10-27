@@ -34,20 +34,25 @@ variable "data_factory_pipeline_name" {
   description = "The name of the data factory pipeline."
 }
 
-variable "service_web_name" {
+variable "service_http_template_name" {
   type        = string
-  description = "The name of the data factory web service."
+  description = "The name of the data factory REST service ARM template."
 }
 
-variable "service_web_authentication_type" {
+variable "service_http_name" {
   type        = string
-  description = "The authentication type of the data factory web service."
+  description = "The name of the data factory REST service."
+}
+
+variable "service_http_authentication_type" {
+  type        = string
+  description = "The authentication type of the data factory REST service."
   default     = "Anonymous"
 }
 
-variable "service_web_url" {
+variable "service_http_url" {
   type        = string
-  description = "The url of the data factory web service."
+  description = "The url of the data factory REST service."
   default     = "Anonymous"
 }
 
