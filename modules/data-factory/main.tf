@@ -28,6 +28,7 @@ resource "azurerm_resource_group_template_deployment" "service_http" {
   name                = var.service_http_template_name
   resource_group_name = var.resource_group_name
   deployment_mode     = "Incremental"
+  depends_on          = [azurerm_data_factory.data_factory]
 
   template_content = <<JSON
 {
