@@ -56,17 +56,17 @@ variable "service_http_url" {
   default     = "Anonymous"
 }
 
-variable "dataset_web_name" {
+variable "dataset_http_name" {
   type        = string
   description = "The name of the data factory http dataset."
 }
 
-variable "dataset_web_relative_url" {
+variable "dataset_http_relative_url" {
   type        = string
   description = "The relative url of the data factory http dataset."
 }
 
-variable "dataset_web_request_method" {
+variable "dataset_http_request_method" {
   type        = string
   description = "The request method of the data factory http dataset."
   default     = "Get"
