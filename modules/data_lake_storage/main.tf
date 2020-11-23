@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">=0.13.3"
+  required_version = ">=0.13.5"
 
   required_providers {
     azurerm = "=2.24.0"
@@ -9,7 +9,6 @@ terraform {
 }
 
 provider "azurerm" {
-  skip_provider_registration = var.skip_provider_registration
   features {}
 }
 
