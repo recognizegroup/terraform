@@ -8,12 +8,6 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "skip_provider_registration" {
-  type        = string
-  description = "Indicates whether the provider should be registered in Azure."
-  default     = false
-}
-
 variable "databricks_workspace_name" {
   type        = string
   description = "The name of the databricks worskpace."

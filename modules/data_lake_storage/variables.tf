@@ -3,12 +3,6 @@ variable "location" {
   description = "A datacenter location in Azure."
 }
 
-variable "skip_provider_registration" {
-  type        = string
-  description = "Indicates whether the provider should be registered in Azure."
-  default     = false
-}
-
 variable "resource_group_name" {
   type        = string
   description = "Name of the resource group."

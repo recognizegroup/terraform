@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">=0.13.4"
+  required_version = ">=0.13.5"
 
   required_providers {
     azurerm = ">=2.24.0"
@@ -13,7 +13,6 @@ terraform {
 }
 
 provider "azurerm" {
-  skip_provider_registration = var.skip_provider_registration
   features {}
 }
 
@@ -112,7 +111,7 @@ resource "databricks_permissions" "cluster_usage" {
   cluster_id = databricks_cluster.shared_autoscaling.cluster_id
 
   dynamic "access_control" {
-    for_each = var.databricks_sku == "premium" ? [var.databricks_groups] : []
+    for_each = var.databricks_sku == "premium" ? var.databricks_groups : {}
     content {
       group_name       = access_control.value.display_name
       permission_level = access_control.value.permission_level
