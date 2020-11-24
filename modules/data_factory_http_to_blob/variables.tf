@@ -8,20 +8,14 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "datalake_storage_account_name" {
+variable "storage_account_name" {
   type        = string
   description = "Name of the storage account"
 }
 
-variable "datalake_storage_container_name" {
+variable "storage_container_name" {
   type        = string
   description = "Name of the storage container."
-}
-
-variable "skip_provider_registration" {
-  type        = bool
-  description = "Indicates whether the provider should be registered in Azure."
-  default     = false
 }
 
 variable "data_factory_name" {
