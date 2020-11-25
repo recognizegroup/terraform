@@ -12,9 +12,6 @@ provider "azurerm" {
   features {}
 }
 
-data "azurerm_subscription" "subscription" {
-}
-
 resource "azurerm_role_definition" "role_definition" {
   for_each = var.azure_groups
   name     = each.value.role
