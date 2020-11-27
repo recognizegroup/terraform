@@ -55,3 +55,8 @@ variable "sql_edition" {
   description = "Edition of the sql database."
   default     = "DataWarehouse"
 }
+
+variable "sql_administrator_object_id" {
+  type        = string
+  description = "SQL Server administrator object ID."
+}
