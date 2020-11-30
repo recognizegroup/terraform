@@ -8,12 +8,6 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "skip_provider_registration" {
-  type        = string
-  description = "Indicates whether the provider should be registered in Azure."
-  default     = false
-}
-
 variable "virtual_network_name" {
   type        = string
   description = "Name of the virtual network."
@@ -22,7 +16,7 @@ variable "virtual_network_name" {
 variable "virtual_network_address_space" {
   type        = list
   default     = ["10.0.0.0/16"]
-  description = "Indicates whether the provider should be registered in Azure."
+  description = "Address space of the virtual network."
 }
 
 variable "virtual_network_subnets" {
