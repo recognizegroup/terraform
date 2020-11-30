@@ -60,3 +60,29 @@ variable "sql_administrator_object_id" {
   type        = string
   description = "SQL Server administrator object ID."
 }
+
+variable "sql_admin_login" {
+  type        = string
+  description = "Default login for sql admin AD administrator."
+  default     = "sqladmin"
+}
+
+variable "nw_resource_group_name" {
+  type        = string
+  description = "Name of the networking resource group."
+}
+
+variable "virtual_network_name" {
+  type        = string
+  description = "Name of the the virtual network."
+}
+
+variable "subnet_name" {
+  type        = string
+  description = "Name of the subnet."
+}
+
+variable "sql_vnet_rule_name" {
+  type        = string
+  description = "Name of the sql virtual network rule."
+}

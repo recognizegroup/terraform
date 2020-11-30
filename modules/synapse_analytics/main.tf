@@ -34,6 +34,12 @@ data "azurerm_storage_account" "storage_account" {
   resource_group_name = var.resource_group_name
 }
 
+data "azurerm_subnet" "subnet" {
+  name                 = var.subnet_name
+  virtual_network_name = var.virtual_network_name
+  resource_group_name  = var.nw_resource_group_name
+}
+
 resource "azurerm_sql_server" "sql_server" {
   name                         = var.sql_server_name
   resource_group_name          = var.resource_group_name
@@ -55,7 +61,14 @@ resource "azurerm_sql_database" "sql_database" {
 resource "azurerm_sql_active_directory_administrator" "sql_administrator" {
   server_name         = azurerm_sql_server.sql_server.name
   resource_group_name = var.resource_group_name
-  login               = "sqladmin"
+  login               = var.sql_admin_login
   tenant_id           = data.azurerm_client_config.current.tenant_id
   object_id           = var.sql_administrator_object_id
+}
+
+resource "azurerm_sql_virtual_network_rule" "sql_vnet_rule" {
+  name                = var.sql_vnet_rule_name
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_sql_server.sql_server.name
+  subnet_id           = data.azurerm_subnet.subnet.id
 }
