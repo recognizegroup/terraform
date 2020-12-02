@@ -29,7 +29,7 @@ Sometimes you happen to have dependencies between modules, but you don't want to
 
 ```terraform
 dependency "storage" {
-  config_path = "../data-lake-storage"
+  config_path = "../storage"
 }
 
 inputs = {
@@ -42,14 +42,14 @@ inputs = {
 
 ### Azure authentication
 
-Terraform provides different ways to authenticate to Azure. When working locally, it is recommended that you use the Azure cli to login with our user account:
+Terraform provides different ways to authenticate to Azure. When working locally, it is recommended that you use the Azure cli to login with your user account:
 
 ```bash
 az login
 az account set --subscription <name or id>
 ```
 
-When automating deployments from a CI/CD pipeline, it is recommended that you use environment variables to authenticate:
+When automating deployments from a CI/CD pipeline, it is recommended that you use environment variables to authenticate. Setting environment variables always prevails logging into the Azure cli.
 
 ```bash
 export ARM_CLIENT_ID="00000000-0000-0000-0000-000000000000"
