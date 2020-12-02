@@ -17,14 +17,22 @@ data "azurerm_key_vault" "key_vault" {
   resource_group_name = var.resource_group_name
 }
 
-data "azurerm_key_vault_secret" "vm_password_secret" {
+data "azurerm_key_vault_secret" "vm_user_secret" {
   name         = var.vm_user_secret_name
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
-data "azurerm_key_vault_secret" "vm_user_secret" {
+data "azurerm_key_vault_secret" "vm_password_secret" {
   name         = var.vm_password_secret_name
   key_vault_id = data.azurerm_key_vault.key_vault.id
+}
+
+data "azurerm_platform_image" "image" {
+  location  = var.location
+  publisher = var.image_publisher
+  offer     = var.image_offer
+  sku       = var.image_sku
+  version   = var.image_version
 }
 
 data "azurerm_subnet" "subnet" {
@@ -46,20 +54,18 @@ resource "azurerm_network_interface" "network_interface" {
   }
 }
 
-resource "azurerm_virtual_machine" "virtual_machine" {
-  name                          = var.virtual_machine_name
-  location                      = var.location
-  resource_group_name           = var.resource_group_name
-  vm_size                       = var.virtual_machine_size
-  network_interface_ids         = [azurerm_network_interface.network_interface.id]
-  delete_os_disk_on_termination = var.delete_os_disk_on_termination
-
-  storage_image_reference {
-    publisher = var.image_publisher
-    offer     = var.image_offer
-    sku       = var.image_sku
-    version   = var.image_version
-  }
+resource "azurerm_windows_virtual_machine" "virtual_machine" {
+  name                     = var.virtual_machine_name
+  location                 = var.location
+  resource_group_name      = var.resource_group_name
+  size                     = var.virtual_machine_size
+  computer_name            = var.computer_name
+  admin_username           = data.azurerm_key_vault_secret.vm_user_secret.value
+  admin_password           = data.azurerm_key_vault_secret.vm_password_secret.value
+  timezone                 = var.timezone
+  provision_vm_agent       = var.enable_guest_agent
+  enable_automatic_updates = var.enable_auto_updates
+  network_interface_ids    = [azurerm_network_interface.network_interface.id]
 
   plan {
     name      = var.image_sku
@@ -67,21 +73,20 @@ resource "azurerm_virtual_machine" "virtual_machine" {
     product   = var.image_offer
   }
 
-  storage_os_disk {
-    name              = var.os_disk_name
-    create_option     = var.os_disk_create_option
-    caching           = var.os_disk_caching
-    managed_disk_type = var.os_disk_managed_disk_type
+  source_image_reference {
+    publisher = var.image_publisher
+    offer     = var.image_offer
+    sku       = var.image_sku
+    version   = var.image_version
   }
 
-  os_profile {
-    computer_name  = var.computer_name
-    admin_username = data.azurerm_key_vault_secret.vm_user_secret.value
-    admin_password = data.azurerm_key_vault_secret.vm_password_secret.value
+  os_disk {
+    name                 = var.os_disk_name
+    caching              = var.os_disk_caching
+    storage_account_type = var.os_disk_storage_account_type
   }
 
-  os_profile_windows_config {
-    provision_vm_agent        = var.enable_guest_agent
-    enable_automatic_upgrades = var.enable_auto_updates
+  lifecycle {
+    prevent_destroy = true
   }
 }

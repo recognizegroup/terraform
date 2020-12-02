@@ -56,7 +56,7 @@ variable "virtual_machine_size" {
 variable "delete_os_disk_on_termination" {
   type        = bool
   description = "Deletes the os disk on VM termination."
-  default     = true
+  default     = false
 }
 
 variable "os_disk_name" {
@@ -67,7 +67,7 @@ variable "os_disk_name" {
 variable "os_disk_create_option" {
   type        = string
   description = "OS disk create option, Attach or FromImage."
-  default     = "FromImage"
+  default     = "attach"
 }
 
 variable "os_disk_caching" {
@@ -76,7 +76,7 @@ variable "os_disk_caching" {
   default     = "ReadWrite"
 }
 
-variable "os_disk_managed_disk_type" {
+variable "os_disk_storage_account_type" {
   type        = string
   description = "Disk type of the managed disk."
   default     = "Standard_LRS"
@@ -122,6 +122,12 @@ variable "image_version" {
 variable "computer_name" {
   type        = string
   description = "Name of the computer."
+}
+
+variable "timezone" {
+  type        = string
+  description = "Operating system timezone."
+  default     = "Central European Standard Time"
 }
 
 variable "key_vault_name" {
