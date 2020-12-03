@@ -8,6 +8,11 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
+variable "nw_resource_group_name" {
+  type        = string
+  description = "Name of the networking resource group."
+}
+
 variable "key_vault_name" {
   type        = string
   description = "Name of the key vault."
@@ -42,14 +47,11 @@ variable "sql_database_name" {
 variable "sql_edition" {
   type        = string
   description = "Edition of the sql database."
-  default     = "GeneralPurpose"
 }
-
 
 variable "sql_service_level" {
   type        = string
   description = "Azure sql server version."
-  default     = "DW100c"
 }
 
 variable "virtual_network_name" {
