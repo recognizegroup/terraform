@@ -17,7 +17,7 @@ data "azurerm_resource_group" "resource_group" {
 }
 
 resource "azurerm_role_definition" "role_definition" {
-  for_each = var.azure_groups
+  for_each = var.azure_identities
   name     = each.value.role
   scope    = data.azurerm_resource_group.resource_group.id
 
@@ -32,8 +32,8 @@ resource "azurerm_role_definition" "role_definition" {
 }
 
 resource "azurerm_role_assignment" "role_assignment" {
-  for_each           = var.azure_groups
+  for_each           = var.azure_identities
   scope              = data.azurerm_resource_group.resource_group.id
   role_definition_id = lookup(azurerm_role_definition.role_definition[each.key], "role_definition_resource_id")
-  principal_id       = lookup(var.azure_groups[each.key], "object_id")
+  principal_id       = lookup(var.azure_identities[each.key], "object_id")
 }
