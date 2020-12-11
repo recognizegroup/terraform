@@ -59,7 +59,7 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   location                 = var.location
   resource_group_name      = var.resource_group_name
   size                     = var.virtual_machine_size
-  computer_name            = var.computer_name
+  computer_name            = var.virtual_machine_name
   admin_username           = data.azurerm_key_vault_secret.vm_user_secret.value
   admin_password           = data.azurerm_key_vault_secret.vm_password_secret.value
   timezone                 = var.timezone
@@ -86,7 +86,7 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
     storage_account_type = var.os_disk_storage_account_type
   }
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  // lifecycle {
+  //   prevent_destroy = true
+  // }
 }

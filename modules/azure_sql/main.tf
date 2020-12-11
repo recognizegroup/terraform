@@ -42,6 +42,10 @@ resource "azurerm_sql_server" "sql_server" {
   version                      = var.sql_server_version
   administrator_login          = data.azurerm_key_vault_secret.sql_admin_user_secret.value
   administrator_login_password = data.azurerm_key_vault_secret.sql_admin_password_secret.value
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_sql_database" "sql_database" {

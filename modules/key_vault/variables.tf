@@ -33,3 +33,9 @@ variable "key_vault_sku" {
   description = "Name of the sku used for the key vault."
   default     = "standard"
 }
+
+variable "enable_rbac_authorization" {
+  type        = bool
+  description = "Flag to specify whether to use Role Based Access Control."
+  default     = true
+}
