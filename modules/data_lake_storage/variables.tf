@@ -13,6 +13,12 @@ variable "datalake_storage_account_name" {
   description = "Name of the storage account"
 }
 
+variable "datalake_storage_account_kind" {
+  type        = string
+  description = "Defines the kind to use for this storage account."
+  default     = "StorageV2"
+}
+
 variable "datalake_storage_account_tier" {
   type        = string
   description = "Defines the Tier to use for this storage account."
@@ -25,7 +31,12 @@ variable "datalake_storage_replication_type" {
   default     = "GRS"
 }
 
-variable "datalake_storage_container_name" {
+variable "datalake_storage_filesystem_name" {
   type        = string
-  description = "Name of the storage container."
+  description = "Name of the filesystem."
+}
+
+variable "datalake_storage_folders" {
+  type        = map
+  description = "List of folders and ACLs for datalake storage filesystem."
 }

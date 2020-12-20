@@ -48,9 +48,10 @@ resource "azurerm_databricks_workspace" "databricks_workspace" {
 }
 
 resource "databricks_cluster" "shared_autoscaling" {
-  cluster_name  = var.databricks_cluster_name
-  node_type_id  = var.databricks_cluster_node_type
-  spark_version = var.databricks_cluster_spark_version
+  cluster_name            = var.databricks_cluster_name
+  node_type_id            = var.databricks_cluster_node_type
+  spark_version           = var.databricks_cluster_spark_version
+  autotermination_minutes = var.databricks_cluster_auto_termination
 
   autoscale {
     min_workers = var.autoscaling_cluster_min_workers
@@ -65,6 +66,13 @@ resource "databricks_cluster" "shared_autoscaling" {
     pypi {
       package = var.databricks_cluster_packages
     }
+  }
+
+  spark_conf = {
+    "spark.databricks.passthrough.enabled" : true,
+    "spark.databricks.repl.allowedLanguages" : "python,sql",
+    "spark.databricks.cluster.profile" : "serverless",
+    "spark.databricks.pyspark.enableProcessIsolation" : true
   }
 
   depends_on = [
