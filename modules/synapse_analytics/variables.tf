@@ -82,7 +82,8 @@ variable "subnet_name" {
   description = "Name of the subnet."
 }
 
-variable "sql_vnet_rule_name" {
-  type        = string
-  description = "Name of the sql virtual network rule."
+variable "public_network_access_enabled" {
+  type        = bool
+  description = "Whether or not public network access is allowed for this server."
+  default     = false
 }
