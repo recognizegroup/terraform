@@ -8,7 +8,7 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "azure_identities" {
+variable "azure_permissions" {
   type        = map
-  description = "Name of the identity in Azure, could be a user or a group."
+  description = "Mapping of user groups and permissions."
 }

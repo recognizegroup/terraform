@@ -39,7 +39,7 @@ variable "autoscaling_cluster_min_workers" {
 variable "autoscaling_cluster_max_workers" {
   type        = number
   description = "Maximum number of workers for autoscaling cluster."
-  default     = 1
+  default     = 2
 }
 
 variable "databricks_cluster_spark_version" {
@@ -57,6 +57,12 @@ variable "databricks_cluster_python_location" {
   type        = string
   description = "The python instance on the autoscaling cluster."
   default     = "/databricks/python3/bin/python3"
+}
+
+variable "databricks_cluster_auto_termination" {
+  type        = number
+  description = "Idle time after which the cluster shuts down."
+  default     = 20
 }
 
 variable "databricks_groups" {
