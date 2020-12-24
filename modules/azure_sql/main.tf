@@ -2,7 +2,7 @@ terraform {
   required_version = ">=0.13.5"
 
   required_providers {
-    azurerm = "=2.37.0"
+    azurerm = "=2.41.0"
   }
 
   backend "azurerm" {}
@@ -35,7 +35,7 @@ data "azurerm_subnet" "subnet" {
   resource_group_name  = var.nw_resource_group_name
 }
 
-resource "azurerm_sql_server" "sql_server" {
+resource "azurerm_mssql_server" "sql_server" {
   name                         = var.sql_server_name
   resource_group_name          = var.resource_group_name
   location                     = var.location
@@ -48,18 +48,19 @@ resource "azurerm_sql_server" "sql_server" {
   }
 }
 
-resource "azurerm_sql_database" "sql_database" {
-  name                             = var.sql_database_name
-  resource_group_name              = var.resource_group_name
-  location                         = var.location
-  server_name                      = azurerm_sql_server.sql_server.name
-  edition                          = var.sql_edition
-  requested_service_objective_name = var.sql_service_level
+resource "azurerm_mssql_database" "sql_database" {
+  name      = var.sql_database_name
+  server_id = azurerm_mssql_server.sql_server.id
+  sku_name  = var.sql_database_sku
+
+  short_term_retention_policy {
+    retention_days = var.short_term_retention_days
+  }
 }
 
 resource "azurerm_sql_virtual_network_rule" "sql_vnet_rule" {
   name                = var.sql_vnet_rule_name
   resource_group_name = var.resource_group_name
-  server_name         = azurerm_sql_server.sql_server.name
+  server_name         = azurerm_mssql_server.sql_server.name
   subnet_id           = data.azurerm_subnet.subnet.id
 }
