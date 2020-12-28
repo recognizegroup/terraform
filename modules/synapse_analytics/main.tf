@@ -65,13 +65,10 @@ resource "azurerm_mssql_server" "sql_server" {
   }
 }
 
-resource "azurerm_sql_database" "sql_database" {
-  name                             = var.sql_database_name
-  resource_group_name              = var.resource_group_name
-  location                         = var.location
-  server_name                      = azurerm_mssql_server.sql_server.name
-  edition                          = var.sql_edition
-  requested_service_objective_name = var.sql_service_level
+resource "azurerm_mssql_database" "sql_database" {
+  name      = var.sql_database_name
+  server_id = azurerm_mssql_server.sql_server.id
+  sku_name  = var.sql_database_sku
 }
 
 resource "azurerm_private_endpoint" "private_endpoint" {
