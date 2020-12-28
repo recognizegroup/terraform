@@ -49,6 +49,17 @@ variable "sql_database_sku" {
   description = "Azure sql database sku."
 }
 
+variable "sql_database_min_capacity" {
+  type        = number
+  description = "Minimal capacity that database will always have allocated, if not paused."
+  default     = 0.5
+}
+
+variable "sql_database_auto_pause_delay" {
+  type        = number
+  description = "Time in minutes after which database is automatically paused."
+  default     = 60
+}
 
 variable "virtual_network_name" {
   type        = string

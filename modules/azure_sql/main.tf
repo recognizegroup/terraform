@@ -49,12 +49,18 @@ resource "azurerm_mssql_server" "sql_server" {
 }
 
 resource "azurerm_mssql_database" "sql_database" {
-  name      = var.sql_database_name
-  server_id = azurerm_mssql_server.sql_server.id
-  sku_name  = var.sql_database_sku
+  name                        = var.sql_database_name
+  server_id                   = azurerm_mssql_server.sql_server.id
+  sku_name                    = var.sql_database_sku
+  min_capacity                = var.sql_database_min_capacity
+  auto_pause_delay_in_minutes = var.sql_database_auto_pause_delay
 
   short_term_retention_policy {
     retention_days = var.short_term_retention_days
+  }
+
+  lifecycle {
+    prevent_destroy = true
   }
 }
 
