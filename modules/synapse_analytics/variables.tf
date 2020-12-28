@@ -39,21 +39,15 @@ variable "sql_server_version" {
   default     = "12.0"
 }
 
-variable "sql_service_level" {
+variable "sql_database_sku" {
   type        = string
-  description = "Azure sql server version."
+  description = "Azure sql database sku."
   default     = "DW100c"
 }
 
 variable "sql_database_name" {
   type        = string
   description = "Name of the azure sql database."
-}
-
-variable "sql_edition" {
-  type        = string
-  description = "Edition of the sql database."
-  default     = "DataWarehouse"
 }
 
 variable "sql_administrator_object_id" {

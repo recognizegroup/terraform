@@ -44,14 +44,21 @@ variable "sql_database_name" {
   description = "Name of the azure sql database."
 }
 
-variable "sql_edition" {
+variable "sql_database_sku" {
   type        = string
-  description = "Edition of the sql database."
+  description = "Azure sql database sku."
 }
 
-variable "sql_service_level" {
-  type        = string
-  description = "Azure sql server version."
+variable "sql_database_min_capacity" {
+  type        = number
+  description = "Minimal capacity that database will always have allocated, if not paused."
+  default     = 0.5
+}
+
+variable "sql_database_auto_pause_delay" {
+  type        = number
+  description = "Time in minutes after which database is automatically paused."
+  default     = 60
 }
 
 variable "virtual_network_name" {
@@ -67,4 +74,10 @@ variable "subnet_name" {
 variable "sql_vnet_rule_name" {
   type        = string
   description = "Name of the sql virtual network rule."
+}
+
+variable "short_term_retention_days" {
+  type        = number
+  description = "Number of days to keep short term backups."
+  default     = 7
 }
