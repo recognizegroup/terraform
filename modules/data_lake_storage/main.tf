@@ -2,7 +2,7 @@ terraform {
   required_version = ">=0.13.5"
 
   required_providers {
-    azurerm = "=2.40.0"
+    azurerm = "=2.41.0"
   }
 
   backend "azurerm" {}
@@ -22,6 +22,17 @@ resource "azurerm_storage_account" "storage_account" {
   account_tier             = var.datalake_storage_account_tier
   account_replication_type = var.datalake_storage_replication_type
   is_hns_enabled           = true
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "azurerm_management_lock" "storage_account_lock" {
+  name       = "${var.datalake_storage_account_name}-lock"
+  scope      = azurerm_storage_account.storage_account.id
+  lock_level = "CanNotDelete"
+  notes      = "Locked because deleting the resource can't be undone"
 }
 
 resource "azurerm_storage_data_lake_gen2_filesystem" "filesystem" {
@@ -65,5 +76,3 @@ resource "azurerm_storage_data_lake_gen2_path" "path" {
     time_sleep.role_assignment_sleep
   ]
 }
-
-// az storage fs access set --acl "user::rwx,user:c7af4a9c-3e6e-4d9c-a34c-d911f5469caf:--x,group::r-x,other::r--" -p "/" -f "vwt-d-mwe-dan-dp-stg" --account-name "vwtdmwedandpstg" --auth-mode login
