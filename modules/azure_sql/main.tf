@@ -64,6 +64,14 @@ resource "azurerm_mssql_database" "sql_database" {
   }
 }
 
+resource "azurerm_mssql_database_extended_auditing_policy" "audit_logging" {
+  database_id                             = azurerm_mssql_database.sql_database.id
+  storage_endpoint                        = var.audit_logging_primary_blob_endpoint
+  storage_account_access_key              = var.audit_logging_primary_access_key
+  storage_account_access_key_is_secondary = var.audit_logging_primary_access_key_is_secondary
+  retention_in_days                       = var.audit_logging_retention
+}
+
 resource "azurerm_sql_virtual_network_rule" "sql_vnet_rule" {
   name                = var.sql_vnet_rule_name
   resource_group_name = var.resource_group_name
