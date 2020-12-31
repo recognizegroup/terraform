@@ -8,11 +8,6 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "storage_account_name" {
-  type        = string
-  description = "Name of the storage account."
-}
-
 variable "key_vault_name" {
   type        = string
   description = "Name of the key vault."
@@ -80,4 +75,25 @@ variable "public_network_access_enabled" {
   type        = bool
   description = "Whether or not public network access is allowed for this server."
   default     = false
+}
+
+variable "audit_logging_primary_blob_endpoint" {
+  type        = string
+  description = "The blob storage endpoint."
+}
+
+variable "audit_logging_primary_access_key" {
+  type        = string
+  description = "The access key to use for the auditing storage account."
+}
+
+variable "audit_logging_primary_access_key_is_secondary" {
+  type        = bool
+  description = "Specifies if storage_account_access_key is a secondary key."
+  default     = false
+}
+
+variable "audit_logging_retention" {
+  type        = number
+  description = "The number of days to retain audit logs."
 }
