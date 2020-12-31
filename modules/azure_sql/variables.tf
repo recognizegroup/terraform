@@ -81,3 +81,24 @@ variable "short_term_retention_days" {
   description = "Number of days to keep short term backups."
   default     = 7
 }
+
+variable "audit_logging_primary_blob_endpoint" {
+  type        = string
+  description = "The blob storage endpoint."
+}
+
+variable "audit_logging_primary_access_key" {
+  type        = string
+  description = "The access key to use for the auditing storage account."
+}
+
+variable "audit_logging_primary_access_key_is_secondary" {
+  type        = bool
+  description = "Specifies if storage_account_access_key is a secondary key."
+  default     = false
+}
+
+variable "audit_logging_retention" {
+  type        = number
+  description = "The number of days to retain audit logs."
+}

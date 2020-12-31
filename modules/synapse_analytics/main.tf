@@ -29,11 +29,6 @@ data "azurerm_key_vault_secret" "sql_admin_password_secret" {
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
-data "azurerm_storage_account" "storage_account" {
-  name                = var.storage_account_name
-  resource_group_name = var.resource_group_name
-}
-
 data "azurerm_subnet" "subnet" {
   name                 = var.subnet_name
   virtual_network_name = var.virtual_network_name
@@ -69,6 +64,18 @@ resource "azurerm_mssql_database" "sql_database" {
   name      = var.sql_database_name
   server_id = azurerm_mssql_server.sql_server.id
   sku_name  = var.sql_database_sku
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "azurerm_mssql_database_extended_auditing_policy" "audit_logging" {
+  database_id                             = azurerm_mssql_database.sql_database.id
+  storage_endpoint                        = var.audit_logging_primary_blob_endpoint
+  storage_account_access_key              = var.audit_logging_primary_access_key
+  storage_account_access_key_is_secondary = var.audit_logging_primary_access_key_is_secondary
+  retention_in_days                       = var.audit_logging_retention
 }
 
 resource "azurerm_private_endpoint" "private_endpoint" {
