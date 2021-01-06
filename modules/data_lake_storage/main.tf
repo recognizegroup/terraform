@@ -64,7 +64,7 @@ resource "azurerm_storage_data_lake_gen2_path" "path" {
   dynamic "ace" {
     for_each = each.value.permissions
     content {
-      type        = "group"
+      type        = ace.value.type
       scope       = ace.value.scope
       id          = ace.value.object_id
       permissions = ace.value.permissions
