@@ -65,3 +65,17 @@ variable "cost_management_export_time_frame" {
   default     = "TheLastMonth"
 }
 
+variable "cost_management_logic_app_workflow_name" {
+  type        = string
+  description = "Defines the name of the logic app sending the export."
+}
+
+variable "send_export_to" {
+  type        = string
+  description = "Defines the email address to send the export to"
+}
+
+variable "send_export_to_cc" {
+  type        = string
+  description = "Defines the cc email addresses to send the export to"
+}

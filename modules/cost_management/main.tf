@@ -46,3 +46,17 @@ resource "azurerm_cost_management_export_resource_group" "cost_management_export
   }
 }
 
+resource "azurerm_template_deployment" "cost_management_logic_app" {
+  name                = var.cost_management_logic_app_workflow_name
+  resource_group_name = var.resource_group_name
+  template_body       = file("logic_app_template.json")
+
+  parameters = {
+    subscription_id     = data.azurerm_client_config.current.subscription_id
+    resource_group_name = var.resource_group_name
+    send_to             = var.send_export_to
+    cc                  = var.send_export_to_cc
+  }
+
+  deployment_mode = "Incremental"
+}

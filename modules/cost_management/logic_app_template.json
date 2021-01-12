@@ -1,0 +1,142 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workflows_vwtdmwedandpcostmgmtlgc_name": {
+			"defaultValue": "vwtdmwedandpcostmgmtlgc",
+			"type": "String"
+		},
+		"subscription_id": {
+			"type": "String"
+		},
+		"resource_group_name": {
+			"type": "String"
+		},
+		"send_to": {
+			"type": "String"
+		},
+		"cc": {
+			"type": "String"
+		}
+	},
+	"variables": {},
+	"resources": [{
+		"type": "Microsoft.Logic/workflows",
+		"apiVersion": "2017-07-01",
+		"name": "[parameters('workflows_vwtdmwedandpcostmgmtlgc_name')]",
+		"location": "westeurope",
+		"properties": {
+			"state": "Enabled",
+			"definition": {
+				"$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+				"contentVersion": "1.0.0.0",
+				"parameters": {
+					"$connections": {
+						"defaultValue": {},
+						"type": "Object"
+					},
+          "$email_properties": {
+  					"$connections": {
+  						"defaultValue": {},
+  						"type": "Object"
+  					}
+          }
+				},
+				"triggers": {
+					"When_a_blob_is_added_or_modified_(properties_only)": {
+						"recurrence": {
+							"frequency": "Day",
+							"interval": 1
+						},
+						"splitOn": "@triggerBody()",
+						"type": "ApiConnection",
+						"inputs": {
+							"host": {
+								"connection": {
+									"name": "@parameters('$connections')['azureblob']['connectionId']"
+								}
+							},
+							"method": "get",
+							"path": "/datasets/default/triggers/batch/onupdatedfile",
+							"queries": {
+								"folderId": "costmanagement",
+								"maxFileCount": 10
+							}
+						}
+					}
+				},
+				"actions": {
+					"Get_blob_content": {
+						"runAfter": {},
+						"type": "ApiConnection",
+						"inputs": {
+							"host": {
+								"connection": {
+									"name": "@parameters('$connections')['azureblob']['connectionId']"
+								}
+							},
+							"method": "get",
+							"path": "/datasets/default/files/@{encodeURIComponent(encodeURIComponent(triggerBody()?['Path']))}/content",
+							"queries": {
+								"inferContentType": true
+							}
+						}
+					},
+					"Send_an_email_(V2)": {
+						"runAfter": {
+							"Get_blob_content": [
+								"Succeeded"
+							]
+						},
+						"type": "ApiConnection",
+						"inputs": {
+							"body": {
+								"Attachments": [{
+									"ContentBytes": "@{base64(body('Get_blob_content'))}",
+									"Name": "overzicht.csv"
+								}],
+								"Body": "<p>Het kosten overzicht van de afgelopen maand. Voor de resourcegroup.</p>",
+								"Cc": "@parameters('$email_properties')['cc']",
+								"Subject": "@parameters('$email_properties')['subject']",
+								"To": "[parameters('send_to')]"
+							},
+							"host": {
+								"connection": {
+									"name": "@parameters('$connections')['office365']['connectionId']"
+								}
+							},
+							"method": "post",
+							"path": "/v2/Mail"
+						}
+					}
+				},
+				"outputs": {}
+			},
+			"parameters": {
+				"$connections": {
+					"value": {
+						"azureblob": {
+
+							"connectionId": "[concat('/subscriptions/', parameters('subscription_id'),'/resourceGroups/', parameters('resource_group_name'), '/providers/Microsoft.Web/connections/azureblob')]",
+							"connectionName": "azureblob",
+							"id": "[concat('/subscriptions/', parameters('subscription_id'),'/providers/Microsoft.Web/locations/westeurope/managedApis/azureblob')]"
+						},
+						"office365": {
+							"connectionId": "[concat('/subscriptions/', parameters('subscription_id'),'/resourceGroups/', parameters('resource_group_name'), '/providers/Microsoft.Web/connections/office365')]",
+							"connectionName": "office365",
+							"id": "[concat('/subscriptions/', parameters('subscription_id'),'/providers/Microsoft.Web/locations/westeurope/managedApis/office365')]"
+						}
+					}
+				},
+				"$email_properties": {
+					"value": {
+						"to": "[parameters('send_to')]",
+						"cc": "[parameters('cc')]",
+						"subject": "[concat('Het kostenoverzicht van ', parameters('resource_group_name'))]"
+					}
+
+				}
+			}
+		}
+	}]
+}
