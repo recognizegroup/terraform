@@ -133,7 +133,7 @@
 									"Body": "<p>Bijgevoegd is het kostenoverzicht voor de betreffende resource group van de afgelopen maand.</p>",
 									"Cc": "@{parameters('$email_properties')['cc']}",
 									"Subject": "@parameters('$email_properties')['subject']",
-									"To": "n.griffioen@vwt.digital"
+									"To": "@{parameters('$email_properties')['to']}"
 								},
 								"host": {
 									"connection": {
