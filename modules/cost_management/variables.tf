@@ -65,6 +65,24 @@ variable "cost_management_export_time_frame" {
   default     = "TheLastMonth"
 }
 
+variable "cost_management_export_recurrence_type" {
+  type        = string
+  description = "Defines the recurrence type for the cost management export."
+  default     = "Monthly"
+}
+
+variable "cost_management_export_recurrence_period_start" {
+  type        = string
+  description = "Defines the date at which the cost management export starts capturing data."
+  default     = "2021-02-01T00:00:00Z"
+}
+
+variable "cost_management_export_recurrence_period_end" {
+  type        = string
+  description = "Defines the date at which the cost management export starts capturing data."
+  default     = "2030-12-31T00:00:00Z"
+}
+
 variable "cost_management_logic_app_workflow_name" {
   type        = string
   description = "Defines the name of the logic app sending the export."
