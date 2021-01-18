@@ -12,6 +12,9 @@
 		"cc": {
 			"type": "String"
 		},
+		"from_mailbox": {
+			"type": "String"
+		},
 		"cost_management_export_name": {
 			"type": "String"
 		},
@@ -130,6 +133,7 @@
 										"ContentBytes": "@{base64(body('Get_last_blob_content'))}",
 										"Name": "Kosten overzicht.csv"
 									}],
+									"MailboxAddress": "@{parameters('$email_properties')['from_mailbox']}",
 									"Body": "<p>Bijgevoegd is het kostenoverzicht voor de betreffende resource group van de afgelopen maand.</p>",
 									"Cc": "@{parameters('$email_properties')['cc']}",
 									"Subject": "@parameters('$email_properties')['subject']",
@@ -141,7 +145,7 @@
 									}
 								},
 								"method": "post",
-								"path": "/v2/Mail"
+								"path": "/v2/SharedMailbox/Mail"
 							},
 							"runAfter": {
 								"Get_last_blob_content": [
@@ -172,6 +176,7 @@
 						"value": {
 							"to": "[parameters('send_to')]",
 							"cc": "[parameters('cc')]",
+							"from_mailbox": "[parameters('from_mailbox')]",
 							"subject": "[concat('Azure DAN-platform kostenoverzicht -', resourceGroup().name)]",
 							"storage_folder": "[concat('/', parameters('cost_management_storage_container'), '/', parameters('cost_management_storage_root_folder'), '/', parameters('cost_management_export_name'), '/')]"
 						}
