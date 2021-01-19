@@ -60,6 +60,7 @@ resource "azurerm_template_deployment" "cost_management_logic_app" {
     cost_management_storage_root_folder = var.cost_management_export_root_folder_path
     send_to                             = var.send_export_to
     cc                                  = var.send_export_to_cc
+    from_mailbox                        = var.send_export_from
   }
 
   deployment_mode = "Incremental"
