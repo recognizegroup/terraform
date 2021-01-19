@@ -97,3 +97,10 @@ variable "send_export_to_cc" {
   type        = string
   description = "Defines the cc email addresses to send the export to"
 }
+
+variable "send_export_from" {
+  type        = string
+  description = "Defines the email addresses to send the export from"
+  default     = "danplatform@vwtelecom.com"
+
+}
