@@ -36,12 +36,13 @@ data "azurerm_subnet" "subnet" {
 }
 
 resource "azurerm_mssql_server" "sql_server" {
-  name                         = var.sql_server_name
-  resource_group_name          = var.resource_group_name
-  location                     = var.location
-  version                      = var.sql_server_version
-  administrator_login          = data.azurerm_key_vault_secret.sql_admin_user_secret.value
-  administrator_login_password = data.azurerm_key_vault_secret.sql_admin_password_secret.value
+  name                          = var.sql_server_name
+  resource_group_name           = var.resource_group_name
+  location                      = var.location
+  version                       = var.sql_server_version
+  administrator_login           = data.azurerm_key_vault_secret.sql_admin_user_secret.value
+  administrator_login_password  = data.azurerm_key_vault_secret.sql_admin_password_secret.value
+  public_network_access_enabled = var.public_network_access_enabled
 
   lifecycle {
     prevent_destroy = true
@@ -72,9 +73,16 @@ resource "azurerm_mssql_database_extended_auditing_policy" "audit_logging" {
   retention_in_days                       = var.audit_logging_retention
 }
 
-resource "azurerm_sql_virtual_network_rule" "sql_vnet_rule" {
-  name                = var.sql_vnet_rule_name
+resource "azurerm_private_endpoint" "private_endpoint" {
+  name                = "${azurerm_mssql_server.sql_server.name}-endpoint"
+  location            = var.location
   resource_group_name = var.resource_group_name
-  server_name         = azurerm_mssql_server.sql_server.name
   subnet_id           = data.azurerm_subnet.subnet.id
+
+  private_service_connection {
+    name                           = "${azurerm_mssql_server.sql_server.name}-connection"
+    private_connection_resource_id = azurerm_mssql_server.sql_server.id
+    subresource_names              = ["sqlServer"]
+    is_manual_connection           = false
+  }
 }
