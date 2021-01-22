@@ -23,10 +23,8 @@ resource "azurerm_monitor_action_group" "action_group" {
   }
 }
 
-
 resource "azurerm_monitor_metric_alert" "metric_alerts" {
-  for_each = var.metric_alerts
-
+  for_each            = var.metric_alerts
   name                = each.key
   resource_group_name = var.resource_group_name
   scopes              = each.value.scopes
@@ -45,5 +43,4 @@ resource "azurerm_monitor_metric_alert" "metric_alerts" {
   action {
     action_group_id = azurerm_monitor_action_group.action_group.id
   }
-
 }
