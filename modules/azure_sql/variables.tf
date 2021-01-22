@@ -71,11 +71,6 @@ variable "subnet_name" {
   description = "Name of the subnet."
 }
 
-variable "sql_vnet_rule_name" {
-  type        = string
-  description = "Name of the sql virtual network rule."
-}
-
 variable "short_term_retention_days" {
   type        = number
   description = "Number of days to keep short term backups."
@@ -101,4 +96,10 @@ variable "audit_logging_primary_access_key_is_secondary" {
 variable "audit_logging_retention" {
   type        = number
   description = "The number of days to retain audit logs."
+}
+
+variable "public_network_access_enabled" {
+  type        = bool
+  description = "Whether or not public network access is allowed for this server."
+  default     = false
 }
