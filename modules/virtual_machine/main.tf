@@ -85,8 +85,4 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
     caching              = var.os_disk_caching
     storage_account_type = var.os_disk_storage_account_type
   }
-
-  // lifecycle {
-  //   prevent_destroy = true
-  // }
 }

@@ -1,3 +1,3 @@
-output "azure_permissions" {
-  value = var.azure_permissions
+output "role_assignments" {
+  value = azurerm_role_assignment.role_assignment
 }
