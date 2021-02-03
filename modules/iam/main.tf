@@ -16,24 +16,12 @@ data "azurerm_resource_group" "resource_group" {
   name = var.resource_group_name
 }
 
-resource "azurerm_role_definition" "role_definition" {
-  for_each = var.azure_permissions
-  name     = each.value.role
-  scope    = data.azurerm_resource_group.resource_group.id
-
-  permissions {
-    data_actions = each.value.data_actions
-    actions      = each.value.actions
-  }
-
-  assignable_scopes = [
-    data.azurerm_resource_group.resource_group.id
-  ]
-}
-
 resource "azurerm_role_assignment" "role_assignment" {
-  for_each           = var.azure_permissions
-  scope              = data.azurerm_resource_group.resource_group.id
-  role_definition_id = lookup(azurerm_role_definition.role_definition[each.key], "role_definition_resource_id")
-  principal_id       = lookup(var.azure_permissions[each.key], "object_id")
+  for_each = {
+    for idx, role in var.roles :
+    idx => role
+  }
+  scope                = data.azurerm_resource_group.resource_group.id
+  role_definition_name = each.value.role_name
+  principal_id         = each.value.object_id
 }
