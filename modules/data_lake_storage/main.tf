@@ -2,7 +2,7 @@ terraform {
   required_version = ">=0.13.5"
 
   required_providers {
-    azurerm = "=2.41.0"
+    azurerm = "=2.49.0"
   }
 
   backend "azurerm" {}
@@ -38,6 +38,19 @@ resource "azurerm_management_lock" "storage_account_lock" {
 resource "azurerm_storage_data_lake_gen2_filesystem" "filesystem" {
   name               = var.datalake_storage_filesystem_name
   storage_account_id = azurerm_storage_account.storage_account.id
+
+  dynamic "ace" {
+    for_each = {
+      for index, permission in var.root_permissions :
+      index => permission
+    }
+    content {
+      type        = ace.value.type
+      scope       = ace.value.scope
+      id          = ace.value.object_id
+      permissions = ace.value.permissions
+    }
+  }
 }
 
 resource "azurerm_role_assignment" "role_assignment" {
