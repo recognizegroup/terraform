@@ -38,5 +38,10 @@ variable "datalake_storage_filesystem_name" {
 
 variable "datalake_storage_folders" {
   type        = map
-  description = "List of folders and ACLs for datalake storage filesystem."
+  description = "Map of folders and ACLs for datalake storage filesystem."
+}
+
+variable "root_permissions" {
+  type        = list
+  description = "List of permissions on the root filesystem."
 }
