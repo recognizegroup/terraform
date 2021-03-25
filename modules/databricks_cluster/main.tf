@@ -1,11 +1,11 @@
 terraform {
-  required_version = ">=0.13.5"
+  required_version = ">=0.14.9"
 
   required_providers {
-    azurerm = ">=2.24.0"
+    azurerm = ">=2.52.0"
     databricks = {
       source  = "databrickslabs/databricks"
-      version = ">=0.2.7"
+      version = ">=0.3.1"
     }
   }
 
@@ -17,7 +17,7 @@ provider "azurerm" {
 }
 
 provider "databricks" {
-  azure_workspace_resource_id = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${var.resource_group_name}/providers/Microsoft.Databricks/workspaces/${var.databricks_workspace_name}"
+  azure_workspace_resource_id = var.databricks_workspace_id
 }
 
 locals {
@@ -37,16 +37,6 @@ locals {
   ])
 }
 
-data "azurerm_client_config" "current" {
-}
-
-resource "azurerm_databricks_workspace" "databricks_workspace" {
-  name                = var.databricks_workspace_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  sku                 = var.databricks_sku
-}
-
 resource "databricks_cluster" "shared_autoscaling" {
   cluster_name            = var.databricks_cluster_name
   node_type_id            = var.databricks_cluster_node_type
@@ -62,9 +52,12 @@ resource "databricks_cluster" "shared_autoscaling" {
     PYSPARK_PYTHON = var.databricks_cluster_python_location
   }
 
-  library {
-    pypi {
-      package = var.databricks_cluster_packages
+  dynamic "library" {
+    for_each = toset(var.databricks_cluster_packages)
+    content {
+      pypi {
+        package = library.key
+      }
     }
   }
 
@@ -74,19 +67,11 @@ resource "databricks_cluster" "shared_autoscaling" {
     "spark.databricks.cluster.profile" : "serverless",
     "spark.databricks.pyspark.enableProcessIsolation" : true
   }
-
-  depends_on = [
-    azurerm_databricks_workspace.databricks_workspace
-  ]
 }
 
 resource "databricks_group" "group" {
   for_each     = var.databricks_groups
   display_name = each.value.display_name
-
-  depends_on = [
-    azurerm_databricks_workspace.databricks_workspace
-  ]
 }
 
 resource "databricks_user" "user" {
@@ -95,10 +80,6 @@ resource "databricks_user" "user" {
     user => user
   }
   user_name = each.key
-
-  depends_on = [
-    azurerm_databricks_workspace.databricks_workspace
-  ]
 }
 
 resource "databricks_group_member" "member" {
@@ -110,7 +91,7 @@ resource "databricks_group_member" "member" {
   member_id = databricks_user.user[each.value.user_name].id
 
   depends_on = [
-    azurerm_databricks_workspace.databricks_workspace
+    databricks_group.group
   ]
 }
 
@@ -125,6 +106,10 @@ resource "databricks_permissions" "cluster_usage" {
       permission_level = access_control.value.cluster_usage
     }
   }
+
+  depends_on = [
+    databricks_group.group
+  ]
 }
 
 resource "databricks_permissions" "token_usage" {
@@ -138,4 +123,8 @@ resource "databricks_permissions" "token_usage" {
       permission_level = access_control.value.token_usage
     }
   }
+
+  depends_on = [
+    databricks_group.group
+  ]
 }
