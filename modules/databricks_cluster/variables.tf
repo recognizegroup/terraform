@@ -8,9 +8,9 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "databricks_workspace_name" {
+variable "databricks_workspace_id" {
   type        = string
-  description = "The name of the databricks worskpace."
+  description = "The id of the databricks workspace."
 }
 
 variable "databricks_sku" {
@@ -27,7 +27,7 @@ variable "databricks_cluster_name" {
 variable "databricks_cluster_node_type" {
   type        = string
   description = "The cluster node type id."
-  default     = "Standard_DS3_v2"
+  default     = "Standard_F4s"
 }
 
 variable "autoscaling_cluster_min_workers" {
@@ -45,11 +45,11 @@ variable "autoscaling_cluster_max_workers" {
 variable "databricks_cluster_spark_version" {
   type        = string
   description = "The spark version to use for the autoscaling cluster."
-  default     = "7.2.x-scala2.12"
+  default     = "7.6.x-scala2.12"
 }
 
 variable "databricks_cluster_packages" {
-  type        = string
+  type        = list
   description = "The packages to install on the autoscaling cluster."
 }
 
