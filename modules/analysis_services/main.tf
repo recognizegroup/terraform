@@ -20,7 +20,6 @@ resource "azurerm_analysis_services_server" "server" {
   admin_users             = var.analysis_services_server_admin_users
   enable_power_bi_service = var.analysis_services_server_enable_power_bi
 
-
   dynamic "ipv4_firewall_rule" {
     for_each = toset(var.ipv4_firewall_rules)
     content {
