@@ -27,3 +27,9 @@ variable "route_table_id" {
   type        = string
   description = "The ID of the route table which should be associated with the Subnet."
 }
+
+variable "subnet_enforce_private_link_endpoint_network_policies" {
+  type = bool
+  description = "enforce_private_link_endpoint_network_policies"
+  default = false
+}
