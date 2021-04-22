@@ -1,3 +1,3 @@
 output "virtual_network_name" {
-  value = azurerm_virtual_machine.virtual_network.name
+  value = azurerm_virtual_network.virtual_network.name
 }

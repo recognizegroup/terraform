@@ -8,11 +8,6 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "nw_resource_group_name" {
-  type        = string
-  description = "Name of the networking resource group."
-}
-
 variable "key_vault_name" {
   type        = string
   description = "Name of the key vault."
@@ -61,14 +56,9 @@ variable "sql_database_auto_pause_delay" {
   default     = 60
 }
 
-variable "virtual_network_name" {
+variable "subnet_id" {
   type        = string
-  description = "Name of the the virtual network."
-}
-
-variable "subnet_name" {
-  type        = string
-  description = "Name of the subnet."
+  description = "id of the subnet."
 }
 
 variable "short_term_retention_days" {

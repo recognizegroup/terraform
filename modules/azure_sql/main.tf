@@ -29,12 +29,6 @@ data "azurerm_key_vault_secret" "sql_admin_password_secret" {
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
-data "azurerm_subnet" "subnet" {
-  name                 = var.subnet_name
-  virtual_network_name = var.virtual_network_name
-  resource_group_name  = var.nw_resource_group_name
-}
-
 resource "azurerm_mssql_server" "sql_server" {
   name                          = var.sql_server_name
   resource_group_name           = var.resource_group_name
@@ -77,7 +71,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   name                = "${azurerm_mssql_server.sql_server.name}-endpoint"
   location            = var.location
   resource_group_name = var.resource_group_name
-  subnet_id           = data.azurerm_subnet.subnet.id
+  subnet_id           = var.subnet_id
 
   private_service_connection {
     name                           = "${azurerm_mssql_server.sql_server.name}-connection"
