@@ -69,6 +69,13 @@ resource "databricks_cluster" "shared_autoscaling" {
   }
 }
 
+resource "databricks_global_init_script" "init1" {
+  count   = var.databricks_init_script == "" ? 0 : 1
+  source  = "init.sh"
+  name    = "init script"
+  enabled = true
+}
+
 resource "databricks_group" "group" {
   for_each     = var.databricks_groups
   display_name = each.value.display_name

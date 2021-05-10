@@ -9,16 +9,16 @@ variable "resource_group_name" {
 }
 
 variable "app_service_plan_name" {
-  type = string
+  type        = string
   description = "Name of the ASP"
 }
 
 variable "app_service_plan_tier" {
-  type = string
+  type        = string
   description = "Tier of the ASP"
 }
 
 variable "app_service_plan_size" {
-  type = string
+  type        = string
   description = "size of the ASP"
 }

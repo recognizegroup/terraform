@@ -53,6 +53,12 @@ variable "databricks_cluster_packages" {
   description = "The packages to install on the autoscaling cluster."
 }
 
+variable "databricks_init_script" {
+  type        = string
+  description = "Script to run when initalizing a databricks job or cluster."
+  default     = ""
+}
+
 variable "databricks_cluster_python_location" {
   type        = string
   description = "The python instance on the autoscaling cluster."
