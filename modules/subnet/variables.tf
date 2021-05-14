@@ -29,7 +29,7 @@ variable "route_table_id" {
 }
 
 variable "subnet_enforce_private_link_endpoint_network_policies" {
-  type = bool
-  description = "enforce_private_link_endpoint_network_policies"
-  default = false
+  type        = bool
+  description = "Enable or Disable network policies for the private link endpoint on the subnet."
+  default     = false
 }
