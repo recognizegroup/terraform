@@ -50,3 +50,46 @@ variable connection_string_value{
   type        = string
   description = "value of the connection string"
 }
+
+variable "private_endpoint_name" {
+  type        = string
+  description = "Specifies the name of the Private Endpoint."
+}
+
+variable "subnet_id" {
+  type        = string
+  description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
+}
+
+variable "private_subnet_id" {
+  type        = string
+  description = "Specifies the Name of the Private Service Connection."
+}
+
+variable "private_service_connection_name" {
+  type        = string
+  description = "Specifies the Name of the Private Service Connection."
+}
+
+variable "private_service_connection_is_manual" {
+  type        = bool
+  description = "Indicates whether the Private Endpoint requires manual approval from the remote resource owner?"
+  default     = false
+}
+
+variable "private_service_connection_subresource_names" {
+  type        = list
+  description = "A list of subresource names which the Private Endpoint is able to connect to."
+  default     = ["sites"]
+}
+
+variable "private_dns_zone_group_name" {
+  type        = string
+  description = "Specifies the name of the private DNS zone group."
+}
+
+variable "private_dns_zone_ids" {
+  type        = list
+  description = "Specifies a list of private DNS zones IDs"
+  default     = []
+}

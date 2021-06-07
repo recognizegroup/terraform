@@ -79,4 +79,11 @@ resource "azurerm_private_endpoint" "private_endpoint" {
     subresource_names              = ["sqlServer"]
     is_manual_connection           = false
   }
+  dynamic private_dns_zone_group {
+    for_each = var.private_dns_zone_group
+    content {
+      name                 = private_dns_zone_group.value["name"]
+      private_dns_zone_ids = private_dns_zone_group.value["private_dns_zone_ids"]
+    }
+  }
 }
