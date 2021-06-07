@@ -41,12 +41,12 @@ variable "custom_domain" {
   default     = []
 }
 
-variable connection_string_name{
+variable connection_string_name {
   type        = string
   description = "name of the connection string"
 }
 
-variable connection_string_value{
+variable connection_string_value {
   type        = string
   description = "value of the connection string"
 }
@@ -80,7 +80,8 @@ variable "private_service_connection_is_manual" {
 variable "private_service_connection_subresource_names" {
   type        = list
   description = "A list of subresource names which the Private Endpoint is able to connect to."
-  default     = ["sites"]
+  default     = [
+    "sites"]
 }
 
 variable "private_dns_zone_group_name" {

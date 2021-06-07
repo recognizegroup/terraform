@@ -96,11 +96,11 @@ variable "public_network_access_enabled" {
 
 variable "private_dns_zone_group" {
   description = "nested block: NestingList, min items: 0, max items: 1"
-  type = set(object(
+  type        = set(object(
   {
     name                 = string
     private_dns_zone_ids = list(string)
   }
   ))
-  default = []
+  default     = []
 }

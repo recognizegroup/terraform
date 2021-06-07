@@ -76,7 +76,8 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   private_service_connection {
     name                           = "${azurerm_mssql_server.sql_server.name}-connection"
     private_connection_resource_id = azurerm_mssql_server.sql_server.id
-    subresource_names              = ["sqlServer"]
+    subresource_names              = [
+      "sqlServer"]
     is_manual_connection           = false
   }
   dynamic private_dns_zone_group {
