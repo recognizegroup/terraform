@@ -93,3 +93,14 @@ variable "public_network_access_enabled" {
   description = "Whether or not public network access is allowed for this server."
   default     = false
 }
+
+variable "private_dns_zone_group" {
+  description = "nested block: NestingList, min items: 0, max items: 1"
+  type        = set(object(
+  {
+    name                 = string
+    private_dns_zone_ids = list(string)
+  }
+  ))
+  default     = []
+}
