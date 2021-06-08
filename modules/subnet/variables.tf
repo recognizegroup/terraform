@@ -26,10 +26,23 @@ variable "subnet_address_prefixes" {
 variable "route_table_id" {
   type        = string
   description = "The ID of the route table which should be associated with the Subnet."
+  default     = ""
 }
 
 variable "subnet_enforce_private_link_endpoint_network_policies" {
   type        = bool
   description = "Enable or Disable network policies for the private link endpoint on the subnet."
   default     = false
+}
+
+variable "subnet_service_delegation" {
+  type        = string
+  description = "The name of service to delegate to."
+  default     = ""
+}
+
+variable "subnet_service_endpoints" {
+  type        = list
+  description = "The list of Service endpoints to associate with the subnet."
+  default     = []
 }
