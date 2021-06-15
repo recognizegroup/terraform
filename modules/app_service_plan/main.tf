@@ -17,6 +17,7 @@ resource "azurerm_app_service_plan" "asp" {
   location            = var.location
   resource_group_name = var.resource_group_name
   kind                = var.app_service_plan_kind
+  reserved            = var.app_service_plan_kind == "Linux" ? true : false
 
   sku {
     tier = var.app_service_plan_tier
