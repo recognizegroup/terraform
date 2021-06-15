@@ -30,9 +30,9 @@ resource "azurerm_private_endpoint" "private_endpoint" {
 
   private_service_connection {
     name                           = var.private_service_connection_name
-    is_manual_connection           = var.private_service_connection_is_manual
+    is_manual_connection           = false
     private_connection_resource_id = azurerm_storage_account.storage_account.id
-    subresource_names              = var.private_service_connection_subresource_names
+    subresource_names              = ["blob"]
   }
 
   private_dns_zone_group {

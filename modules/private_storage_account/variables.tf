@@ -46,18 +46,6 @@ variable "private_service_connection_name" {
   description = "Specifies the Name of the Private Service Connection."
 }
 
-variable "private_service_connection_is_manual" {
-  type        = bool
-  description = "Indicates whether the Private Endpoint requires manual approval from the remote resource owner?"
-  default     = false
-}
-
-variable "private_service_connection_subresource_names" {
-  type        = list
-  description = "A list of subresource names which the Private Endpoint is able to connect to."
-  default     = ["blob"]
-}
-
 variable "private_dns_zone_group_name" {
   type        = string
   description = "Specifies the name of the private DNS zone group."
