@@ -61,7 +61,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
     name                           = var.private_service_connection_name
     is_manual_connection           = false
     private_connection_resource_id = azurerm_mysql_server.mysql_server.id
-    subresource_names              = ["sqlServer"]
+    subresource_names              = ["mysqlServer"]
   }
 
   private_dns_zone_group {
