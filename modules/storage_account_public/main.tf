@@ -23,3 +23,10 @@ resource "azurerm_storage_account" "storage_account" {
   allow_blob_public_access  = var.storage_account_allow_public_access
   min_tls_version           = var.storage_account_min_tls_version
 }
+
+resource "azurerm_storage_container" "blob_container" {
+  for_each              = var.container_names
+  name                  = each.value
+  storage_account_name  = azurerm_storage_account.storage_account.name
+  container_access_type = "private"
+}

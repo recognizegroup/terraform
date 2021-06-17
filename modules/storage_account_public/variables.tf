@@ -42,3 +42,9 @@ variable "storage_account_min_tls_version" {
   description = "The minimum supported TLS version for the storage account."
   default     = "TLS1_2"
 }
+
+variable "container_names" {
+  type        = set(string)
+  description = "Optionally add predefined container names in this storage."
+  default     = []
+}
