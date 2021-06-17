@@ -20,6 +20,8 @@ resource "azurerm_storage_account" "storage_account" {
   account_tier              = var.storage_account_tier
   account_replication_type  = var.storage_account_replication_type
   enable_https_traffic_only = true
+  allow_blob_public_access  = false
+  min_tls_version           = var.storage_account_min_tls_version
 }
 
 resource "azurerm_private_endpoint" "private_endpoint" {

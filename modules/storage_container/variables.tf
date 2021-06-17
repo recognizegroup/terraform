@@ -11,5 +11,5 @@ variable "storage_account_name" {
 variable "storage_container_access_type" {
   type        = string
   description = "Access type of the storage account."
-  default     = "Private"
+  default     = "private"
 }

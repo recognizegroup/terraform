@@ -31,28 +31,14 @@ variable "storage_account_replication_type" {
   default     = "LRS"
 }
 
-variable "private_endpoint_name" {
-  type        = string
-  description = "Specifies the name of the Private Endpoint."
+variable "storage_account_allow_public_access" {
+  type        = bool
+  description = "Allow or disallow public access to all blobs or containers in the storage account."
+  default     = false
 }
 
-variable "subnet_id" {
+variable "storage_account_min_tls_version" {
   type        = string
-  description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
-}
-
-variable "private_service_connection_name" {
-  type        = string
-  description = "Specifies the Name of the Private Service Connection."
-}
-
-variable "private_dns_zone_group_name" {
-  type        = string
-  description = "Specifies the name of the private DNS zone group."
-}
-
-variable "private_dns_zone_ids" {
-  type        = list
-  description = "Specifies a list of private DNS zones IDs"
-  default     = []
+  description = "The minimum supported TLS version for the storage account."
+  default     = "TLS1_2"
 }
