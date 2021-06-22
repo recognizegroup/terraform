@@ -15,40 +15,59 @@ variable "app_service_name" {
 
 variable "app_service_plan_id" {
   type        = string
-  description = "Id of the ASP."
+  description = "ID of the app service plan."
 }
 
-variable app_settings {
-  type        = map(string)
-  description = "the app settings of this app service"
+variable "app_settings" {
+  type        = map
+  description = "The app settings of this app service."
   default     = {}
 }
 
-variable dotnet_framework_version {
+variable "linux_fx_version" {
   type        = string
-  description = "The .NET framework version of this app service"
+  description = "Linux app framework and version for the app service."
+  default     = null
 }
 
-variable websockets_enabled {
+variable "dotnet_framework_version" {
+  type        = string
+  description = "The .NET framework version of this app service."
+  default     = "4.0"
+}
+
+variable "websockets_enabled" {
   type        = bool
-  description = "Are websockets enabled within this app service"
+  description = "Are websockets enabled within this app service."
   default     = false
 }
 
-variable "custom_domain" {
-  type        = set(string)
-  description = "Define custom domains attached to this app service"
+variable "custom_domains" {
+  type        = list
+  description = "Define custom domains attached to this app service."
   default     = []
 }
 
-variable connection_string_name {
+variable "connection_string_name" {
   type        = string
-  description = "name of the connection string"
+  description = "Name of the connection string."
 }
 
-variable connection_string_value {
+variable "connection_string_type" {
   type        = string
-  description = "value of the connection string"
+  description = "Type of the connection string."
+  Default     = "SQLAzure"
+}
+
+variable "connection_string_value" {
+  type        = string
+  description = "Value of the connection string."
+}
+
+variable "min_tls_version" {
+  type        = string
+  description = "The minimum supported TLS version for the app service."
+  default     = "1.2"
 }
 
 variable "private_endpoint_name" {
@@ -56,14 +75,14 @@ variable "private_endpoint_name" {
   description = "Specifies the name of the Private Endpoint."
 }
 
-variable "subnet_id" {
+variable "integration_subnet_id" {
   type        = string
   description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
 }
 
 variable "private_subnet_id" {
   type        = string
-  description = "Specifies the Name of the Private Service Connection."
+  description = "The ID of the Subnet from which private IP addresses will be allocated for the Private Endpoint."
 }
 
 variable "private_service_connection_name" {
@@ -80,8 +99,7 @@ variable "private_service_connection_is_manual" {
 variable "private_service_connection_subresource_names" {
   type        = list
   description = "A list of subresource names which the Private Endpoint is able to connect to."
-  default     = [
-    "sites"]
+  default     = ["sites"]
 }
 
 variable "private_dns_zone_group_name" {

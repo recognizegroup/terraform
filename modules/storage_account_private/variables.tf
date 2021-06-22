@@ -44,7 +44,7 @@ variable "private_endpoint_name" {
 
 variable "subnet_id" {
   type        = string
-  description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
+  description = "The ID of the Subnet from which private IP addresses will be allocated for the Private Endpoint."
 }
 
 variable "private_service_connection_name" {
