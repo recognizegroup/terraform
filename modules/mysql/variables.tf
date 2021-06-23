@@ -105,6 +105,7 @@ variable "private_service_connection_name" {
 variable "private_dns_zone_group_name" {
   type        = string
   description = "Specifies the name of the private DNS zone group."
+  default     = ""
 }
 
 variable "private_dns_zone_ids" {

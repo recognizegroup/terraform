@@ -64,8 +64,11 @@ resource "azurerm_private_endpoint" "private_endpoint" {
     subresource_names              = ["mysqlServer"]
   }
 
-  private_dns_zone_group {
-    name                 = var.private_dns_zone_group_name
-    private_dns_zone_ids = var.private_dns_zone_ids
+  dynamic "private_dns_zone_group" {
+    for_each = var.private_dns_zone_group_name == "" ? [] : [1]
+    content {
+      name                 = var.private_dns_zone_group_name
+      private_dns_zone_ids = var.private_dns_zone_ids
+    }
   }
 }
