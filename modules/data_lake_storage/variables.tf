@@ -31,6 +31,39 @@ variable "datalake_storage_replication_type" {
   default     = "GRS"
 }
 
+variable "storage_account_min_tls_version" {
+  type        = string
+  description = "The minimum supported TLS version for the storage account."
+  default     = "TLS1_2"
+}
+
+variable "private_endpoint_name" {
+  type        = string
+  description = "Specifies the name of the Private Endpoint."
+}
+
+variable "subnet_id" {
+  type        = string
+  description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
+}
+
+variable "private_service_connection_name" {
+  type        = string
+  description = "Specifies the Name of the Private Service Connection."
+}
+
+variable "private_dns_zone_group_name" {
+  type        = string
+  description = "Specifies the name of the private DNS zone group."
+  default     = ""
+}
+
+variable "private_dns_zone_ids" {
+  type        = list
+  description = "Specifies a list of private DNS zones IDs"
+  default     = []
+}
+
 variable "datalake_storage_filesystem_name" {
   type        = string
   description = "Name of the filesystem."
