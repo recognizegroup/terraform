@@ -33,41 +33,41 @@ variable "linux_fx_version" {
 variable "dotnet_framework_version" {
   type        = string
   description = "The .NET framework version of this app service."
-  default     = "4.0"
+  default     = "v5.0"
 }
 
 variable "websockets_enabled" {
   type        = bool
-  description = "Are websockets enabled within this app service."
-  default     = false
+  description = "Indicates whether websockets are enabled within this app service."
+  default     = true
 }
 
-variable "custom_domains" {
-  type        = list
-  description = "Define custom domains attached to this app service."
-  default     = []
-}
-
-variable "connection_string_name" {
-  type        = string
-  description = "Name of the connection string."
-}
-
-variable "connection_string_type" {
-  type        = string
-  description = "Type of the connection string."
-  Default     = "SQLAzure"
-}
-
-variable "connection_string_value" {
-  type        = string
-  description = "Value of the connection string."
-}
+// variable "connection_string_name" {
+//   type        = string
+//   description = "Name of the connection string."
+// }
+//
+// variable "connection_string_type" {
+//   type        = string
+//   description = "Type of the connection string."
+//   Default     = "SQLAzure"
+// }
+//
+// variable "connection_string_value" {
+//   type        = string
+//   description = "Value of the connection string."
+// }
 
 variable "min_tls_version" {
   type        = string
   description = "The minimum supported TLS version for the app service."
   default     = "1.2"
+}
+
+variable "health_check_path" {
+  type        = string
+  description = "The health check path to be pinged by App Service."
+  default     = null
 }
 
 variable "private_endpoint_name" {
@@ -90,25 +90,20 @@ variable "private_service_connection_name" {
   description = "Specifies the Name of the Private Service Connection."
 }
 
-variable "private_service_connection_is_manual" {
-  type        = bool
-  description = "Indicates whether the Private Endpoint requires manual approval from the remote resource owner?"
-  default     = false
-}
-
-variable "private_service_connection_subresource_names" {
-  type        = list
-  description = "A list of subresource names which the Private Endpoint is able to connect to."
-  default     = ["sites"]
-}
-
 variable "private_dns_zone_group_name" {
   type        = string
   description = "Specifies the name of the private DNS zone group."
+  default     = ""
 }
 
 variable "private_dns_zone_ids" {
   type        = list
   description = "Specifies a list of private DNS zones IDs"
+  default     = []
+}
+
+variable "custom_domains" {
+  type        = list
+  description = "Define custom domains attached to this app service."
   default     = []
 }
