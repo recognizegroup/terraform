@@ -42,22 +42,6 @@ variable "websockets_enabled" {
   default     = true
 }
 
-// variable "connection_string_name" {
-//   type        = string
-//   description = "Name of the connection string."
-// }
-//
-// variable "connection_string_type" {
-//   type        = string
-//   description = "Type of the connection string."
-//   Default     = "SQLAzure"
-// }
-//
-// variable "connection_string_value" {
-//   type        = string
-//   description = "Value of the connection string."
-// }
-
 variable "min_tls_version" {
   type        = string
   description = "The minimum supported TLS version for the app service."
@@ -73,6 +57,7 @@ variable "health_check_path" {
 variable "private_endpoint_name" {
   type        = string
   description = "Specifies the name of the Private Endpoint."
+  default     = ""
 }
 
 variable "integration_subnet_id" {

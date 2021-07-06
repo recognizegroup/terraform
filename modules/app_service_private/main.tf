@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=0.13.5"
+  required_version = ">=0.14.9"
 
   required_providers {
-    azurerm = "=2.41.0"
+    azurerm = "=2.66.0"
   }
 
   backend "azurerm" {}
@@ -32,12 +32,6 @@ resource "azurerm_app_service" "app_service" {
 
   app_settings = var.app_settings
 
-  // connection_string {
-  //   name  = var.connection_string_name
-  //   type  = var.connection_string_type
-  //   value = var.connection_string_value
-  // }
-
   identity {
     type = "SystemAssigned"
   }
@@ -48,7 +42,9 @@ resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integratio
   subnet_id      = var.integration_subnet_id
 }
 
+# Azure build-in policy: DeployIfNotExists private endpoint DNS resolution
 resource "azurerm_private_endpoint" "private_endpoint" {
+  count               = var.private_dns_zone_group_name == "" ? 1 : 0
   name                = var.private_endpoint_name
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -62,11 +58,15 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   }
 
   dynamic "private_dns_zone_group" {
-    for_each = var.private_dns_zone_group_name == "" ? [] : [1]
+    for_each = var.private_dns_zone_ids == [] ? [] : [1]
     content {
-      name                 = var.private_dns_zone_group_name
-      private_dns_zone_ids = var.private_dns_zone_ids
+      name                 = "deployedByPolicy"
+      private_dns_zone_ids = []
     }
+  }
+
+  lifecycle {
+    ignore_changes = [private_dns_zone_group[0]]
   }
 }
 
