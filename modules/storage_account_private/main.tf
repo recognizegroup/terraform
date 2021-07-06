@@ -20,6 +20,8 @@ resource "azurerm_storage_account" "storage_account" {
   account_tier              = var.storage_account_tier
   account_replication_type  = var.storage_account_replication_type
   enable_https_traffic_only = true
+  allow_blob_public_access  = false
+  min_tls_version           = var.storage_account_min_tls_version
 }
 
 resource "azurerm_private_endpoint" "private_endpoint" {
@@ -30,13 +32,16 @@ resource "azurerm_private_endpoint" "private_endpoint" {
 
   private_service_connection {
     name                           = var.private_service_connection_name
-    is_manual_connection           = var.private_service_connection_is_manual
+    is_manual_connection           = false
     private_connection_resource_id = azurerm_storage_account.storage_account.id
-    subresource_names              = var.private_service_connection_subresource_names
+    subresource_names              = ["blob"]
   }
 
-  private_dns_zone_group {
-    name                 = var.private_dns_zone_group_name
-    private_dns_zone_ids = var.private_dns_zone_ids
+  dynamic "private_dns_zone_group" {
+    for_each = var.private_dns_zone_group_name == "" ? [] : [1]
+    content {
+      name                 = var.private_dns_zone_group_name
+      private_dns_zone_ids = var.private_dns_zone_ids
+    }
   }
 }

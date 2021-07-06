@@ -53,6 +53,12 @@ variable "databricks_cluster_packages" {
   description = "The packages to install on the autoscaling cluster."
 }
 
+variable "databricks_spark_conf" {
+  type        = map
+  description = "Databricks spark configuration variables."
+  default     = {}
+}
+
 variable "databricks_init_script" {
   type        = string
   description = "Script to run when initalizing a databricks job or cluster."

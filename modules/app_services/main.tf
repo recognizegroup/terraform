@@ -23,7 +23,6 @@ resource "azurerm_app_service" "app_service" {
     ftps_state               = "AllAllowed"
     dotnet_framework_version = var.dotnet_framework_version
     websockets_enabled       = var.websockets_enabled
-    scm_type                 = "LocalGit"
   }
 
   app_settings = var.app_settings
@@ -35,13 +34,6 @@ resource "azurerm_app_service" "app_service" {
   }
   identity {
     type = "SystemAssigned"
-  }
-
-  lifecycle {
-    ignore_changes = [
-      site_config.0.scm_type,
-      source_control.0.repo_url
-    ]
   }
 }
 

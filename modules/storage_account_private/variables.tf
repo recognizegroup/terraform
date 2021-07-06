@@ -31,6 +31,12 @@ variable "storage_account_replication_type" {
   default     = "LRS"
 }
 
+variable "storage_account_min_tls_version" {
+  type        = string
+  description = "The minimum supported TLS version for the storage account."
+  default     = "TLS1_2"
+}
+
 variable "private_endpoint_name" {
   type        = string
   description = "Specifies the name of the Private Endpoint."
@@ -46,21 +52,10 @@ variable "private_service_connection_name" {
   description = "Specifies the Name of the Private Service Connection."
 }
 
-variable "private_service_connection_is_manual" {
-  type        = bool
-  description = "Indicates whether the Private Endpoint requires manual approval from the remote resource owner?"
-  default     = false
-}
-
-variable "private_service_connection_subresource_names" {
-  type        = list
-  description = "A list of subresource names which the Private Endpoint is able to connect to."
-  default     = ["blob"]
-}
-
 variable "private_dns_zone_group_name" {
   type        = string
   description = "Specifies the name of the private DNS zone group."
+  default     = ""
 }
 
 variable "private_dns_zone_ids" {

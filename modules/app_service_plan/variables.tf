@@ -22,3 +22,9 @@ variable "app_service_plan_size" {
   type        = string
   description = "size of the ASP"
 }
+
+variable "app_service_plan_kind" {
+  type        = string
+  description = "The kind of the ASP."
+  default     = "Windows"
+}
