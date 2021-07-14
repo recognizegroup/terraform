@@ -54,6 +54,45 @@ When automating deployments from a CI/CD pipeline, it is recommended that you us
 ```bash
 export ARM_CLIENT_ID="00000000-0000-0000-0000-000000000000"
 export ARM_CLIENT_SECRET="00000000-0000-0000-0000-000000000000"
-export ARM_SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
+export ARM_SUBSCRIPTION_ID="00000000-0000-0000-000M0-000000000000"
 export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
+```
+
+### Terraform state storage
+
+```bash
+export SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
+export RESOURCE_GROUP_NAME="xxxxx"
+export STORAGE_ACCOUNT_NAME="xxxxx"
+export CONTAINER_NAME="xxxxx"
+export LOCATION="westeurope"
+
+az account set --subscription $SUBSCRIPTION_ID
+
+# Create resource group
+az group create \
+  --name $RESOURCE_GROUP_NAME \
+  --location $LOCATION
+
+# Create storage account
+az storage account create \
+  --name $STORAGE_ACCOUNT_NAME \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --location $LOCATION \
+  --sku Standard_LRS \
+  --encryption-services blob \
+  --https-only true \
+  --allow-blob-public-access false
+
+# Get storage account key
+ACCOUNT_KEY=$(az storage account keys list \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --account-name $STORAGE_ACCOUNT_NAME \
+  --query '[0].value' -o tsv)
+
+# Create blob container
+az storage container create \
+  --name $CONTAINER_NAME \
+  --account-name $STORAGE_ACCOUNT_NAME \
+  --account-key $ACCOUNT_KEY
 ```
