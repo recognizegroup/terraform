@@ -5,7 +5,7 @@ terraform {
     azurerm = ">=2.52.0"
     databricks = {
       source  = "databrickslabs/databricks"
-      version = ">=0.3.1"
+      version = ">=0.3.5"
     }
   }
 
