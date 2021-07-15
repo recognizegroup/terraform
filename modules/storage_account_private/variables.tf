@@ -51,9 +51,3 @@ variable "private_service_connection_name" {
   type        = string
   description = "Specifies the Name of the Private Service Connection."
 }
-
-variable "private_dns_zone_ids" {
-  type        = list
-  description = "Specifies a list of private DNS zones IDs"
-  default     = []
-}

@@ -61,12 +61,7 @@ resource "databricks_cluster" "shared_autoscaling" {
     }
   }
 
-  spark_conf = {
-    "spark.databricks.passthrough.enabled" : true,
-    "spark.databricks.repl.allowedLanguages" : "python,sql",
-    "spark.databricks.cluster.profile" : "serverless",
-    "spark.databricks.pyspark.enableProcessIsolation" : true
-  }
+  spark_conf = var.databricks_spark_conf
 }
 
 resource "databricks_global_init_script" "init1" {
