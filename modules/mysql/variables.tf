@@ -101,15 +101,3 @@ variable "private_service_connection_name" {
   type        = string
   description = "Specifies the Name of the private service connection."
 }
-
-variable "private_dns_zone_group_name" {
-  type        = string
-  description = "Specifies the name of the private DNS zone group."
-  default     = ""
-}
-
-variable "private_dns_zone_ids" {
-  type        = list
-  description = "Specifies a list of private DNS zones IDs"
-  default     = []
-}

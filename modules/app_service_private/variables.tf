@@ -75,18 +75,6 @@ variable "private_service_connection_name" {
   description = "Specifies the Name of the Private Service Connection."
 }
 
-variable "private_dns_zone_group_name" {
-  type        = string
-  description = "Specifies the name of the private DNS zone group."
-  default     = ""
-}
-
-variable "private_dns_zone_ids" {
-  type        = list
-  description = "Specifies a list of private DNS zones IDs"
-  default     = []
-}
-
 variable "custom_domains" {
   type        = list
   description = "Define custom domains attached to this app service."
