@@ -44,22 +44,10 @@ variable "private_endpoint_name" {
 
 variable "subnet_id" {
   type        = string
-  description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
+  description = "The ID of the Subnet from which private IP addresses will be allocated for the Private Endpoint."
 }
 
 variable "private_service_connection_name" {
   type        = string
   description = "Specifies the Name of the Private Service Connection."
-}
-
-variable "private_dns_zone_group_name" {
-  type        = string
-  description = "Specifies the name of the private DNS zone group."
-  default     = ""
-}
-
-variable "private_dns_zone_ids" {
-  type        = list
-  description = "Specifies a list of private DNS zones IDs"
-  default     = []
 }
