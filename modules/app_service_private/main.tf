@@ -42,9 +42,7 @@ resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integratio
   subnet_id      = var.integration_subnet_id
 }
 
-# Azure build-in policy: DeployIfNotExists private endpoint DNS resolution
 resource "azurerm_private_endpoint" "private_endpoint" {
-  count               = var.private_dns_zone_group_name == "" ? 1 : 0
   name                = var.private_endpoint_name
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -57,16 +55,8 @@ resource "azurerm_private_endpoint" "private_endpoint" {
     subresource_names              = ["sites"]
   }
 
-  dynamic "private_dns_zone_group" {
-    for_each = var.private_dns_zone_ids == [] ? [] : [1]
-    content {
-      name                 = "deployedByPolicy"
-      private_dns_zone_ids = []
-    }
-  }
-
   lifecycle {
-    ignore_changes = [private_dns_zone_group[0]]
+    ignore_changes = [private_dns_zone_group]
   }
 }
 

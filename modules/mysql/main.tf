@@ -51,7 +51,6 @@ resource "azurerm_mysql_database" "mysql_database" {
   collation           = var.mysql_database_collation
 }
 
-# Azure build-in policy: DeployIfNotExists private endpoint DNS resolution
 resource "azurerm_private_endpoint" "private_endpoint" {
   name                = var.private_endpoint_name
   location            = var.location
@@ -65,15 +64,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
     subresource_names              = ["mysqlServer"]
   }
 
-  dynamic "private_dns_zone_group" {
-    for_each = var.private_dns_zone_ids == [] ? [] : [1]
-    content {
-      name                 = "deployedByPolicy"
-      private_dns_zone_ids = []
-    }
-  }
-
   lifecycle {
-    ignore_changes = [private_dns_zone_group[0]]
+    ignore_changes = [private_dns_zone_group]
   }
 }
