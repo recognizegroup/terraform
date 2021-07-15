@@ -15,55 +15,59 @@ variable "app_service_name" {
 
 variable "app_service_plan_id" {
   type        = string
-  description = "Id of the ASP."
+  description = "ID of the app service plan."
 }
 
-variable app_settings {
-  type        = map(string)
-  description = "the app settings of this app service"
+variable "app_settings" {
+  type        = map
+  description = "The app settings of this app service."
   default     = {}
 }
 
-variable dotnet_framework_version {
+variable "linux_fx_version" {
   type        = string
-  description = "The .NET framework version of this app service"
+  description = "Linux app framework and version for the app service."
+  default     = null
 }
 
-variable websockets_enabled {
+variable "dotnet_framework_version" {
+  type        = string
+  description = "The .NET framework version of this app service."
+  default     = "v5.0"
+}
+
+variable "websockets_enabled" {
   type        = bool
-  description = "Are websockets enabled within this app service"
-  default     = false
+  description = "Indicates whether websockets are enabled within this app service."
+  default     = true
 }
 
-variable "custom_domain" {
-  type        = set(string)
-  description = "Define custom domains attached to this app service"
-  default     = []
-}
-
-variable connection_string_name {
+variable "min_tls_version" {
   type        = string
-  description = "name of the connection string"
+  description = "The minimum supported TLS version for the app service."
+  default     = "1.2"
 }
 
-variable connection_string_value {
+variable "health_check_path" {
   type        = string
-  description = "value of the connection string"
+  description = "The health check path to be pinged by App Service."
+  default     = null
 }
 
 variable "private_endpoint_name" {
   type        = string
   description = "Specifies the name of the Private Endpoint."
+  default     = ""
 }
 
-variable "subnet_id" {
+variable "integration_subnet_id" {
   type        = string
   description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
 }
 
 variable "private_subnet_id" {
   type        = string
-  description = "Specifies the Name of the Private Service Connection."
+  description = "The ID of the Subnet from which private IP addresses will be allocated for the Private Endpoint."
 }
 
 variable "private_service_connection_name" {
@@ -71,26 +75,20 @@ variable "private_service_connection_name" {
   description = "Specifies the Name of the Private Service Connection."
 }
 
-variable "private_service_connection_is_manual" {
-  type        = bool
-  description = "Indicates whether the Private Endpoint requires manual approval from the remote resource owner?"
-  default     = false
-}
-
-variable "private_service_connection_subresource_names" {
-  type        = list
-  description = "A list of subresource names which the Private Endpoint is able to connect to."
-  default     = [
-    "sites"]
-}
-
 variable "private_dns_zone_group_name" {
   type        = string
   description = "Specifies the name of the private DNS zone group."
+  default     = ""
 }
 
 variable "private_dns_zone_ids" {
   type        = list
   description = "Specifies a list of private DNS zones IDs"
+  default     = []
+}
+
+variable "custom_domains" {
+  type        = list
+  description = "Define custom domains attached to this app service."
   default     = []
 }
