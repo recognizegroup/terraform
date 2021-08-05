@@ -13,14 +13,10 @@ variable "key_vault_name" {
   description = "Name of the key vault."
 }
 
-variable "soft_delete_enabled" {
-  type        = string
-  description = "Enables soft delete for key vault."
-}
-
 variable "soft_delete_retention_days" {
-  type        = string
+  type        = number
   description = "The numer of days items should be retained after soft delete."
+  default     = 7
 }
 
 variable "purge_protection_enabled" {
