@@ -1,11 +1,13 @@
 terraform {
-  required_version = ">=0.13.4"
+  required_version = ">=0.14.9"
 
   required_providers {
     azurerm = ">=2.24.0"
   }
 
   backend "azurerm" {}
+
+  experiments = [module_variable_optional_attrs]
 }
 
 provider "azurerm" {
@@ -28,8 +30,10 @@ resource "azurerm_network_security_group" "network_security_group" {
       direction                  = security_rule.value.direction
       access                     = security_rule.value.access
       protocol                   = security_rule.value.protocol
-      source_port_range          = security_rule.value.source_port_range
-      destination_port_range     = security_rule.value.destination_port_range
+      source_port_range          = lookup(security_rule.value, "source_port_range", null)
+      source_port_ranges         = lookup(security_rule.value, "source_port_ranges", null)
+      destination_port_range     = lookup(security_rule.value, "destination_port_range", null)
+      destination_port_ranges    = lookup(security_rule.value, "destination_port_ranges", null)
       source_address_prefix      = security_rule.value.source_address_prefix
       destination_address_prefix = security_rule.value.destination_address_prefix
     }
