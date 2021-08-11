@@ -32,7 +32,14 @@ resource "azurerm_app_service" "app_service" {
 
   app_settings = var.app_settings
 
-  connection_string = var.connection_string
+  dynamic "connection_string" {
+    for_each = var.connection_strings
+    content {
+      name = each.value.name
+      type = each.value.type
+      value = each.value.value
+    }
+  }
 
   identity {
     type = "SystemAssigned"
