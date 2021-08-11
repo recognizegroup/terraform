@@ -18,6 +18,11 @@ variable "app_service_plan_id" {
   description = "ID of the app service plan."
 }
 
+variable "scm_type" {
+  type        = string
+  description = "The type of Source Control enabled for this App Service."
+}
+
 variable "app_settings" {
   type        = map
   description = "The app settings of this app service."

@@ -20,7 +20,7 @@ variable "app_service_plan_id" {
 
 variable "scm_type" {
   type        = string
-  description = "The type of Source Control enabled for this App Service"
+  description = "The type of Source Control enabled for this App Service."
 }
 
 variable "app_settings" {

@@ -20,7 +20,7 @@ resource "azurerm_app_service" "app_service" {
   https_only          = true
 
   site_config {
-    scm_type                 = "VSTSRM"
+    scm_type                 = var.scm_type
     always_on                = true
     ftps_state               = "AllAllowed"
     dotnet_framework_version = var.dotnet_framework_version
