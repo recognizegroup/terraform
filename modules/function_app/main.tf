@@ -2,7 +2,7 @@ terraform {
   required_version = ">=0.14.9"
 
   required_providers {
-    azurerm = "=2.68.0"
+    azurerm = "=2.70.0"
   }
 
   backend "azurerm" {}
@@ -24,6 +24,6 @@ resource "azurerm_function_app" "function_app" {
   app_settings = var.app_settings
 
   site_config {
-    always_on = true
+    always_on = var.always_on
   }
 }

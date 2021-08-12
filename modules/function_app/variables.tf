@@ -39,3 +39,9 @@ variable "runtime_version" {
   description = "The runtime version associated with the Function App."
   default     = "~3"
 }
+
+variable "always_on" {
+  type = bool
+  description = "Should the Function App be loaded at all times?"
+  default = false
+}
