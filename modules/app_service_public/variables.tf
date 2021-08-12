@@ -29,14 +29,15 @@ variable "app_settings" {
   default     = {}
 }
 
-variable "connection_string" {
-  type = object({
-    name  = string,
-    type  = string,
-    value = string
-  })
-  description = "A connection string used by the app service."
-  default     = null
+variable "connection_strings" {
+  type = set(
+    object({
+      name  = string,
+      type  = string,
+      value = string
+    }))
+  description = "A list of connection strings used by the app service."
+  default     = []
 }
 
 variable "linux_fx_version" {
