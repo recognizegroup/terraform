@@ -1,26 +1,25 @@
-variable "location" {
+variable "target_resource_id" {
   type        = string
-  description = "A datacenter location in Azure."
-}
-
-variable "resource_group_name" {
-  type        = string
-  description = "Name of the resource group."
+  description = "The ID of an existing Resource on which to configure Diagnostic Settings."
 }
 
 variable "name" {
   type        = string
-  description = "Specifies the name of the Log Analytics Workspace."
+  description = "Specifies the name of the Diagnostic Setting."
 }
 
-variable "sku" {
+variable "log_analytics_workspace_id" {
   type        = string
-  description = "Specifies the Sku of the Log Analytics Workspace."
-  default     = "Standard"
+  description = "Specifies the ID of a Log Analytics Workspace where Diagnostics Data should be sent."
 }
 
-variable "retention_in_days" {
-  type        = number
-  description = "The workspace data retention in days."
-  default     = 30
+variable "metric_category" {
+  type        = string
+  description = "The name of a Diagnostic Metric Category for this Resource."
+  default     = "AllMetrics"
+}
+variable "metric_retention_policy_enabled" {
+  type        = bool
+  description = "Is this Diagnostic Metric enabled."
+  default     = false
 }
