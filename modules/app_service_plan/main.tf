@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=0.13.5"
+  required_version = ">=0.14.9"
 
   required_providers {
-    azurerm = "=2.41.0"
+    azurerm = "=2.72.0"
   }
 
   backend "azurerm" {}
@@ -23,4 +23,5 @@ resource "azurerm_app_service_plan" "asp" {
     tier = var.app_service_plan_tier
     size = var.app_service_plan_size
   }
+
 }

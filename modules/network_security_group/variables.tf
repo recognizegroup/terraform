@@ -14,12 +14,26 @@ variable "network_security_group_name" {
 }
 
 variable "security_rules" {
-  type        = list
+  type = list(
+    object({
+      name                       = string
+      priority                   = string
+      direction                  = string
+      access                     = string
+      protocol                   = string
+      source_port_range          = optional(string)
+      source_port_ranges         = optional(list(string))
+      destination_port_range     = optional(string)
+      destination_port_ranges    = optional(list(string))
+      source_address_prefix      = string
+      destination_address_prefix = string
+    })
+  )
   description = "List of security rules."
 }
 
 variable "subnet_ids" {
-  type        = list
+  type        = list(string)
   description = "List of subnet ids to associate with network security group."
   default     = []
 }
