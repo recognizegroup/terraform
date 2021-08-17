@@ -32,32 +32,24 @@ resource "azurerm_app_service" "app_service" {
 
   app_settings = var.app_settings
 
+  dynamic "connection_string" {
+    for_each = var.connection_strings
+    content {
+      name  = connection_string.value.name
+      type  = connection_string.value.type
+      value = connection_string.value.value
+    }
+  }
+
   identity {
     type = "SystemAssigned"
   }
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
+  count          = var.integration_subnet_id == null ? 0 : 1
   app_service_id = azurerm_app_service.app_service.id
   subnet_id      = var.integration_subnet_id
-}
-
-resource "azurerm_private_endpoint" "private_endpoint" {
-  name                = var.private_endpoint_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  subnet_id           = var.private_subnet_id
-
-  private_service_connection {
-    name                           = var.private_service_connection_name
-    is_manual_connection           = false
-    private_connection_resource_id = azurerm_app_service.app_service.id
-    subresource_names              = ["sites"]
-  }
-
-  lifecycle {
-    ignore_changes = [private_dns_zone_group]
-  }
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "custom_domain" {
