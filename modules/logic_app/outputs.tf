@@ -3,5 +3,5 @@ output "logic_app_id" {
 }
 
 output "arm_output" {
-  value = "${jsondecode(azurerm_resource_group_template_deployment.logic_app_workflow_deployment.output_content)}${var.output_property}"
+  value = azurerm_resource_group_template_deployment.logic_app_workflow_deployment.output_content
 }
