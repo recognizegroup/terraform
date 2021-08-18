@@ -31,3 +31,9 @@ variable "ise_id" {
   default     = null
 }
 
+variable "output_property" {
+  type        = string
+  description = "retrieve this parameter out of the output content"
+  default     = null
+}
+
