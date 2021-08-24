@@ -23,13 +23,13 @@ data "azurerm_key_vault" "key_vault" {
 data "azurerm_key_vault_secret" "sql_admin_user_secret" {
   count        = var.sql_admin_user_name == null ? 0 : 1
   name         = var.sql_admin_user_secret_name
-  key_vault_id = data.azurerm_key_vault.key_vault.id
+  key_vault_id = data.azurerm_key_vault.key_vault[0].id
 }
 
 data "azurerm_key_vault_secret" "sql_admin_password_secret" {
   count        = var.use_random_password == false ? 1 : 0
   name         = var.sql_admin_password_secret_name
-  key_vault_id = data.azurerm_key_vault.key_vault.id
+  key_vault_id = data.azurerm_key_vault.key_vault[0].id
 }
 
 resource "random_password" "password" {
