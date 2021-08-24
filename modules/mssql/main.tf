@@ -15,22 +15,25 @@ provider "azurerm" {
 data "azurerm_client_config" "current" {}
 
 data "azurerm_key_vault" "key_vault" {
+  count               = var.key_vault_name == "" ? 0 : 1
   name                = var.key_vault_name
   resource_group_name = var.resource_group_name
 }
 
 data "azurerm_key_vault_secret" "sql_admin_user_secret" {
+  count        = var.sql_admin_user_name == null ? 0 : 1
   name         = var.sql_admin_user_secret_name
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
 data "azurerm_key_vault_secret" "sql_admin_password_secret" {
+  count        = var.use_random_password == false ? 1 : 0
   name         = var.sql_admin_password_secret_name
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
 resource "random_password" "password" {
-  length = 32
+  length  = 32
   special = false
 }
 resource "azurerm_mssql_server" "sql_server" {
