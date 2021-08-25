@@ -52,29 +52,14 @@ variable "private_service_connection_name" {
   description = "Specifies the Name of the Private Service Connection."
 }
 
-variable "private_dns_zone_group_name" {
-  type        = string
-  description = "Specifies the name of the private DNS zone group."
-  default     = ""
-}
-
-variable "private_dns_zone_ids" {
+variable "datalake_storage_ip_rules" {
   type        = list
-  description = "Specifies a list of private DNS zones IDs"
+  description = "List of public IP or IP ranges in CIDR Format."
   default     = []
 }
 
-variable "datalake_storage_filesystem_name" {
-  type        = string
-  description = "Name of the filesystem."
-}
-
-variable "datalake_storage_folders" {
-  type        = map
-  description = "Map of folders and ACLs for datalake storage filesystem."
-}
-
-variable "root_permissions" {
+variable "datalake_storage_subnet_ids" {
   type        = list
-  description = "List of permissions on the root filesystem."
+  description = "A list of virtual network subnet ids to to secure the storage account."
+  default     = []
 }
