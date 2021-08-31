@@ -23,5 +23,42 @@ resource "azurerm_app_service_plan" "asp" {
     tier = var.app_service_plan_tier
     size = var.app_service_plan_size
   }
+}
 
+resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
+  count               = var.app_service_autoscaling_name == "" ? 0 : 1
+  name                = var.app_service_autoscaling_name
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  target_resource_id  = azurerm_app_service_plan.asp.id
+
+  profile {
+    name = var.app_service_autoscaling_name
+
+    capacity {
+      default = var.app_service_default_capacity
+      minimum = var.app_service_minimum_capacity
+      maximum = var.app_service_maximum_capacity
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "CpuPercentage"
+        metric_resource_id = azurerm_app_service_plan.asp.id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "GreaterThan"
+        threshold          = 80
+      }
+
+      scale_action {
+        direction = "Increase"
+        type      = "ChangeCount"
+        value     = "1"
+        cooldown  = "PT10M"
+      }
+    }
+  }
 }
