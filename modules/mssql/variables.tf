@@ -104,3 +104,15 @@ variable "private_dns_zone_group" {
   ))
   default     = []
 }
+
+variable "use_random_password" {
+  type = bool
+  description = "Property to let the module generate a random password instead of keyvault secret"
+  default = false
+}
+
+variable "sql_admin_user_name" {
+  type = string
+  description = "If set use this username in stead of the secret"
+  default = null
+}
