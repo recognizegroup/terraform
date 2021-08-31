@@ -25,7 +25,7 @@ resource "azurerm_app_service_plan" "asp" {
   }
 }
 
-resource "azurerm_monitor_autoscale_setting" "example" {
+resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
   count               = var.app_service_autoscaling_name == "" ? 0 : 1
   name                = var.app_service_autoscaling_name
   resource_group_name = var.resource_group_name
