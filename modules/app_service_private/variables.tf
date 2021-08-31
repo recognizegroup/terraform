@@ -21,6 +21,13 @@ variable "app_service_plan_id" {
 variable "scm_type" {
   type        = string
   description = "The type of Source Control enabled for this App Service."
+  default     = "VSTSRM"
+}
+
+variable "always_on" {
+  type        = bool
+  description = "Indicates whether the App Service should be always on."
+  default     = false
 }
 
 variable "app_settings" {
@@ -96,4 +103,16 @@ variable "custom_domains" {
   type        = list
   description = "Define custom domains attached to this app service."
   default     = []
+}
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of the log analytics workspace."
+  default     = null
+}
+
+variable "monitor_diagnostic_setting_name" {
+  type        = string
+  description = "Name of the monitor diagnostic setting for the app service."
+  default     = ""
 }
