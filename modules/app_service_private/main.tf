@@ -2,7 +2,7 @@ terraform {
   required_version = ">=0.14.9"
 
   required_providers {
-    azurerm = "=2.66.0"
+    azurerm = "=2.74.0"
   }
 
   backend "azurerm" {}
@@ -21,7 +21,7 @@ resource "azurerm_app_service" "app_service" {
 
   site_config {
     scm_type                 = var.scm_type
-    always_on                = true
+    always_on                = var.always_on
     ftps_state               = "AllAllowed"
     dotnet_framework_version = var.dotnet_framework_version
     websockets_enabled       = var.websockets_enabled
@@ -34,6 +34,40 @@ resource "azurerm_app_service" "app_service" {
 
   identity {
     type = "SystemAssigned"
+  }
+}
+
+data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
+  resource_id = azurerm_app_service.app_service.id
+}
+
+resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
+  name                       = var.monitor_diagnostic_setting_name
+  target_resource_id         = azurerm_app_service.app_service.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  dynamic "log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories.logs
+
+    content {
+      category = log.value
+      enabled  = true
+      retention_policy {
+        enabled = false
+      }
+    }
+  }
+
+  dynamic "metric" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories.metrics
+
+    content {
+      category = metric.value
+      enabled  = true
+      retention_policy {
+        enabled = false
+      }
+    }
   }
 }
 

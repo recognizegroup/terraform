@@ -20,22 +20,28 @@ data "azurerm_key_vault" "key_vault" {
 }
 
 data "azurerm_key_vault_secret" "sql_admin_user_secret" {
+  count        = var.sql_admin_user_name != null ? 0 : 1
   name         = var.sql_admin_user_secret_name
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
 data "azurerm_key_vault_secret" "sql_admin_password_secret" {
+  count        = var.use_random_password == false ? 1 : 0
   name         = var.sql_admin_password_secret_name
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
+resource "random_password" "password" {
+  length  = 32
+  special = false
+}
 resource "azurerm_mssql_server" "sql_server" {
   name                          = var.sql_server_name
   resource_group_name           = var.resource_group_name
   location                      = var.location
   version                       = var.sql_server_version
-  administrator_login           = data.azurerm_key_vault_secret.sql_admin_user_secret.value
-  administrator_login_password  = data.azurerm_key_vault_secret.sql_admin_password_secret.value
+  administrator_login           = var.sql_admin_user_name != null? var.sql_admin_user_name: data.azurerm_key_vault_secret.sql_admin_user_secret[0].value
+  administrator_login_password  = var.use_random_password ? random_password.password.result: data.azurerm_key_vault_secret.sql_admin_password_secret[0].value
   public_network_access_enabled = var.public_network_access_enabled
 
   lifecycle {
