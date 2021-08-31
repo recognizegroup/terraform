@@ -28,3 +28,27 @@ variable "app_service_plan_kind" {
   description = "The kind of the ASP."
   default     = "Windows"
 }
+
+variable "app_service_autoscaling_name" {
+  type        = string
+  description = "The name of the app service autoscaling configuration."
+  default     = ""
+}
+
+variable "app_service_default_capacity" {
+  type        = number
+  description = "The number of instances that are available for scaling if metrics are not available for evaluation."
+  default     = 1
+}
+
+variable "app_service_minimum_capacity" {
+  type        = number
+  description = "The minimum number of instances for this resource."
+  default     = 1
+}
+
+variable "app_service_maximum_capacity" {
+  type        = number
+  description = "The maximum number of instances for this resource."
+  default     = 3
+}
