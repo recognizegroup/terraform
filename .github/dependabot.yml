@@ -1,0 +1,7 @@
+---
+version: 1
+updates:
+  - package-ecosystem: "terraform"
+    directory: "/modules"
+    schedule:
+      interval: "daily"
