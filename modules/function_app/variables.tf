@@ -41,7 +41,17 @@ variable "runtime_version" {
 }
 
 variable "always_on" {
-  type = bool
+  type        = bool
   description = "Should the Function App be loaded at all times?"
-  default = false
+  default     = false
+}
+
+variable "connection_strings" {
+  type        = list(object({
+    name  = string
+    type  = string
+    value = string
+  }))
+  description = "Connection strings"
+  default     = []
 }
