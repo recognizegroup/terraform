@@ -19,11 +19,24 @@ resource "azurerm_function_app" "function_app" {
   app_service_plan_id        = var.asp_id
   storage_account_name       = var.storage_account_name
   storage_account_access_key = var.storage_account_access_key
-  version = var.runtime_version
+  version                    = var.runtime_version
 
   app_settings = var.app_settings
 
   site_config {
     always_on = var.always_on
+  }
+
+  dynamic connection_string {
+    for_each = var.connection_strings
+    content {
+      name  = connection_string.value.name
+      type  = connection_string.value.type
+      value = connection_string.value.value
+    }
+  }
+  
+  identity {
+    type = "SystemAssigned"
   }
 }
