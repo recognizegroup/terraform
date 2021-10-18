@@ -37,19 +37,9 @@ variable "storage_account_min_tls_version" {
   default     = "TLS1_2"
 }
 
-variable "private_endpoint_name" {
-  type        = string
-  description = "Specifies the name of the Private Endpoint."
-}
-
 variable "subnet_id" {
   type        = string
   description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
-}
-
-variable "private_service_connection_name" {
-  type        = string
-  description = "Specifies the Name of the Private Service Connection."
 }
 
 variable "datalake_storage_ip_rules" {
@@ -62,4 +52,24 @@ variable "datalake_storage_subnet_ids" {
   type        = list
   description = "A list of virtual network subnet ids to to secure the storage account."
   default     = []
+}
+
+variable "blob_private_endpoint_name" {
+  type        = string
+  description = "Specifies the name of the Blob private endpoint."
+}
+
+variable "blob_private_service_connection_name" {
+  type        = string
+  description = "Specifies the Name of the Blob Private Service Connection."
+}
+
+variable "dfs_private_endpoint_name" {
+  type        = string
+  description = "Specifies the name of the DFS Private Endpoint."
+}
+
+variable "dfs_private_service_connection_name" {
+  type        = string
+  description = "Specifies the Name of the DFS Private Service Connection."
 }

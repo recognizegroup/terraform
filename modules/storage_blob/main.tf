@@ -39,7 +39,7 @@ data "azurerm_storage_account_sas" "sas_token" {
   }
 
   start  = timeadd(timestamp(), "-24h")
-  expiry = timeadd(timestamp(), "96h")
+  expiry = timeadd(timestamp(), "8760h") // year
 
   permissions {
     read    = true
