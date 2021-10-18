@@ -32,17 +32,35 @@ resource "azurerm_management_lock" "storage_account_lock" {
   notes      = "Locked because deleting the resource can't be undone"
 }
 
-resource "azurerm_private_endpoint" "private_endpoint" {
-  name                = var.private_endpoint_name
+resource "azurerm_private_endpoint" "private_endpoint_blob" {
+  name                = var.blob_private_endpoint_name
   location            = var.location
   resource_group_name = var.resource_group_name
   subnet_id           = var.subnet_id
 
   private_service_connection {
-    name                           = var.private_service_connection_name
+    name                           = var.blob_private_service_connection_name
     is_manual_connection           = false
     private_connection_resource_id = azurerm_storage_account.storage_account.id
     subresource_names              = ["blob"]
+  }
+
+  lifecycle {
+    ignore_changes = [private_dns_zone_group]
+  }
+}
+
+resource "azurerm_private_endpoint" "private_endpoint_dfs" {
+  name                = var.dfs_private_endpoint_name
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  subnet_id           = var.subnet_id
+
+  private_service_connection {
+    name                           = var.dfs_private_service_connection_name
+    is_manual_connection           = false
+    private_connection_resource_id = azurerm_storage_account.storage_account.id
+    subresource_names              = ["dfs"]
   }
 
   lifecycle {
