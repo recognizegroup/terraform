@@ -96,23 +96,23 @@ variable "public_network_access_enabled" {
 
 variable "private_dns_zone_group" {
   description = "nested block: NestingList, min items: 0, max items: 1"
-  type        = set(object(
-  {
-    name                 = string
-    private_dns_zone_ids = list(string)
-  }
+  type = set(object(
+    {
+      name                 = string
+      private_dns_zone_ids = list(string)
+    }
   ))
-  default     = []
+  default = []
 }
 
 variable "use_random_password" {
-  type = bool
+  type        = bool
   description = "Property to let the module generate a random password instead of keyvault secret"
-  default = false
+  default     = false
 }
 
 variable "sql_admin_user_name" {
-  type = string
+  type        = string
   description = "If set use this username in stead of the secret"
-  default = null
+  default     = null
 }

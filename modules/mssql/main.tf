@@ -20,7 +20,7 @@ data "azurerm_key_vault" "key_vault" {
 }
 
 data "azurerm_key_vault_secret" "sql_admin_user_secret" {
-  count        = var.sql_admin_user_name != null ? 0 : 1
+  count        = var.sql_admin_user_name == null ? 1 : 0
   name         = var.sql_admin_user_secret_name
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
@@ -35,13 +35,14 @@ resource "random_password" "password" {
   length  = 32
   special = false
 }
+
 resource "azurerm_mssql_server" "sql_server" {
   name                          = var.sql_server_name
   resource_group_name           = var.resource_group_name
   location                      = var.location
   version                       = var.sql_server_version
-  administrator_login           = var.sql_admin_user_name != null? var.sql_admin_user_name: data.azurerm_key_vault_secret.sql_admin_user_secret[0].value
-  administrator_login_password  = var.use_random_password ? random_password.password.result: data.azurerm_key_vault_secret.sql_admin_password_secret[0].value
+  administrator_login           = var.sql_admin_user_name != null ? var.sql_admin_user_name : data.azurerm_key_vault_secret.sql_admin_user_secret[0].value
+  administrator_login_password  = var.use_random_password ? random_password.password.result : data.azurerm_key_vault_secret.sql_admin_password_secret[0].value
   public_network_access_enabled = var.public_network_access_enabled
 
   lifecycle {
@@ -82,15 +83,11 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   private_service_connection {
     name                           = "${azurerm_mssql_server.sql_server.name}-connection"
     private_connection_resource_id = azurerm_mssql_server.sql_server.id
-    subresource_names              = [
-      "sqlServer"]
+    subresource_names              = ["sqlServer"]
     is_manual_connection           = false
   }
-  dynamic private_dns_zone_group {
-    for_each = var.private_dns_zone_group
-    content {
-      name                 = private_dns_zone_group.value["name"]
-      private_dns_zone_ids = private_dns_zone_group.value["private_dns_zone_ids"]
-    }
+
+  lifecycle {
+    ignore_changes = [private_dns_zone_group]
   }
 }
