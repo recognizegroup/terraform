@@ -3,6 +3,10 @@ output "instrumentation_key" {
   sensitive = true
 }
 
+output "id" {
+  value = azurerm_application_insights.ai.id
+}
+
 output "app_id" {
   value = azurerm_application_insights.ai.app_id
 }
