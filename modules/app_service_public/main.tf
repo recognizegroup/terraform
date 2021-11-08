@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=0.14.9"
+  required_version = ">=1.0.9"
 
   required_providers {
-    azurerm = "=2.66.0"
+    azurerm = "=2.82.0"
   }
 
   backend "azurerm" {}
@@ -20,14 +20,15 @@ resource "azurerm_app_service" "app_service" {
   https_only          = true
 
   site_config {
-    scm_type                 = var.scm_type
-    always_on                = true
-    ftps_state               = "AllAllowed"
-    dotnet_framework_version = var.dotnet_framework_version
-    websockets_enabled       = var.websockets_enabled
-    linux_fx_version         = var.linux_fx_version
-    min_tls_version          = var.min_tls_version
-    health_check_path        = var.health_check_path
+    scm_type                  = var.scm_type
+    always_on                 = var.always_on
+    ftps_state                = "AllAllowed"
+    dotnet_framework_version  = var.dotnet_framework_version
+    websockets_enabled        = var.websockets_enabled
+    linux_fx_version          = var.linux_fx_version
+    min_tls_version           = var.min_tls_version
+    health_check_path         = var.health_check_path
+    use_32_bit_worker_process = var.use_32_bit_worker_process
   }
 
   app_settings = var.app_settings
@@ -43,6 +44,21 @@ resource "azurerm_app_service" "app_service" {
 
   identity {
     type = "SystemAssigned"
+  }
+
+  dynamic "auth_settings" {
+    for_each = var.auth_enabled == null ? [] : [1]
+    content {
+      enabled                       = var.auth_enabled
+      default_provider              = var.auth_default_provider
+      issuer                        = var.auth_issuer
+      unauthenticated_client_action = var.unauthenticated_client_action
+      active_directory {
+        client_id         = var.client_id
+        client_secret     = var.client_secret
+        allowed_audiences = var.allowed_audiences
+      }
+    }
   }
 }
 

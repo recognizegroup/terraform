@@ -39,12 +39,21 @@ variable "id_provider_allowed_tenants" {
   description = "List of allowed AAD tenants."
 }
 
-variable "client_id" {
-  type        = string
-  description = "Client ID of the app registration for APIM AAD provider."
+variable "groups" {
+  type = list(
+    object({
+      name         = string,
+      display_name = string,
+      description  = string,
+      external_id  = string,
+      type         = string
+  }))
+  description = "List of groups that have access to the developer portal and assigned API products."
+  default     = []
 }
 
-variable "client_secret" {
-  type        = string
-  description = "Client secret of the app registration for APIM AAD provider."
+variable "api_management_owners" {
+  type        = list
+  description = "AAD object IDs of API management owners."
+  default     = []
 }
