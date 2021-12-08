@@ -44,6 +44,7 @@ resource "azurerm_mssql_server" "sql_server" {
   administrator_login           = var.sql_admin_user_name != null ? var.sql_admin_user_name : data.azurerm_key_vault_secret.sql_admin_user_secret[0].value
   administrator_login_password  = var.use_random_password ? random_password.password.result : data.azurerm_key_vault_secret.sql_admin_password_secret[0].value
   public_network_access_enabled = var.public_network_access_enabled
+  minimum_tls_version           = "1.2"
 
   lifecycle {
     prevent_destroy = true

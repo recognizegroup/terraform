@@ -1,11 +1,11 @@
 terraform {
-  required_version = ">=0.14.9"
+  required_version = ">=1.0.11"
 
   required_providers {
-    azurerm = ">=2.52.0"
+    azurerm = ">=2.83.0"
     databricks = {
       source  = "databrickslabs/databricks"
-      version = ">=0.3.5"
+      version = ">=0.3.11"
     }
   }
 
@@ -17,7 +17,7 @@ provider "azurerm" {
 }
 
 provider "databricks" {
-  azure_workspace_resource_id = var.databricks_workspace_id
+  host = var.databricks_workspace_url
 }
 
 locals {
@@ -106,23 +106,6 @@ resource "databricks_permissions" "cluster_usage" {
     content {
       group_name       = access_control.value.display_name
       permission_level = access_control.value.cluster_usage
-    }
-  }
-
-  depends_on = [
-    databricks_group.group
-  ]
-}
-
-resource "databricks_permissions" "token_usage" {
-  count         = var.databricks_sku == "premium" ? 1 : 0
-  authorization = "tokens"
-
-  dynamic "access_control" {
-    for_each = var.databricks_sku == "premium" ? var.databricks_groups : {}
-    content {
-      group_name       = access_control.value.display_name
-      permission_level = access_control.value.token_usage
     }
   }
 

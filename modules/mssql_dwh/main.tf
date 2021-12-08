@@ -90,4 +90,9 @@ resource "azurerm_private_endpoint" "private_endpoint" {
     subresource_names              = ["sqlServer"]
     is_manual_connection           = false
   }
+
+  # Should be deployed by Azure policy
+  lifecycle {
+    ignore_changes = [private_dns_zone_group]
+  }
 }

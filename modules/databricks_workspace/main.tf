@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">=0.14.4"
+  required_version = ">=1.0.11"
 
   required_providers {
     azurerm = "=2.52.0"
