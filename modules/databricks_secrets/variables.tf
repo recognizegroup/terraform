@@ -1,6 +1,6 @@
-variable "databricks_workspace_id" {
+variable "databricks_workspace_url" {
   type        = string
-  description = "The id of the databricks workspace."
+  description = "The url of the databricks workspace."
 }
 
 variable "databricks_secrets" {
