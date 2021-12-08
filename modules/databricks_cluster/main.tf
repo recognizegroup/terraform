@@ -113,3 +113,20 @@ resource "databricks_permissions" "cluster_usage" {
     databricks_group.group
   ]
 }
+
+resource "databricks_permissions" "token_usage" {
+  count         = var.databricks_sku == "premium" ? 1 : 0
+  authorization = "tokens"
+
+  dynamic "access_control" {
+    for_each = var.databricks_sku == "premium" ? var.databricks_groups : {}
+    content {
+      group_name       = access_control.value.display_name
+      permission_level = access_control.value.token_usage
+    }
+  }
+
+  depends_on = [
+    databricks_group.group
+  ]
+}
