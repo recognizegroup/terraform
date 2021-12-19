@@ -18,6 +18,7 @@ variable "metric_category" {
   description = "The name of a Diagnostic Metric Category for this Resource."
   default     = "AllMetrics"
 }
+
 variable "metric_retention_policy_enabled" {
   type        = bool
   description = "Is this Diagnostic Metric enabled."
