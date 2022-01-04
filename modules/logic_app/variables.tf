@@ -19,9 +19,9 @@ variable "arm_template_path" {
   default     = null
 }
 
-variable "parameters_content" {
-  type        = map
-  description = "Content of the ARM Template parameters file, containing a map with key value pairs."
+variable "arm_parameters" {
+  type        = any
+  description = "Parameter values for the ARM template."
   default     = {}
 }
 
