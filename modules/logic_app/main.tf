@@ -12,6 +12,14 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+  // Remove need for specifying the "value" field for every parameter
+  parameters_content = {
+    for key, value in var.arm_parameters :
+    key => { "value" = value }
+  }
+}
+
 resource "azurerm_logic_app_workflow" "workflow" {
   name                = var.logic_app_name
   location            = var.location
@@ -26,7 +34,7 @@ resource "azurerm_resource_group_template_deployment" "workflow_deployment" {
   resource_group_name = var.resource_group_name
   deployment_mode     = "Incremental"
   template_content    = file(var.arm_template_path)
-  parameters_content  = jsonencode(var.parameters_content)
+  parameters_content  = jsonencode(local.parameters_content)
 
   depends_on = [azurerm_logic_app_workflow.workflow]
 }
