@@ -1,30 +1,3 @@
-# terraform {
-#   required_version = ">=1.1.2"
-
-#   required_providers {
-#     azurerm = "=2.88.0"
-#   }
-
-#   backend "azurerm" {}
-# }
-
-# provider "azurerm" {
-#   features {}
-# }
-
-# module "logic_app" {
-#   # source = "git::https://github.com/recognizegroup/terraform.git//modules/logic_app?ref=v0.0.73-tst"
-#   source = "C:\\Users\\RickvanSloten\\Documents\\02_Projects\\02_Recognize\\04_recognize_group\\terraform\\modules\\logic_app"
-#   for_each = {for app in var.logic_app_instances: app.logic_app_name => app}
-
-#   location            = var.location
-#   resource_group_name = var.resource_group_name
-#   logic_app_name      = each.value.logic_app_name
-#   arm_template_path   = var.arm_template_path
-#   arm_parameters      = each.value.arm_parameters
-# }
-
-
 terraform {
   required_version = ">=1.1.2"
 
@@ -59,6 +32,7 @@ resource "azurerm_resource_group_template_deployment" "workflow_deployment" {
   deployment_mode     = "Incremental"
   template_content    = file(var.arm_template_path)
   parameters_content  = jsonencode({
+    // Set value to value field.
     for key, value in each.value.arm_parameters :
     key => { "value" = value }
   })
