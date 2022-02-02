@@ -44,7 +44,7 @@ resource "azurerm_resource_group_template_deployment" "workflow_deployment" {
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   for_each                       = var.log_analytics_workspace_id == null ? {} : local.logic_app_instances
   name                           = "${each.key}-logs"
-  target_resource_id             = azurerm_logic_app_workflow.workflow["${each.key}-deployment"].id
+  target_resource_id             = azurerm_logic_app_workflow.workflow[each.key].id
   log_analytics_workspace_id     = var.log_analytics_workspace_id
   log_analytics_destination_type = "Dedicated"
 
