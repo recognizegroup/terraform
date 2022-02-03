@@ -103,7 +103,10 @@ data "azurerm_key_vault_secret" "password" {
 ######################################################
 
 resource "azurerm_api_management_product" "product" {
-  for_each              = toset(local.openapi_fileset)
+  for_each = {
+    for k, v in toset(local.openapi_fileset) : k => v
+    if element(split("/", k), k-2)
+  }
   product_id            = azurerm_api_management_api.api[each.key].name
   api_management_name   = var.api_management_name
   resource_group_name   = var.resource_group_name
