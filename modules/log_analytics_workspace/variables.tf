@@ -16,11 +16,17 @@ variable "name" {
 variable "sku" {
   type        = string
   description = "Specifies the Sku of the Log Analytics Workspace."
-  default     = "Standard"
+  default     = "pergb2018"
 }
 
 variable "retention_in_days" {
   type        = number
   description = "The workspace data retention in days."
   default     = 30
+}
+
+variable "daily_quota_gb" {
+  type        = number
+  description = "The workspace daily quota for ingestion in GB."
+  default     = 5
 }
