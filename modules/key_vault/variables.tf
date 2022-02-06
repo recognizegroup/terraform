@@ -8,7 +8,7 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "key_vault_name" {
+variable "name" {
   type        = string
   description = "Name of the key vault."
 }
@@ -20,18 +20,43 @@ variable "soft_delete_retention_days" {
 }
 
 variable "purge_protection_enabled" {
-  type        = string
-  description = "Enables purge protection for key vault."
+  type        = bool
+  description = "Enables purge protection for key vault. Cannot be undone!"
+  default     = false
 }
 
-variable "key_vault_sku" {
+variable "enabled_for_template_deployment" {
+  type        = bool
+  description = "Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault."
+  default     = true
+}
+
+variable "sku" {
   type        = string
   description = "Name of the sku used for the key vault."
   default     = "standard"
 }
 
-variable "enable_rbac_authorization" {
+variable "enable_rbac" {
   type        = bool
   description = "Flag to specify whether to use Role Based Access Control."
-  default     = true
+  default     = false
+}
+
+variable "secret_readers" {
+  type        = list(string)
+  description = "List of object IDs to grant secret reader permissions when RBAC is disabled."
+  default     = []
+}
+
+variable "secret_administrators" {
+  type        = list(string)
+  description = "List of object IDs to grant secret administrator permissions when RBAC is disabled."
+  default     = []
+}
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of a log analytics workspace (optional)."
+  default     = null
 }

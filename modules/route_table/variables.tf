@@ -8,7 +8,7 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "route_table_name" {
+variable "name" {
   type        = string
   description = "The name of the route table."
 }

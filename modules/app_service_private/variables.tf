@@ -8,7 +8,7 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "app_service_name" {
+variable "name" {
   type        = string
   description = "Name of the app service."
 }
@@ -27,7 +27,7 @@ variable "scm_type" {
 variable "always_on" {
   type        = bool
   description = "Indicates whether the App Service should be always on."
-  default     = false
+  default     = true
 }
 
 variable "app_settings" {
@@ -54,49 +54,20 @@ variable "websockets_enabled" {
   default     = true
 }
 
-variable "min_tls_version" {
-  type        = string
-  description = "The minimum supported TLS version for the app service."
-  default     = "1.2"
-}
-
 variable "health_check_path" {
   type        = string
-  description = "The health check path to be pinged by App Service."
+  description = "The health check path to be pinged by app service."
   default     = null
-}
-
-variable "private_endpoint_name" {
-  type        = string
-  description = "Specifies the name of the Private Endpoint."
-  default     = ""
 }
 
 variable "integration_subnet_id" {
   type        = string
-  description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
+  description = "The ID of the integration subnet to enable virtual network integration."
 }
 
 variable "private_subnet_id" {
   type        = string
-  description = "The ID of the Subnet from which private IP addresses will be allocated for the Private Endpoint."
-}
-
-variable "private_service_connection_name" {
-  type        = string
-  description = "Specifies the Name of the Private Service Connection."
-}
-
-variable "private_dns_zone_group_name" {
-  type        = string
-  description = "Specifies the name of the private DNS zone group."
-  default     = ""
-}
-
-variable "private_dns_zone_ids" {
-  type        = list
-  description = "Specifies a list of private DNS zones IDs"
-  default     = []
+  description = "The ID of the subnet from which private IP addresses will be allocated for the Private Endpoint."
 }
 
 variable "custom_domains" {
@@ -107,12 +78,6 @@ variable "custom_domains" {
 
 variable "log_analytics_workspace_id" {
   type        = string
-  description = "ID of the log analytics workspace."
+  description = "ID of a log analytics workspace."
   default     = null
-}
-
-variable "monitor_diagnostic_setting_name" {
-  type        = string
-  description = "Name of the monitor diagnostic setting for the app service."
-  default     = ""
 }

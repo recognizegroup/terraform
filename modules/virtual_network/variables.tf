@@ -8,12 +8,12 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "virtual_network_name" {
+variable "name" {
   type        = string
   description = "Name of the virtual network."
 }
 
-variable "virtual_network_address_space" {
+variable "address_space" {
   type        = list
   description = "Address space of the virtual network."
 }
