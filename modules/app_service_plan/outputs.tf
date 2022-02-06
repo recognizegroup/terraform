@@ -1,3 +1,3 @@
-output "app_service_plan_id" {
+output "id" {
   value = azurerm_app_service_plan.asp.id
 }

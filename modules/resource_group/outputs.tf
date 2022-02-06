@@ -1,7 +1,7 @@
-output "resource_group_name" {
+output "name" {
   value = azurerm_resource_group.resource_group.name
 }
 
-output "resource_group_id" {
+output "id" {
   value = azurerm_resource_group.resource_group.id
 }

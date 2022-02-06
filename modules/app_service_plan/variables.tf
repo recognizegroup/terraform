@@ -8,46 +8,46 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "app_service_plan_name" {
+variable "name" {
   type        = string
-  description = "Name of the ASP"
+  description = "Name of the app service plan."
 }
 
-variable "app_service_plan_tier" {
+variable "tier" {
   type        = string
-  description = "Tier of the ASP"
+  description = "Tier of the app service plan."
 }
 
-variable "app_service_plan_size" {
+variable "size" {
   type        = string
-  description = "size of the ASP"
+  description = "Size of the app service plan."
 }
 
-variable "app_service_plan_kind" {
+variable "kind" {
   type        = string
-  description = "The kind of the ASP."
-  default     = "Windows"
+  description = "The kind of app service plan."
+  default     = "Linux"
 }
 
-variable "app_service_autoscaling_name" {
-  type        = string
-  description = "The name of the app service autoscaling configuration."
-  default     = ""
+variable "enable_autoscaling" {
+  type        = bool
+  description = "Indicates whether autoscaling should be turned on."
+  default     = false
 }
 
-variable "app_service_default_capacity" {
+variable "default_scaling_capacity" {
   type        = number
   description = "The number of instances that are available for scaling if metrics are not available for evaluation."
   default     = 1
 }
 
-variable "app_service_minimum_capacity" {
+variable "minimum_scaling_capacity" {
   type        = number
   description = "The minimum number of instances for this resource."
   default     = 1
 }
 
-variable "app_service_maximum_capacity" {
+variable "maximum_scaling_capacity" {
   type        = number
   description = "The maximum number of instances for this resource."
   default     = 3

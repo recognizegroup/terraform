@@ -42,10 +42,11 @@ inputs = {
 
 ### Azure authentication
 
-Terraform provides different ways to authenticate to Azure. When working locally, it is recommended that you use the Azure cli to login with your user account:
+Terraform provides different ways to authenticate to Azure. When working locally, it is recommended that you use the Azure cli to login with your user account.
+After the authentication succeeds, you should always set the subscription you want to deploy to. Optionally, when working in a tenant with a guest account, you need to pass the tenant ID when you log in. By default az login authenticates with your own tenant.
 
 ```bash
-az login
+az login [-t tenant]
 az account set --subscription <name or id>
 ```
 
