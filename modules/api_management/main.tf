@@ -86,16 +86,3 @@ resource "azurerm_api_management_identity_provider_aad" "identity_provider_aad" 
   client_secret       = azuread_application_password.password.value
   allowed_tenants     = var.id_provider_allowed_tenants
 }
-
-resource "azurerm_api_management_group" "group" {
-  for_each = {
-    for index, group in var.groups : index => group
-  }
-  name                = each.value.name
-  resource_group_name = var.resource_group_name
-  api_management_name = azurerm_api_management.api_management.name
-  display_name        = each.value.display_name
-  description         = each.value.description
-  external_id         = each.value.external_id
-  type                = each.value.type
-}
