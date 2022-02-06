@@ -8,26 +8,31 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "name" {
+variable "logic_app_name" {
   type        = string
   description = "Specifies the name of the Log Analytics Workspace."
 }
 
-variable "arm_template" {
+variable "arm_template_path" {
   type        = string
-  description = "Specifies the ARM template to be used during deployment"
+  description = "Specifies the path of ARM template to be used during deployment."
   default     = null
 }
 
-variable "parameters_content" {
+variable "arm_parameters" {
+  type        = any
+  description = "Parameter values for the ARM template."
+  default     = {}
+}
+
+variable "log_analytics_workspace_id" {
   type        = string
-  description = "The contents of the ARM Template parameters file - containing a JSON list of parameters"
+  description = "Specifies the ID of a Log Analytics Workspace where diagnostics data should be sent."
   default     = null
 }
 
-variable "ise_id" {
-  type        = string
-  description = "The ID of the Integration Service Environment to which this Logic App Workflow belongs"
-  default     = null
+variable "log_retention_days" {
+  type        = number
+  description = "Number of days for which logs and metrics will be saved."
+  default     = 30
 }
-

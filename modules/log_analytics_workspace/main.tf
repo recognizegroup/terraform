@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=0.13.5"
+  required_version = ">=1.1.2"
 
   required_providers {
-    azurerm = "=2.41.0"
+    azurerm = "=2.94.0"
   }
 
   backend "azurerm" {}
@@ -18,4 +18,5 @@ resource "azurerm_log_analytics_workspace" "workspace" {
   resource_group_name = var.resource_group_name
   sku                 = var.sku
   retention_in_days   = var.retention_in_days
+  daily_quota_gb      = var.daily_quota_gb
 }

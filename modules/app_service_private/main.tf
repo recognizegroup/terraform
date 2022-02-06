@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=0.14.9"
+  required_version = ">=1.1.2"
 
   required_providers {
-    azurerm = "=2.74.0"
+    azurerm = "=2.94.0"
   }
 
   backend "azurerm" {}
@@ -13,7 +13,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_app_service" "app_service" {
-  name                = var.app_service_name
+  name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
   app_service_plan_id = var.app_service_plan_id
@@ -22,12 +22,13 @@ resource "azurerm_app_service" "app_service" {
   site_config {
     scm_type                 = var.scm_type
     always_on                = var.always_on
-    ftps_state               = "AllAllowed"
     dotnet_framework_version = var.dotnet_framework_version
     websockets_enabled       = var.websockets_enabled
     linux_fx_version         = var.linux_fx_version
-    min_tls_version          = var.min_tls_version
     health_check_path        = var.health_check_path
+    ftps_state               = "FtpsOnly"
+    http2_enabled            = true
+    min_tls_version          = 1.2
   }
 
   app_settings = var.app_settings
@@ -37,12 +38,44 @@ resource "azurerm_app_service" "app_service" {
   }
 }
 
+resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
+  app_service_id = azurerm_app_service.app_service.id
+  subnet_id      = var.integration_subnet_id
+}
+
+resource "azurerm_private_endpoint" "private_endpoint" {
+  name                = "pe-${var.name}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  subnet_id           = var.private_subnet_id
+
+  private_service_connection {
+    name                           = "psc-${var.name}"
+    is_manual_connection           = false
+    private_connection_resource_id = azurerm_app_service.app_service.id
+    subresource_names              = ["sites"]
+  }
+
+  # Should be deployed by Azure policy
+  lifecycle {
+    ignore_changes = [private_dns_zone_group]
+  }
+}
+
+resource "azurerm_app_service_custom_hostname_binding" "custom_domain" {
+  for_each            = toset(var.custom_domains)
+  hostname            = each.value
+  app_service_name    = azurerm_app_service.app_service.name
+  resource_group_name = var.resource_group_name
+}
+
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   resource_id = azurerm_app_service.app_service.id
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
-  name                       = var.monitor_diagnostic_setting_name
+  count                      = var.log_analytics_workspace_id == null ? 0 : 1
+  name                       = "diag-${var.name}"
   target_resource_id         = azurerm_app_service.app_service.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
@@ -52,6 +85,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
     content {
       category = log.value
       enabled  = true
+
       retention_policy {
         enabled = false
       }
@@ -64,39 +98,10 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
     content {
       category = metric.value
       enabled  = true
+
       retention_policy {
         enabled = false
       }
     }
   }
-}
-
-resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
-  app_service_id = azurerm_app_service.app_service.id
-  subnet_id      = var.integration_subnet_id
-}
-
-resource "azurerm_private_endpoint" "private_endpoint" {
-  name                = var.private_endpoint_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  subnet_id           = var.private_subnet_id
-
-  private_service_connection {
-    name                           = var.private_service_connection_name
-    is_manual_connection           = false
-    private_connection_resource_id = azurerm_app_service.app_service.id
-    subresource_names              = ["sites"]
-  }
-
-  lifecycle {
-    ignore_changes = [private_dns_zone_group]
-  }
-}
-
-resource "azurerm_app_service_custom_hostname_binding" "custom_domain" {
-  for_each            = toset(var.custom_domains)
-  hostname            = each.value
-  app_service_name    = azurerm_app_service.app_service.name
-  resource_group_name = var.resource_group_name
 }

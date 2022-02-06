@@ -23,6 +23,18 @@ variable "scm_type" {
   description = "The type of Source Control enabled for this App Service."
 }
 
+variable "always_on" {
+  type        = bool
+  description = "Indicates whether the App Service should be always on."
+  default     = true
+}
+
+variable "use_32_bit_worker_process" {
+  type        = bool
+  description = "Should the App Service run in 32 bit mode, rather than 64 bit mode?"
+  default     = false
+}
+
 variable "app_settings" {
   type        = map
   description = "The app settings of this app service."
@@ -35,7 +47,7 @@ variable "connection_strings" {
       name  = string,
       type  = string,
       value = string
-    }))
+  }))
   description = "A list of connection strings used by the app service."
   default     = []
 }
@@ -79,5 +91,47 @@ variable "integration_subnet_id" {
 variable "custom_domains" {
   type        = list
   description = "Define custom domains attached to this app service."
+  default     = []
+}
+
+variable "auth_enabled" {
+  type        = bool
+  description = "Indicates whether authentication is enabled for this app service."
+  default     = null
+}
+
+variable "auth_default_provider" {
+  type        = string
+  description = "Specifies the default authentication provider."
+  default     = null
+}
+
+variable "auth_issuer" {
+  type        = string
+  description = "When using Azure Active Directory, this value is the URI of the directory tenant."
+  default     = null
+}
+
+variable "unauthenticated_client_action" {
+  type        = string
+  description = "The action to take when an unauthenticated client attempts to access the app."
+  default     = null
+}
+
+variable "client_id" {
+  type        = string
+  description = "The Client ID of this relying party application. Enables OpenIDConnection authentication with Azure Active Directory"
+  default     = null
+}
+
+variable "client_secret" {
+  type        = string
+  description = "The Client Secret of this relying party application. If no secret is provided, implicit flow will be used."
+  default     = null
+}
+
+variable "allowed_audiences" {
+  type        = list
+  description = "Allowed audience values to consider when validating JWTs issued by Azure Active Directory."
   default     = []
 }

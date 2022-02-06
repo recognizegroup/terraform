@@ -8,21 +8,6 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "key_vault_id" {
-  type        = string
-  description = "ID of the key vault."
-}
-
-variable "mysql_admin_user_secret_name" {
-  type        = string
-  description = "Name of the mysql admin user stored secret."
-}
-
-variable "mysql_admin_password_secret_name" {
-  type        = string
-  description = "Name of the mysql admin password stored secret."
-}
-
 variable "mysql_server_name" {
   type        = string
   description = "Name of the mysql server."
@@ -43,28 +28,27 @@ variable "mysql_server_max_storage" {
 variable "mysql_server_version" {
   type        = string
   description = "Mysql server version."
-  default     = "5.7"
 }
 
-variable "mysql_server_auto_grow_enabled" {
+variable "storage_auto_grow_enabled" {
   type        = bool
   description = "Enables auto-growing of mysql server storage."
   default     = true
 }
 
-variable "mysql_server_backup_retention_days" {
+variable "backup_retention_days" {
   type        = number
   description = "Backup retention days for the mysql server."
   default     = 7
 }
 
-variable "mysql_server_geo_redundant_backup_enabled" {
+variable "geo_redundant_backup_enabled" {
   type        = bool
   description = "Enables geo-redundant mysql server backups."
   default     = true
 }
 
-variable "mysql_server_infrastructure_encryption_enabled" {
+variable "infrastructure_encryption_enabled" {
   type        = bool
   description = "Whether or not infrastructure is encrypted for the mysql server."
   default     = true
@@ -87,17 +71,23 @@ variable "mysql_database_collation" {
   default     = "utf8_unicode_ci"
 }
 
-variable "private_endpoint_name" {
-  type        = string
-  description = "Specifies the name of the Private Endpoint."
-}
-
 variable "subnet_id" {
   type        = string
-  description = "The ID of the Subnet from which private IP addresses will be allocated for this private endpoint."
+  description = "The ID of the subnet from which private IP addresses will be allocated for this private endpoint."
 }
 
-variable "private_service_connection_name" {
+variable "mysql_admin_username" {
   type        = string
-  description = "Specifies the Name of the private service connection."
+  description = "The administrator login username for the mysql server."
+}
+
+variable "password_keeper" {
+  type        = map(string)
+  description = "Random map of strings, when changed the mysql admin password will rotate."
+}
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of a log analytics workspace (optional)."
+  default     = null
 }
