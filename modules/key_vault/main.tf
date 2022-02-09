@@ -29,7 +29,7 @@ resource "azurerm_key_vault" "key_vault" {
 resource "azurerm_key_vault_access_policy" "secret_administrator_policy" {
   for_each = {
     for index, object_id in distinct(concat(var.secret_administrators, [data.azurerm_client_config.current.object_id])) :
-    index => object_id if !var.enable_rbac
+    object_id => object_id if !var.enable_rbac
   }
   key_vault_id = azurerm_key_vault.key_vault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
@@ -50,7 +50,7 @@ resource "azurerm_key_vault_access_policy" "secret_administrator_policy" {
 resource "azurerm_key_vault_access_policy" "secret_reader_policy" {
   for_each = {
     for index, object_id in var.secret_readers :
-    index => object_id if !contains(var.secret_administrators, object_id)
+    object_id => object_id if !contains(var.secret_administrators, object_id)
     && object_id != data.azurerm_client_config.current.object_id
   }
   key_vault_id = azurerm_key_vault.key_vault.id
