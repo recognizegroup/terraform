@@ -4,7 +4,7 @@ This repository contains terraform modules which can be used in combination with
 
 ## Getting started
 
-1. Create a terragrunt.hcl file:
+1. Create a `terragrunt.hcl` file:
 
 ```terraform
 # Use Terragrunt to download the module code
@@ -47,7 +47,7 @@ inputs = {
 This repository mainly contains Terraform modules using the [Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs). Terraform supports ways to authenticate to Azure. When working locally, it is recommended that you use the Azure cli to login with your user account.
 
 ```bash
-az login [-t tenant]
+az login [--tenant <id>]
 az account set --subscription <name or id>
 ```
 

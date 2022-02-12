@@ -19,15 +19,15 @@ This Terragrunt sample project showcases a well-tailored structure that includes
 
 ---
 
-###### <a name="faq1"></a> When deploying this sample project, how does the remote state look like?
+### <a name="faq1"></a> When deploying this sample project, how does the remote state look like?
 
 Your remote state, in a storage container, will be empty before the very first deployment. After the first deployment, the storage container contains a directory structure that is equivalent to the `modules` directory, containing the state per module.
 
-###### <a name="faq2"></a> I am debugging my deployment; how to only deploy a single module without causing state conflicts?
+### <a name="faq2"></a> I am debugging my deployment; how to only deploy a single module without causing state conflicts?
 
 A little magic trick in the backend configuration allows you to deploy all modules from an environment with `terragrunt run-all apply`, while still being able to deploy modules separately with `terragrunt apply`. This little magic trick ensures that both commands will talk to the same remote state paths.
 
-###### <a name="faq3"></a> How to deploy a resource in one environment, but prevent it from being deploy in another?
+### <a name="faq3"></a> How to deploy a resource in one environment, but prevent it from being deploy in another?
 
 Sometimes environments are not exact mirrors of one another. For example, you only need resources in a test environment, that you don't want in production. Terragrunt offers the ability to skip deployment for a resource. This is done by including `skip = true` in the Terragrunt module configuration. You can read more about this feature [here](https://terragrunt.gruntwork.io/docs/reference/config-blocks-and-attributes/#skip). Here is a short example:
 
@@ -47,15 +47,15 @@ inputs {
 }
 ```
 
-###### <a name="faq4"></a> How does the Terragrunt configuration know in which environment to deploy my resources?
+### <a name="faq4"></a> How does the Terragrunt configuration know in which environment to deploy my resources?
 
 This is all done within the root `terragrunt.hcl` file, with a little help of a built-in function that reads environment variables: `get_env("ENVIRONMENT", "dev")`. By default you can deploy the development environment, so you don't have to set anything locally. Within your CI/CD pipeline, you can set this environment variable explicitly.
 
-###### <a name="faq5"></a> Can I also use this project structure with Terraform Cloud?
+### <a name="faq5"></a> Can I also use this project structure with Terraform Cloud?
 
 This is not currently possible, because Terraform cloud uses workspaces which do not have a directory structure like storage containers.
 
-###### <a name="faq6"></a> I want to define a naming convention within my Terraform modules, how do I do this?
+### <a name="faq6"></a> I want to define a naming convention within my Terraform modules, how do I do this?
 
 Fortunately, Terraform itself has a nice feature that can validate input variables for a module. This feature is very flexible, allowing you to enforce naming conventions, restrict regions or locations and much more.
 
@@ -71,7 +71,7 @@ variable "name" {
 }
 ```
 
-##### <a name="faq7"></a> When developing new modules, how to specify a local module source?
+#### <a name="faq7"></a> When developing new modules, how to specify a local module source?
 
 As you can read in the official [documentation](https://www.terraform.io/language/modules/sources), terraform modules can come from many places. When your Terraform modules are defined in a Github repository, I would recommend to check out that repository next to your project repository. This enables you to easily import those modules from a local path.
 
