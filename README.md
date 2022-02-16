@@ -62,7 +62,7 @@ export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
 
 ## Creating remote backend
 
-One of the great benefits of using Terragrunt, is that it will keep your remote sate DRY. Terragrunt allows you to use variables, conditions and expressions when defining backends. This means you only have to specify your backend configuration once. Within Azure, storage containers are the place where remote state is stored. The following snippet allows you to rapidly setup backend storage containers for every environment in your project.
+One of the great benefits of using Terragrunt, is that it will keep your remote state DRY. Terragrunt allows you to use variables, conditions and expressions when defining backends. This means you only have to specify your backend configuration once. Within Azure, storage containers are the place where remote state is stored. The following snippet allows you to rapidly setup backend storage containers for every environment in your project.
 
 #### Linux/macOS
 
@@ -106,14 +106,14 @@ az storage container create \
 #### Windows Powershell
 
 ```bash
-$env:SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000" 
+$env:SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
 $env:RESOURCE_GROUP_NAME="xxxxx"
 $env:STORAGE_NAME="xxxxx"
 $env:CONTAINER_NAME="xxxxx"
 $env:LOCATION="westeurope"
  az group create  `
   --name $env:RESOURCE_GROUP_NAME  `
-  --location $env:LOCATION 
+  --location $env:LOCATION
 
  az storage account create  `
   --name $env:STORAGE_NAME  `
@@ -129,7 +129,7 @@ $env:LOCATION="westeurope"
   --account-name $env:STORAGE_NAME  `
   --query '[0].value'  `
   -o tsv
- 
+
  az storage container create  `
   --name $env:CONTAINER_NAME  `
   --account-name $env:STORAGE_NAME  `
