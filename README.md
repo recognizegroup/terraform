@@ -101,15 +101,34 @@ az storage container create \
 #### Windows
 
 Powershell script:
+
 ```bash
 $env:SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000" 
 $env:RESOURCE_GROUP_NAME="xxxxx"
 $env:STORAGE_NAME="xxxxx"
 $env:CONTAINER_NAME="xxxxx"
 $env:LOCATION="westeurope"
- az group create --name $env:RESOURCE_GROUP_NAME --location $env:LOCATION
- az storage account create --name $env:STORAGE_NAME --resource-group $env:RESOURCE_GROUP_NAME --location $env:LOCATION --sku Standard_LRS --encryption-services blob --https-only true --allow-blob-public-access false
- $output = az storage account keys list --resource-group $env:RESOURCE_GROUP_NAME --account-name $env:STORAGE_NAME --query '[0].value' -o tsv
+ az group create  `
+  --name $env:RESOURCE_GROUP_NAME  `
+  --location $env:LOCATION 
+
+ az storage account create  `
+  --name $env:STORAGE_NAME  `
+  --resource-group $env:RESOURCE_GROUP_NAME  `
+  --location $env:LOCATION  `
+  --sku Standard_LRS  `
+  --encryption-services blob  `
+  --https-only true  `
+  --allow-blob-public-access false
+
+ $output = az storage account keys list  `
+  --resource-group $env:RESOURCE_GROUP_NAME  `
+  --account-name $env:STORAGE_NAME  `
+  --query '[0].value'  `
+  -o tsv
  
- az storage container create --name $env:CONTAINER_NAME --account-name $env:STORAGE_NAME --account-key $ACCOUNT_KEY $output
+ az storage container create  `
+  --name $env:CONTAINER_NAME  `
+  --account-name $env:STORAGE_NAME  `
+  --account-key $ACCOUNT_KEY $output
 ```
