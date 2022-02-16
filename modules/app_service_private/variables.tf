@@ -81,3 +81,16 @@ variable "log_analytics_workspace_id" {
   description = "ID of a log analytics workspace."
   default     = null
 }
+
+variable "storage_mount" {
+  type = object({
+    name         = string,
+    type         = string,
+    account_name = string,
+    share_name   = string,
+    access_key   = string
+    mount_path   = string
+  })
+  description = "Storage container or share to be mount within app service instance(s). Note that container mounts are read-only."
+  default     = null
+}
