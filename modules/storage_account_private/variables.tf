@@ -8,46 +8,36 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "storage_account_name" {
+variable "name" {
   type        = string
   description = "Name of the storage account"
 }
 
-variable "storage_account_kind" {
+variable "kind" {
   type        = string
   description = "Defines the kind to use for this storage account."
   default     = "StorageV2"
 }
 
-variable "storage_account_tier" {
+variable "tier" {
   type        = string
   description = "Defines the tier to use for this storage account."
   default     = "Standard"
 }
 
-variable "storage_account_replication_type" {
+variable "replication_type" {
   type        = string
   description = "Defines the type of replication to use for this storage account."
   default     = "LRS"
 }
 
-variable "storage_account_min_tls_version" {
+variable "min_tls_version" {
   type        = string
   description = "The minimum supported TLS version for the storage account."
   default     = "TLS1_2"
 }
 
-variable "private_endpoint_name" {
-  type        = string
-  description = "Specifies the name of the Private Endpoint."
-}
-
 variable "subnet_id" {
   type        = string
   description = "The ID of the Subnet from which private IP addresses will be allocated for the Private Endpoint."
-}
-
-variable "private_service_connection_name" {
-  type        = string
-  description = "Specifies the Name of the Private Service Connection."
 }
