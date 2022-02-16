@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=0.13.5"
+  required_version = ">=1.1.5"
 
   required_providers {
-    azurerm = "=2.41.0"
+    azurerm = "=2.96.0"
   }
 
   backend "azurerm" {}
@@ -13,20 +13,13 @@ provider "azurerm" {
 }
 
 resource "azurerm_storage_account" "storage_account" {
-  name                      = var.storage_account_name
+  name                      = var.name
   resource_group_name       = var.resource_group_name
   location                  = var.location
-  account_kind              = var.storage_account_kind
-  account_tier              = var.storage_account_tier
-  account_replication_type  = var.storage_account_replication_type
+  account_kind              = var.kind
+  account_tier              = var.tier
+  account_replication_type  = var.replication_type
   enable_https_traffic_only = true
-  allow_blob_public_access  = var.storage_account_allow_public_access
-  min_tls_version           = var.storage_account_min_tls_version
-}
-
-resource "azurerm_storage_container" "blob_container" {
-  for_each              = var.container_names
-  name                  = each.value
-  storage_account_name  = azurerm_storage_account.storage_account.name
-  container_access_type = "private"
+  allow_blob_public_access  = var.allow_public_access
+  min_tls_version           = var.min_tls_version
 }
