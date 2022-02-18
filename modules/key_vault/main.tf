@@ -24,43 +24,59 @@ resource "azurerm_key_vault" "key_vault" {
   enabled_for_template_deployment = var.enabled_for_template_deployment
   sku_name                        = var.sku
   enable_rbac_authorization       = var.enable_rbac
-}
 
-resource "azurerm_key_vault_access_policy" "secret_administrator_policy" {
-  for_each = {
-    for index, object_id in distinct(concat(var.secret_administrators, [data.azurerm_client_config.current.object_id])) :
-    object_id => object_id if !var.enable_rbac
+  // Set secrets administrator policy
+  dynamic "access_policy" {
+    for_each = {
+      for index, object_id in distinct(concat(var.secret_administrators, [data.azurerm_client_config.current.object_id])) :
+      object_id => object_id if !var.enable_rbac
+    }
+
+    content {
+      tenant_id = data.azurerm_client_config.current.tenant_id
+      object_id = access_policy.value
+      secret_permissions = [
+        "Get",
+        "List",
+        "Set",
+        "Delete",
+        "Recover",
+        "Backup",
+        "Restore",
+        "Purge"
+      ]
+      certificate_permissions = []
+      key_permissions         = []
+      storage_permissions     = []
+    }
   }
-  key_vault_id = azurerm_key_vault.key_vault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = each.value
 
-  secret_permissions = [
-    "Get",
-    "List",
-    "Set",
-    "Delete",
-    "Recover",
-    "Backup",
-    "Restore",
-    "Purge"
-  ]
-}
+  // Set secrets reader policy
+  dynamic "access_policy" {
+    for_each = {
+      for index, object_id in var.secret_readers :
+      object_id => object_id if !contains(var.secret_administrators, object_id)
+      && object_id != data.azurerm_client_config.current.object_id
+    }
 
-resource "azurerm_key_vault_access_policy" "secret_reader_policy" {
-  for_each = {
-    for index, object_id in var.secret_readers :
-    object_id => object_id if !contains(var.secret_administrators, object_id)
-    && object_id != data.azurerm_client_config.current.object_id
+    content {
+      tenant_id = data.azurerm_client_config.current.tenant_id
+      object_id = access_policy.value
+      secret_permissions = [
+        "Get",
+        "List",
+        "Set",
+        "Delete",
+        "Recover",
+        "Backup",
+        "Restore",
+        "Purge"
+      ]
+      certificate_permissions = []
+      key_permissions         = []
+      storage_permissions     = []
+    }
   }
-  key_vault_id = azurerm_key_vault.key_vault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = each.value
-
-  secret_permissions = [
-    "Get",
-    "List"
-  ]
 }
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
@@ -69,11 +85,13 @@ data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
-  count                          = var.log_analytics_workspace_id == null ? 0 : 1
-  name                           = "diag-${var.name}"
-  target_resource_id             = azurerm_key_vault.key_vault.id
-  log_analytics_workspace_id     = var.log_analytics_workspace_id
-  log_analytics_destination_type = "Dedicated"
+  count                      = var.log_analytics_workspace_id == null ? 0 : 1
+  name                       = "diag-${var.name}"
+  target_resource_id         = azurerm_key_vault.key_vault.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  // TODO: not yet implemented by Azure
+  // log_analytics_destination_type = "Dedicated"
 
   dynamic "log" {
     for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
