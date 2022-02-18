@@ -109,7 +109,7 @@ az storage container create \
 $env:SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
 $env:RESOURCE_GROUP_NAME="xxxxx"
 $env:STORAGE_ACCOUNT_NAME="xxxxx"
-$env:CONTAINER_NAME="xxxxx"
+$env:CONTAINER_NAME="tfstate"
 $env:LOCATION="westeurope"
  az group create  `
   --name $env:RESOURCE_GROUP_NAME  `
