@@ -47,11 +47,13 @@ data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
-  count                          = var.log_analytics_workspace_id == null ? 0 : 1
-  name                           = "diag-${var.name}"
-  target_resource_id             = azurerm_function_app.function_app.id
-  log_analytics_workspace_id     = var.log_analytics_workspace_id
-  log_analytics_destination_type = "Dedicated"
+  count                      = var.log_analytics_workspace_id == null ? 0 : 1
+  name                       = "diag-${var.name}"
+  target_resource_id         = azurerm_function_app.function_app.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  // TODO: not yet implemented by Azure
+  // log_analytics_destination_type = "Dedicated"
 
   dynamic "log" {
     for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
