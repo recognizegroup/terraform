@@ -108,7 +108,7 @@ az storage container create \
 ```bash
 $env:SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
 $env:RESOURCE_GROUP_NAME="xxxxx"
-$env:STORAGE_NAME="xxxxx"
+$env:STORAGE_ACCOUNT_NAME="xxxxx"
 $env:CONTAINER_NAME="xxxxx"
 $env:LOCATION="westeurope"
  az group create  `
@@ -116,7 +116,7 @@ $env:LOCATION="westeurope"
   --location $env:LOCATION
 
  az storage account create  `
-  --name $env:STORAGE_NAME  `
+  --name $env:STORAGE_ACCOUNT_NAME  `
   --resource-group $env:RESOURCE_GROUP_NAME  `
   --location $env:LOCATION  `
   --sku Standard_LRS  `
@@ -126,12 +126,12 @@ $env:LOCATION="westeurope"
 
  $output = az storage account keys list  `
   --resource-group $env:RESOURCE_GROUP_NAME  `
-  --account-name $env:STORAGE_NAME  `
+  --account-name $env:STORAGE_ACCOUNT_NAME  `
   --query '[0].value'  `
   -o tsv
 
  az storage container create  `
   --name $env:CONTAINER_NAME  `
-  --account-name $env:STORAGE_NAME  `
+  --account-name $env:STORAGE_ACCOUNT_NAME  `
   --account-key $ACCOUNT_KEY $output
 ```

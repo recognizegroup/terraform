@@ -10,12 +10,18 @@ variable "resource_group_name" {
 
 variable "name" {
   type        = string
-  description = "Specifies the name of the Log Analytics Workspace."
+  description = "Specifies the name of the function app."
 }
 
-variable "asp_id" {
+variable "app_service_plan_id" {
   type        = string
   description = "The ID of the App Service Plan within which to create this Function App."
+}
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of a log analytics workspace (optional)."
+  default     = null
 }
 
 variable "storage_account_name" {
@@ -47,11 +53,11 @@ variable "always_on" {
 }
 
 variable "connection_strings" {
-  type        = list(object({
+  type = list(object({
     name  = string
     type  = string
     value = string
   }))
-  description = "Connection strings"
+  description = "Connection strings for the function app."
   default     = []
 }

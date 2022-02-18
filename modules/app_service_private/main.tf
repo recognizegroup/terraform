@@ -84,17 +84,19 @@ resource "azurerm_app_service_custom_hostname_binding" "custom_domain" {
 }
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
+  count       = var.log_analytics_workspace_id == null ? 0 : 1
   resource_id = azurerm_app_service.app_service.id
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
-  count                      = var.log_analytics_workspace_id == null ? 0 : 1
-  name                       = "diag-${var.name}"
-  target_resource_id         = azurerm_app_service.app_service.id
-  log_analytics_workspace_id = var.log_analytics_workspace_id
+  count                          = var.log_analytics_workspace_id == null ? 0 : 1
+  name                           = "diag-${var.name}"
+  target_resource_id             = azurerm_app_service.app_service.id
+  log_analytics_workspace_id     = var.log_analytics_workspace_id
+  log_analytics_destination_type = "Dedicated"
 
   dynamic "log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories.logs
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
 
     content {
       category = log.value
@@ -107,7 +109,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   }
 
   dynamic "metric" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories.metrics
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
 
     content {
       category = metric.value
