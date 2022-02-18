@@ -78,7 +78,7 @@ variable "custom_domains" {
 
 variable "log_analytics_workspace_id" {
   type        = string
-  description = "ID of a log analytics workspace."
+  description = "ID of a log analytics workspace (optional)."
   default     = null
 }
 
