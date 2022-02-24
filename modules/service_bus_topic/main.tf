@@ -15,7 +15,6 @@ provider "azurerm" {
 resource "azurerm_servicebus_topic" "service_bus_topic" {
   name                          = var.name
   namespace_id                  = var.namespace_id
-
   default_message_ttl           = var.default_message_ttl
   max_size_in_megabytes         = var.max_size_in_megabytes
   enable_partitioning           = var.enable_partitioning
