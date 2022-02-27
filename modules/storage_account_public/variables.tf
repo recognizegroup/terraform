@@ -48,3 +48,15 @@ variable "nfsv3_enabled" {
   description = "Is NFSv3 protocol enabled?"
   default     = false
 }
+
+variable "is_hns_enabled" {
+  type        = bool
+  description = "Is Hierarchical Namespace enabled?"
+  default     = false
+}
+
+variable "enable_https_traffic_only" {
+  type        = bool
+  description = "Forces HTTPS when true"
+  default     = true
+}
