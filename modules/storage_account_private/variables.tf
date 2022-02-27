@@ -41,3 +41,9 @@ variable "subnet_id" {
   type        = string
   description = "The ID of the Subnet from which private IP addresses will be allocated for the Private Endpoint."
 }
+
+variable "nfsv3_enabled" {
+  type        = bool
+  description = "Is NFSv3 protocol enabled?"
+  default     = false
+}

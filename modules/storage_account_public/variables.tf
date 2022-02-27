@@ -42,3 +42,9 @@ variable "min_tls_version" {
   description = "The minimum supported TLS version for the storage account."
   default     = "TLS1_2"
 }
+
+variable "nfsv3_enabled" {
+  type        = bool
+  description = "Is NFSv3 protocol enabled?"
+  default     = false
+}
