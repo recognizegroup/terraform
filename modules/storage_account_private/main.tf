@@ -22,6 +22,7 @@ resource "azurerm_storage_account" "storage_account" {
   enable_https_traffic_only = true
   allow_blob_public_access  = false
   min_tls_version           = var.min_tls_version
+  nfsv3_enabled             = var.nfsv3_enabled
 
   network_rules {
     default_action = "Deny"
