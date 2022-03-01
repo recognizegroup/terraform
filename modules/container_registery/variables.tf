@@ -10,10 +10,11 @@ variable "resource_group_name" {
 
 variable "name" {
   type        = string
-  description = "Specifies the name of the application insights component."
+  description = "Specifies the name of the container registery component."
 }
 
 variable "sku" {
-  type    = string
-  default = "Standard"
+  type        = string
+  default     = "Standard"
+  description = "Specifies the container registery pricing model."
 }
