@@ -17,8 +17,3 @@ variable "sku" {
   type    = string
   default = "Standard"
 }
-
-variable "create_container" {
-  type    = number
-  default = 0
-}
