@@ -25,8 +25,10 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
   system_topic        = azurerm_eventgrid_system_topic.topic.name
   resource_group_name = var.resource_group_name
 
-  webhook_endpoint {
-    count = var.webhook_url == null ? 0 : 1
-    url   = var.webhook_url
+  dynamic "webhook_endpoint" {
+    for_each = var.webhook_url == null ? [] : [1]
+    content {
+      url   = var.webhook_url
+    }
   }
 }
