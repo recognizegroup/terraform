@@ -41,6 +41,15 @@ resource "azurerm_function_app" "function_app" {
   }
 }
 
+data "azurerm_function_app_host_keys" "host_keys" {
+  name                = var.name
+  resource_group_name = var.resource_group_name
+
+  depends_on = [
+    azurerm_function_app.function_app
+  ]
+}
+
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   count       = var.log_analytics_workspace_id == null ? 0 : 1
   resource_id = azurerm_function_app.function_app.id
