@@ -77,11 +77,13 @@ az account set --subscription $SUBSCRIPTION_ID
 
 # Create resource group
 az group create \
+  --subscription $env:SUBSCRIPTION_ID \
   --name $RESOURCE_GROUP_NAME \
   --location $LOCATION
 
 # Create storage account
 az storage account create \
+  --subscription $env:SUBSCRIPTION_ID \
   --name $STORAGE_ACCOUNT_NAME \
   --resource-group $RESOURCE_GROUP_NAME \
   --location $LOCATION \
@@ -92,12 +94,14 @@ az storage account create \
 
 # Get storage account key
 ACCOUNT_KEY=$(az storage account keys list \
+  --subscription $env:SUBSCRIPTION_ID \
   --resource-group $RESOURCE_GROUP_NAME \
   --account-name $STORAGE_ACCOUNT_NAME \
   --query '[0].value' -o tsv)
 
 # Create blob container
 az storage container create \
+  --subscription $env:SUBSCRIPTION_ID \
   --name $CONTAINER_NAME \
   --account-name $STORAGE_ACCOUNT_NAME \
   --account-key $ACCOUNT_KEY
@@ -105,17 +109,19 @@ az storage container create \
 
 #### Windows Powershell
 
-```bash
+```ps1
 $env:SUBSCRIPTION_ID="00000000-0000-0000-0000-000000000000"
 $env:RESOURCE_GROUP_NAME="xxxxx"
 $env:STORAGE_ACCOUNT_NAME="xxxxx"
 $env:CONTAINER_NAME="tfstate"
 $env:LOCATION="westeurope"
  az group create  `
+  --subscription $env:SUBSCRIPTION_ID `
   --name $env:RESOURCE_GROUP_NAME  `
   --location $env:LOCATION
 
  az storage account create  `
+  --subscription $env:SUBSCRIPTION_ID `
   --name $env:STORAGE_ACCOUNT_NAME  `
   --resource-group $env:RESOURCE_GROUP_NAME  `
   --location $env:LOCATION  `
@@ -125,12 +131,14 @@ $env:LOCATION="westeurope"
   --allow-blob-public-access false
 
  $output = az storage account keys list  `
+  --subscription $env:SUBSCRIPTION_ID `
   --resource-group $env:RESOURCE_GROUP_NAME  `
   --account-name $env:STORAGE_ACCOUNT_NAME  `
   --query '[0].value'  `
   -o tsv
 
  az storage container create  `
+  --subscription $env:SUBSCRIPTION_ID `
   --name $env:CONTAINER_NAME  `
   --account-name $env:STORAGE_ACCOUNT_NAME  `
   --account-key $ACCOUNT_KEY $output
