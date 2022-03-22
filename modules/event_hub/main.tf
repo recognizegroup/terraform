@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=0.13.5"
+  required_version = ">=1.1.7"
 
   required_providers {
-    azurerm = "=2.24.0"
+    azurerm = "=2.98.0"
   }
 
   backend "azurerm" {}
@@ -13,23 +13,23 @@ provider "azurerm" {
 }
 
 resource "azurerm_eventhub_namespace" "namespace" {
-  name                = var.eventhub_namespace_name
+  name                = var.namespace_name
   location            = var.location
   resource_group_name = var.resource_group_name
-  sku                 = var.eventhub_namespace_sku
-  capacity            = var.eventhub_namespace_capacity
+  sku                 = var.namespace_sku
+  capacity            = var.namespace_capacity
 }
 
 resource "azurerm_eventhub" "eventhub" {
   name                = var.eventhub_name
   namespace_name      = azurerm_eventhub_namespace.namespace.name
   resource_group_name = var.resource_group_name
-  partition_count     = var.eventhub_partition_count
-  message_retention   = var.eventhub_message_retention
+  partition_count     = var.partition_count
+  message_retention   = var.message_retention
 }
 
 resource "azurerm_eventhub_consumer_group" "consumer" {
-  name                = var.eventhub_consumer_group_name
+  name                = var.consumer_group_name
   namespace_name      = azurerm_eventhub_namespace.namespace.name
   eventhub_name       = azurerm_eventhub.eventhub.name
   resource_group_name = var.resource_group_name

@@ -8,18 +8,18 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "eventhub_namespace_name" {
+variable "namespace_name" {
   type        = string
   description = "Name of the event hub namespace."
 }
 
-variable "eventhub_namespace_sku" {
+variable "namespace_sku" {
   type        = string
   description = "Event hub namespace pricing tier."
   default     = "Standard"
 }
 
-variable "eventhub_namespace_capacity" {
+variable "namespace_capacity" {
   type        = number
   description = "Number of throughput units for the event hub namespace."
   default     = 1
@@ -30,19 +30,19 @@ variable "eventhub_name" {
   description = "Name of the event hub."
 }
 
-variable "eventhub_partition_count" {
+variable "partition_count" {
   type        = number
   description = "Number of partitions for the event hub."
   default     = 2
 }
 
-variable "eventhub_message_retention" {
+variable "message_retention" {
   type        = number
   description = "Retention period of messages for the event hub."
   default     = 1
 }
 
-variable "eventhub_consumer_group_name" {
+variable "consumer_group_name" {
   type        = string
   description = "Eventhub consumer group name."
 }
