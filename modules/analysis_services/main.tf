@@ -13,12 +13,12 @@ provider "azurerm" {
 }
 
 resource "azurerm_analysis_services_server" "server" {
-  name                    = var.analysis_services_server_full_name
+  name                    = var.name
   location                = var.location
   resource_group_name     = var.resource_group_name
-  sku                     = var.analysis_services_server_sku
-  admin_users             = var.analysis_services_server_admin_users
-  enable_power_bi_service = var.analysis_services_server_enable_power_bi
+  sku                     = var.sku
+  admin_users             = var.admin_users
+  enable_power_bi_service = var.enable_power_bi
 
   dynamic "ipv4_firewall_rule" {
     for_each = toset(var.ipv4_firewall_rules)

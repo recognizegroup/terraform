@@ -8,111 +8,76 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "key_vault_name" {
-  type        = string
-  description = "Name of the key vault."
-}
-
-variable "sql_admin_user_secret_name" {
-  type        = string
-  description = "Name of the sql admin user stored secret."
-}
-
-variable "sql_admin_password_secret_name" {
-  type        = string
-  description = "Name of the sql admin password stored secret."
-}
-
-variable "sql_server_name" {
+variable "server_name" {
   type        = string
   description = "Name of the sql server."
 }
 
-variable "sql_server_version" {
+variable "server_version" {
   type        = string
   description = "Azure sql server version."
   default     = "12.0"
 }
 
-variable "sql_database_name" {
+variable "admin_username" {
+  type        = string
+  description = "Name of the mssql admin user."
+}
+
+variable "password_keeper" {
+  type        = map(string)
+  description = "Random map of strings, when changed the mssql admin password will rotate."
+}
+
+variable "database_name" {
   type        = string
   description = "Name of the azure sql database."
 }
 
-variable "sql_database_sku" {
+variable "database_sku" {
   type        = string
   description = "Azure sql database sku."
 }
 
-variable "sql_database_min_capacity" {
-  type        = number
-  description = "Minimal capacity that database will always have allocated, if not paused."
-  default     = 0.5
-}
-
-variable "sql_database_auto_pause_delay" {
-  type        = number
-  description = "Time in minutes after which database is automatically paused."
-  default     = 60
-}
-
 variable "subnet_id" {
   type        = string
-  description = "id of the subnet."
+  description = "ID of the subnet for the private endpoint."
 }
 
 variable "short_term_retention_days" {
   type        = number
   description = "Number of days to keep short term backups."
-  default     = 7
-}
-
-variable "audit_logging_primary_blob_endpoint" {
-  type        = string
-  description = "The blob storage endpoint."
-}
-
-variable "audit_logging_primary_access_key" {
-  type        = string
-  description = "The access key to use for the auditing storage account."
-}
-
-variable "audit_logging_primary_access_key_is_secondary" {
-  type        = bool
-  description = "Specifies if storage_account_access_key is a secondary key."
-  default     = false
-}
-
-variable "audit_logging_retention" {
-  type        = number
-  description = "The number of days to retain audit logs."
-}
-
-variable "public_network_access_enabled" {
-  type        = bool
-  description = "Whether or not public network access is allowed for this server."
-  default     = false
-}
-
-variable "private_dns_zone_group" {
-  description = "nested block: NestingList, min items: 0, max items: 1"
-  type = set(object(
-    {
-      name                 = string
-      private_dns_zone_ids = list(string)
-    }
-  ))
-  default = []
-}
-
-variable "use_random_password" {
-  type        = bool
-  description = "Property to let the module generate a random password instead of keyvault secret"
-  default     = false
-}
-
-variable "sql_admin_user_name" {
-  type        = string
-  description = "If set use this username in stead of the secret"
   default     = null
 }
+
+variable "administrator_object_id" {
+  type        = string
+  description = "Azure AD object ID of the mssql administrator."
+  default     = null
+}
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of a log analytics workspace (optional)."
+  default     = null
+}
+
+#############################
+#### Serverless SKU only ####
+#############################
+
+variable "min_capacity" {
+  type        = number
+  description = "Minimal capacity that database will always have allocated, if not paused."
+  default     = null
+}
+
+variable "auto_pause_delay" {
+  type        = number
+  description = "Time in minutes after which database is automatically paused."
+  default     = null
+}
+
+#############################
+## END Serverless SKU only ##
+#############################

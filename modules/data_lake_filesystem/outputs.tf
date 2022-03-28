@@ -1,7 +1,7 @@
-output "filesystem_name" {
+output "name" {
   value = azurerm_storage_data_lake_gen2_filesystem.filesystem.name
 }
 
-output "filesystem_id" {
+output "id" {
   value = azurerm_storage_data_lake_gen2_filesystem.filesystem.id
 }

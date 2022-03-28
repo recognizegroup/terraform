@@ -1,11 +1,11 @@
 terraform {
-  required_version = ">=1.0.11"
+  required_version = ">=1.1.7"
 
   required_providers {
-    azurerm = ">=2.83.0"
+    azurerm = ">=2.98.0"
     databricks = {
       source  = "databrickslabs/databricks"
-      version = ">=0.3.11"
+      version = ">=0.5.4"
     }
   }
 

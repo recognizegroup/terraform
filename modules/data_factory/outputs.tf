@@ -1,7 +1,11 @@
-output "data_factory_name" {
+output "name" {
   value = azurerm_data_factory.data_factory.name
 }
 
-output "data_factory_id" {
+output "id" {
   value = azurerm_data_factory.data_factory.id
+}
+
+output "principal_id" {
+  value = azurerm_data_factory.data_factory.identity[0].principal_id
 }
