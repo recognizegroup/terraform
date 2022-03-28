@@ -1,3 +1,3 @@
-output "members" {
-  value = local.members
+output "id" {
+  value = databricks_cluster.shared_autoscaling.id
 }

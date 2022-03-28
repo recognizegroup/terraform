@@ -8,30 +8,30 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "datalake_storage_account_name" {
+variable "name" {
   type        = string
-  description = "Name of the storage account"
+  description = "Name of the ADLS gen2 storage account"
 }
 
-variable "datalake_storage_account_kind" {
+variable "kind" {
   type        = string
   description = "Defines the kind to use for this storage account."
   default     = "StorageV2"
 }
 
-variable "datalake_storage_account_tier" {
+variable "tier" {
   type        = string
   description = "Defines the tier to use for this storage account."
   default     = "Standard"
 }
 
-variable "datalake_storage_replication_type" {
+variable "replication_type" {
   type        = string
   description = "Defines the type of replication to use for this storage account."
   default     = "GRS"
 }
 
-variable "storage_account_min_tls_version" {
+variable "min_tls_version" {
   type        = string
   description = "The minimum supported TLS version for the storage account."
   default     = "TLS1_2"
@@ -42,34 +42,26 @@ variable "subnet_id" {
   description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
 }
 
-variable "datalake_storage_ip_rules" {
+variable "network_ip_rules" {
   type        = list
   description = "List of public IP or IP ranges in CIDR Format."
   default     = []
 }
 
-variable "datalake_storage_subnet_ids" {
+variable "network_default_action" {
+  type        = string
+  description = ""
+  default     = "Deny"
+}
+
+variable "network_subnet_ids" {
   type        = list
   description = "A list of virtual network subnet ids to to secure the storage account."
   default     = []
 }
 
-variable "blob_private_endpoint_name" {
+variable "log_analytics_workspace_id" {
   type        = string
-  description = "Specifies the name of the Blob private endpoint."
-}
-
-variable "blob_private_service_connection_name" {
-  type        = string
-  description = "Specifies the Name of the Blob Private Service Connection."
-}
-
-variable "dfs_private_endpoint_name" {
-  type        = string
-  description = "Specifies the name of the DFS Private Endpoint."
-}
-
-variable "dfs_private_service_connection_name" {
-  type        = string
-  description = "Specifies the Name of the DFS Private Service Connection."
+  description = "ID of a log analytics workspace (optional)."
+  default     = null
 }
