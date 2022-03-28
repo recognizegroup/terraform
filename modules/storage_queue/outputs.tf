@@ -1,5 +1,3 @@
-variable "queue_names" {
-  type        = set(string)
-  description = "Add predefined queue names in this storage."
-  default     = []
+output "storage_queues" {
+  value = azurerm_storage_queue.storage_queue
 }
