@@ -12,18 +12,16 @@ provider "azurerm" {
   features {}
 }
 
-data "azurerm_storage_account" "storage_account" {
-  name                = var.storage_account_name
-  resource_group_name = var.resource_group_name
-}
+locals {
+  stream_output_name = "${var.name}-output"
+  stream_input_name  = "${var.name}-input"
+  stream_job_name    = "${var.name}-job"
 
-data "azurerm_eventhub_namespace" "namespace" {
-  name                = var.eventhub_namespace_name
-  resource_group_name = var.resource_group_name
+  select_all_query = "SELECT * INTO \"${local.stream_output_name}\" FROM \"${local.stream_input_name}\""
 }
 
 resource "azurerm_stream_analytics_job" "job" {
-  name                                     = var.stream_job_name
+  name                                     = local.stream_job_name
   resource_group_name                      = var.resource_group_name
   location                                 = var.location
   compatibility_level                      = var.stream_compatibility_level
@@ -33,17 +31,17 @@ resource "azurerm_stream_analytics_job" "job" {
   events_out_of_order_policy               = var.stream_out_of_order_policy
   output_error_policy                      = var.stream_error_policy
   streaming_units                          = var.stream_streaming_units
-  transformation_query                     = var.stream_query
+  transformation_query                     = var.stream_query == null ? local.select_all_query : var.stream_query
 }
 
 resource "azurerm_stream_analytics_stream_input_eventhub" "stream_input" {
-  name                         = var.stream_input_name
+  name                         = local.stream_input_name
   stream_analytics_job_name    = azurerm_stream_analytics_job.job.name
   resource_group_name          = var.resource_group_name
   eventhub_consumer_group_name = var.eventhub_consumer_group_name
   eventhub_name                = var.eventhub_name
-  servicebus_namespace         = data.azurerm_eventhub_namespace.namespace.name
-  shared_access_policy_key     = data.azurerm_eventhub_namespace.namespace.default_primary_key
+  servicebus_namespace         = var.eventhub_namespace_name
+  shared_access_policy_key     = var.eventhub_access_key
   shared_access_policy_name    = var.eventhub_access_policy_name
 
   serialization {
@@ -53,11 +51,11 @@ resource "azurerm_stream_analytics_stream_input_eventhub" "stream_input" {
 }
 
 resource "azurerm_stream_analytics_output_blob" "stream_output" {
-  name                      = var.stream_output_name
+  name                      = local.stream_output_name
   stream_analytics_job_name = azurerm_stream_analytics_job.job.name
   resource_group_name       = var.resource_group_name
-  storage_account_name      = data.azurerm_storage_account.storage_account.name
-  storage_account_key       = data.azurerm_storage_account.storage_account.primary_access_key
+  storage_account_name      = var.storage_account_name
+  storage_account_key       = var.storage_connection_string
   storage_container_name    = var.storage_container_name
   path_pattern              = var.stream_output_path_pattern
   date_format               = var.stream_output_date_format

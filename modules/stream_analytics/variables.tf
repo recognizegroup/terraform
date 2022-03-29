@@ -3,9 +3,20 @@ variable "location" {
   description = "A datacenter location in Azure."
 }
 
+variable "name" {
+  type        = string
+  description = "Name of resource."
+}
+
 variable "resource_group_name" {
   type        = string
   description = "Name of the resource group."
+}
+
+variable "storage_connection_string" {
+  type        = string
+  description = "Connection string of the storage account."
+  sensitive   = true
 }
 
 variable "storage_account_name" {
@@ -21,6 +32,12 @@ variable "storage_container_name" {
 variable "eventhub_name" {
   type        = string
   description = "Name of the event hub."
+}
+
+variable "eventhub_access_key" {
+  type        = string
+  description = "Access key of the event hub."
+  sensitive   = true
 }
 
 variable "eventhub_namespace_name" {
@@ -126,9 +143,11 @@ variable "stream_output_time_format" {
 variable "stream_query" {
   type        = string
   description = "SAQL query that will be run in the streaming job."
+  default     = null # Null values will be set to select all in main.tf
 }
 
 variable "eventhub_access_policy_name" {
   type        = string
   description = "The shared access policy name for the event hub."
+  default     = "RootManageSharedAccessKey"
 }
