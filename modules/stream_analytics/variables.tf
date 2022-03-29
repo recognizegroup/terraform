@@ -34,12 +34,6 @@ variable "eventhub_name" {
   description = "Name of the event hub."
 }
 
-variable "eventhub_access_key" {
-  type        = string
-  description = "Access key of the event hub."
-  sensitive   = true
-}
-
 variable "eventhub_namespace_name" {
   type        = string
   description = "Name of the event hub namespace."
@@ -133,11 +127,13 @@ variable "stream_output_path_pattern" {
 variable "stream_output_date_format" {
   type        = string
   description = "The date output format."
+  default     = "yyyy/MM/dd"
 }
 
 variable "stream_output_time_format" {
   type        = string
   description = "The time output format."
+  default     = "HH"
 }
 
 variable "stream_query" {

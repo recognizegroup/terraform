@@ -20,6 +20,11 @@ locals {
   select_all_query = "SELECT * INTO \"${local.stream_output_name}\" FROM \"${local.stream_input_name}\""
 }
 
+data "azurerm_eventhub_namespace" "namespace" {
+  name                = var.eventhub_namespace_name
+  resource_group_name = var.resource_group_name
+}
+
 resource "azurerm_stream_analytics_job" "job" {
   name                                     = local.stream_job_name
   resource_group_name                      = var.resource_group_name
@@ -41,7 +46,7 @@ resource "azurerm_stream_analytics_stream_input_eventhub" "stream_input" {
   eventhub_consumer_group_name = var.eventhub_consumer_group_name
   eventhub_name                = var.eventhub_name
   servicebus_namespace         = var.eventhub_namespace_name
-  shared_access_policy_key     = var.eventhub_access_key
+  shared_access_policy_key     = data.azurerm_eventhub_namespace.namespace.default_primary_key
   shared_access_policy_name    = var.eventhub_access_policy_name
 
   serialization {
