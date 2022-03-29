@@ -44,11 +44,6 @@ variable "eventhub_consumer_group_name" {
   description = "Name of the eventhub consumer group."
 }
 
-variable "stream_job_name" {
-  type        = string
-  description = "Name of the stream analytics job."
-}
-
 variable "stream_compatibility_level" {
   type        = string
   description = "Compatibility level the stream analytics job, which controls runtime behaviours."
@@ -89,16 +84,6 @@ variable "stream_streaming_units" {
   type        = number
   description = "Number of streaming units that the streaming job uses."
   default     = 1
-}
-
-variable "stream_input_name" {
-  type        = string
-  description = "The name of the stream analytics input."
-}
-
-variable "stream_output_name" {
-  type        = string
-  description = "The name of the stream analytics output."
 }
 
 variable "serialization_type" {
