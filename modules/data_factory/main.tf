@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=0.13.5"
+  required_version = ">=1.1.2"
 
   required_providers {
-    azurerm = ">=2.41.0"
+    azurerm = "=2.94.0"
   }
 
   backend "azurerm" {}
@@ -13,7 +13,11 @@ provider "azurerm" {
 }
 
 resource "azurerm_data_factory" "data_factory" {
-  name                = var.data_factory_name
+  name                = var.name
   resource_group_name = var.resource_group_name
   location            = var.location
+
+  identity {
+    type = "SystemAssigned"
+  }
 }

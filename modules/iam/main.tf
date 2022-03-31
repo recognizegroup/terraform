@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=0.14.9"
+  required_version = ">=1.1.7"
 
   required_providers {
-    azurerm = "=2.70.0"
+    azurerm = "=2.98.0"
   }
 
   backend "azurerm" {}
@@ -18,8 +18,8 @@ data "azurerm_resource_group" "resource_group" {
 
 resource "azurerm_role_assignment" "role_assignment" {
   for_each = {
-    for idx, role in var.roles :
-    idx => role
+    for role in var.roles :
+    "${role.object_id}_${role.role_name}" => role
   }
   scope                = data.azurerm_resource_group.resource_group.id
   role_definition_name = each.value.role_name

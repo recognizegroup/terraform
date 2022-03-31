@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = ">=1.1.5"
 
   required_providers {
-    azurerm = "=2.94.0"
+    azurerm = "=2.96.0"
   }
 
   backend "azurerm" {}
@@ -35,6 +35,20 @@ resource "azurerm_app_service" "app_service" {
 
   identity {
     type = "SystemAssigned"
+  }
+
+  // Configures a mountpoint to a storage container (ro) or file share (rw)
+  // Read more: https://docs.microsoft.com/en-us/azure/app-service/configure-connect-to-azure-storage
+  dynamic "storage_account" {
+    for_each = var.storage_mount == null ? [] : [1]
+    content {
+      name         = var.storage_mount.name
+      type         = var.storage_mount.type
+      account_name = var.storage_mount.account_name
+      access_key   = var.storage_mount.access_key
+      share_name   = var.storage_mount.share_name
+      mount_path   = var.storage_mount.mount_path
+    }
   }
 }
 
@@ -70,6 +84,7 @@ resource "azurerm_app_service_custom_hostname_binding" "custom_domain" {
 }
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
+  count       = var.log_analytics_workspace_id == null ? 0 : 1
   resource_id = azurerm_app_service.app_service.id
 }
 
@@ -79,8 +94,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   target_resource_id         = azurerm_app_service.app_service.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
+  // TODO: not yet implemented by Azure
+  // log_analytics_destination_type = "Dedicated"
+
   dynamic "log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories.logs
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
 
     content {
       category = log.value
@@ -93,7 +111,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   }
 
   dynamic "metric" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories.metrics
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
 
     content {
       category = metric.value

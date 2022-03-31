@@ -8,76 +8,76 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "databricks_workspace_url" {
+variable "workspace_url" {
   type        = string
   description = "The url of the databricks workspace."
 }
 
-variable "databricks_sku" {
-  type        = string
-  description = "The databricks workspace sku."
-  default     = "standard"
-}
-
-variable "databricks_cluster_name" {
+variable "cluster_name" {
   type        = string
   description = "The name of the autoscaling cluster."
 }
 
-variable "databricks_cluster_node_type" {
+variable "node_type" {
   type        = string
   description = "The cluster node type id."
   default     = "Standard_F4s"
 }
 
-variable "autoscaling_cluster_min_workers" {
+variable "auto_termination_minutes" {
+  type        = number
+  description = "Idle time after which the cluster shuts down."
+  default     = 30
+}
+
+variable "autoscaling_min_workers" {
   type        = number
   description = "Minimum number of workers for autoscaling cluster."
   default     = 0
 }
 
-variable "autoscaling_cluster_max_workers" {
+variable "autoscaling_max_workers" {
   type        = number
   description = "Maximum number of workers for autoscaling cluster."
-  default     = 2
+  default     = 5
 }
 
-variable "databricks_cluster_spark_version" {
+variable "spark_version" {
   type        = string
   description = "The spark version to use for the autoscaling cluster."
   default     = "7.6.x-scala2.12"
 }
 
-variable "databricks_cluster_packages" {
-  type        = list
-  description = "The packages to install on the autoscaling cluster."
-}
-
-variable "databricks_spark_conf" {
-  type        = map
-  description = "Databricks spark configuration variables."
-  default     = {}
-}
-
-variable "databricks_init_script" {
-  type        = string
-  description = "Script to run when initalizing a databricks job or cluster."
-  default     = ""
-}
-
-variable "databricks_cluster_python_location" {
+variable "python_location" {
   type        = string
   description = "The python instance on the autoscaling cluster."
   default     = "/databricks/python3/bin/python3"
 }
 
-variable "databricks_cluster_auto_termination" {
-  type        = number
-  description = "Idle time after which the cluster shuts down."
-  default     = 20
+variable "python_packages" {
+  type        = list
+  description = "The packages to install on the autoscaling cluster."
+  default     = []
 }
 
-variable "databricks_groups" {
+variable "spark_conf" {
   type        = map
-  description = "Groups and users within Databricks workspace."
+  description = "Databricks spark configuration variables."
+  default     = {}
+}
+
+variable "azure_attributes" {
+  type = object({
+    availability       = string,
+    first_on_demand    = number,
+    spot_bid_max_price = number,
+  })
+  description = "Databricks spark configuration variables."
+  default     = null
+}
+
+variable "init_script" {
+  type        = string
+  description = "Script to run when initalizing a databricks job or cluster."
+  default     = ""
 }

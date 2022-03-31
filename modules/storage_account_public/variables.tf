@@ -8,43 +8,55 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "storage_account_name" {
+variable "name" {
   type        = string
   description = "Name of the storage account"
 }
 
-variable "storage_account_kind" {
+variable "kind" {
   type        = string
   description = "Defines the kind to use for this storage account."
   default     = "StorageV2"
 }
 
-variable "storage_account_tier" {
+variable "tier" {
   type        = string
   description = "Defines the tier to use for this storage account."
   default     = "Standard"
 }
 
-variable "storage_account_replication_type" {
+variable "replication_type" {
   type        = string
   description = "Defines the type of replication to use for this storage account."
   default     = "LRS"
 }
 
-variable "storage_account_allow_public_access" {
+variable "allow_public_access" {
   type        = bool
   description = "Allow or disallow public access to all blobs or containers in the storage account."
   default     = false
 }
 
-variable "storage_account_min_tls_version" {
+variable "min_tls_version" {
   type        = string
   description = "The minimum supported TLS version for the storage account."
   default     = "TLS1_2"
 }
 
-variable "container_names" {
-  type        = set(string)
-  description = "Optionally add predefined container names in this storage."
-  default     = []
+variable "nfsv3_enabled" {
+  type        = bool
+  description = "Is NFSv3 protocol enabled?"
+  default     = false
+}
+
+variable "is_hns_enabled" {
+  type        = bool
+  description = "Is Hierarchical Namespace enabled?"
+  default     = false
+}
+
+variable "enable_https_traffic_only" {
+  type        = bool
+  description = "Forces HTTPS when true"
+  default     = true
 }

@@ -13,12 +13,12 @@ variable "managed_resource_group_name" {
   description = "Name of the resource group for databricks managed resources."
 }
 
-variable "databricks_workspace_name" {
+variable "name" {
   type        = string
   description = "The name of the databricks worskpace."
 }
 
-variable "databricks_sku" {
+variable "sku" {
   type        = string
   description = "The databricks workspace sku."
   default     = "standard"
@@ -40,12 +40,12 @@ variable "private_subnet_name" {
   description = "The name of the Private Subnet within the Virtual Network."
 }
 
-variable "virtual_network_name" {
+variable "virtual_network_id" {
   type        = string
-  description = "The name of a Virtual Network where this Databricks Cluster should be created."
+  description = "The ID of a Virtual Network where this Databricks Cluster should be created."
 }
 
-variable "nw_resource_group_name" {
+variable "public_network_access_enabled" {
   type        = string
-  description = "Name of the networking resource group."
+  description = "Allow public access to databricks workspace."
 }

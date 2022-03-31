@@ -8,22 +8,22 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "analysis_services_server_full_name" {
+variable "name" {
   type        = string
   description = "The name of the Analysis Services Server."
 }
 
-variable "analysis_services_server_sku" {
+variable "sku" {
   type        = string
   description = "SKU for the Analysis Services Server."
 }
 
-variable "analysis_services_server_admin_users" {
+variable "admin_users" {
   type        = list
   description = "List of email addresses of admin users."
 }
 
-variable "analysis_services_server_enable_power_bi" {
+variable "enable_power_bi" {
   type        = bool
   description = "Indicates if the Power BI service is allowed to access or not."
 }
