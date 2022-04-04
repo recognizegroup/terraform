@@ -45,7 +45,7 @@ resource "azurerm_stream_analytics_stream_input_eventhub" "stream_input" {
   eventhub_consumer_group_name = each.value.eventhub_consumer_group_name
   eventhub_name                = each.value.eventhub_name
   servicebus_namespace         = each.value.eventhub_namespace_name
-  shared_access_policy_key     = data.azurerm_eventhub_namespace.namespaces[each.key].default_primary_key // TODO
+  shared_access_policy_key     = data.azurerm_eventhub_namespace.namespaces[each.key].default_primary_key
   shared_access_policy_name    = each.value.eventhub_access_policy_name
 
   serialization {
