@@ -5,7 +5,7 @@ variable "location" {
 
 variable "name" {
   type        = string
-  description = "Name of resource."
+  description = "Name of the Azure Stream Analytics job."
 }
 
 variable "resource_group_name" {
@@ -13,35 +13,37 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "storage_connection_string" {
-  type        = string
-  description = "Connection string of the storage account."
-  sensitive   = true
+variable "eventhub_inputs" {
+  type = list(object({
+    name                         = string,
+    eventhub_name                = string,
+    eventhub_namespace_name      = string,
+    eventhub_consumer_group_name = string,
+    eventhub_access_policy_name  = string, // Default: "RootManageSharedAccessKey"
+
+    serialization = object({
+      type     = string, // Default: "Json"
+      encoding = string  // Default: "UTF8"
+    })
+  }))
 }
 
-variable "storage_account_name" {
-  type        = string
-  description = "Name of the storage account."
-}
+variable "blob_outputs" {
+  type = list(object({
+    name                              = string,
+    storage_account_name              = string,
+    storage_account_connection_string = string,
+    storage_container_name            = string,
+    path_pattern                      = string,
+    date_format                       = string, // Default: "yyyy/MM/dd"
+    time_format                       = string, // Default: "HH"
 
-variable "storage_container_name" {
-  type        = string
-  description = "Name of the storage container."
-}
-
-variable "eventhub_name" {
-  type        = string
-  description = "Name of the event hub."
-}
-
-variable "eventhub_namespace_name" {
-  type        = string
-  description = "Name of the event hub namespace."
-}
-
-variable "eventhub_consumer_group_name" {
-  type        = string
-  description = "Name of the eventhub consumer group."
+    serialization = object({
+      type     = string, // Default: "Json"
+      encoding = string, // Default: "UTF8"
+      format   = string  // Default: "Array"
+    })
+  }))
 }
 
 variable "stream_compatibility_level" {
@@ -86,49 +88,7 @@ variable "stream_streaming_units" {
   default     = 1
 }
 
-variable "serialization_type" {
-  type        = string
-  description = "The serialization type used."
-  default     = "Json"
-}
-
-variable "serialization_name" {
-  type        = string
-  description = "The encoding of the data."
-  default     = "UTF8"
-}
-
-variable "serialization_format" {
-  type        = string
-  description = "The output format of the data."
-  default     = "Array"
-}
-
-variable "stream_output_path_pattern" {
-  type        = string
-  description = "The blob path pattern. "
-}
-
-variable "stream_output_date_format" {
-  type        = string
-  description = "The date output format."
-  default     = "yyyy/MM/dd"
-}
-
-variable "stream_output_time_format" {
-  type        = string
-  description = "The time output format."
-  default     = "HH"
-}
-
 variable "stream_query" {
   type        = string
   description = "SAQL query that will be run in the streaming job."
-  default     = null # Null values will be set to select all in main.tf
-}
-
-variable "eventhub_access_policy_name" {
-  type        = string
-  description = "The shared access policy name for the event hub."
-  default     = "RootManageSharedAccessKey"
 }
