@@ -60,3 +60,9 @@ variable "enable_https_traffic_only" {
   description = "Forces HTTPS when true"
   default     = true
 }
+
+variable "authentication_directory_type" {
+  type        = string
+  description = "Active Directory Authentification Service Used. Possible Values AADDS and AD"
+  default     = null
+}
