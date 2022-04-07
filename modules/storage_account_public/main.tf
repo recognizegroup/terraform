@@ -24,4 +24,11 @@ resource "azurerm_storage_account" "storage_account" {
   min_tls_version           = var.min_tls_version
   nfsv3_enabled             = var.nfsv3_enabled
   is_hns_enabled            = var.is_hns_enabled
+
+  dynamic "azure_files_authentication" {
+    for_each = var.authentication_directory_type == null ? [] : [1]
+    content {
+      directory_type           = var.authentication_directory_type
+    }
+  }
 }
