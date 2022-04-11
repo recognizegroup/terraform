@@ -27,14 +27,6 @@ resource "azurerm_storage_account" "storage_account" {
   min_tls_version           = var.min_tls_version
 }
 
-// HACK: Lock to prevent deleting the storage account
-resource "azurerm_management_lock" "storage_account_lock" {
-  name       = "${var.name}-lock"
-  scope      = azurerm_storage_account.storage_account.id
-  lock_level = "CanNotDelete"
-  notes      = "Locked because deleting the resource can't be undone"
-}
-
 // HACK: Role assignment is needed to apply adls gen2 filesystem changes
 resource "azurerm_role_assignment" "role_assignment" {
   scope                = azurerm_storage_account.storage_account.id
