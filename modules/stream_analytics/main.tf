@@ -34,7 +34,7 @@ resource "azurerm_stream_analytics_job" "job" {
   events_out_of_order_policy               = var.stream_out_of_order_policy
   output_error_policy                      = var.stream_error_policy
   streaming_units                          = var.stream_streaming_units
-  transformation_query                     = var.stream_query
+  transformation_query                     = var.stream_query == null ? "SELECT * INTO [${local.blob_outputs[0].name}] FROM [${local.eventhub_inputs[0].name}]" : var.stream_query
 }
 
 resource "azurerm_stream_analytics_stream_input_eventhub" "stream_input" {

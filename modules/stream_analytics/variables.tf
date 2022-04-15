@@ -91,4 +91,5 @@ variable "stream_streaming_units" {
 variable "stream_query" {
   type        = string
   description = "SAQL query that will be run in the streaming job."
+  default     = null
 }
