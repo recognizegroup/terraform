@@ -20,6 +20,7 @@ variable "eventhub_inputs" {
     eventhub_namespace_name      = string,
     eventhub_consumer_group_name = string,
     eventhub_access_policy_name  = string, // Default: "RootManageSharedAccessKey"
+    compression_type             = string, // Default: "None"
 
     serialization = object({
       type     = string, // Default: "Json"

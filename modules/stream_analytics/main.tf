@@ -52,6 +52,13 @@ resource "azurerm_stream_analytics_stream_input_eventhub" "stream_input" {
     type     = each.value.serialization.type
     encoding = each.value.serialization.encoding
   }
+
+  provisioner "local-exec" {
+    // Strange, no?
+    // Terraform does not support setting/updating the compression type.
+    // Azure barely does... We also update the "partitionKey" so that Azure will Recognize it as an actual update.
+    command = "az stream-analytics input update --properties '{\"type\":\"Stream\",\"compression\":{\"type\":\"${each.value.compression_type}\"},\"partitionKey\":\"\"}' -g ${var.resource_group_name} --job-name ${azurerm_stream_analytics_job.job.name} -n ${each.value.name}"
+  }
 }
 
 resource "azurerm_stream_analytics_output_blob" "stream_output" {
