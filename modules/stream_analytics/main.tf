@@ -37,7 +37,7 @@ resource "azurerm_stream_analytics_job" "job" {
   transformation_query                     = var.stream_query == null ? "SELECT * INTO [${local.blob_outputs[0].name}] FROM [${local.eventhub_inputs[0].name}]" : var.stream_query
 }
 
-resource "azurerm_stream_analytics_stream_input_eventhub" "stream_input" {
+resource "azurerm_stream_analytics_stream_input_eventhub" "eventhub_stream_input" {
   for_each                     = local.eventhub_inputs
   name                         = each.value.name
   stream_analytics_job_name    = azurerm_stream_analytics_job.job.name
@@ -52,12 +52,30 @@ resource "azurerm_stream_analytics_stream_input_eventhub" "stream_input" {
     type     = each.value.serialization.type
     encoding = each.value.serialization.encoding
   }
+}
+
+/*
+  The following block is a bit of a hack.
+  
+  azurerm v3.3.0 has no compression settings for the
+  "azurerm_stream_analytics_stream_input_eventhub" module. 
+  We work around this by directly invoking an Azure CLI 
+  update command.
+
+  This command has been wrapped in a bash script for
+  best execution compatibility. However Terraform/Terragrunt
+  commands will have to be run from a bash-capable shell.
+  */
+resource "null_resource" "eventhub_compression" {
+  for_each   = local.eventhub_inputs
+  depends_on = [azurerm_stream_analytics_stream_input_eventhub.eventhub_stream_input]
+
+  triggers = {
+    "compression_type" = each.value.compression_type
+  }
 
   provisioner "local-exec" {
-    // Strange, no?
-    // Terraform does not support setting/updating the compression type.
-    // Azure barely does... We also update the "partitionKey" so that Azure will Recognize it as an actual update.
-    command = "az stream-analytics input update --properties '{\"type\":\"Stream\",\"compression\":{\"type\":\"${each.value.compression_type}\"},\"partitionKey\":\"\"}' -g ${var.resource_group_name} --job-name ${azurerm_stream_analytics_job.job.name} -n ${each.value.name}"
+    command = "sh set_compression_type.sh -g ${var.resource_group_name} -j ${azurerm_stream_analytics_job.job.name} -i ${each.value.name} -c ${each.value.compression_type}"
   }
 }
 
