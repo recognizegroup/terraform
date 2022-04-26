@@ -4,7 +4,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=2.81.0"
+      version = "=3.3.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -21,24 +21,40 @@ provider "azurerm" {
 
 provider "azuread" {}
 
+######################################################
+##########          API Management          ##########
+######################################################
+
 resource "azurerm_api_management" "api_management" {
-  name                = var.api_management_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  publisher_name      = var.publisher_name
-  publisher_email     = var.publisher_email
-  sku_name            = var.api_management_sku
+  name                 = var.name
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  publisher_name       = var.publisher_name
+  publisher_email      = var.publisher_email
+  sku_name             = var.sku
+  virtual_network_type = var.virtual_network_type
+
+  dynamic "virtual_network_configuration" {
+    for_each = var.virtual_network_type == null ? [] : [1]
+    content {
+      subnet_id = var.subnet_id
+    }
+  }
 
   identity {
     type = "SystemAssigned"
   }
 }
 
+######################################################
+#############          Azure AD          #############
+######################################################
+
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "application" {
-  display_name = var.api_management_name
-  owners       = concat([data.azuread_client_config.current.object_id], var.api_management_owners)
+  display_name = var.name
+  owners       = concat([data.azuread_client_config.current.object_id], var.owners)
 
   web {
     redirect_uris = ["${azurerm_api_management.api_management.developer_portal_url}/signin"]
@@ -84,5 +100,5 @@ resource "azurerm_api_management_identity_provider_aad" "identity_provider_aad" 
   api_management_name = azurerm_api_management.api_management.name
   client_id           = azuread_application.application.application_id
   client_secret       = azuread_application_password.password.value
-  allowed_tenants     = var.id_provider_allowed_tenants
+  allowed_tenants     = var.allowed_tenants
 }
