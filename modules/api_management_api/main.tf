@@ -33,6 +33,21 @@ resource "azurerm_api_management_api" "api" {
   }
 }
 
+######################################################
+###########      API Diagnostics       ###########
+######################################################
+
+resource "azurerm_api_management_api_diagnostic" "api_diagnotic" {
+  identifier               = "applicationinsights"
+  resource_group_name      = var.resource_group_name
+  api_management_name      = var.api_management_name
+  api_name                 = azurerm_api_management_api.api.name
+  api_management_logger_id = var.api_management_logger_id
+
+  always_log_errors        = var.allways_log_errors
+  verbosity                = var.verbosity
+}
+
 #######################################################
 ##########            API Policy             ##########
 #######################################################
@@ -89,7 +104,6 @@ data "azurerm_key_vault_secret" "password" {
 ######################################################
 #############        API products        #############
 ######################################################
-
 resource "azurerm_api_management_product" "product" {
   product_id            = azurerm_api_management_api.api.name
   api_management_name   = var.api_management_name
@@ -116,3 +130,4 @@ resource "azurerm_api_management_product_api" "product_api" {
 ######################################################
 ###########      OIDC authentication       ###########
 ######################################################
+
