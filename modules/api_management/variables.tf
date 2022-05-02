@@ -8,12 +8,12 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "api_management_name" {
+variable "name" {
   type        = string
   description = "The name of the API management service."
 }
 
-variable "api_management_sku" {
+variable "sku" {
   type        = string
   description = "Specifies the API managment pricing model."
   default     = "Developer_1"
@@ -29,31 +29,25 @@ variable "publisher_email" {
   description = "The email of publisher/company."
 }
 
-variable "application_name" {
-  type        = string
-  description = "Azure AD application name."
-}
-
-variable "id_provider_allowed_tenants" {
+variable "allowed_tenants" {
   type        = list
   description = "List of allowed AAD tenants."
 }
 
-variable "groups" {
-  type = list(
-    object({
-      name         = string,
-      display_name = string,
-      description  = string,
-      external_id  = string,
-      type         = string
-  }))
-  description = "List of groups that have access to the developer portal and assigned API products."
+variable "owners" {
+  type        = list
+  description = "List of AAD object IDs to set as API management owners."
   default     = []
 }
 
-variable "api_management_owners" {
-  type        = list
-  description = "AAD object IDs of API management owners."
-  default     = []
+variable "virtual_network_type" {
+  type        = string
+  description = "The id of the subnet that will be used for the API Management."
+  default     = null
+}
+
+variable "subnet_id" {
+  type        = string
+  description = "The ID of the subnet from which private IP addresses will be allocated for the Private Endpoint."
+  default     = null
 }
