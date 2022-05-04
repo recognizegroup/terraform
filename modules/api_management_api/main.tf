@@ -63,7 +63,7 @@ resource "azurerm_api_management_api_policy" "api_policy" {
       </set-header>
     %{endif}
     %{if yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth"}
-    <authentication-basic username="${data.azurerm_key_vault_secret.username.value}" password="${data.azurerm_key_vault_secret.password.value}" />
+    <authentication-basic username="${data.azurerm_key_vault_secret.username[0].value}" password="${data.azurerm_key_vault_secret.password[0].value}" />
     %{endif}
   </inbound>
 </policies>
