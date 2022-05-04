@@ -75,15 +75,15 @@ XML
 ######################################################
 
 data "azurerm_key_vault_secret" "username" {
-  count = yamldecode(openapi_specs)["x-auth"]["backend"]["type"] == "basic-auth" ? 1:0
-  name         = yamldecode(openapi_specs)["x-auth"]["backend"]["username-secret"]
-  key_vault_id = yamldecode(openapi_specs)["x-auth"]["backend"]["key-vault-id"]
+  count = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1:0
+  name         = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["username-secret"]
+  key_vault_id = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["key-vault-id"]
 }
 
 data "azurerm_key_vault_secret" "password" {
-  count = yamldecode(openapi_specs)["x-auth"]["backend"]["type"] == "basic-auth" ? 1:0
-  name         = yamldecode(file(each.key))["x-auth"]["backend"]["password-secret"]
-  key_vault_id = yamldecode(file(each.key))["x-auth"]["backend"]["key-vault-id"]
+  count = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1:0
+  name         = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["password-secret"]
+  key_vault_id = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["key-vault-id"]
 }
 
 ######################################################
