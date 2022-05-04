@@ -12,28 +12,24 @@ provider "azurerm" {
   features {}
 }
 
-locals {
-  openapi_specs   = file(var.openapi_file_path)
-}
-
 #######################################################
 ##########                API                ##########
 #######################################################
 
 resource "azurerm_api_management_api" "api" {
-  name                = lower(replace(yamldecode(local.openapi_specs)["info"]["title"], " ", "-"))
-  description         = yamldecode(local.openapi_specs)["info"]["description"]
+  name                = lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))
+  description         = yamldecode(file(var.openapi_file_path))["info"]["description"]
   resource_group_name = var.resource_group_name
   api_management_name = var.api_management_name
-  service_url         = yamldecode(local.openapi_specs)["servers"][0]["url"]
-  revision            = yamldecode(local.openapi_specs))["info"]["x-revision"]
-  display_name        = yamldecode(local.openapi_specs)["info"]["title"]
-  path                = yamldecode(local.openapi_specs)["x-basePath"]
+  service_url         = yamldecode(file(var.openapi_file_path))["servers"][0]["url"]
+  revision            = yamldecode(file(var.openapi_file_path)))["info"]["x-revision"]
+  display_name        = yamldecode(file(var.openapi_file_path))["info"]["title"]
+  path                = yamldecode(file(var.openapi_file_path))["x-basePath"]
   protocols           = ["https"]
 
   import {
     content_format = "openapi"
-    content_value  = local.openapi_specs
+    content_value  = file(var.openapi_file_path)
   }
 }
 
@@ -49,9 +45,9 @@ resource "azurerm_api_management_api_policy" "api_policy" {
   xml_content = <<XML
 <policies>
   <inbound>
-    %{if yamldecode(local.openapi_specs)["x-auth"]["frontend"]["type"] == "oidc"}
+    %{if yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["type"] == "oidc"}
     <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
-      <openid-config url="${yamldecode(local.openapi_specs)["x-auth"]["frontend"]["url"]}" />
+      <openid-config url="${yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["url"]}" />
       <required-claims>
         <claim name="aud">
           <value></value>
@@ -60,13 +56,13 @@ resource "azurerm_api_management_api_policy" "api_policy" {
     </validate-jwt>
     %{endif}
     <base />
-    %{if yamldecode(local.openapi_specs)["x-auth"]["backend"]["type"] == "managed-identity"}
-    <authentication-managed-identity resource="${yamldecode(local.openapi_specs)["x-auth"]["backend"]["client_id"]}" output-token-variable-name="msi-access-token" ignore-error="false" />
+    %{if yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "managed-identity"}
+    <authentication-managed-identity resource="${yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["client_id"]}" output-token-variable-name="msi-access-token" ignore-error="false" />
       <set-header name="Authorization" exists-action="override">
         <value>@("Bearer " + (string)context.Variables["msi-access-token"])</value>
       </set-header>
     %{endif}
-    %{if yamldecode(local.openapi_specs)["x-auth"]["backend"]["type"] == "basic-auth"}
+    %{if yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth"}
     <authentication-basic username="${data.azurerm_key_vault_secret.username.value}" password="${data.azurerm_key_vault_secret.password.value}" />
     %{endif}
   </inbound>
