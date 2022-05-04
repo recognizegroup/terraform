@@ -22,7 +22,7 @@ resource "azurerm_api_management_api" "api" {
   resource_group_name = var.resource_group_name
   api_management_name = var.api_management_name
   service_url         = yamldecode(file(var.openapi_file_path))["servers"][0]["url"]
-  revision            = yamldecode(file(var.openapi_file_path)))["info"]["x-revision"]
+  revision            = "${yamldecode(file(var.openapi_file_path)))["info"]["x-revision"]}"
   display_name        = yamldecode(file(var.openapi_file_path))["info"]["title"]
   path                = yamldecode(file(var.openapi_file_path))["x-basePath"]
   protocols           = ["https"]
