@@ -8,10 +8,10 @@ variable "api_management_name" {
   description = "The name of the API management service."
 }
 
-variable "api_management_group_name" {
-  type        = string
-  description = "The name of the API management group."
-}
+# variable "api_management_group_name" {
+#   type        = string
+#   description = "The name of the API management group."
+# }
 
 variable "openapi_file_path"{
   type        = string
