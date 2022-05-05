@@ -1,10 +1,10 @@
-variable "user_subscriptions" {
+variable "products_per_user" {
   type        = list(object({
     user_id = string 
     product_ids = list(string)
     }))
     default   =  []
-  description = "Name of the resource group."
+  description = "List of users with a list of all products they should be subscribed to."
 }
 
 variable "api_management_name" {
