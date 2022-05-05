@@ -24,7 +24,7 @@ locals {
 }
 
 resource "azurerm_api_management_subscription" "subscription" {
-  for_each = {for k, v in local.subscriptions : k => "${v.user_id}${v.product_id}"}
+  for_each = {for k, v in local.subscriptions : k => v}
   api_management_name = var.api_management_name
   resource_group_name = var.resource_group_name
   user_id             = each.value.user_id
