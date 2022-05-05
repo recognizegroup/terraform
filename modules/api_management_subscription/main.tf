@@ -13,14 +13,8 @@ provider "azurerm" {
 }
 
 locals {
-  user_subs = flatten([
-    for key, value in var.user_subscriptions : [for pair in setproduct([value.user_id], value.product_ids) :
-    {
-      user_id    = pair[0].value
-      product_id = pair[1].value
-      name       = "subcription-${pair[0].key}${pair[1].key}"
-    }
-  ]])
+  user_subs = user_subscriptions
+      
 }
 
 resource "azurerm_api_management_subscription" "subscription" {
@@ -28,6 +22,6 @@ resource "azurerm_api_management_subscription" "subscription" {
   api_management_name = var.api_management_name
   resource_group_name = var.resource_group_name
   user_id             = each.value.user_id
-  product_id          = each.value.product_id
+  product_id          = each.value.product_ids
   display_name        = each.value.name
 }
