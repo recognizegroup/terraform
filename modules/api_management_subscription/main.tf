@@ -13,7 +13,7 @@ provider "azurerm" {
 }
 
 locals {
-  subsriptions = flatten([
+  subscriptions = flatten([
     for user_key, value in var.products_per_user : [
       for product_key, pair in setproduct([value.user_id], value.product_ids) : {
       user_id    = pair[0].value
