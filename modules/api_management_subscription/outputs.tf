@@ -1,3 +1,3 @@
 output "user_subs" {
-  value = locals.user_subs
+  value = local.user_subs
 }
