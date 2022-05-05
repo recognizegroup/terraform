@@ -46,6 +46,18 @@ resource "azurerm_api_management" "api_management" {
   }
 }
 
+resource "azurerm_api_management_logger" "apim_logger" {
+  count               = var.api_management_logger ? 1 : 0
+  name                = var.api_management_logger.name
+  api_management_name = azurerm_api_management.api_management.name
+  resource_group_name = var.resource_group_name
+  resource_id         = var.api_management_logger.application_insights_id
+
+  application_insights {
+    instrumentation_key = var.api_management_logger.application_insights_instrumentation_key
+  }
+}
+
 ######################################################
 #############          Azure AD          #############
 ######################################################

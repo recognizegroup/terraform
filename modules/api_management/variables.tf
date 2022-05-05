@@ -51,3 +51,14 @@ variable "subnet_id" {
   description = "The ID of the subnet from which private IP addresses will be allocated for the Private Endpoint."
   default     = null
 }
+
+variable "api_management_logger"{
+  type = object({
+    name                    = string, 
+    application_insights_id = string,
+    instrumentation_key     = string
+  })
+
+  description = "Api Management Logger Settings, "
+  default     = null
+}
