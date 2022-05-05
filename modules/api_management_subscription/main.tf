@@ -18,7 +18,7 @@ locals {
       for product_key, pair in setproduct([value.user_id], value.product_ids) : {
       user_id    = pair[0].value
       product_id = pair[1].value
-      name       = "apim-subcription-${user_key}${product_key.key}"
+      name       = "apim-subcription-${user_key}${product_key}"
     }
   ]])
 }
