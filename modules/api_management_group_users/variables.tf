@@ -22,7 +22,6 @@ variable "groups" {
     type      = list(object({
         name          = string
         display_name  = string
-        description   = string
     }))
     description = "A list of groups"
 }
