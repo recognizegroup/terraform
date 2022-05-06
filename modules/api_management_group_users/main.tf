@@ -22,7 +22,7 @@ locals {
   ]])
 }
 
-resource "azurerm_api_management_group" "management_group" {
+resource "azurerm_api_management_group" "group" {
     for_each            = {for k, v in var.groups : k => v}
     name                = each.value.name
     resource_group_name = var.resource_group_name
@@ -30,7 +30,7 @@ resource "azurerm_api_management_group" "management_group" {
     display_name        = each.value.display_name
 }
 
-resource "azurerm_api_management_user" "management_user" {
+resource "azurerm_api_management_user" "user" {
     for_each            = {for k, v in var.users : k => v}
     user_id             = each.value.user_id
     api_management_name = var.api_management_name
@@ -46,4 +46,9 @@ resource "azurerm_api_management_group_user" "group_user" {
     group_name          = each.value.group_name
     resource_group_name = var.resource_group_name
     api_management_name = var.api_management_name
+
+    depends_on = [
+      azurerm_api_management_group.group,
+      azurerm_api_management_user.user
+    ]
 }

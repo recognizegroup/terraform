@@ -1,6 +1,6 @@
 output "group_names" {
     value = [
-        for group in azurerm_api_management_group.management_group : group.name
+        for group in azurerm_api_management_group.group : group.name
     ]
 }
 
