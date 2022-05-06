@@ -32,7 +32,7 @@ resource "azurerm_api_management_group" "management_group" {
     description         = each.value.description
 }
 
-resource "azurerm_api_mangagement_user" "management_user" {
+resource "azurerm_api_management_user" "management_user" {
     for_each            = var.users
     user_id             = each.value.user_id
     api_management_name = var.api_management_name
@@ -47,5 +47,5 @@ resource "azurerm_api_management_group_user" "group_user" {
     user_id             = each.value.user_id
     group_name          = each.value.group_name
     resource_group_name = var.resource_group_name
-    api_management_name = var.api_management_group_name
+    api_management_name = var.api_management_name
 }
