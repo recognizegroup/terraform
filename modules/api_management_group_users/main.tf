@@ -23,7 +23,7 @@ locals {
 }
 
 resource "azurerm_api_management_group" "management_group" {
-    for_each            = var.groups
+    for_each            = {for k, v in var.groups : k => v}
     name                = each.value.name
     resource_group_name = var.resource_group_name
     api_management_name = var.api_management_name
@@ -31,7 +31,7 @@ resource "azurerm_api_management_group" "management_group" {
 }
 
 resource "azurerm_api_management_user" "management_user" {
-    for_each            = var.users
+    for_each            = {for k, v in var.users : k => v}
     user_id             = each.value.user_id
     api_management_name = var.api_management_name
     resource_group_name = var.resource_group_name
