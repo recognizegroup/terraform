@@ -28,5 +28,5 @@ variable "allocation_method" {
 variable "domain_name_label"{
     type        = string
     description = "zones for this public-ip. Multiple zones are required if specifying route preference"
-    default     = ""
+    default     = null
 }

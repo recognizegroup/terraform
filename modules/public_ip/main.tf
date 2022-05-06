@@ -18,5 +18,5 @@ resource "azurerm_public_ip" "public_ip"{
     location            = var.location
     allocation_method   = var.sku == "Standard" ? "Static" : var.allocation_method
     sku                 = var.sku
-    domain_name_label   = var.domain_name_label != "" ? var.domain_name_label : null
+    domain_name_label   = var.domain_name_label
 }
