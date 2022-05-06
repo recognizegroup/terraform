@@ -13,6 +13,12 @@ variable "name" {
   description = "The name of the public-ip."
 }
 
+variable "sku" {
+    type = string
+    description = "sku type, can be Standard or Basic. Defaults to Basic, if set to standard allocation_method is forced to Static"
+    default = "Basic"
+}
+
 variable "allocation_method" {
   type        = string
   description = "Allocation method for the public-ip. Can be Static or Dynamic, defaults to Static"
