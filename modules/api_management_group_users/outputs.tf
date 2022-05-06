@@ -4,7 +4,7 @@ output "group_names" {
     ]
 }
 
-output "user_ids" {
+output "user_resource_ids" {
     value = [
         for user in azurerm_api_management_user.user : user.id
     ]
