@@ -33,6 +33,7 @@ resource "azurerm_api_management" "api_management" {
   publisher_email      = var.publisher_email
   sku_name             = var.sku
   virtual_network_type = var.virtual_network_type
+  public_ip_address_id = var.public_ip_address_id
 
   dynamic "virtual_network_configuration" {
     for_each = var.virtual_network_type == null ? [] : [1]

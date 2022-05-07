@@ -10,7 +10,7 @@ variable "resource_group_name" {
 
 variable "name" {
   type        = string
-  description = "The name of the public-ip."
+  description = "The name of the Public IP."
 }
 
 variable "sku" {
@@ -21,12 +21,26 @@ variable "sku" {
 
 variable "allocation_method" {
   type        = string
-  description = "Allocation method for the public-ip. Can be Static or Dynamic, defaults to Static"
+  description = "Allocation method for the Public IP. Can be Static or Dynamic, defaults to Static"
   default     = "Static"
 }
 
+<<<<<<< Updated upstream
 variable "domain_name_label"{
     type        = string
     description = "zones for this public-ip. Multiple zones are required if specifying route preference"
     default     = null
 }
+=======
+variable "domain_name_label" {
+  type        = string
+  description = "Label for the Domain Name. Will be used to make up the FQDN"
+  default     = null
+}
+
+variable "sku" {
+  type        = string
+  description = "The SKU of the Public IP."
+  default     = "Basic"
+}
+>>>>>>> Stashed changes
