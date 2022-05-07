@@ -14,9 +14,9 @@ variable "name" {
 }
 
 variable "sku" {
-    type = string
-    description = "sku type, can be Standard or Basic. Defaults to Basic, if set to standard allocation_method is forced to Static"
-    default = "Basic"
+  type        = string
+  description = "sku type, can be Standard or Basic. Defaults to Basic, if set to standard allocation_method is forced to Static"
+  default     = "Basic"
 }
 
 variable "allocation_method" {
@@ -25,13 +25,6 @@ variable "allocation_method" {
   default     = "Static"
 }
 
-<<<<<<< Updated upstream
-variable "domain_name_label"{
-    type        = string
-    description = "zones for this public-ip. Multiple zones are required if specifying route preference"
-    default     = null
-}
-=======
 variable "domain_name_label" {
   type        = string
   description = "Label for the Domain Name. Will be used to make up the FQDN"
@@ -43,4 +36,3 @@ variable "sku" {
   description = "The SKU of the Public IP."
   default     = "Basic"
 }
->>>>>>> Stashed changes
