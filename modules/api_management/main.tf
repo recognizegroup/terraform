@@ -4,11 +4,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.3.0"
+      version = "=3.5.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "=2.7.0"
+      version = "=2.22.0"
     }
   }
 
@@ -39,6 +39,29 @@ resource "azurerm_api_management" "api_management" {
     for_each = var.virtual_network_type == null ? [] : [1]
     content {
       subnet_id = var.subnet_id
+    }
+  }
+
+  dynamic "policy" {
+    for_each = var.xml_policy_file == null ? [] : [1]
+    content {
+      xml_content = file(var.xml_policy_file)
+    }
+  }
+
+  // Should anonymous users be redirected to the sign in page?
+  sign_in {
+    enabled = false
+  }
+
+  // Can users sign up on the development portal?
+  sign_up {
+    enabled = false
+    // HACK: This is just because terms_of_service is required
+    terms_of_service {
+      consent_required = false
+      enabled          = false
+      text             = ""
     }
   }
 

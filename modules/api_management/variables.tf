@@ -57,3 +57,9 @@ variable "public_ip_address_id" {
   description = "ID of a standard SKU IPv4 Public IP."
   default     = null
 }
+
+variable "xml_policy_file" {
+  type        = string
+  description = "Path of a file containing a policy in XML format."
+  default     = null
+}
