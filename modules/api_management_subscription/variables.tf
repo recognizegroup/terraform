@@ -1,9 +1,9 @@
 variable "products_per_user" {
-  type        = list(object({
-    user_id = string 
+  type = list(object({
+    user_id     = string
     product_ids = list(string)
-    }))
-    default   =  []
+  }))
+  default     = []
   description = "List of users with a list of all products they should be subscribed to."
 }
 

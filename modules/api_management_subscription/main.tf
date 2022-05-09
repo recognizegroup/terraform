@@ -16,15 +16,15 @@ locals {
   subscriptions = flatten([
     for user_key, value in var.products_per_user : [
       for product_key, pair in setproduct([value.user_id], value.product_ids) : {
-      user_id    = pair[0]
-      product_id = pair[1]
-      name       = "apim-subcription-${user_key}${product_key}"
-    }
+        user_id    = pair[0]
+        product_id = pair[1]
+        name       = "apim-subcription-${user_key}${product_key}"
+      }
   ]])
 }
 
 resource "azurerm_api_management_subscription" "subscription" {
-  for_each = {for k, v in local.subscriptions : k => v}
+  for_each            = { for k, v in local.subscriptions : k => v }
   api_management_name = var.api_management_name
   resource_group_name = var.resource_group_name
   user_id             = each.value.user_id
