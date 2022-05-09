@@ -19,5 +19,6 @@ resource "azurerm_api_management_group" "group" {
     api_management_name = var.api_management_name
     display_name        = each.value.display_name
     external_id         = each.value.external_id
+    type                = "external"
 }
 
