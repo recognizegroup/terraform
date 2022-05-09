@@ -10,10 +10,10 @@ variable "api_management_name" {
 
 
 variable "groups" {
-    type      = list(object({
-        name          = string
-        display_name  = string
-        external_id   = string
-    }))
-    description = "A list of groups"
+  type = list(object({
+    name         = string
+    display_name = string
+    external_id  = string
+  }))
+  description = "A list of groups"
 }
