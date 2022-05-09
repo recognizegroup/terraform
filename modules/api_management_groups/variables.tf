@@ -8,7 +8,6 @@ variable "api_management_name" {
   description = "The name of the API management service."
 }
 
-
 variable "groups" {
   type = list(object({
     name         = string
