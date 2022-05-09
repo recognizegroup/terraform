@@ -51,3 +51,15 @@ variable "subnet_id" {
   description = "The ID of the subnet from which private IP addresses will be allocated for the Private Endpoint."
   default     = null
 }
+
+variable "public_ip_address_id" {
+  type        = string
+  description = "ID of a standard SKU IPv4 Public IP."
+  default     = null
+}
+
+variable "xml_policy_file" {
+  type        = string
+  description = "Path of a file containing a policy in XML format."
+  default     = null
+}
