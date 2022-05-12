@@ -94,3 +94,9 @@ variable "xml_policy_file" {
   description = "Path of a file containing a policy in XML format."
   default     = null
 }
+
+variable "signin_tenant" {
+  type        = string
+  description = "The signin tenant to use for registering AAD users in the developer portal"
+  default     = null
+}
