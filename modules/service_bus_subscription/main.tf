@@ -24,3 +24,24 @@ resource "azurerm_servicebus_subscription" "service_bus_subscription" {
   enable_batched_operations                 = var.enable_batched_operations
   auto_delete_on_idle                       = var.auto_delete_on_idle
 }
+
+resource "azurerm_servicebus_subscription_rule" "sql_filter" {
+  count           = var.sql_filter_query == null ? 0 : 1
+  name            = "${var.name}-filter-sql"
+  subscription_id = azurerm_servicebus_subscription.service_bus_subscription.id
+  filter_type     = "SqlFilter"
+  sql_filter      = var.sql_filter_query
+}
+
+resource "azurerm_servicebus_subscription_rule" "correlation_filter" {
+  count           = var.correlation_filter == null ? 0 : 1
+  name            = "${var.name}-filter-correlation"
+  subscription_id = azurerm_servicebus_subscription.service_bus_subscription.id
+  filter_type     = "CorrelationFilter"
+
+  correlation_filter {
+    correlation_id = var.correlation_filter.id
+    label          = var.correlation_filter.label
+    properties     = var.correlation_filter.properties
+  }
+}

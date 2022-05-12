@@ -55,3 +55,19 @@ variable "auto_delete_on_idle" {
   description = "The idle interval after which the topic is automatically deleted."
   default     = "P14D"
 }
+
+variable "sql_filter_query" {
+  type        = string
+  description = "Represents a filter written in SQL language-based syntax that to be evaluated against a BrokeredMessage."
+  default     = null
+}
+
+variable "correlation_filter" {
+  type = object({
+    id         = string,
+    label      = string,
+    properties = any
+  })
+  description = "Represents a correlation filter to be evaluated against a BrokeredMessage."
+  default     = null
+}
