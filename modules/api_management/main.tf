@@ -71,6 +71,72 @@ resource "azurerm_api_management" "api_management" {
 }
 
 ######################################################
+##########     API Management Logging       ##########
+######################################################
+
+resource "azurerm_api_management_logger" "apim_logger" {
+  count               = var.api_management_logger_settings != null ? 1 : 0
+  name                = var.api_management_logger_settings.name
+  api_management_name = azurerm_api_management.api_management.name
+  resource_group_name = var.resource_group_name
+  resource_id         = var.api_management_logger_settings.application_insights_id
+
+  application_insights {
+    instrumentation_key = var.api_management_logger_settings.instrumentation_key
+  }
+}
+
+resource "azurerm_api_management_diagnostic" "apim_diagnostic" {
+  count                    = (var.api_management_logger_settings != null && var.azurerm_api_management_diagnostic_settings != null) ? 1 : 0
+  identifier               = "applicationinsights"
+  resource_group_name      = var.resource_group_name
+  api_management_name      = azurerm_api_management.api_management.name
+  api_management_logger_id = azurerm_api_management_logger.apim_logger[0].id
+
+  sampling_percentage       = var.azurerm_api_management_diagnostic_settings.sampling_percentage
+  always_log_errors         = var.azurerm_api_management_diagnostic_settings.always_log_errors
+  log_client_ip             = var.azurerm_api_management_diagnostic_settings.log_client_ip
+  verbosity                 = var.azurerm_api_management_diagnostic_settings.verbosity
+  http_correlation_protocol = var.azurerm_api_management_diagnostic_settings.http_correlation_protocol
+
+  frontend_request {
+    body_bytes = 32
+    headers_to_log = [
+      "content-type",
+      "accept",
+      "origin",
+    ]
+  }
+
+  frontend_response {
+    body_bytes = 32
+    headers_to_log = [
+      "content-type",
+      "content-length",
+      "origin",
+    ]
+  }
+
+  backend_request {
+    body_bytes = 32
+    headers_to_log = [
+      "content-type",
+      "accept",
+      "origin",
+    ]
+  }
+
+  backend_response {
+    body_bytes = 32
+    headers_to_log = [
+      "content-type",
+      "content-length",
+      "origin",
+    ]
+  }
+}
+
+######################################################
 #############          Azure AD          #############
 ######################################################
 
