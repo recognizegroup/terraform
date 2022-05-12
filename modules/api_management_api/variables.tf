@@ -24,14 +24,22 @@ variable "api_management_logger_id"{
   default     = null
 }
 
-variable "allways_log_errors"{
-  type        = bool
-  description = "Whether to Always log errors. Regardless of sampling settings."
-  default     = true
-}
+variable "azurerm_api_diagnostic_settings" {
+  type = object({
+    sampling_percentage       = number,
+    always_log_errors         = bool,
+    log_client_ip             = bool,
+    verbosity                 = string, # possible values: verbose, information, error
+    http_correlation_protocol = string, # possible values: None, Legacy, W3C
+  })
 
-variable "verbosity"{
-  type        = string
-  description = "Logging verbosity. Possible values are 'verbose', 'information' or 'error'."
-  default     = "verbose"
+  description = "Settings for api management diagnostic, If not needed just privide a null value, Will be created only if api_management_logger_settings have beeen provided"
+
+  default = {
+    sampling_percentage       = 5.0,
+    always_log_errors         = true,
+    log_client_ip             = true,
+    verbosity                 = "verbose", # possible values: verbose, information, error
+    http_correlation_protocol = "W3C"
+  }
 }
