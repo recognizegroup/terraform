@@ -8,10 +8,10 @@ variable "api_management_name" {
   description = "The name of the API management service."
 }
 
-# variable "api_management_group_name" {
-#   type        = string
-#   description = "The name of the API management group."
-# }
+variable "api_management_group_name" {
+  type        = string
+  description = "The name of the API management group."
+}
 
 variable "openapi_file_path"{
   type        = string
@@ -25,7 +25,7 @@ variable "api_management_logger_id"{
 
 variable "allways_log_errors"{
   type        = bool
-  description = "wether to Always log errors. Regardless of sampling settings."
+  description = "Whether to Always log errors. Regardless of sampling settings."
   default     = true
 }
 

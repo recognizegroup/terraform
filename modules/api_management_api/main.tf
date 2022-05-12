@@ -34,7 +34,7 @@ resource "azurerm_api_management_api" "api" {
 }
 
 ######################################################
-###########      API Diagnostics       ###########
+###########         API Diagnostics        ###########
 ######################################################
 
 resource "azurerm_api_management_api_diagnostic" "api_diagnotic" {
