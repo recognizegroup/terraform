@@ -46,29 +46,28 @@ resource "azurerm_api_management" "api_management" {
   }
 }
 
-
 ######################################################
 ##########     API Management Logging       ##########
 ######################################################
 
 resource "azurerm_api_management_logger" "apim_logger" {
-  count               = var.api_management_logger_settings ? 1 : 0
+  count               = (var.api_management_logger_settings !=null) ? 1 : 0
   name                = var.api_management_logger_settings.name
   api_management_name = azurerm_api_management.api_management.name
   resource_group_name = var.resource_group_name
   resource_id         = var.api_management_logger_settings.application_insights_id
 
   application_insights {
-    instrumentation_key = var.api_management_logger.application_insights_instrumentation_key
+    instrumentation_key = var.api_management_logger_settings.instrumentation_key
   }
 }
 
 resource "azurerm_api_management_diagnostic" "apim_diagnostic" {
-  count                    = (var.api_management_logger && var.azurerm_api_management_diagnostic )? 1: 0
+  count                    = (var.api_management_logger_settings != null && var.azurerm_api_management_diagnostic_settings !=null )? 1: 0
   identifier               = "applicationinsights"
   resource_group_name      = var.resource_group_name
   api_management_name      = azurerm_api_management.api_management.name
-  api_management_logger_id = azurerm_api_management_logger.apim_logger.id
+  api_management_logger_id = azurerm_api_management_logger.apim_logger[0].id
 
   sampling_percentage       = var.azurerm_api_management_diagnostic_settings.sampling_percentage 
   always_log_errors         = var.azurerm_api_management_diagnostic_settings.always_log_errors 
