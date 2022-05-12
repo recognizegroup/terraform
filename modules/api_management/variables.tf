@@ -63,7 +63,6 @@ variable "api_management_logger_settings" {
   default     = null
 }
 
-
 variable "azurerm_api_management_diagnostic_settings" {
   type = object({
     sampling_percentage       = number,
