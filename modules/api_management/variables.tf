@@ -30,12 +30,12 @@ variable "publisher_email" {
 }
 
 variable "allowed_tenants" {
-  type        = list
+  type        = list(any)
   description = "List of allowed AAD tenants."
 }
 
 variable "owners" {
-  type        = list
+  type        = list(any)
   description = "List of AAD object IDs to set as API management owners."
   default     = []
 }
@@ -52,9 +52,9 @@ variable "subnet_id" {
   default     = null
 }
 
-variable "api_management_logger_settings"{
+variable "api_management_logger_settings" {
   type = object({
-    name                    = string, 
+    name                    = string,
     application_insights_id = string,
     instrumentation_key     = string
   })
@@ -64,18 +64,18 @@ variable "api_management_logger_settings"{
 }
 
 
-variable "azurerm_api_management_diagnostic_settings"{
+variable "azurerm_api_management_diagnostic_settings" {
   type = object({
-    sampling_percentage       = number, 
+    sampling_percentage       = number,
     always_log_errors         = bool,
     log_client_ip             = bool,
     verbosity                 = string, # possible values: verbose, information, error
     http_correlation_protocol = string, # possible values: None, Legacy, W3C
   })
-  
-  description = "Settings for api management diagnostic, If not needed just privide a null value, Will be created only if api_management_logger_settings have beeen provided" 
 
-  default ={
+  description = "Settings for api management diagnostic, If not needed just privide a null value, Will be created only if api_management_logger_settings have beeen provided"
+
+  default = {
     sampling_percentage       = 5.0,
     always_log_errors         = true,
     log_client_ip             = true,
