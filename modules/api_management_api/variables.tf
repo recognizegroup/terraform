@@ -8,10 +8,10 @@ variable "api_management_name" {
   description = "The name of the API management service."
 }
 
-variable "api_management_group_name" {
-  type        = string
-  description = "The name of the API management group."
-}
+# variable "api_management_group_name" {
+#   type        = string
+#   description = "The name of the API management group."
+# }
 
 variable "openapi_file_path"{
   type        = string
@@ -21,6 +21,7 @@ variable "openapi_file_path"{
 variable "api_management_logger_id"{
   type        = string
   description = "The Id of the API management Logger"
+  default     = null
 }
 
 variable "allways_log_errors"{

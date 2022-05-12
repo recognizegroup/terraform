@@ -37,7 +37,9 @@ resource "azurerm_api_management_api" "api" {
 ###########         API Diagnostics        ###########
 ######################################################
 
-resource "azurerm_api_management_api_diagnostic" "api_diagnotic" {
+resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
+  count = (var.api_management_logger_id != null)? 1 : 0
+
   identifier               = "applicationinsights"
   resource_group_name      = var.resource_group_name
   api_management_name      = var.api_management_name
