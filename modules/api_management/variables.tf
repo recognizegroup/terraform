@@ -82,3 +82,15 @@ variable "azurerm_api_management_diagnostic_settings" {
     http_correlation_protocol = "W3C"
   }
 }
+
+variable "public_ip_address_id" {
+  type        = string
+  description = "ID of a standard SKU IPv4 Public IP."
+  default     = null
+}
+
+variable "xml_policy_file" {
+  type        = string
+  description = "Path of a file containing a policy in XML format."
+  default     = null
+}

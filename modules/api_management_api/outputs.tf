@@ -1,5 +1,3 @@
-output "api_names" {
-  value = [
-    for api in azurerm_api_management_api.api : api.name
-  ]
+output "api_name" {
+  value = azurerm_api_management_api.api.name
 }
