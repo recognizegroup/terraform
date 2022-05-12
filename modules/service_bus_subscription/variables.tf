@@ -13,3 +13,45 @@ variable "max_delivery_count" {
   description = "Maximum number of deliveries."
   default     = 1 # Default portal value.
 }
+
+variable "lock_duration" {
+  type        = string # ISO 8601
+  description = "The lock duration for the subscription."
+  default     = "P0DT0H1M0S"
+}
+
+variable "requires_session" {
+  type        = bool
+  description = "Boolean flag which controls whether this Subscription supports the concept of a session."
+  default     = false
+}
+
+variable "default_message_ttl" {
+  type        = string # ISO 8601
+  description = "The Default message timespan to live."
+  default     = "P14D"
+}
+
+variable "dead_lettering_on_message_expiration" {
+  type        = bool
+  description = "Boolean flag which controls whether the Subscription has dead letter support when a message expires."
+  default     = false
+}
+
+variable "dead_lettering_on_filter_evaluation_error" {
+  type        = bool
+  description = "Boolean flag which controls whether the Subscription has dead letter support on filter evaluation exceptions."
+  default     = false
+}
+
+variable "enable_batched_operations" {
+  type        = bool
+  description = "Boolean flag which controls whether the Subscription supports batched operations."
+  default     = true
+}
+
+variable "auto_delete_on_idle" {
+  type        = string # ISO 8601
+  description = "The idle interval after which the topic is automatically deleted."
+  default     = "P14D"
+}
