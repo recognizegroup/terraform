@@ -11,5 +11,5 @@ output "principal_id" {
 }
 
 output "logger_id" {
-  value = azurerm_api_management_logger.apim_logger[0].id
+  value = var.api_management_logger_settings != null ? azurerm_api_management_logger.apim_logger[0].id : null
 }
