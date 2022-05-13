@@ -191,4 +191,5 @@ resource "azurerm_api_management_identity_provider_aad" "identity_provider_aad" 
   client_id           = azuread_application.application.application_id
   client_secret       = azuread_application_password.password.value
   allowed_tenants     = var.allowed_tenants
+  signin_tenant       = var.signin_tenant
 }
