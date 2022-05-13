@@ -45,7 +45,7 @@ resource "azurerm_api_management" "api_management" {
   dynamic "policy" {
     for_each = var.xml_policy_file == null ? [] : [1]
     content {
-      xml_content = file(var.xml_policy_file)
+      xml_content = replace(file(var.xml_policy_file), "$NAME", var.name)
     }
   }
 

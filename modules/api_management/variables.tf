@@ -58,7 +58,6 @@ variable "api_management_logger_settings" {
     application_insights_id = string,
     instrumentation_key     = string
   })
-
   description = "Api Management Logger Settings, if null the resource will not be created "
   default     = null
 }
@@ -71,9 +70,7 @@ variable "azurerm_api_management_diagnostic_settings" {
     verbosity                 = string, # possible values: verbose, information, error
     http_correlation_protocol = string, # possible values: None, Legacy, W3C
   })
-
-  description = "Settings for api management diagnostic, If not needed just privide a null value, Will be created only if api_management_logger_settings have beeen provided"
-
+  description = "Settings for api management diagnostic, will be created only if api_management_logger_settings have been provided."
   default = {
     sampling_percentage       = 5.0,
     always_log_errors         = true,
