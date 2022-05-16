@@ -33,6 +33,62 @@ resource "azurerm_api_management_api" "api" {
   }
 }
 
+######################################################
+###########         API Diagnostics        ###########
+######################################################
+
+resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
+  count = var.api_management_logger_id != null ? 1 : 0
+
+  identifier               = "applicationinsights"
+  resource_group_name      = var.resource_group_name
+  api_management_name      = var.api_management_name
+  api_name                 = azurerm_api_management_api.api.name
+  api_management_logger_id = var.api_management_logger_id
+
+  sampling_percentage       = var.api_diagnostic_settings.sampling_percentage
+  always_log_errors         = var.api_diagnostic_settings.always_log_errors
+  log_client_ip             = var.api_diagnostic_settings.log_client_ip
+  verbosity                 = var.api_diagnostic_settings.verbosity
+  http_correlation_protocol = var.api_diagnostic_settings.http_correlation_protocol
+
+  frontend_request {
+    body_bytes = 32
+    headers_to_log = [
+      "content-type",
+      "accept",
+      "origin",
+    ]
+  }
+
+  frontend_response {
+    body_bytes = 32
+    headers_to_log = [
+      "content-type",
+      "content-length",
+      "origin",
+    ]
+  }
+
+  backend_request {
+    body_bytes = 32
+    headers_to_log = [
+      "content-type",
+      "accept",
+      "origin",
+    ]
+  }
+
+  backend_response {
+    body_bytes = 32
+    headers_to_log = [
+      "content-type",
+      "content-length",
+      "origin",
+    ]
+  }
+}
+
 #######################################################
 ##########            API Policy             ##########
 #######################################################
@@ -75,13 +131,13 @@ XML
 ######################################################
 
 data "azurerm_key_vault_secret" "username" {
-  count = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1:0
+  count        = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1 : 0
   name         = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["username-secret"]
   key_vault_id = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["key-vault-id"]
 }
 
 data "azurerm_key_vault_secret" "password" {
-  count = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1:0
+  count        = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1 : 0
   name         = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["password-secret"]
   key_vault_id = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["key-vault-id"]
 }
@@ -89,7 +145,6 @@ data "azurerm_key_vault_secret" "password" {
 ######################################################
 #############        API products        #############
 ######################################################
-
 resource "azurerm_api_management_product" "product" {
   product_id            = azurerm_api_management_api.api.name
   api_management_name   = var.api_management_name
@@ -116,3 +171,4 @@ resource "azurerm_api_management_product_api" "product_api" {
 ######################################################
 ###########      OIDC authentication       ###########
 ######################################################
+
