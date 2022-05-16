@@ -38,7 +38,7 @@ resource "azurerm_api_management_api" "api" {
 ######################################################
 
 resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
-  count = (var.api_management_logger_id != null)? 1 : 0
+  count = var.api_management_logger_id != null ? 1 : 0
 
   identifier               = "applicationinsights"
   resource_group_name      = var.resource_group_name
@@ -131,13 +131,13 @@ XML
 ######################################################
 
 data "azurerm_key_vault_secret" "username" {
-  count = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1:0
+  count        = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1 : 0
   name         = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["username-secret"]
   key_vault_id = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["key-vault-id"]
 }
 
 data "azurerm_key_vault_secret" "password" {
-  count = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1:0
+  count        = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1 : 0
   name         = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["password-secret"]
   key_vault_id = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["key-vault-id"]
 }

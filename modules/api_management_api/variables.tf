@@ -13,12 +13,12 @@ variable "api_management_name" {
 #   description = "The name of the API management group."
 # }
 
-variable "openapi_file_path"{
+variable "openapi_file_path" {
   type        = string
   description = "Path to an openAPI .yaml file that describes this API"
 }
 
-variable "api_management_logger_id"{
+variable "api_management_logger_id" {
   type        = string
   description = "The Id of the API management Logger"
   default     = null
