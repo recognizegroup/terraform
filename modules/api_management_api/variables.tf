@@ -24,7 +24,7 @@ variable "api_management_logger_id" {
   default     = null
 }
 
-variable "azurerm_api_diagnostic_settings" {
+variable "api_diagnostic_settings" {
   type = object({
     sampling_percentage       = number,
     always_log_errors         = bool,
@@ -33,7 +33,7 @@ variable "azurerm_api_diagnostic_settings" {
     http_correlation_protocol = string, # possible values: None, Legacy, W3C
   })
 
-  description = "Settings for api management diagnostic, If not needed just privide a null value, Will be created only if api_management_logger_settings have beeen provided"
+  description = "Settings for api diagnostics, If not needed just privide a null value, Will be created only if api_management_logger_id have beeen provided"
 
   default = {
     sampling_percentage       = 5.0,
