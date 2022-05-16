@@ -58,7 +58,7 @@ variable "api_management_logger_settings" {
     application_insights_id = string,
     instrumentation_key     = string
   })
-  description = "Api Management Logger Settings, if null the resource will not be created "
+  description = "Api Management Logger Settings, specifies to what application insights to forward the Log data, if null the resource will not be created "
   default     = null
 }
 
@@ -70,7 +70,7 @@ variable "azurerm_api_management_diagnostic_settings" {
     verbosity                 = string, # possible values: verbose, information, error
     http_correlation_protocol = string, # possible values: None, Legacy, W3C
   })
-  description = "Settings for api management diagnostic, will be created only if api_management_logger_settings have been provided."
+  description = "Settings for api management diagnostic, api_management-diagnostic will be created only if api_management_logger_settings have been provided. "
   default = {
     sampling_percentage       = 5.0,
     always_log_errors         = true,
@@ -79,6 +79,24 @@ variable "azurerm_api_management_diagnostic_settings" {
     http_correlation_protocol = "W3C"
   }
 }
+
+variable "alert_rules_settings" {
+
+  type = list(object({
+    name          = string,
+    severity      = string,       # possible values: Sev0, Sev1, Sev2, Sev3 or Sev4
+    frequency     = string,       # frequency in ISO-8601
+    detector_type = string,       # possible values: FailureAnomaliesDetector, RequestPerformanceDegradationDetector, DependencyPerformanceDegradationDetector, ExceptionVolumeChangedDetector, TraceSeverityDetector, MemoryLeakDetector
+    action_groups = list(number), # ids of Action Groups 
+    scope_ids     = list(string)  # scopes for alert rule, e.g. Application Insights Id
+  }))
+
+  description = "Settings to create A list of azurerm_monitor_smart_detector_alert_rule resources"
+
+  default = []
+}
+
+
 
 variable "public_ip_address_id" {
   type        = string
