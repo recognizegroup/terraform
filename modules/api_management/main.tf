@@ -138,10 +138,8 @@ resource "azurerm_api_management_diagnostic" "apim_diagnostic" {
 
 resource "azurerm_monitor_smart_detector_alert_rule" "example" {
   count = length(var.alert_rules_settings)
-
   resource_group_name = var.resource_group_name
   name                = var.alert_rules_settings[count.index].name
-
   severity           = var.alert_rules_settings[count.index].severity
   scope_resource_ids = var.alert_rules_settings[count.index].scope_ids
   frequency          = var.alert_rules_settings[count.index].frequency
