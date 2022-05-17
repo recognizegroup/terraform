@@ -94,8 +94,6 @@ variable "alert_rules_settings" {
   default     = []
 }
 
-
-
 variable "public_ip_address_id" {
   type        = string
   description = "ID of a standard SKU IPv4 Public IP."

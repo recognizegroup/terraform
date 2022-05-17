@@ -141,11 +141,11 @@ resource "azurerm_monitor_smart_detector_alert_rule" "example" {
 
   resource_group_name = var.resource_group_name
   name                = var.alert_rules_settings[count.index].name
-  
-  severity            = var.alert_rules_settings[count.index].severity
-  scope_resource_ids  = var.alert_rules_settings[count.index].scope_ids
-  frequency           = var.alert_rules_settings[count.index].frequency
-  detector_type       = var.alert_rules_settings[count.index].detector_type
+
+  severity           = var.alert_rules_settings[count.index].severity
+  scope_resource_ids = var.alert_rules_settings[count.index].scope_ids
+  frequency          = var.alert_rules_settings[count.index].frequency
+  detector_type      = var.alert_rules_settings[count.index].detector_type
 
   action_group {
     ids = var.alert_rules_settings[count.index].action_groups
