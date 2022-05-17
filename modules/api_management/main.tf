@@ -148,7 +148,7 @@ resource "azurerm_monitor_smart_detector_alert_rule" "example" {
   detector_type       = var.alert_rules_settings[count.index].detector_type
 
   action_group {
-    ids = action_groups
+    ids = var.alert_rules_settings[count.index].action_groups
   }
 }
 

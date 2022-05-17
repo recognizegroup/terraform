@@ -81,19 +81,17 @@ variable "azurerm_api_management_diagnostic_settings" {
 }
 
 variable "alert_rules_settings" {
-
   type = list(object({
     name          = string,
     severity      = string,       # possible values: Sev0, Sev1, Sev2, Sev3 or Sev4
-    frequency     = string,       # frequency in ISO-8601
+    frequency     = string,       # frequency in ISO-8601 eg. PT1M -> 1 per Month
     detector_type = string,       # possible values: FailureAnomaliesDetector, RequestPerformanceDegradationDetector, DependencyPerformanceDegradationDetector, ExceptionVolumeChangedDetector, TraceSeverityDetector, MemoryLeakDetector
-    action_groups = list(number), # ids of Action Groups 
+    action_groups = list(string), # ids of Action Groups 
     scope_ids     = list(string)  # scopes for alert rule, e.g. Application Insights Id
   }))
 
-  description = "Settings to create A list of azurerm_monitor_smart_detector_alert_rule resources"
-
-  default = []
+  description = "Defines Settings for a list of alert rules, within Azure Monitor"
+  default     = []
 }
 
 
