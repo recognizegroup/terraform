@@ -53,7 +53,7 @@ variable "status" {
 variable "support_ordering" {
   type        = bool
   description = "Whether or not the topic supports ordering"
-  deault      = true
+  default     = true
 }
 
 variable "auto_delete_on_idle" {
