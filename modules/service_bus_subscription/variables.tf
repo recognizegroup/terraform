@@ -71,3 +71,9 @@ variable "correlation_filter" {
   description = "Represents a correlation filter to be evaluated against a BrokeredMessage."
   default     = null
 }
+
+variable "forward_to" {
+  type        = string
+  description = "he name of a Queue or Topic to automatically forward messages to."
+  default     = null
+}

@@ -23,6 +23,7 @@ resource "azurerm_servicebus_subscription" "service_bus_subscription" {
   dead_lettering_on_filter_evaluation_error = var.dead_lettering_on_filter_evaluation_error
   enable_batched_operations                 = var.enable_batched_operations
   auto_delete_on_idle                       = var.auto_delete_on_idle
+  forward_to                                = var.forward_to
 }
 
 resource "azurerm_servicebus_subscription_rule" "sql_filter" {
