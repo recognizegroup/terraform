@@ -33,6 +33,7 @@ variable "require_api_subscription" {
   type        = string
   description = "bool value for required subscriptions at the api level"
   default     = false
+}
 
 variable "api_management_logger_id" {
   type        = string
