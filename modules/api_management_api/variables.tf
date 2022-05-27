@@ -28,6 +28,7 @@ variable "object_ids" {
   type        = list(string)
   description = "managed identity object ids that want access to the through AAD application"
 }
+
 variable "require_api_subscription" {
   type        = string
   description = "bool value for required subscriptions at the api level"
