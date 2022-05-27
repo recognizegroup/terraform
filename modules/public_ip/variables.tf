@@ -30,9 +30,3 @@ variable "domain_name_label" {
   description = "Label for the Domain Name. Will be used to make up the FQDN"
   default     = null
 }
-
-variable "sku" {
-  type        = string
-  description = "The SKU of the Public IP."
-  default     = "Basic"
-}

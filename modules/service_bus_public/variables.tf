@@ -18,3 +18,13 @@ variable "sku" {
   description = "Stock Keeping Unit of the service bus."
   default     = "Standard"
 }
+
+variable "authorization_rule" {
+  type = object({
+    listen = bool
+    send   = bool
+    manage = bool
+  })
+  description = "Manages a ServiceBus Namespace authorization Rule within the ServiceBus."
+  default     = null
+}

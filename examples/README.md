@@ -1,6 +1,7 @@
 # Terragrunt sample project
 
-This Terragrunt sample project showcases a well-tailored structure that includes three layers of `.hcl` files. This setup means that configuration can be globally defined, environment-specific or module-specific.
+This Terragrunt sample project showcases a well-tailored structure that includes three layers of `.hcl` files. This setup means that configuration can be globally defined, environment-specific or module-specific. Furthermore, it provides a sample workflow that can be used to as a starting point for continuous integration with
+GitHub and Terraform.
 
 * Keeps your terragrunt configuration DRY accross multiple environments.
 * Enables you to re-use terraform modules defined in a central place.
