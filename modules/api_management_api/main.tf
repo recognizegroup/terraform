@@ -2,10 +2,19 @@ terraform {
   required_version = ">=1.0.9"
 
   required_providers {
-    azurerm = "=2.82.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=3.6.0"
+    }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "=2.22.0"
+    }
   }
 
   backend "azurerm" {}
+
+  experiments = [module_variable_optional_attrs]
 }
 
 provider "azurerm" {
@@ -17,15 +26,16 @@ provider "azurerm" {
 #######################################################
 
 resource "azurerm_api_management_api" "api" {
-  name                = lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))
-  description         = yamldecode(file(var.openapi_file_path))["info"]["description"]
-  resource_group_name = var.resource_group_name
-  api_management_name = var.api_management_name
-  service_url         = yamldecode(file(var.openapi_file_path))["servers"][0]["url"]
-  revision            = yamldecode(file(var.openapi_file_path))["info"]["x-revision"]
-  display_name        = yamldecode(file(var.openapi_file_path))["info"]["title"]
-  path                = yamldecode(file(var.openapi_file_path))["x-basePath"]
-  protocols           = ["https"]
+  name                  = lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))
+  description           = yamldecode(file(var.openapi_file_path))["info"]["description"]
+  resource_group_name   = var.resource_group_name
+  api_management_name   = var.api_management_name
+  service_url           = yamldecode(file(var.openapi_file_path))["servers"][0]["url"]
+  revision              = yamldecode(file(var.openapi_file_path))["info"]["x-revision"]
+  display_name          = yamldecode(file(var.openapi_file_path))["info"]["title"]
+  path                  = yamldecode(file(var.openapi_file_path))["x-basePath"]
+  protocols             = ["https"]
+  subscription_required = var.require_api_subscription
 
   import {
     content_format = "openapi"
@@ -45,17 +55,23 @@ resource "azurerm_api_management_api_policy" "api_policy" {
   xml_content = <<XML
 <policies>
   <inbound>
-    %{if yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["type"] == "oidc"}
-    <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
-      <openid-config url="${yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["url"]}" />
-      <required-claims>
-        <claim name="aud">
-          <value></value>
-        </claim>
-      </required-claims>
-    </validate-jwt>
+  <base />
+    %{if yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["type"] == "aad"}
+            <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
+            <openid-config url="${yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["openid_url"]}" />
+            <required-claims> 
+                <claim name="aud" match="any">
+                    <value>${azuread_application.application.application_id}</value>
+                </claim>
+                <claim name="iss" match="any">
+                  <value>${yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["issuer"]}</value>
+                </claim>
+                <claim name="roles" match="any">
+                    <value>Default.Access</value>
+                </claim>
+            </required-claims>
+        </validate-jwt>
     %{endif}
-    <base />
     %{if yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "managed-identity"}
     <authentication-managed-identity resource="${yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["client_id"]}" output-token-variable-name="msi-access-token" ignore-error="false" />
       <set-header name="Authorization" exists-action="override">
@@ -75,13 +91,13 @@ XML
 ######################################################
 
 data "azurerm_key_vault_secret" "username" {
-  count = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1:0
+  count        = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1 : 0
   name         = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["username-secret"]
   key_vault_id = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["key-vault-id"]
 }
 
 data "azurerm_key_vault_secret" "password" {
-  count = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1:0
+  count        = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1 : 0
   name         = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["password-secret"]
   key_vault_id = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["key-vault-id"]
 }
@@ -95,7 +111,7 @@ resource "azurerm_api_management_product" "product" {
   api_management_name   = var.api_management_name
   resource_group_name   = var.resource_group_name
   display_name          = azurerm_api_management_api.api.display_name
-  subscription_required = false
+  subscription_required = true
   published             = true
 }
 
@@ -106,13 +122,52 @@ resource "azurerm_api_management_product_api" "product_api" {
   resource_group_name = var.resource_group_name
 }
 
-# resource "azurerm_api_management_product_group" "product_group" {
-#   product_id          = azurerm_api_management_product.product.product_id
-#   group_name          = var.api_management_group_name
-#   api_management_name = var.api_management_name
-#   resource_group_name = var.resource_group_name
-# }
-
 ######################################################
 ###########      OIDC authentication       ###########
 ######################################################
+
+data "azuread_client_config" "current" {}
+
+resource "azuread_application" "application" {
+  display_name     = azurerm_api_management_api.api.name
+  owners           = concat([data.azuread_client_config.current.object_id], var.owners)
+  sign_in_audience = "AzureADMyOrg"
+  identifier_uris  = ["api://${azurerm_api_management_api.api.name}"]
+
+  api {
+    requested_access_token_version = 2
+
+    oauth2_permission_scope {
+      admin_consent_description  = "Default user access to API"
+      admin_consent_display_name = "Default"
+      enabled                    = true
+      id                         = random_uuid.oath2_uuid.result
+      type                       = "Admin"
+      user_consent_description   = "Default user access to API"
+      user_consent_display_name  = "Default"
+      value                      = "Default.Oauth"
+    }
+  }
+  app_role {
+    allowed_member_types = ["Application", "User"]
+    description          = "Default application app role"
+    display_name         = "Default"
+    enabled              = true
+    id                   = random_uuid.app_role_uuid.result
+    value                = "Default.Access"
+  }
+}
+
+resource "azuread_service_principal" "internal" {
+  application_id = azuread_application.application.application_id
+}
+
+resource "azuread_app_role_assignment" "role_assignment" {
+  count               = length(var.object_ids)
+  app_role_id         = azuread_application.application.app_role_ids["Default.Access"]
+  principal_object_id = var.object_ids[count.index]
+  resource_object_id  = azuread_service_principal.internal.object_id
+}
+
+resource "random_uuid" "oath2_uuid" {}
+resource "random_uuid" "app_role_uuid" {}
