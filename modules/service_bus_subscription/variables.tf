@@ -74,6 +74,6 @@ variable "correlation_filter" {
 
 variable "forward_to" {
   type        = string
-  description = "he name of a Queue or Topic to automatically forward messages to."
+  description = "The name of a Queue or Topic to automatically forward messages to."
   default     = null
 }
