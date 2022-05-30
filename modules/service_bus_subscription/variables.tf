@@ -64,9 +64,16 @@ variable "sql_filter_query" {
 
 variable "correlation_filter" {
   type = object({
-    id         = string,
-    label      = string,
-    properties = any
+    id                  = optional(string), //correlation_Id
+    label               = optional(string),
+    content_type        = optional(string),
+    message_id          = optional(string),
+    reply_to            = optional(string),
+    reply_to_session_id = optional(string),
+    session_id          = optional(string),
+    to                  = optional(string),
+    properties          = optional(any),
+
   })
   description = "Represents a correlation filter to be evaluated against a BrokeredMessage."
   default     = null
