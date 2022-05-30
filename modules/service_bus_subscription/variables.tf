@@ -73,7 +73,6 @@ variable "correlation_filter" {
     session_id          = optional(string),
     to                  = optional(string),
     properties          = optional(any),
-
   })
   description = "Represents a correlation filter to be evaluated against a BrokeredMessage."
   default     = null
