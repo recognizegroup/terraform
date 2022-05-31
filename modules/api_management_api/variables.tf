@@ -8,11 +8,6 @@ variable "api_management_name" {
   description = "The name of the API management service."
 }
 
-# variable "api_management_group_name" {
-#   type        = string
-#   description = "The name of the API management group."
-# }
-
 variable "openapi_file_path" {
   type        = string
   description = "Path to an openAPI .yaml file that describes this API"
@@ -60,3 +55,34 @@ variable "api_diagnostic_settings" {
     http_correlation_protocol = "W3C"
   }
 }
+
+variable "authorization_tenant" {
+  type        = string
+  description = "the tenant to use for oauth requests. If not using custom auth/token endpoints this value should be set"
+  default     = null
+}
+
+variable "auth_endpoint" {
+  type        = string
+  description = "Override for authorization endpoint in case custom oauth2 endpoints are used."
+  default     = null
+}
+
+variable "token_endpoint" {
+  type        = string
+  description = "Override for token endpoint in case custom oauth2 endpoints are used."
+  default     = null
+}
+
+variable "client_registration_endpoint" {
+  type        = string
+  description = "URI/URL for the location of client & app registration."
+  default     = "http://localhost"
+}
+
+variable "developer_portal_url" {
+  type        = string
+  description = "url to the apim developer portal where this api is located"
+  default     = null
+}
+

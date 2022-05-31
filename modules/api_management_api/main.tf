@@ -37,6 +37,13 @@ resource "azurerm_api_management_api" "api" {
   protocols             = ["https"]
   subscription_required = var.require_api_subscription
 
+  depends_on = [
+    azurerm_api_management_authorization_server.oauth2
+  ]
+  oauth2_authorization {
+    authorization_server_name = "${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}-auth"
+  }
+
   import {
     content_format = "openapi"
     content_value  = file(var.openapi_file_path)
@@ -122,9 +129,6 @@ resource "azurerm_api_management_api_policy" "api_policy" {
                 <claim name="iss" match="any">
                   <value>${yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["issuer"]}</value>
                 </claim>
-                <claim name="roles" match="any">
-                    <value>Default.Access</value>
-                </claim>
             </required-claims>
         </validate-jwt>
     %{endif}
@@ -184,10 +188,10 @@ resource "azurerm_api_management_product_api" "product_api" {
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "application" {
-  display_name     = azurerm_api_management_api.api.name
+  display_name     = lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))
   owners           = concat([data.azuread_client_config.current.object_id], var.owners)
   sign_in_audience = "AzureADMyOrg"
-  identifier_uris  = ["api://${azurerm_api_management_api.api.name}"]
+  identifier_uris  = ["api://${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}"]
 
   api {
     requested_access_token_version = 2
@@ -211,6 +215,13 @@ resource "azuread_application" "application" {
     id                   = random_uuid.app_role_uuid.result
     value                = "Default.Access"
   }
+
+  dynamic "web" {
+    for_each = yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["type"] == "aad" ? [1] : []
+    content {
+      redirect_uris = ["${var.developer_portal_url}/signin-oauth/code/callback/${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}-auth"]
+    }
+  }
 }
 
 resource "azuread_service_principal" "internal" {
@@ -224,5 +235,30 @@ resource "azuread_app_role_assignment" "role_assignment" {
   resource_object_id  = azuread_service_principal.internal.object_id
 }
 
+
+resource "azurerm_api_management_authorization_server" "oauth2" {
+  count                        = yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["type"] == "aad" ? 1 : 0
+  name                         = "${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}-auth"
+  authorization_methods        = ["GET", "POST"]
+  api_management_name          = var.api_management_name
+  resource_group_name          = var.resource_group_name
+  display_name                 = "${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}-auth"
+  grant_types                  = ["authorizationCode"]
+  authorization_endpoint       = var.auth_endpoint != null ? var.auth_endpoint : "https://login.microsoftonline.com/${var.authorization_tenant}/oauth2/v2.0/authorize"
+  token_endpoint               = var.token_endpoint != null ? var.token_endpoint : "https://login.microsoftonline.com/${var.authorization_tenant}/oauth2/v2.0/token"
+  client_registration_endpoint = var.client_registration_endpoint
+  client_id                    = azuread_application.application.application_id
+  client_secret                = azuread_application_password.password.value
+  bearer_token_sending_methods = ["authorizationHeader"]
+  client_authentication_method = ["Body"]
+  default_scope                = "api://${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}/Default.Oauth"
+
+}
+
+resource "azuread_application_password" "password" {
+  application_object_id = azuread_application.application.object_id
+}
+
 resource "random_uuid" "oath2_uuid" {}
+
 resource "random_uuid" "app_role_uuid" {}
