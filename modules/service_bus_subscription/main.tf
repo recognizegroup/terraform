@@ -5,6 +5,7 @@ terraform {
     azurerm = "=2.96.0"
   }
 
+  experiments = [module_variable_optional_attrs]
   backend "azurerm" {}
 }
 
@@ -41,8 +42,14 @@ resource "azurerm_servicebus_subscription_rule" "correlation_filter" {
   filter_type     = "CorrelationFilter"
 
   correlation_filter {
-    correlation_id = var.correlation_filter.id
-    label          = var.correlation_filter.label
-    properties     = var.correlation_filter.properties
+    correlation_id      = var.correlation_filter.id
+    label               = var.correlation_filter.label
+    content_type        = var.correlation_filter.content_type
+    message_id          = var.correlation_filter.message_id
+    reply_to            = var.correlation_filter.reply_to
+    reply_to_session_id = var.correlation_filter.reply_to_session_id
+    session_id          = var.correlation_filter.session_id
+    to                  = var.correlation_filter.to
+    properties          = var.correlation_filter.properties
   }
 }
