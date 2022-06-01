@@ -42,14 +42,14 @@ resource "azurerm_servicebus_subscription_rule" "correlation_filter" {
   filter_type     = "CorrelationFilter"
 
   correlation_filter {
-    correlation_id      = var.correlation_filter.id != null ? var.correlation_filter.id : null
-    label               = var.correlation_filter.label != null ? var.correlation_filter.label : null
-    content_type        = var.correlation_filter.content_type != null ? var.correlation_filter.content_type : null
-    message_id          = var.correlation_filter.message_id != null ? var.correlation_filter.message_id : null
-    reply_to            = var.correlation_filter.reply_to != null ? var.correlation_filter.reply_to : null
-    reply_to_session_id = var.correlation_filter.reply_to_session_id != null ? var.correlation_filter.reply_to_session_id : null
-    session_id          = var.correlation_filter.session_id != null ? var.correlation_filter.session_id : null
-    to                  = var.correlation_filter.to != null ? var.correlation_filter.to : null
-    properties          = var.correlation_filter.properties != null ? var.correlation_filter.properties : null
+    correlation_id      = var.correlation_filter.id
+    label               = var.correlation_filter.label
+    content_type        = var.correlation_filter.content_type
+    message_id          = var.correlation_filter.message_id
+    reply_to            = var.correlation_filter.reply_to
+    reply_to_session_id = var.correlation_filter.reply_to_session_id
+    session_id          = var.correlation_filter.session_id
+    to                  = var.correlation_filter.to
+    properties          = var.correlation_filter.properties
   }
 }
