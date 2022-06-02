@@ -20,12 +20,6 @@ variable "api_settings" {
     wsdl_file_path        = optional(string)
   })
   description = "Settings to use for this API. Either Openapi or wsdl file path should be set."
-
-  validation {
-
-    condition     = var.api_settings.openapi_file_path != null || var.api_settings.wsdl_file_path != null
-    error_message = "Either one of \"openapi_file_path\" or \"wsdl_file_path\" should be set."
-  }
 }
 
 variable "backend_type" {
