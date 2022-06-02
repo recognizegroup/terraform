@@ -32,6 +32,12 @@ variable "backend_type" {
   }
 }
 
+variable "app_api_endpoint" {
+  type        = string
+  description = "The endpoint for the app's api. Defaults to the api's name when left empty"
+  default     = null
+}
+
 variable "managed_identity_resource" {
   type        = string
   description = "The resource to validate the managed identity"
@@ -40,9 +46,9 @@ variable "managed_identity_resource" {
 
 variable "basic_auth_settings" {
   type = object({
-    key_vault_id  = string,
-    username_name = string,
-    password_name = string,
+    key_vault_id    = string,
+    username_secret = string,
+    password_secret = string,
   })
   description = "Settings to be used for basic auth"
   default     = null

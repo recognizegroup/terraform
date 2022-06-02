@@ -21,6 +21,11 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+  //Do this if statement here instead of twice for both api:// settings
+  app_api_endpoint = var.app_api_endpoint != null ? var.app_api_endpoint : "${lower(replace(var.api_settings.name, " ", "-"))}"
+}
+
 #######################################################
 ##########                API                ##########
 #######################################################
@@ -158,13 +163,13 @@ XML
 
 data "azurerm_key_vault_secret" "username" {
   count        = var.backend_type == "basic-auth" ? 1 : 0
-  name         = var.basic_auth_settings.username_name
+  name         = var.basic_auth_settings.username_secret
   key_vault_id = var.basic_auth_settings.key_vault_id
 }
 
 data "azurerm_key_vault_secret" "password" {
   count        = var.backend_type == "basic-auth" ? 1 : 0
-  name         = var.basic_auth_settings.password_name
+  name         = var.basic_auth_settings.password_secret
   key_vault_id = var.basic_auth_settings.key_vault_id
 }
 
@@ -197,7 +202,7 @@ resource "azuread_application" "application" {
   display_name     = lower(replace(var.api_settings.name, " ", "-"))
   owners           = concat([data.azuread_client_config.current.object_id], var.owners)
   sign_in_audience = "AzureADMyOrg"
-  identifier_uris  = ["api://${lower(replace(var.api_settings.name, " ", "-"))}"]
+  identifier_uris  = ["api://${local.app_api_endpoint}"]
 
   api {
     requested_access_token_version = 2
@@ -253,7 +258,7 @@ resource "azurerm_api_management_authorization_server" "oauth2" {
   client_secret                = azuread_application_password.password.value
   bearer_token_sending_methods = ["authorizationHeader"]
   client_authentication_method = ["Body"]
-  default_scope                = "api://${lower(replace(var.api_settings.name, " ", "-"))}/Default.Oauth"
+  default_scope                = "api://${local.app_api_endpoint}/Default.Oauth"
 
 }
 
