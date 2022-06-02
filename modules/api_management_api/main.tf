@@ -26,27 +26,35 @@ provider "azurerm" {
 #######################################################
 
 resource "azurerm_api_management_api" "api" {
-  name                  = lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))
-  description           = yamldecode(file(var.openapi_file_path))["info"]["description"]
+  name                  = lower(replace(var.api_settings.name, " ", "-"))
+  description           = var.api_settings.description
   resource_group_name   = var.resource_group_name
   api_management_name   = var.api_management_name
-  service_url           = yamldecode(file(var.openapi_file_path))["servers"][0]["url"]
-  revision              = yamldecode(file(var.openapi_file_path))["info"]["x-revision"]
-  display_name          = yamldecode(file(var.openapi_file_path))["info"]["title"]
-  path                  = yamldecode(file(var.openapi_file_path))["x-basePath"]
+  service_url           = var.api_settings.service_url
+  revision              = var.api_settings.revision
+  display_name          = var.api_settings.name
+  path                  = var.api_settings.basepath
   protocols             = ["https"]
-  subscription_required = var.require_api_subscription
+  subscription_required = var.api_settings.subscription_required
 
   depends_on = [
     azurerm_api_management_authorization_server.oauth2
   ]
   oauth2_authorization {
-    authorization_server_name = "${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}-auth"
+    authorization_server_name = "${lower(replace(var.api_settings.name, " ", "-"))}-auth"
   }
 
   import {
-    content_format = "openapi"
-    content_value  = file(var.openapi_file_path)
+    content_format = var.api_settings.openapi_file_path != null ? "openapi" : "wsdl"
+    content_value  = var.api_settings.openapi_file_path != null ? file(var.api_settings.openapi_file_path) : file(var.api_settings.wsdl_file_path)
+
+    dynamic "wsdl_selector" {
+      for_each = var.wsdl_selector != null ? [1] : []
+      content {
+        service_name  = var.wsdl_selector.service_name
+        endpoint_name = var.wsdl_selector.endpoint_name
+      }
+    }
   }
 }
 
@@ -119,26 +127,24 @@ resource "azurerm_api_management_api_policy" "api_policy" {
 <policies>
   <inbound>
   <base />
-    %{if yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["type"] == "aad"}
-            <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
-            <openid-config url="${yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["openid_url"]}" />
-            <required-claims> 
-                <claim name="aud" match="any">
-                    <value>${azuread_application.application.application_id}</value>
-                </claim>
-                <claim name="iss" match="any">
-                  <value>${yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["issuer"]}</value>
-                </claim>
-            </required-claims>
-        </validate-jwt>
-    %{endif}
-    %{if yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "managed-identity"}
-    <authentication-managed-identity resource="${yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["client_id"]}" output-token-variable-name="msi-access-token" ignore-error="false" />
+    <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
+      <openid-config url="${var.aad_settings.openid_url}"/>
+      <required-claims>
+        <claim name="aud" match="any">
+          <value>${azuread_application.application.application_id}</value>
+        </claim>
+        <claim name="iss" match="any">
+          <value>${var.aad_settings.issuer}</value>
+        </claim>
+      </required-claims>
+    </validate-jwt>
+    %{if var.backend_type == "managed-identity"}
+    <authentication-managed-identity resource="${var.managed_identity_resource}" output-token-variable-name="msi-access-token" ignore-error="false" />
       <set-header name="Authorization" exists-action="override">
         <value>@("Bearer " + (string)context.Variables["msi-access-token"])</value>
       </set-header>
     %{endif}
-    %{if yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth"}
+    %{if var.backend_type == "basic-auth"}
     <authentication-basic username="${data.azurerm_key_vault_secret.username[0].value}" password="${data.azurerm_key_vault_secret.password[0].value}" />
     %{endif}
   </inbound>
@@ -151,15 +157,15 @@ XML
 ######################################################
 
 data "azurerm_key_vault_secret" "username" {
-  count        = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1 : 0
-  name         = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["username-secret"]
-  key_vault_id = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["key-vault-id"]
+  count        = var.backend_type == "basic-auth" ? 1 : 0
+  name         = var.basic_auth_settings.username_name
+  key_vault_id = var.basic_auth_settings.key_vault_id
 }
 
 data "azurerm_key_vault_secret" "password" {
-  count        = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["type"] == "basic-auth" ? 1 : 0
-  name         = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["password-secret"]
-  key_vault_id = yamldecode(file(var.openapi_file_path))["x-auth"]["backend"]["key-vault-id"]
+  count        = var.backend_type == "basic-auth" ? 1 : 0
+  name         = var.basic_auth_settings.password_name
+  key_vault_id = var.basic_auth_settings.key_vault_id
 }
 
 ######################################################
@@ -188,10 +194,10 @@ resource "azurerm_api_management_product_api" "product_api" {
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "application" {
-  display_name     = lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))
+  display_name     = lower(replace(var.api_settings.name, " ", "-"))
   owners           = concat([data.azuread_client_config.current.object_id], var.owners)
   sign_in_audience = "AzureADMyOrg"
-  identifier_uris  = ["api://${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}"]
+  identifier_uris  = ["api://${lower(replace(var.api_settings.name, " ", "-"))}"]
 
   api {
     requested_access_token_version = 2
@@ -216,11 +222,8 @@ resource "azuread_application" "application" {
     value                = "Default.Access"
   }
 
-  dynamic "web" {
-    for_each = yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["type"] == "aad" ? [1] : []
-    content {
-      redirect_uris = ["${var.developer_portal_url}/signin-oauth/code/callback/${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}-auth"]
-    }
+  web {
+    redirect_uris = ["${var.developer_portal_url}/signin-oauth/code/callback/${lower(replace(var.api_settings.name, " ", "-"))}-auth"]
   }
 }
 
@@ -237,12 +240,11 @@ resource "azuread_app_role_assignment" "role_assignment" {
 
 
 resource "azurerm_api_management_authorization_server" "oauth2" {
-  count                        = yamldecode(file(var.openapi_file_path))["x-auth"]["frontend"]["type"] == "aad" ? 1 : 0
-  name                         = "${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}-auth"
+  name                         = "${lower(replace(var.api_settings.name, " ", "-"))}-auth"
   authorization_methods        = ["GET", "POST"]
   api_management_name          = var.api_management_name
   resource_group_name          = var.resource_group_name
-  display_name                 = "${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}-auth"
+  display_name                 = "${lower(replace(var.api_settings.name, " ", "-"))}-auth"
   grant_types                  = ["authorizationCode"]
   authorization_endpoint       = var.auth_endpoint != null ? var.auth_endpoint : "https://login.microsoftonline.com/${var.authorization_tenant}/oauth2/v2.0/authorize"
   token_endpoint               = var.token_endpoint != null ? var.token_endpoint : "https://login.microsoftonline.com/${var.authorization_tenant}/oauth2/v2.0/token"
@@ -251,7 +253,7 @@ resource "azurerm_api_management_authorization_server" "oauth2" {
   client_secret                = azuread_application_password.password.value
   bearer_token_sending_methods = ["authorizationHeader"]
   client_authentication_method = ["Body"]
-  default_scope                = "api://${lower(replace(yamldecode(file(var.openapi_file_path))["info"]["title"], " ", "-"))}/Default.Oauth"
+  default_scope                = "api://${lower(replace(var.api_settings.name, " ", "-"))}/Default.Oauth"
 
 }
 
