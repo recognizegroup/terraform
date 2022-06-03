@@ -8,9 +8,33 @@ variable "api_management_name" {
   description = "The name of the API management service."
 }
 
-variable "openapi_file_path" {
+variable "api_settings" {
+  type = object({
+    name                  = string,
+    description           = optional(string),
+    service_url           = string,
+    revision              = string,
+    basepath              = string,
+    subscription_required = string,
+    openapi_file_path     = optional(string),
+    wsdl_file_path        = optional(string)
+  })
+  description = "Settings to use for this API. Either Openapi or wsdl file path should be set."
+}
+
+variable "app_api_endpoint" {
   type        = string
-  description = "Path to an openAPI .yaml file that describes this API"
+  description = "The endpoint for the app's api. Defaults to the api's name when left empty"
+  default     = null
+}
+
+variable "wsdl_selector" {
+  type = object({
+    service_name  = string,
+    endpoint_name = string
+  })
+  description = "A selector for the wsdl file when only part of the document should be used"
+  default     = null
 }
 
 variable "owners" {
@@ -22,12 +46,6 @@ variable "owners" {
 variable "object_ids" {
   type        = list(string)
   description = "managed identity object ids that want access to the through AAD application"
-}
-
-variable "require_api_subscription" {
-  type        = string
-  description = "bool value for required subscriptions at the api level"
-  default     = false
 }
 
 variable "api_management_logger_id" {
@@ -83,6 +101,63 @@ variable "client_registration_endpoint" {
 variable "developer_portal_url" {
   type        = string
   description = "url to the apim developer portal where this api is located"
+  default     = null
+}
+
+#######################################################
+##########      Authentication Settings      ##########
+#######################################################
+
+variable "backend_type" {
+  type        = string
+  description = "The type of backend used by the api. Should be public, basic-auth, body-auth or managed-identity"
+
+  validation {
+    condition     = contains(["public", "basic-auth", "managed-identity", "body-auth"], var.backend_type)
+    error_message = "Argument \"backend_type\" must be either \"public\", \"basic-auth\", \"body-auth\", or \"managed-identity\"."
+  }
+}
+
+variable "basic_auth_settings" {
+  type = object({
+    key_vault_id    = string,
+    username_secret = string,
+    password_secret = string,
+  })
+  description = "Settings to be used for basic auth"
+  default     = null
+}
+
+variable "aad_settings" {
+  type = object({
+    openid_url = string,
+    issuer     = string
+  })
+  description = "An object representing the settings to be used for AAD authentication"
+  default     = null
+}
+
+variable "managed_identity_resource" {
+  type        = string
+  description = "The resource to validate the managed identity"
+  default     = null
+}
+
+variable "body_auth_settings" {
+  type = object({
+    key_vault_id    = string,
+    username_key    = string,
+    username_secret = string,
+    password_secret = string,
+    password_key    = string,
+  })
+  description = "Values used for body authentication"
+  default     = null
+}
+
+variable "soap_body_key" {
+  type        = string
+  description = "The key used to prepend a json object in the body: {key: {object}} to transform for SOAP api as REST"
   default     = null
 }
 
