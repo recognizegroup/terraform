@@ -152,6 +152,20 @@ resource "azurerm_api_management_api_policy" "api_policy" {
     %{if var.backend_type == "basic-auth"}
     <authentication-basic username="${data.azurerm_key_vault_secret.username[0].value}" password="${data.azurerm_key_vault_secret.password[0].value}" />
     %{endif}
+    %{if var.backend_type == "body-auth"}
+    <set-body>@{
+        var body = context.Request.Body.As<JObject>();
+        %{if var.json_body_key != null}
+        body["${var.json_body_key}"]["${var.body_auth_settings.username_key}"] = ${var.azurerm_key_vault_secret.body_username[0].value};
+        body["${var.json_body_key}"]["${var.body_auth_settings.password_key}"] = ${var.azurerm_key_vault_secret.body_password[0].value};
+        %{else}
+        body["${var.body_auth_settings.username_key}"] = ${var.azurerm_key_vault_secret.body_username[0].value};
+        body["${var.body_auth_settings.password_key}"] = ${var.azurerm_key_vault_secret.body_password[0].value};
+        %{endif}
+        return body.ToString();
+        }
+    </set-body>
+    %{endif}
   </inbound>
 </policies>
 XML
@@ -171,6 +185,22 @@ data "azurerm_key_vault_secret" "password" {
   count        = var.backend_type == "basic-auth" ? 1 : 0
   name         = var.basic_auth_settings.password_secret
   key_vault_id = var.basic_auth_settings.key_vault_id
+}
+
+######################################################
+##########        Body-auth serets        ###########
+######################################################
+
+data "azurerm_key_vault_secret" "body_username" {
+  count        = var.backend_type == "body-auth" ? 1 : 0
+  name         = var.body_auth_settings.username_secret
+  key_vault_id = var.body_auth_settings.key_vault_id
+}
+
+data "azurerm_key_vault_secret" "body_password" {
+  count        = var.backend_type == "body-auth" ? 1 : 0
+  name         = var.body_auth_settings.password_secret
+  key_vault_id = var.body_auth_settings.key_vault_id
 }
 
 ######################################################
