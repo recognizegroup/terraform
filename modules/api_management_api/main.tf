@@ -155,12 +155,12 @@ resource "azurerm_api_management_api_policy" "api_policy" {
     %{if var.backend_type == "body-auth"}
     <set-body>@{
         var body = context.Request.Body.As<JObject>();
-        %{if var.json_body_key != null}
-        body["${var.json_body_key}"]["${var.body_auth_settings.username_key}"] = ${var.azurerm_key_vault_secret.body_username[0].value};
-        body["${var.json_body_key}"]["${var.body_auth_settings.password_key}"] = ${var.azurerm_key_vault_secret.body_password[0].value};
+        %{if var.soap_body_key != null}
+        body["${var.soap_body_key}"]["${var.body_auth_settings.username_key}"] = "${data.azurerm_key_vault_secret.body_username[0].value}";
+        body["${var.soap_body_key}"]["${var.body_auth_settings.password_key}"] = "${data.azurerm_key_vault_secret.body_password[0].value}";
         %{else}
-        body["${var.body_auth_settings.username_key}"] = ${var.azurerm_key_vault_secret.body_username[0].value};
-        body["${var.body_auth_settings.password_key}"] = ${var.azurerm_key_vault_secret.body_password[0].value};
+        body["${var.body_auth_settings.username_key}"] = "${data.azurerm_key_vault_secret.body_username[0].value}";
+        body["${var.body_auth_settings.password_key}"] = "${data.azurerm_key_vault_secret.body_password[0].value}";
         %{endif}
         return body.ToString();
         }
