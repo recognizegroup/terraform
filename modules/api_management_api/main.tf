@@ -229,7 +229,7 @@ resource "azurerm_api_management_product_api" "product_api" {
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "application" {
-  display_name     = var..application_name
+  display_name     = var.application_name
   owners           = concat([data.azuread_client_config.current.object_id], var.owners)
   sign_in_audience = "AzureADMyOrg"
   identifier_uris  = ["api://${local.app_api_endpoint}"]
