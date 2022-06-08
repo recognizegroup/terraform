@@ -131,7 +131,8 @@ variable "basic_auth_settings" {
 variable "aad_settings" {
   type = object({
     openid_url = string,
-    issuer     = string
+    issuer     = string,
+    app_name   = string
   })
   description = "An object representing the settings to be used for AAD authentication"
   default     = null
