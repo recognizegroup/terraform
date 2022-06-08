@@ -132,10 +132,13 @@ variable "aad_settings" {
   type = object({
     openid_url = string,
     issuer     = string,
-    app_name   = string
   })
   description = "An object representing the settings to be used for AAD authentication"
-  default     = null
+}
+
+variable "application_name" {
+  type        = string
+  description = "The name to use for the application created to verify AAD authorization"
 }
 
 variable "managed_identity_resource" {
