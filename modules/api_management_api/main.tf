@@ -229,7 +229,7 @@ resource "azurerm_api_management_product_api" "product_api" {
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "application" {
-  display_name     = lower(replace(var.api_settings.name, " ", "-"))
+  display_name     = var.application_name
   owners           = concat([data.azuread_client_config.current.object_id], var.owners)
   sign_in_audience = "AzureADMyOrg"
   identifier_uris  = ["api://${local.app_api_endpoint}"]
@@ -245,7 +245,7 @@ resource "azuread_application" "application" {
       type                       = "Admin"
       user_consent_description   = "Default user access to API"
       user_consent_display_name  = "Default"
-      value                      = "Default.Oauth"
+      value                      = "Default.OAuth"
     }
   }
   app_role {
@@ -288,7 +288,7 @@ resource "azurerm_api_management_authorization_server" "oauth2" {
   client_secret                = azuread_application_password.password.value
   bearer_token_sending_methods = ["authorizationHeader"]
   client_authentication_method = ["Body"]
-  default_scope                = "api://${local.app_api_endpoint}/Default.Oauth"
+  default_scope                = "api://${local.app_api_endpoint}/Default.OAuth"
 
 }
 
