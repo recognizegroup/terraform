@@ -25,8 +25,11 @@ resource "azurerm_logic_app_workflow" "workflow" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  identity {
-    type = "SystemAssigned"
+  dynamic "identity" {
+    for_each = var.use_managed_identity ? [1] : []
+    content {
+      type = "SystemAssigned"
+    }
   }
 }
 
