@@ -2,7 +2,7 @@ terraform {
   required_version = ">=1.1.2"
 
   required_providers {
-    azurerm = "=2.88.0"
+    azurerm = "=3.10.0"
   }
 
   backend "azurerm" {}
@@ -24,11 +24,9 @@ resource "azurerm_logic_app_workflow" "workflow" {
   name                = var.logic_app_name
   location            = var.location
   resource_group_name = var.resource_group_name
-  dynamic "identity" {
-    for_each = var.use_managed_identity ? [1] : []
-    content {
-      type = "SystemAssigned"
-    }
+
+  identity {
+    type = "SystemAssigned"
   }
 }
 
