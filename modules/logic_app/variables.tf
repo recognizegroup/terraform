@@ -36,3 +36,9 @@ variable "log_retention_days" {
   description = "Number of days for which logs and metrics will be saved."
   default     = 30
 }
+
+variable "use_managed_identity" {
+  type        = bool
+  description = "Use Managed Identity for this logic app"
+  default     = false
+}
