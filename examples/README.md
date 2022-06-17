@@ -155,7 +155,7 @@ jobs:
       TF_WORKING_DIR: terraform
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup
         run: brew install terragrunt
       - name: Apply

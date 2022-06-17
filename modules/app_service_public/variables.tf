@@ -135,3 +135,9 @@ variable "allowed_audiences" {
   description = "Allowed audience values to consider when validating JWTs issued by Azure Active Directory."
   default     = []
 }
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of a log analytics workspace (optional)."
+  default     = null
+}
