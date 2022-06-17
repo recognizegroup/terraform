@@ -8,7 +8,7 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "app_service_name" {
+variable "name" {
   type        = string
   description = "Name of the app service."
 }
