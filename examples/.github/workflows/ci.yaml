@@ -28,9 +28,9 @@ jobs:
     concurrency: $${{ needs.determine-environment.outputs.environment }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
       with:
         terraform_wrapper: false
     - name: Setup Terragrunt
