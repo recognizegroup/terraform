@@ -5,7 +5,7 @@ variable "location" {
 
 variable "resource_group_name" {
   type        = string
-  description = "Name of the resource group."
+  description = "Name of the resource group, defaults to null"
   default     = null
 }
 
