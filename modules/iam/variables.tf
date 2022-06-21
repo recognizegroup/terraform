@@ -3,11 +3,6 @@ variable "location" {
   description = "A datacenter location in Azure."
 }
 
-variable "resource_group_name" {
-  type        = string
-  description = "Name of the resource group."
-}
-
 variable "roles" {
   type        = list(any)
   description = "List of user and group principals with corresponding roles."
@@ -15,6 +10,5 @@ variable "roles" {
 
 variable "scope" {
   type        = string
-  description = "The scope to use for the IAM rule, defaults to Resource Group"
-  default     = null
+  description = "The scope of the IAM rules. Scope can be set based on a resource and should be the ID of the resource that acts as scope."
 }
