@@ -85,8 +85,8 @@ variable "alert_rules_settings" {
     name          = string,
     severity      = string,       # possible values: Sev0, Sev1, Sev2, Sev3 or Sev4
     frequency     = string,       # frequency in ISO-8601 eg. PT1M -> 1 per Month
-    detector_type = string,       # possible values see: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_smart_detector_alert_rule#detector_type 
-    action_groups = list(string), # ids of Action Groups 
+    detector_type = string,       # possible values see: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_smart_detector_alert_rule#detector_type
+    action_groups = list(string), # ids of Action Groups
     scope_ids     = list(string)  # scopes for alert rule, e.g. Application Insights Id
   }))
 
@@ -100,9 +100,9 @@ variable "public_ip_address_id" {
   default     = null
 }
 
-variable "xml_policy_file" {
+variable "xml_content" {
   type        = string
-  description = "Path of a file containing a policy in XML format."
+  description = "The XML content for applying an APIM policy globally."
   default     = null
 }
 

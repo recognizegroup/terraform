@@ -43,9 +43,9 @@ resource "azurerm_api_management" "api_management" {
   }
 
   dynamic "policy" {
-    for_each = var.xml_policy_file == null ? [] : [1]
+    for_each = var.xml_content == null ? [] : [1]
     content {
-      xml_content = replace(file(var.xml_policy_file), "$NAME", var.name)
+      xml_content = var.xml_content
     }
   }
 
@@ -136,7 +136,7 @@ resource "azurerm_api_management_diagnostic" "apim_diagnostic" {
   }
 }
 
-resource "azurerm_monitor_smart_detector_alert_rule" "example" {
+resource "azurerm_monitor_smart_detector_alert_rule" "alert_rule" {
   count               = length(var.alert_rules_settings)
   resource_group_name = var.resource_group_name
   name                = var.alert_rules_settings[count.index].name
