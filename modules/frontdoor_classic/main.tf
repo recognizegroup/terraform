@@ -142,20 +142,6 @@ resource "azurerm_frontdoor" "frontdoor" {
   }
 }
 
-resource "azurerm_frontdoor_custom_https_configuration" "custom_https" {
-  for_each = {
-    for endpoint in var.endpoints : endpoint.name => endpoint
-    if endpoint.custom_https == true
-  }
-  frontend_endpoint_id              = azurerm_frontdoor.frontdoor.frontend_endpoints[each.value.name]
-  custom_https_provisioning_enabled = true
-
-  // TODO: extend when needed, preferably stay with frontdoor-managed certificates for maintability
-  custom_https_configuration {
-    certificate_source = "FrontDoor"
-  }
-}
-
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   count       = var.log_analytics_workspace_id == null ? 0 : 1
   resource_id = azurerm_frontdoor.frontdoor.id
@@ -194,5 +180,19 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
         enabled = false
       }
     }
+  }
+}
+
+resource "azurerm_frontdoor_custom_https_configuration" "custom_https" {
+  for_each = {
+    for endpoint in var.endpoints : endpoint.name => endpoint
+    if endpoint.custom_https == true
+  }
+  frontend_endpoint_id              = "${azurerm_frontdoor.frontdoor.id}/frontendEndpoints/${each.value.name}"
+  custom_https_provisioning_enabled = true
+
+  // TODO: extend when needed, preferably stay with frontdoor-managed certificates for maintability
+  custom_https_configuration {
+    certificate_source = "FrontDoor"
   }
 }
