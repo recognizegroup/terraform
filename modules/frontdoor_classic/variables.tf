@@ -22,7 +22,12 @@ variable "endpoints" {
     web_application_firewall_policy_link_id = optional(string)
     custom_https                            = optional(bool)
   }))
-  description = "List of frontend_endpoint objects for frontdoor. At least one object is required."
+  description = "List of frontend_endpoint objects for frontdoor."
+
+  validation {
+    condition     = length(var.endpoints) > 0
+    error_message = "The list with endpoints should at least contain one object."
+  }
 }
 
 variable "routes" {
@@ -51,7 +56,12 @@ variable "routes" {
       forwarding_protocol                   = optional(string)
     }))
   }))
-  description = "A list of routing_rule objects for frontdoor. At least one object is required."
+  description = "A list of routing_rule objects for frontdoor."
+
+  validation {
+    condition     = length(var.routes) > 0
+    error_message = "The list with routes should at least contain one object."
+  }
 }
 
 variable "backend_pools" {
@@ -69,7 +79,7 @@ variable "backend_pools" {
       weight      = optional(number)
     }))
   }))
-  description = "A list of backend_pool objects for frontdoor. At least one object is required."
+  description = "A list of backend_pool objects for frontdoor."
 }
 
 variable "backend_pool_health_probes" {
@@ -80,7 +90,12 @@ variable "backend_pool_health_probes" {
     protocol     = optional(string)
     probe_method = optional(string)
   }))
-  description = "A list of backend_pool_health_probe objects for frontdoor. At least one object is required."
+  description = "A list of backend_pool_health_probe objects for frontdoor."
+
+  validation {
+    condition     = length(var.backend_pool_health_probes) > 0
+    error_message = "The list with backend_pool_health_probes should at least contain one object."
+  }
 }
 
 variable "backend_pool_load_balancers" {
@@ -90,7 +105,12 @@ variable "backend_pool_load_balancers" {
     successful_samples_required     = optional(number)
     additional_latency_milliseconds = optional(number)
   }))
-  description = "A list of backend_pool_load_balancing objects for frontdoor. At least one object is required."
+  description = "A list of backend_pool_load_balancing objects for frontdoor."
+
+  validation {
+    condition     = length(var.backend_pool_load_balancers) > 0
+    error_message = "The list with backend_pool_load_balancers should at least contain one object."
+  }
 }
 
 variable "backend_pools_send_receive_timeout_seconds" {
