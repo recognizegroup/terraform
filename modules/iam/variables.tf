@@ -10,5 +10,5 @@ variable "roles" {
 
 variable "scope" {
   type        = string
-  description = "The scope of the IAM rules. Scope can be set on resource base and should be the ID of the resource that acts as scope."
+  description = "The scope of the IAM rules. Scope can be set based on a resource and should be the ID of the resource that acts as scope."
 }
