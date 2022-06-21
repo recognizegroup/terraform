@@ -30,13 +30,19 @@ variable "publisher_email" {
 }
 
 variable "allowed_tenants" {
-  type        = list(any)
+  type        = list(string)
   description = "List of allowed AAD tenants."
 }
 
 variable "owners" {
-  type        = list(any)
+  type        = list(string)
   description = "List of AAD object IDs to set as API management owners."
+  default     = []
+}
+
+variable "redirect_uris" {
+  type        = list(string)
+  description = "List of additional redirect URIs for authenticating with the developer portal."
   default     = []
 }
 

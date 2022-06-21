@@ -161,7 +161,7 @@ resource "azuread_application" "application" {
   owners       = concat([data.azuread_client_config.current.object_id], var.owners)
 
   web {
-    redirect_uris = ["${azurerm_api_management.api_management.developer_portal_url}/signin"]
+    redirect_uris = concat(["${azurerm_api_management.api_management.developer_portal_url}/signin"], var.redirect_uris)
 
     implicit_grant {
       id_token_issuance_enabled = true
