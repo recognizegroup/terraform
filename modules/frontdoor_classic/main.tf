@@ -21,15 +21,15 @@ resource "azurerm_frontdoor" "frontdoor" {
   name                = var.name
   resource_group_name = var.resource_group_name
 
-  // HACK: Front door must always contain the default associated frontend endpoint
+  // HACK: Front door instance must always contain the default associated frontend endpoint
   frontend_endpoint {
     name      = "default"
     host_name = "${var.name}.azurefd.net"
   }
 
   backend_pool_settings {
-    backend_pools_send_receive_timeout_seconds   = 0
-    enforce_backend_pools_certificate_name_check = false
+    backend_pools_send_receive_timeout_seconds   = var.backend_pools_send_receive_timeout_seconds
+    enforce_backend_pools_certificate_name_check = var.enforce_backend_pools_certificate_name_check
   }
 
   dynamic "frontend_endpoint" {
@@ -153,5 +153,46 @@ resource "azurerm_frontdoor_custom_https_configuration" "custom_https" {
   // TODO: extend when needed, preferably stay with frontdoor-managed certificates for maintability
   custom_https_configuration {
     certificate_source = "FrontDoor"
+  }
+}
+
+data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
+  count       = var.log_analytics_workspace_id == null ? 0 : 1
+  resource_id = azurerm_frontdoor.frontdoor.id
+}
+
+resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
+  count                      = var.log_analytics_workspace_id == null ? 0 : 1
+  name                       = "diag-${var.name}"
+  target_resource_id         = azurerm_frontdoor.frontdoor.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  // TODO: not yet implemented by Azure
+  // log_analytics_destination_type = "Dedicated"
+
+  dynamic "log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
+
+    content {
+      category = log.value
+      enabled  = true
+
+      retention_policy {
+        enabled = false
+      }
+    }
+  }
+
+  dynamic "metric" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
+
+    content {
+      category = metric.value
+      enabled  = true
+
+      retention_policy {
+        enabled = false
+      }
+    }
   }
 }

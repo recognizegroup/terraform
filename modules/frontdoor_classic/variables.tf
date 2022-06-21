@@ -92,3 +92,21 @@ variable "backend_pool_load_balancers" {
   }))
   description = "A list of backend_pool_load_balancing objects for frontdoor. At least one object is required."
 }
+
+variable "backend_pools_send_receive_timeout_seconds" {
+  type        = number
+  description = "Specifies the send and receive timeout on forwarding request to the backend. When the timeout is reached, the request fails and returns."
+  default     = 60
+}
+
+variable "enforce_backend_pools_certificate_name_check" {
+  type        = bool
+  description = "Enforce certificate name check on HTTPS requests to all backend pools, this setting will have no effect on HTTP requests."
+  default     = false
+}
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of a log analytics workspace (optional)."
+  default     = null
+}
