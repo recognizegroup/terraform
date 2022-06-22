@@ -68,7 +68,7 @@ variable "api_management_logger_settings" {
   default     = null
 }
 
-variable "api_management_diagnostic_settings" {
+variable "api_management_api_diagnostic_settings" {
   type = object({
     sampling_percentage       = number,
     always_log_errors         = bool,
@@ -82,22 +82,18 @@ variable "api_management_diagnostic_settings" {
     always_log_errors         = true,
     log_client_ip             = true,
     verbosity                 = "verbose", # possible values: verbose, information, error
-    http_correlation_protocol = "W3C"
+    http_correlation_protocol = "W3C",
   }
 }
 
-variable "alert_rules_settings" {
-  type = list(object({
-    name          = string,
-    severity      = string,       # possible values: Sev0, Sev1, Sev2, Sev3 or Sev4
-    frequency     = string,       # frequency in ISO-8601 eg. PT1M -> 1 per Month
-    detector_type = string,       # possible values see: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_smart_detector_alert_rule#detector_type
-    action_groups = list(string), # ids of Action Groups
-    scope_ids     = list(string)  # scopes for alert rule, e.g. Application Insights Id
-  }))
-
-  description = "Defines Settings for a list of alert rules, within Azure Monitor"
-  default     = []
+variable "api_management_metrics_diagnostic_settings" {
+  type = object({
+    log_analytics_workspace_id = string # Used for dianostics logging, logs and metrics
+  })
+  description = "Settings for api management diagnostic for logs and metrics."
+  default = {
+    log_analytics_workspace_id = null
+  }
 }
 
 variable "public_ip_address_id" {
