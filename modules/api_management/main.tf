@@ -87,17 +87,17 @@ resource "azurerm_api_management_logger" "apim_logger" {
 }
 
 resource "azurerm_api_management_diagnostic" "apim_diagnostic" {
-  count                    = (var.api_management_logger_settings != null && var.azurerm_api_management_diagnostic_settings != null) ? 1 : 0
+  count                    = (var.api_management_logger_settings != null && var.api_management_diagnostic_settings != null) ? 1 : 0
   identifier               = "applicationinsights"
   resource_group_name      = var.resource_group_name
   api_management_name      = azurerm_api_management.api_management.name
   api_management_logger_id = azurerm_api_management_logger.apim_logger[0].id
 
-  sampling_percentage       = var.azurerm_api_management_diagnostic_settings.sampling_percentage
-  always_log_errors         = var.azurerm_api_management_diagnostic_settings.always_log_errors
-  log_client_ip             = var.azurerm_api_management_diagnostic_settings.log_client_ip
-  verbosity                 = var.azurerm_api_management_diagnostic_settings.verbosity
-  http_correlation_protocol = var.azurerm_api_management_diagnostic_settings.http_correlation_protocol
+  sampling_percentage       = var.api_management_diagnostic_settings.sampling_percentage
+  always_log_errors         = var.api_management_diagnostic_settings.always_log_errors
+  log_client_ip             = var.api_management_diagnostic_settings.log_client_ip
+  verbosity                 = var.api_management_diagnostic_settings.verbosity
+  http_correlation_protocol = var.api_management_diagnostic_settings.http_correlation_protocol
 
   frontend_request {
     body_bytes = 32
