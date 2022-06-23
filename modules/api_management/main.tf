@@ -87,17 +87,17 @@ resource "azurerm_api_management_logger" "apim_logger" {
 }
 
 resource "azurerm_api_management_diagnostic" "apim_diagnostic" {
-  count                    = (var.api_management_logger_settings != null && var.api_management_diagnostic_settings != null) ? 1 : 0
+  count                    = (var.api_management_logger_settings != null && var.diagnostic_settings != null) ? 1 : 0
   identifier               = "applicationinsights"
   resource_group_name      = var.resource_group_name
   api_management_name      = azurerm_api_management.api_management.name
   api_management_logger_id = azurerm_api_management_logger.apim_logger[0].id
 
-  sampling_percentage       = var.api_management_diagnostic_settings.sampling_percentage
-  always_log_errors         = var.api_management_diagnostic_settings.always_log_errors
-  log_client_ip             = var.api_management_diagnostic_settings.log_client_ip
-  verbosity                 = var.api_management_diagnostic_settings.verbosity
-  http_correlation_protocol = var.api_management_diagnostic_settings.http_correlation_protocol
+  sampling_percentage       = var.diagnostic_settings.sampling_percentage
+  always_log_errors         = var.diagnostic_settings.always_log_errors
+  log_client_ip             = var.diagnostic_settings.log_client_ip
+  verbosity                 = var.diagnostic_settings.verbosity
+  http_correlation_protocol = var.diagnostic_settings.http_correlation_protocol
 
   frontend_request {
     body_bytes = 32
@@ -137,16 +137,16 @@ resource "azurerm_api_management_diagnostic" "apim_diagnostic" {
 }
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
-  count       = var.api_management_metrics_settings.log_analytics_workspace_id == null ? 0 : 1
+  count       = var.log_analytics_workspace_id == null ? 0 : 1
   resource_id = azurerm_api_management.api_management.id
 }
 
 // Write logs and metrics to log analytics if specified
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
-  count                      = var.api_management_metrics_settings.log_analytics_workspace_id == null ? 0 : 1
+  count                      = var.log_analytics_workspace_id == null ? 0 : 1
   name                       = "diag-${azurerm_api_management.api_management.name}"
   target_resource_id         = azurerm_api_management.api_management.id
-  log_analytics_workspace_id = var.api_management_metrics_settings.log_analytics_workspace_id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
 
   dynamic "log" {
     for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
