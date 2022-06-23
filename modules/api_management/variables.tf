@@ -68,7 +68,7 @@ variable "api_management_logger_settings" {
   default     = null
 }
 
-variable "api_management_api_diagnostic_settings" {
+variable "api_management_diagnostic_settings" {
   type = object({
     sampling_percentage       = number,
     always_log_errors         = bool,
@@ -86,7 +86,7 @@ variable "api_management_api_diagnostic_settings" {
   }
 }
 
-variable "api_management_metrics_diagnostic_settings" {
+variable "api_management_metrics_settings" {
   type = object({
     log_analytics_workspace_id = string # Used for dianostics logging, logs and metrics
   })
