@@ -10,6 +10,6 @@ variable "custom_domains" {
     certificate_name = string,
     key_vault_id     = string,
   }))
-  description = "List of custom domains and certificate references for API Management. Type must be one of gateway, management and developer_portal."
-  default     = []
+  description = "List of custom domains and certificate references for API Management. Type must be one of gateway, management or developer_portal."
+  default     = null
 }
