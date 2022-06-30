@@ -7,6 +7,6 @@ output "principal_id" {
 }
 
 output "host_key_master" {
-  value     = data.azurerm_function_app_host_keys.host_keys.master_key
+  value     = data.azurerm_function_app_host_keys.host_keys.default_function_key
   sensitive = true
 }

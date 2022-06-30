@@ -35,7 +35,7 @@ variable "storage_account_access_key" {
 }
 
 variable "app_settings" {
-  type        = map
+  type        = map(any)
   description = "The app settings of this app service."
   default     = {}
 }
@@ -60,4 +60,16 @@ variable "connection_strings" {
   }))
   description = "Connection strings for the function app."
   default     = []
+}
+
+variable "integration_subnet_id" {
+  type        = string
+  description = "Define the subnet in which the Function App runs."
+  default     = null
+}
+
+variable "route_all_outbound_traffic" {
+  type        = bool
+  description = "Defines whether all outbound traffic of the Function App is routed."
+  default     = false
 }
