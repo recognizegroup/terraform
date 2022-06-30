@@ -74,33 +74,39 @@ resource "azurerm_key_vault_certificate" "certificate" {
 }
 
 resource "azurerm_api_management_custom_domain" "custom_domain" {
-  for_each = {
-    for domain in var.custom_domains :
-    domain.host_name => domain
-  }
+  count             = var.custom_domains == null ? 0 : 1
   api_management_id = var.api_management_id
 
   dynamic "gateway" {
-    for_each = each.value.type == "gateway" ? [1] : []
+    for_each = {
+      for domain in var.custom_domains :
+      domain.host_name => domain if domain.type == "gateway"
+    }
     content {
-      host_name    = each.value.host_name
-      key_vault_id = azurerm_key_vault_certificate.certificate[each.key].versionless_secret_id
+      host_name    = gateway.value.host_name
+      key_vault_id = azurerm_key_vault_certificate.certificate[gateway.value.host_name].versionless_secret_id
     }
   }
 
   dynamic "developer_portal" {
-    for_each = each.value.type == "developer_portal" ? [1] : []
+    for_each = {
+      for domain in var.custom_domains :
+      domain.host_name => domain if domain.type == "developer_portal"
+    }
     content {
-      host_name    = each.value.host_name
-      key_vault_id = azurerm_key_vault_certificate.certificate[each.key].versionless_secret_id
+      host_name    = developer_portal.value.host_name
+      key_vault_id = azurerm_key_vault_certificate.certificate[developer_portal.value.host_name].versionless_secret_id
     }
   }
 
   dynamic "management" {
-    for_each = each.value.type == "management" ? [1] : []
+    for_each = {
+      for domain in var.custom_domains :
+      domain.host_name => domain if domain.type == "management"
+    }
     content {
-      host_name    = each.value.host_name
-      key_vault_id = azurerm_key_vault_certificate.certificate[each.key].versionless_secret_id
+      host_name    = management.value.host_name
+      key_vault_id = azurerm_key_vault_certificate.certificate[management.value.host_name].versionless_secret_id
     }
   }
 }
