@@ -2,7 +2,7 @@ terraform {
   required_version = ">=0.14.9"
 
   required_providers {
-    azurerm = "=2.70.0"
+    azurerm = "=3.11.0"
   }
 
   backend "azurerm" {}
@@ -24,10 +24,11 @@ resource "azurerm_function_app" "function_app" {
   app_settings = var.app_settings
 
   site_config {
-    always_on = var.always_on
+    always_on              = var.always_on
+    vnet_route_all_enabled = var.route_all_outbound_traffic
   }
 
-  dynamic connection_string {
+  dynamic "connection_string" {
     for_each = var.connection_strings
     content {
       name  = connection_string.value.name
@@ -49,6 +50,16 @@ data "azurerm_function_app_host_keys" "host_keys" {
     azurerm_function_app.function_app
   ]
 }
+
+# VNet integration
+
+resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
+  count          = var.integration_subnet_id == null ? 0 : 1
+  app_service_id = azurerm_function_app.function_app.id
+  subnet_id      = var.integration_subnet_id
+}
+
+# Logging and analytics
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   count       = var.log_analytics_workspace_id == null ? 0 : 1
