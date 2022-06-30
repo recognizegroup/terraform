@@ -17,7 +17,7 @@ resource "azurerm_role_assignment" "role_assignment" {
     for role in var.roles :
     "${role.object_id}_${role.role_name}" => role
   }
-  scope                = var.scope
+  scope                = each.value.scope
   role_definition_name = each.value.role_name
   principal_id         = each.value.object_id
 }
