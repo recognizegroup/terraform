@@ -22,10 +22,22 @@ resource "azurerm_monitor_action_group" "action_group" {
   short_name          = var.action_group_short_name
   enabled             = var.action_group_enabled
 
-  email_receiver {
-    name                    = "Send email"
-    email_address           = var.action_group_email_receiver
-    use_common_alert_schema = var.action_group_use_common_alert_schema
+  dynamic "email_receiver" {
+    for_each = var.action_group_email_receiver == null ? [] : [1]
+    content {
+      name                    = "Email"
+      email_address           = var.action_group_email_receiver
+      use_common_alert_schema = var.action_group_use_common_alert_schema
+    }
+  }
+
+  dynamic "webhook_receiver" {
+    for_each = var.action_group_webhook_uri == null ? [] : [1]
+    content {
+      name                    = "Webhook"
+      service_uri             = var.action_group_webhook_uri
+      use_common_alert_schema = var.action_group_use_common_alert_schema
+    }
   }
 }
 

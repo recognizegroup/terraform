@@ -37,6 +37,13 @@ variable "action_group_enabled" {
 variable "action_group_email_receiver" {
   type        = string
   description = "The email address where the alert should be sent to."
+  default     = null
+}
+
+variable "action_group_webhook_uri" {
+  type        = string
+  description = "The webhook address where the alert should be sent to."
+  default     = null
 }
 
 variable "action_group_use_common_alert_schema" {
