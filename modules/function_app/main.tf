@@ -26,6 +26,7 @@ resource "azurerm_function_app" "function_app" {
   site_config {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic
+    ip_restriction         = var.ip_restriction
   }
 
   dynamic "connection_string" {

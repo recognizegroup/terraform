@@ -73,3 +73,22 @@ variable "route_all_outbound_traffic" {
   description = "Defines whether all outbound traffic of the Function App is routed."
   default     = false
 }
+
+variable "ip_restriction" {
+  type = list(object({
+    ip_address                = string,
+    service_tag               = string,
+    virtual_network_subnet_id = string,
+    name                      = string,
+    priority                  = number,
+    action                    = string,
+    headers = list(object({
+      x_azure_fdid      = list(string),
+      x_fd_health_probe = list(string),
+      x_forwarded_for   = list(string),
+      x_forwarded_host  = list(string)
+    }))
+  }))
+  description = "A List of objects representing ip restrictions."
+  default     = null
+}
