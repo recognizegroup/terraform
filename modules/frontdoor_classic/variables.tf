@@ -11,6 +11,11 @@ variable "resource_group_name" {
 variable "name" {
   type        = string
   description = "Specifies the name of the Front Door service."
+
+  validation {
+    condition     = can(regex("^fd", var.name))
+    error_message = "The name of this resource must start with 'fd'. For a list of common Azure abbreviations see https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations."
+  }
 }
 
 variable "endpoints" {
