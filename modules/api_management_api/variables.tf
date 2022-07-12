@@ -43,11 +43,6 @@ variable "owners" {
   default     = []
 }
 
-variable "object_ids" {
-  type        = list(string)
-  description = "managed identity object ids that want access to the through AAD application"
-}
-
 variable "api_management_logger_id" {
   type        = string
   description = "The Id of the API management Logger"

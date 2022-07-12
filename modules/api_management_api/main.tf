@@ -264,18 +264,6 @@ resource "azuread_application" "application" {
   }
 }
 
-resource "azuread_service_principal" "internal" {
-  application_id = azuread_application.application.application_id
-}
-
-resource "azuread_app_role_assignment" "role_assignment" {
-  count               = length(var.object_ids)
-  app_role_id         = azuread_application.application.app_role_ids["Default.Access"]
-  principal_object_id = var.object_ids[count.index]
-  resource_object_id  = azuread_service_principal.internal.object_id
-}
-
-
 resource "azurerm_api_management_authorization_server" "oauth2" {
   name                         = "${lower(replace(var.api_settings.name, " ", "-"))}-auth"
   authorization_methods        = ["GET", "POST"]
