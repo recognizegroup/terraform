@@ -31,7 +31,7 @@ variable "always_on" {
 }
 
 variable "app_settings" {
-  type        = map
+  type        = map(any)
   description = "The app settings of this app service."
   default     = {}
 }
@@ -63,15 +63,17 @@ variable "health_check_path" {
 variable "integration_subnet_id" {
   type        = string
   description = "The ID of the integration subnet to enable virtual network integration."
+  default     = null
 }
 
 variable "private_subnet_id" {
   type        = string
   description = "The ID of the subnet from which private IP addresses will be allocated for the Private Endpoint."
+  default     = null
 }
 
 variable "custom_domains" {
-  type        = list
+  type        = list(any)
   description = "Define custom domains attached to this app service."
   default     = []
 }
@@ -80,6 +82,18 @@ variable "log_analytics_workspace_id" {
   type        = string
   description = "ID of a log analytics workspace (optional)."
   default     = null
+}
+
+variable "use_32_bit_worker_process" {
+  type        = bool
+  description = "Should the App Service run in 32 bit mode, rather than 64 bit mode?"
+  default     = false
+}
+
+variable "ftps_state" {
+  type        = string
+  description = "State of FTP / FTPS service for this App Service."
+  default     = "FtpsOnly"
 }
 
 variable "storage_mount" {
