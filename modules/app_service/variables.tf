@@ -90,6 +90,12 @@ variable "use_32_bit_worker_process" {
   default     = false
 }
 
+variable "ftps_state" {
+  type        = string
+  description = "State of FTP / FTPS service for this App Service."
+  default     = "FtpsOnly"
+}
+
 variable "storage_mount" {
   type = object({
     name         = string,

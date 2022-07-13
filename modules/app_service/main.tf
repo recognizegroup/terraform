@@ -27,7 +27,7 @@ resource "azurerm_app_service" "app_service" {
     linux_fx_version          = var.linux_fx_version
     health_check_path         = var.health_check_path
     use_32_bit_worker_process = var.use_32_bit_worker_process
-    ftps_state                = "FtpsOnly"
+    ftps_state                = var.ftps_state
     http2_enabled             = true
     min_tls_version           = 1.2
   }
