@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = ">=1.2.3"
 
   required_providers {
-    azurerm = "=2.94.0"
+    azurerm = "=3.13.0"
   }
 
   backend "azurerm" {}
@@ -29,12 +29,12 @@ resource "azurerm_postgresql_flexible_server" "postgresql_server" {
   storage_mb            = var.postgresql_db_size
   backup_retention_days = 30
 
-  administrator_login    = var.postgresql_username
+  administrator_login    = var.admin_username
   administrator_password = random_password.postgresql_admin.result
   version                = var.postgresql_version
   zone                   = "1"
-  delegated_subnet_id    = var.subnet_id
-  private_dns_zone_id    = var.dns_zone_id
+  delegated_subnet_id    = var.delegated_subnet_id
+  private_dns_zone_id    = var.private_dns_zone_id
 
   maintenance_window {
     day_of_week  = 1 # Monday

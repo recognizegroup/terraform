@@ -1,8 +1,8 @@
-output "username" {
-  value = var.postgresql_username
+output "admin_username" {
+  value = var.admin_username
 }
 
-output "password" {
+output "admin_password" {
   value     = random_password.postgresql_admin.result
   sensitive = true
 }

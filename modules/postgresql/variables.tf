@@ -39,9 +39,9 @@ variable "postgresql_database_collation" {
   default = "en_US.utf8"
 }
 
-variable "postgresql_username" {
+variable "admin_username" {
   type = string
-  description = "Specifies the Administrator login for this PostgreSQL Flexible Server."
+  description = "Specifies the Administrator username for this PostgreSQL Flexible Server."
 }
 
 variable "log_analytics_workspace_id" {
@@ -50,12 +50,12 @@ variable "log_analytics_workspace_id" {
   default     = null
 }
 
-variable "subnet_id" {
+variable "delegated_subnet_id" {
   type        = string
-  description = "ID of the subnet for the private endpoint."
+  description = "ID of the delegated subnet for the private endpoint."
 }
 
-variable "dns_zone_id" {
+variable "private_dns_zone_id" {
   type = string
   description = "ID of the private DNS zone."
 }
