@@ -11,9 +11,7 @@ terraform {
   backend "azurerm" {}
 }
 
-provider "azuread" {
-  features {}
-}
+provider "azuread" {}
 
 resource "azuread_service_principal" "internal" {
   application_id = var.application_id
