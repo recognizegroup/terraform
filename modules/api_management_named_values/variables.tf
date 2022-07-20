@@ -2,7 +2,7 @@ variable "named_values" {
   type = list(object({
     name    = string,
     value   = string,
-    encrypt = bool //Wether or not this value should be encrypted. Does not make it sensitive in deployment, but encrypts it in the apim named values
+    encrypt = bool // Wether or not this value should be encrypted. Does not affect sensitive value during deployment, but encrypts it in the apim named values
   }))
   description = "List of named values to add to the api management instance."
 }
