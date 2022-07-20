@@ -108,7 +108,7 @@ variable "backend_type" {
   description = "The type of backend used by the api. Should be public, basic-auth, body-auth or managed-identity"
 
   validation {
-    condition     = contains(["public", "basic-auth", "managed-identity", "body-auth"], var.backend_type)
+    condition     = contains(["public", "basic-auth", "managed-identity", "body-auth", "oauth"], var.backend_type)
     error_message = "Argument \"backend_type\" must be either \"public\", \"basic-auth\", \"body-auth\", \"oauth\" or \"managed-identity\"."
   }
 }
