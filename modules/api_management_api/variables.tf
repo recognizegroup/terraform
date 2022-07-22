@@ -163,12 +163,11 @@ variable "soap_body_key" {
 variable "operation_policies" {
   type = list(object({
     operation_id = string, // name of the operation
-    policy       = string, // operation policy or path to a policy file 
+    policy_path  = string, // operation policy or path to a policy file 
   }))
   description = "key-value pair of Operation and A policy specific to it"
   default     = null
 }
-
 
 variable "soap_pass_through" {
   type        = string
