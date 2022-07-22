@@ -160,3 +160,21 @@ variable "soap_body_key" {
   default     = null
 }
 
+variable "operation_policies" {
+  type = list(object({
+    operation_id = string, // name of the operation
+    policy       = string, // operation policy or path to a policy file 
+  }))
+  description = "key-value pair of Operation and A policy specific to it"
+  default     = null
+}
+
+
+variable "soap_pass_through" {
+  type        = string
+  description = "defines wether soap api should be converted to REST API"
+  default     = false
+}
+
+
+

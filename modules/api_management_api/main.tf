@@ -51,6 +51,8 @@ resource "azurerm_api_management_api" "api" {
     authorization_server_name = "${lower(replace(var.api_settings.name, " ", "-"))}-auth"
   }
 
+  soap_pass_through = var.soap_pass_through
+
   import {
     content_format = var.api_settings.openapi_file_path != null ? "openapi" : "wsdl"
     content_value  = var.api_settings.openapi_file_path != null ? file(var.api_settings.openapi_file_path) : file(var.api_settings.wsdl_file_path)
@@ -63,6 +65,120 @@ resource "azurerm_api_management_api" "api" {
       }
     }
   }
+}
+
+resource "azurerm_api_management_api_operation" "example" {
+  operation_id        = "user-delete"
+  api_name            = azurerm_api_management_api.api.name
+  api_management_name = azurerm_api_management_api.api.api_management_name
+  resource_group_name = azurerm_api_management_api.api.resource_group_name
+  display_name        = "Delete User Operation"
+  method              = "DELETE"
+  url_template        = "/users/delete"
+  description         = "This can only be done by the logged in user."
+
+  response {
+    status_code = 200
+  }
+}
+
+resource "azurerm_api_management_api_operation_policy" "example" {
+  for_each = { for policy in var.operation_policies : policy.operation_id => policy }
+
+  api_name            = azurerm_api_management_api.api.name
+  api_management_name = azurerm_api_management_api.api.api_management_name
+  resource_group_name = azurerm_api_management_api.api.resource_group_name
+
+  operation_id = each.key
+  xml_content  = <<XML
+  <policies>
+    <inbound>
+        <base />
+        <rewrite-uri template="/services/import.asmx" copy-unmatched-params="false" />
+        <set-body template="liquid">
+			<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns="http://trustit.tkb.nl/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<soap:Body>
+					<Upload>
+                {% if body.upload.username %}
+                <Username>{{body.upload.username}}</Username>
+                {% else %}
+                <Username xsi:nil="true" />
+                {% endif %}
+                {% if body.upload.password %}
+                <Password>{{body.upload.password}}</Password>
+                {% else %}
+                <Password xsi:nil="true" />
+                {% endif %}
+                {% if body.upload.administrationCode %}
+                <AdministrationCode>{{body.upload.administrationCode}}</AdministrationCode>
+                {% else %}
+                <AdministrationCode xsi:nil="true" />
+                {% endif %}
+                {% if body.upload.data %}
+                <Data>{{body.upload.data}}</Data>
+                {% else %}
+                <Data xsi:nil="true" />
+                {% endif %}
+            </Upload>
+				</soap:Body>
+			</soap:Envelope>
+		</set-body>
+        <set-header name="Content-Type" exists-action="override">
+            <value>application/soap+xml; Action="http://trustit.tkb.nl/services/Upload"</value>
+        </set-header>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <choose>
+            <when condition="@(context.Response.StatusCode < 400)">
+                <set-body template="liquid">
+        {
+            "uploadResponse": 
+            {
+            }
+        }</set-body>
+            </when>
+            <otherwise>
+                <set-variable name="old-body" value="@(context.Response.Body.As<string>(preserveContent: true))" />
+                <!-- Error response as per https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md#7102-error-condition-responses -->
+                <set-body template="liquid">{
+            "error": {
+                "code": "{{body.envelope.body.fault.faultcode}}",
+                "message": "{{body.envelope.body.fault.faultstring}}"
+            }
+        }</set-body>
+                <choose>
+                    <when condition="@(string.IsNullOrEmpty(context.Response.Body.As<JObject>(preserveContent: true)["error"]["code"].ToString()) && string.IsNullOrEmpty(context.Response.Body.As<JObject>(preserveContent: true)["error"]["message"].ToString()))">
+                        <set-body>@{
+                    var newResponseBody = new JObject();
+                    newResponseBody["error"] = new JObject();
+                    newResponseBody["error"]["code"] = "InvalidErrorResponseBody";
+                    if (string.IsNullOrEmpty((string)context.Variables["old-body"]))
+                    {
+                        newResponseBody["error"]["message"] = "The error response body was not a valid SOAP error response. The response body was empty.";
+                    }
+                    else
+                    {
+                        newResponseBody["error"]["message"] = "The error response body was not a valid SOAP error response. The response body was: '" + context.Variables["old-body"] + "'.";
+                    }
+                    return newResponseBody.ToString();
+                }</set-body>
+                    </when>
+                </choose>
+            </otherwise>
+        </choose>
+        <set-header name="Content-Type" exists-action="override">
+            <value>application/json</value>
+        </set-header>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+  </policies>
+  XML
 }
 
 ######################################################
