@@ -17,3 +17,8 @@ variable "api_name" {
   type        = string
   description = "API name"
 }
+
+variable "policy_location" {
+  type        = string
+  description = "location of xml policy file for this specific operation"
+}

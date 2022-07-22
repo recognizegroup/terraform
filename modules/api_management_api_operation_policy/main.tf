@@ -29,11 +29,5 @@ resource "azurerm_api_management_api_operation_policy" "policy" {
   resource_group_name = var.resource_group_name
 
   operation_id = var.operation_id
-  xml_content  = <<XML
-  <policies>
-    <inbound>
-      <find-and-replace from="xyz" to="abc" />
-    </inbound>
-  </policies>
-  XML
+  xml_content  = file(var.policy_location)
 }
