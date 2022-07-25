@@ -165,6 +165,3 @@ variable "soap_pass_through" {
   description = "defines wether soap api should be converted to REST API"
   default     = false
 }
-
-
-
