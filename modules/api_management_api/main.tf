@@ -170,6 +170,23 @@ resource "azurerm_api_management_api_policy" "api_policy" {
         }
     </set-body>
     %{endif}
+    %{if var.backend_type == "oauth"}
+    <send-request ignore-error="true" timeout="20" response-variable-name="bearerToken" mode="new">
+      <set-url>https://login.microsoftonline.com/${var.oauth_settings.tenant_id}/oauth2/v2.0/token</set-url>
+      <set-method>POST</set-method>
+      <set-header name="Content-Type" exists-action="override">
+        <value>application/x-www-form-urlencoded</value>
+      </set-header>
+      <set-body>@{
+        return "client_id=${var.oauth_settings.client_id}&scope=${var.oauth_settings.scope}&client_secret=${var.oauth_settings.client_secret}&grant_type=client_credentials";
+        }
+      </set-body>
+    </send-request>
+    <set-header name="Authorization" exists-action="override">
+      <value>@("Bearer " + (String)((IResponse)context.Variables["bearerToken"]).Body.As<JObject>()["access_token"])</value>
+    </set-header>
+    %{endif}
+    <set-header name="Ocp-Apim-Subscription-Key" exists-action="delete" />
   </inbound>
 </policies>
 XML

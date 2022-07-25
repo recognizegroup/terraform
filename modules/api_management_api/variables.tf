@@ -108,8 +108,8 @@ variable "backend_type" {
   description = "The type of backend used by the api. Should be public, basic-auth, body-auth or managed-identity"
 
   validation {
-    condition     = contains(["public", "basic-auth", "managed-identity", "body-auth"], var.backend_type)
-    error_message = "Argument \"backend_type\" must be either \"public\", \"basic-auth\", \"body-auth\", or \"managed-identity\"."
+    condition     = contains(["public", "basic-auth", "managed-identity", "body-auth", "oauth"], var.backend_type)
+    error_message = "Argument \"backend_type\" must be either \"public\", \"basic-auth\", \"body-auth\", \"oauth\" or \"managed-identity\"."
   }
 }
 
@@ -164,4 +164,15 @@ variable "soap_pass_through" {
   type        = string
   description = "defines wether soap api should be converted to REST API"
   default     = false
+}
+
+variable "oauth_settings" {
+  type = object({
+    tenant_id     = string, // May contain value or APIM variable: {{var_name}}
+    scope         = string, // May contain value or APIM variable: {{var_name}}
+    client_id     = string, // May contain value or APIM variable: {{var_name}}
+    client_secret = string, // May contain value or APIM variable: {{var_name}}
+  })
+  description = "Values used for oAuth authentication to the back-end"
+  default     = null
 }
