@@ -160,6 +160,12 @@ variable "soap_body_key" {
   default     = null
 }
 
+variable "soap_pass_through" {
+  type        = string
+  description = "defines wether soap api should be converted to REST API"
+  default     = false
+}
+
 variable "oauth_settings" {
   type = object({
     tenant_id     = string, // May contain value or APIM variable: {{var_name}}
