@@ -67,32 +67,6 @@ resource "azurerm_api_management_api" "api" {
   }
 }
 
-resource "azurerm_api_management_api_operation" "example" {
-  operation_id        = "user-delete"
-  api_name            = azurerm_api_management_api.api.name
-  api_management_name = azurerm_api_management_api.api.api_management_name
-  resource_group_name = azurerm_api_management_api.api.resource_group_name
-  display_name        = "Delete User Operation"
-  method              = "DELETE"
-  url_template        = "/users/delete"
-  description         = "This can only be done by the logged in user."
-
-  response {
-    status_code = 200
-  }
-}
-
-resource "azurerm_api_management_api_operation_policy" "example" {
-  for_each = { for policy in var.operation_policies : policy.operation_id => policy }
-
-  api_name            = azurerm_api_management_api.api.name
-  api_management_name = azurerm_api_management_api.api.api_management_name
-  resource_group_name = azurerm_api_management_api.api.resource_group_name
-
-  operation_id = each.key
-  xml_content  = file(each.value.policy_path)
-}
-
 ######################################################
 ###########         API Diagnostics        ###########
 ######################################################
