@@ -20,4 +20,10 @@ resource "azurerm_storage_table_entity" "storage_table_entity" {
   row_key       = var.row_key
 
   entity = var.entity
+
+  lifecycle {
+    ignore_changes = [
+      entity
+    ]
+  }
 }
