@@ -117,49 +117,6 @@ terraform {
 }
 ```
 
-## Github actions
+## Github Actions
 
-This sample Terragrunt directory structure works well with Github actions or other build pipelines. The following Github actions workflow demonstrates the  deployments
-
-```yaml
-name: Deployment
-on:
-  push:
-    branches:
-      - feature/*
-      - develop
-      - release/*
-      - main
-
-jobs:
-  environments:
-    name: Get environment
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Setting $ENVIRONMENT.."
-    outputs:
-      environment: ${{ github.ref == 'refs/heads/main' && 'prd' || (startsWith(github.ref, 'refs/heads/release/') && 'acc' || github.ref == 'refs/heads/develop' && 'tst' || 'dev') }}
-
-  infrastructure:
-    name: Terraform
-    runs-on: ubuntu-latest
-    needs: [environments]
-    environment: ${{ needs.environments.outputs.environment }}
-    concurrency: ${{ needs.environments.outputs.environment }}
-    env:
-      ENVIRONMENT: ${{ needs.environments.outputs.environment }}
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      TF_WORKING_DIR: terraform
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup
-        run: brew install terragrunt
-      - name: Apply
-        run: |
-          terragrunt run-all apply \
-          --terragrunt-non-interactive
-```
+This sample Terragrunt directory structure works well with Github actions or other build pipelines. Take a look at the example [workflow](./.github/workflows/ci.yaml) file.
