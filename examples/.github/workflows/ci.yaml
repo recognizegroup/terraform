@@ -1,0 +1,45 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+      - release/*
+      - develop
+
+jobs:
+  determine-environment:
+    runs-on: ubuntu-latest
+    name: Determine environment
+    steps:
+      - run: echo "🤖  Finding correct environment"
+    outputs:
+      environment: $${{ github.ref == 'refs/heads/main' && 'prd' || (startsWith(github.ref, 'refs/heads/release/') && 'acc' || 'tst') }}
+
+  infrastructure:
+    needs: [determine-environment]
+    name: Deploy infrastructure
+    defaults:
+      run:
+        working-directory: terraform/
+    env:
+      ENVIRONMENT: $${{ needs.determine-environment.outputs.environment }}
+    runs-on: ubuntu-latest
+    environment: $${{ needs.determine-environment.outputs.environment }}
+    concurrency: $${{ needs.determine-environment.outputs.environment }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_wrapper: false
+    - name: Setup Terragrunt
+      run: brew install terragrunt
+    - name: Terragrunt Apply
+      run: terragrunt run-all apply --terragrunt-non-interactive
+      env:
+        ARM_CLIENT_ID: $${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: $${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: $${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: $${{ secrets.ARM_TENANT_ID }}
+        ARM_SKIP_PROVIDER_REGISTRATION: true
