@@ -19,7 +19,7 @@ variable "sku" {
 }
 
 variable "admin_users" {
-  type        = list
+  type        = list(any)
   description = "List of email addresses of admin users."
 }
 
@@ -29,6 +29,12 @@ variable "enable_power_bi" {
 }
 
 variable "ipv4_firewall_rules" {
-  type        = list
+  type        = list(any)
   description = "List of ipv4 firewall rules with ip addresses allowed to access analysis services."
+}
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of a log analytics workspace (optional)."
+  default     = null
 }

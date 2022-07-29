@@ -82,13 +82,13 @@ resource "azurerm_private_endpoint" "private_endpoint" {
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   count       = var.log_analytics_workspace_id == null ? 0 : 1
-  resource_id = azurerm_mssql_server.mssql_server.id
+  resource_id = azurerm_mssql_database.mssql_database.id
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   count                      = var.log_analytics_workspace_id == null ? 0 : 1
-  name                       = "diag-${var.server_name}"
-  target_resource_id         = azurerm_mssql_server.mssql_server.id
+  name                       = "diag-${var.database_name}"
+  target_resource_id         = azurerm_mssql_database.mssql_database.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
   // TODO: not yet implemented by Azure
