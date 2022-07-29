@@ -2,7 +2,7 @@ terraform {
   required_version = ">=1.1.2"
 
   required_providers {
-    azurerm = "=2.94.0"
+    azurerm = "=3.16.0"
   }
 
   backend "azurerm" {}
@@ -45,12 +45,17 @@ resource "azurerm_mssql_server" "mssql_server" {
   }
 }
 
+resource "azurerm_mssql_server_transparent_data_encryption" "encryption" {
+  server_id = azurerm_mssql_server.mssql_server.id
+}
+
 resource "azurerm_mssql_database" "mssql_database" {
-  name                        = var.database_name
-  server_id                   = azurerm_mssql_server.mssql_server.id
-  sku_name                    = var.database_sku
-  min_capacity                = var.min_capacity
-  auto_pause_delay_in_minutes = var.auto_pause_delay
+  name                                = var.database_name
+  server_id                           = azurerm_mssql_server.mssql_server.id
+  sku_name                            = var.database_sku
+  min_capacity                        = var.min_capacity
+  auto_pause_delay_in_minutes         = var.auto_pause_delay
+  transparent_data_encryption_enabled = true
 
   dynamic "short_term_retention_policy" {
     for_each = var.short_term_retention_days == null ? [] : [1]
