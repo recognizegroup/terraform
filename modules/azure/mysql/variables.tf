@@ -91,3 +91,9 @@ variable "log_analytics_workspace_id" {
   description = "ID of a log analytics workspace (optional)."
   default     = null
 }
+
+variable "query_store_capture_mode" {
+  type        = string
+  description = "The query store capture mode. NONE or ALL, NONE means do not capture any statements."
+  default     = "NONE"
+}
