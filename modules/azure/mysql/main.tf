@@ -38,7 +38,7 @@ resource "azurerm_mysql_server" "mysql_server" {
   public_network_access_enabled     = false
   ssl_enforcement_enabled           = true
   ssl_minimal_tls_version_enforced  = "TLS1_2"
-
+  
   identity {
     type = "SystemAssigned"
   }
@@ -110,4 +110,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
       }
     }
   }
+}
+
+resource "azurerm_mysql_configuration" "mysql_capture_mode" {
+  name                = "query_store_capture_mode"
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_mysql_server.mysql_server.name
+  value               = var.query_store_capture_mode
 }
