@@ -24,5 +24,5 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
     }
   }
 
-  service_bus_topic_endpoint_id = var.service_bus_topic_id 
+  service_bus_topic_endpoint_id = var.service_bus_topic_id
 }

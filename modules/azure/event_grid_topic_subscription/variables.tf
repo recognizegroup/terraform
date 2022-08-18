@@ -20,7 +20,7 @@ variable "webhook_url" {
 }
 
 variable "service_bus_topic_id" {
-  type = string
+  type        = string
   description = "Service Bus topic ID where the message should be forwarded"
-  default = null
+  default     = null
 }
