@@ -24,3 +24,18 @@ variable "service_bus_topic_id" {
   description = "Service Bus topic ID where the message should be forwarded"
   default     = null
 }
+
+
+variable "subject_filter" {
+  type = object({
+    subject_begins_with = optional(string)
+    subject_ends_with   = optional(string)
+    case_sensitive      = optional(bool)
+  })
+  description = "parameters for subject filtering"
+}
+
+variable "event_types" {
+  type = list(string)
+  description = "A list of applicable event types that need to be part of the event subscription."
+}

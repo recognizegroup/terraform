@@ -6,6 +6,10 @@ terraform {
   }
 
   backend "azurerm" {}
+
+  # Optional attributes and the defaults function are
+  # both experimental, so we must opt in to the experiment.
+  experiments = [module_variable_optional_attrs]
 }
 
 provider "azurerm" {
@@ -25,4 +29,11 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
   }
 
   service_bus_topic_endpoint_id = var.service_bus_topic_id
+
+  subject_filter  {
+    subject_begins_with = var.subject_filter.subject_begins_with
+    subject_ends_with   = var.subject_filter.subject_ends_with
+    case_sensitive      = var.subject_filter.case_sensitive
+  }     
+  included_event_types = var.event_types
 }
