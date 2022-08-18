@@ -1,5 +1,6 @@
 variable "roles" {
   type = list(object({
+    name = optional(string), //unique UUID
     object_id = string,
     role_name = string,
     scope     = string,
