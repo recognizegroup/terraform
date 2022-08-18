@@ -24,8 +24,6 @@ variable "service_bus_topic_id" {
   description = "Service Bus topic ID where the message should be forwarded"
   default     = null
 }
-
-
 variable "subject_filter" {
   type = object({
     subject_begins_with = optional(string)

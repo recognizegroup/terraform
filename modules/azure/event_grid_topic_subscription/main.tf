@@ -10,6 +10,7 @@ terraform {
   # Optional attributes and the defaults function are
   # both experimental, so we must opt in to the experiment.
   experiments = [module_variable_optional_attrs]
+
 }
 
 provider "azurerm" {
@@ -27,7 +28,6 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
       url = var.webhook_url
     }
   }
-
   service_bus_topic_endpoint_id = var.service_bus_topic_id
 
   subject_filter  {
