@@ -6,6 +6,10 @@ terraform {
   }
 
   backend "azurerm" {}
+
+  # Optional attributes and the defaults function are
+  # both experimental, so we must opt in to the experiment.
+  experiments = [module_variable_optional_attrs]
 }
 
 provider "azurerm" {
@@ -15,8 +19,10 @@ provider "azurerm" {
 resource "azurerm_role_assignment" "role_assignment" {
   for_each = {
     for role in var.roles :
-    "${role.object_id}_${role.role_name}" => role
+    "${role.object_id}_${role.role_name}${role.name != null ? "_${role.name}" : ""}" => role
   }
+
+  name                 = each.value.name
   scope                = each.value.scope
   role_definition_name = each.value.role_name
   principal_id         = each.value.object_id
