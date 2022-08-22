@@ -19,3 +19,11 @@ variable "enabled_protocol" {
   description = "The protocol used for the share. Possible values are SMB and NFS."
   default     = "SMB"
 }
+
+variable "directories_to_create" {
+  type        = list(string)
+  description = "List Of Folders To Create within the file share"
+  default     = null
+}
+
+
