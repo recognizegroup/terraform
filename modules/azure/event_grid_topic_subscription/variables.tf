@@ -31,6 +31,7 @@ variable "subject_filter" {
     case_sensitive      = optional(bool)
   })
   description = "parameters for subject filtering"
+  default = null
 }
 
 variable "event_types" {
