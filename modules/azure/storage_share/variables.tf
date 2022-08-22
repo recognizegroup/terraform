@@ -20,7 +20,7 @@ variable "enabled_protocol" {
   default     = "SMB"
 }
 
-variable "directories" {
+variable "directories_to_create" {
   type        = list(string)
   description = "List Of Folders To Create within the file share"
   default     = null

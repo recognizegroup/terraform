@@ -20,7 +20,7 @@ resource "azurerm_storage_share" "storage_share" {
 }
 
 resource "azurerm_storage_share_directory" "folder_name" {
-  for_each = var.directories == null ? [] : toset(var.directories)
+  for_each = var.directories_to_create == null ? [] : toset(var.directories_to_create)
 
   name                 = each.key
   share_name           = azurerm_storage_share.storage_share.name
