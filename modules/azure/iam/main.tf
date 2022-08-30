@@ -22,7 +22,6 @@ resource "azurerm_role_assignment" "role_assignment" {
     "${role.object_id}_${role.role_name}${role.name != null ? "_${role.name}" : ""}" => role
   }
 
-  name                 = each.value.name
   scope                = each.value.scope
   role_definition_name = each.value.role_name
   principal_id         = each.value.object_id
