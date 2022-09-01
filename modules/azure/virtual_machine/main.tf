@@ -66,11 +66,15 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   provision_vm_agent       = var.enable_guest_agent
   enable_automatic_updates = var.enable_auto_updates
   network_interface_ids    = [azurerm_network_interface.network_interface.id]
+  license_type             = var.license_type
 
-  plan {
-    name      = var.image_sku
-    publisher = var.image_publisher
-    product   = var.image_offer
+  dynamic "plan" {
+    for_each = var.requires_plan ? [1] : [0]
+    content {
+      name      = var.image_sku
+      publisher = var.image_publisher
+      product   = var.image_offer
+    }
   }
 
   source_image_reference {

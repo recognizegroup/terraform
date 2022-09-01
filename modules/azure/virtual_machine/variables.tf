@@ -144,3 +144,15 @@ variable "vm_password_secret_name" {
   type        = string
   description = "Secret containing the admin password for the vm."
 }
+
+variable "license_type" {
+  type        = string //None, Windows_Client, Windows_Server
+  description = "Specifies the type of on-premise license (also known as Azure Hybrid Use Benefit) which should be used for this Virtual Machine."
+  default     = null
+}
+
+variable "requires_plan" {
+  type        = bool
+  description = "Third party images might requires plan specification for license aceptance, many Microsoft resource do not need them"
+  default     = true
+}
