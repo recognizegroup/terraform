@@ -69,7 +69,7 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
   license_type             = var.license_type
 
   dynamic "plan" {
-    for_each = var.requires_plan ? [1] : [0]
+    for_each = var.requires_plan ? [1] : []
     content {
       name      = var.image_sku
       publisher = var.image_publisher

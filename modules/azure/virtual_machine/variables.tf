@@ -53,21 +53,9 @@ variable "virtual_machine_size" {
   description = "Size of the virtual machine."
 }
 
-variable "delete_os_disk_on_termination" {
-  type        = bool
-  description = "Deletes the os disk on VM termination."
-  default     = false
-}
-
 variable "os_disk_name" {
   type        = string
   description = "Name of the os disk to create."
-}
-
-variable "os_disk_create_option" {
-  type        = string
-  description = "OS disk create option, Attach or FromImage."
-  default     = "attach"
 }
 
 variable "os_disk_caching" {
@@ -80,11 +68,6 @@ variable "os_disk_storage_account_type" {
   type        = string
   description = "Disk type of the managed disk."
   default     = "Standard_LRS"
-}
-
-variable "os_disk_img_uri" {
-  type        = string
-  description = "Uri of the OS disk, in publisherName:offer:skus:version format."
 }
 
 variable "enable_guest_agent" {
