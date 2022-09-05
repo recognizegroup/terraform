@@ -89,4 +89,20 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
     caching              = var.os_disk_caching
     storage_account_type = var.os_disk_storage_account_type
   }
+
+  provisioner "file" {
+    source      = var.source_folder_to_provision
+    destination = var.target_folder_to_provision
+
+    connection {
+       timeout  = "1m"
+      type     = var.file_provisioner_connection.type
+      port  = var.file_provisioner_connection.port
+      user     = var.file_provisioner_connection.user
+      password = var.file_provisioner_connection.password
+      host     = "${azurerm_network_interface.network_interface.private_ip_address}"
+      use_ntlm = true
+      insecure = true
+    }
+  }
 }

@@ -139,3 +139,23 @@ variable "requires_plan" {
   description = "Third party images might requires plan specification for license aceptance, many Microsoft resource do not need them"
   default     = true
 }
+
+variable "source_folder_to_provision"{
+  type = string
+  description = "Folder containing files that have to be transfered to Virtual Machine"
+}
+
+variable "target_folder_to_provision"{
+  type = string
+  description = "Folder location of the virtual Machine where source folder should be placed" 
+}
+
+variable "file_provisioner_connection"{
+  type = object({
+    type = string,
+    user = string,
+    password = string,
+    port =  string
+  })
+}
+
