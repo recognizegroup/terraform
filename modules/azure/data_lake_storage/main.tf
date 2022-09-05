@@ -2,7 +2,7 @@ terraform {
   required_version = ">=1.1.7"
 
   required_providers {
-    azurerm = "=2.98.0"
+    azurerm = "=3.21.1"
   }
 
   backend "azurerm" {}
@@ -15,16 +15,16 @@ provider "azurerm" {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_storage_account" "storage_account" {
-  name                      = var.name
-  resource_group_name       = var.resource_group_name
-  location                  = var.location
-  account_kind              = var.kind
-  account_tier              = var.tier
-  account_replication_type  = var.replication_type
-  is_hns_enabled            = true
-  enable_https_traffic_only = true
-  allow_blob_public_access  = false
-  min_tls_version           = var.min_tls_version
+  name                            = var.name
+  resource_group_name             = var.resource_group_name
+  location                        = var.location
+  account_kind                    = var.kind
+  account_tier                    = var.tier
+  account_replication_type        = var.replication_type
+  is_hns_enabled                  = true
+  enable_https_traffic_only       = true
+  allow_nested_items_to_be_public = false
+  min_tls_version                 = var.min_tls_version
 }
 
 // HACK: Role assignment is needed to apply adls gen2 filesystem changes
