@@ -155,7 +155,18 @@ variable "file_provisioner_connection"{
     type = string,
     user = string,
     password = string,
-    port =  string
   })
 }
 
+variable "public_ip_address_id" {
+  type        = string 
+  description = "Public Ip address resource Id for Network interface used for VM"
+  default     = null
+}
+
+
+variable "public_ip_address" {
+  type = string
+  description = "Public Ip Address"
+  default = null
+}
