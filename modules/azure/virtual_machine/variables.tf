@@ -140,30 +140,12 @@ variable "requires_plan" {
   default     = true
 }
 
-variable "source_folder_to_provision"{
-  type = string
-  description = "Folder containing files that have to be transfered to Virtual Machine"
-}
-
-variable "target_folder_to_provision"{
-  type = string
-  description = "Folder location of the virtual Machine where source folder should be placed" 
-}
-
-variable "file_provisioner_connection"{
-  type = object({
-    type = string,
-    user = string,
-    password = string,
-  })
-}
 
 variable "public_ip_address_id" {
   type        = string 
   description = "Public Ip address resource Id for Network interface used for VM"
   default     = null
 }
-
 
 variable "public_ip_address" {
   type = string
