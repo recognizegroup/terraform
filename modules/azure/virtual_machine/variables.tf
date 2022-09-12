@@ -53,21 +53,9 @@ variable "virtual_machine_size" {
   description = "Size of the virtual machine."
 }
 
-variable "delete_os_disk_on_termination" {
-  type        = bool
-  description = "Deletes the os disk on VM termination."
-  default     = false
-}
-
 variable "os_disk_name" {
   type        = string
   description = "Name of the os disk to create."
-}
-
-variable "os_disk_create_option" {
-  type        = string
-  description = "OS disk create option, Attach or FromImage."
-  default     = "attach"
 }
 
 variable "os_disk_caching" {
@@ -80,11 +68,6 @@ variable "os_disk_storage_account_type" {
   type        = string
   description = "Disk type of the managed disk."
   default     = "Standard_LRS"
-}
-
-variable "os_disk_img_uri" {
-  type        = string
-  description = "Uri of the OS disk, in publisherName:offer:skus:version format."
 }
 
 variable "enable_guest_agent" {
@@ -143,4 +126,29 @@ variable "vm_user_secret_name" {
 variable "vm_password_secret_name" {
   type        = string
   description = "Secret containing the admin password for the vm."
+}
+
+variable "license_type" {
+  type        = string //None, Windows_Client, Windows_Server
+  description = "Specifies the type of on-premise license (also known as Azure Hybrid Use Benefit) which should be used for this Virtual Machine."
+  default     = null
+}
+
+variable "requires_plan" {
+  type        = bool
+  description = "Third party images might requires plan specification for license aceptance, many Microsoft resource do not need them"
+  default     = true
+}
+
+
+variable "public_ip_address_id" {
+  type        = string 
+  description = "Public Ip address resource Id for Network interface used for VM"
+  default     = null
+}
+
+variable "public_ip_address" {
+  type = string
+  description = "Public Ip Address"
+  default = null
 }
