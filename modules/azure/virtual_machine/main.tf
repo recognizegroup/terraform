@@ -93,24 +93,3 @@ resource "azurerm_windows_virtual_machine" "virtual_machine" {
     storage_account_type = var.os_disk_storage_account_type
   }
 }
-
-
-# resource "azurerm_virtual_machine_extension" "example" {
-#   name                 = "hostname"
-#   virtual_machine_id   = azurerm_windows_virtual_machine.virtual_machine.id
-#   publisher            = "Microsoft.Compute"
-#   type                 = "CustomScriptExtension"
-#   type_handler_version = "1.10"
-
-#    protected_settings = <<PROTECTED_SETTINGS
-#     {
-#       "commandToExecute": "powershell.exe -File ./fileShare.ps1 -ExecutionPolicy Bypass",
-#       "storageAccountName": "stvwtipp2pdev",
-#       "storageAccountKey": "uipLRpBvYH+COWFiWGU6uznjjIGjLiZVa8TmdJQGIzT0mC2GZdFOlHB3eeNSyo4krlIrEv98C6jq+AStNnWSGQ==",
-#       "fileUris": [
-#           "https://stvwtipp2pdev.blob.core.windows.net/vm-p2p-files/fileShare.ps1"
-#        ]
-#     }
-#   PROTECTED_SETTINGS
-# }
-
