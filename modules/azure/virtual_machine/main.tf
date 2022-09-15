@@ -56,17 +56,15 @@ resource "azurerm_network_interface" "network_interface" {
 }
 
 resource "azurerm_windows_virtual_machine" "virtual_machine" {
-  name                = var.virtual_machine_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  size                = var.virtual_machine_size
-  computer_name       = var.virtual_machine_name
-  admin_username      = data.azurerm_key_vault_secret.vm_user_secret.value
-  admin_password      = data.azurerm_key_vault_secret.vm_password_secret.value
-  timezone            = var.timezone
-
-  provision_vm_agent = var.enable_guest_agent
-
+  name                     = var.virtual_machine_name
+  location                 = var.location
+  resource_group_name      = var.resource_group_name
+  size                     = var.virtual_machine_size
+  computer_name            = var.virtual_machine_name
+  admin_username           = data.azurerm_key_vault_secret.vm_user_secret.value
+  admin_password           = data.azurerm_key_vault_secret.vm_password_secret.value
+  timezone                 = var.timezone
+  provision_vm_agent       = var.enable_guest_agent
   enable_automatic_updates = var.enable_auto_updates
   network_interface_ids    = [azurerm_network_interface.network_interface.id]
   license_type             = var.license_type
