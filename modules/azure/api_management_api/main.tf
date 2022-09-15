@@ -187,6 +187,15 @@ resource "azurerm_api_management_api_policy" "api_policy" {
     </set-header>
     %{endif}
     <set-header name="Ocp-Apim-Subscription-Key" exists-action="delete" />
+    %{if var.backend_type == "api-token"}
+    <set-header name= "Authorization" exists-action="override">
+      %{if var.api_token_settings.prefix != null}
+      <value>${var.api_token_settings.prefix} ${var.api_token_settings.token}</value>
+      %{else}
+      <value>${var.api_token_settings.token}</value>
+      %{endif}
+    </set-header>
+    %{endif}
   </inbound>
 </policies>
 XML

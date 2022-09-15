@@ -108,8 +108,8 @@ variable "backend_type" {
   description = "The type of backend used by the api. Should be public, basic-auth, body-auth or managed-identity"
 
   validation {
-    condition     = contains(["public", "basic-auth", "managed-identity", "body-auth", "oauth"], var.backend_type)
-    error_message = "Argument \"backend_type\" must be either \"public\", \"basic-auth\", \"body-auth\", \"oauth\" or \"managed-identity\"."
+    condition     = contains(["public", "basic-auth", "managed-identity", "body-auth", "oauth", "api-token"], var.backend_type)
+    error_message = "Argument \"backend_type\" must be either \"public\", \"basic-auth\", \"body-auth\", \"oauth\" , \"api-token\" or \"managed-identity\"."
   }
 }
 
@@ -174,5 +174,14 @@ variable "oauth_settings" {
     client_secret = string, // May contain value or APIM variable: {{var_name}}
   })
   description = "Values used for oAuth authentication to the back-end"
+  default     = null
+}
+
+variable "api_token_settings" {
+  type = object({
+    prefix = optional(string), // fe Bearer or ApiToken
+    token  = string            // Can be value or APIM named value: {{var_name}}
+  })
+  description = "Values for api-token authentication"
   default     = null
 }

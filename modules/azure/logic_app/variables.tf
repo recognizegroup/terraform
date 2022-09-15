@@ -37,6 +37,12 @@ variable "log_retention_days" {
   default     = 30
 }
 
+variable "enabled" {
+  type        = bool
+  description = "If this workflow should be enabled by default or not, defaults to true"
+  default     = true
+}
+
 variable "use_managed_identity" {
   type        = bool
   description = "Use Managed Identity for this logic app"
