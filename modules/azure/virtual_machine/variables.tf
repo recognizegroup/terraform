@@ -129,7 +129,7 @@ variable "vm_password_secret_name" {
 }
 
 variable "license_type" {
-  type        = string //None, Windows_Client, Windows_Server
+  type        = string
   description = "Specifies the type of on-premise license (also known as Azure Hybrid Use Benefit) which should be used for this Virtual Machine."
   default     = null
 }
@@ -140,15 +140,14 @@ variable "requires_plan" {
   default     = true
 }
 
-
 variable "public_ip_address_id" {
-  type        = string 
+  type        = string
   description = "Public Ip address resource Id for Network interface used for VM"
   default     = null
 }
 
 variable "public_ip_address" {
-  type = string
+  type        = string
   description = "Public Ip Address"
-  default = null
+  default     = null
 }
