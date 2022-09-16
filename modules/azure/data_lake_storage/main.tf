@@ -25,6 +25,27 @@ resource "azurerm_storage_account" "storage_account" {
   enable_https_traffic_only       = true
   allow_nested_items_to_be_public = false
   min_tls_version                 = var.min_tls_version
+
+
+  # Enables recommended data protection configuration
+  # https://docs.microsoft.com/en-us/azure/storage/blobs/versioning-overview#recommended-data-protection-configuration
+  blob_properties {
+    versioning_enabled = var.blob_versioning_enabled
+
+    dynamic "delete_retention_policy" {
+      for_each = var.blob_retention_days == null ? [] : [1]
+      content {
+        days = var.blob_retention_days
+      }
+    }
+
+    dynamic "container_delete_retention_policy" {
+      for_each = var.container_retention_days == null ? [] : [1]
+      content {
+        days = var.container_retention_days
+      }
+    }
+  }
 }
 
 // HACK: Role assignment is needed to apply adls gen2 filesystem changes
