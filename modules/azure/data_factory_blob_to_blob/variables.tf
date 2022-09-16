@@ -65,19 +65,59 @@ variable "pipeline_name" {
   description = "The name of the data factory pipeline."
 }
 
-variable "schedule_name" {
+variable "trigger_name" {
   type        = string
-  description = "The name of the data factory schedule."
+  description = "The name of the data factory trigger."
 }
 
-variable "schedule_interval" {
+variable "trigger_start_time" {
+  type        = string
+  description = "Specifies the start time of trigger, formatted as an RFC3339 string."
+}
+
+variable "trigger_end_time" {
+  type        = string
+  description = "Specifies the end time of trigger, formatted as an RFC3339 string."
+}
+
+variable "trigger_frequency" {
+  type        = string
+  description = "Specifies the frequency of trigger. Possible values are Hour, Minute and Month."
+}
+
+variable "trigger_interval" {
   type        = number
-  description = "The interval of the data factory schedule."
+  description = "Specifies the interval of trigger."
+}
+
+variable "trigger_concurrency" {
+  type        = number
+  description = "The max number for simultaneous trigger runs."
   default     = 1
 }
 
-variable "schedule_frequency" {
-  type        = string
-  description = "The frequency of the data factory schedule."
-  default     = "Day"
+variable "trigger_activated" {
+  type        = bool
+  description = "Specifies if the trigger is activated."
+  default     = true
 }
+
+variable "trigger_retry_count" {
+  type        = number
+  description = "The maximum retry attempts if the pipeline run failed."
+  default     = 1
+}
+
+variable "trigger_retry_interval" {
+  type        = number
+  description = "The Interval in seconds between each retry if the pipeline run failed."
+  default     = 30
+}
+
+variable "trigger_parameters" {
+  type        = map(any)
+  description = "Pipeline parameters that the trigger will act on."
+  default     = {}
+}
+
+
