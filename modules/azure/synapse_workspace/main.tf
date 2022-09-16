@@ -2,7 +2,7 @@ terraform {
   required_version = ">=1.2.2"
 
   required_providers {
-    azurerm = "=3.22.0"
+    azurerm = "=3.23.0"
   }
 
   backend "azurerm" {}
@@ -76,12 +76,25 @@ resource "azurerm_synapse_workspace" "workspace" {
   dynamic "github_repo" {
     for_each = var.github == null ? [] : [1]
     content {
-      account_name    = github.value.account_name
-      branch_name     = github.value.branch_name
-      repository_name = github.value.repository_name
-      root_folder     = github.value.root_folder
-      last_commit_id  = github.value.last_commit_id
-      git_url         = github.value.git_url
+      account_name    = var.github.account_name
+      branch_name     = var.github.branch_name
+      repository_name = var.github.repository_name
+      root_folder     = var.github.root_folder
+      last_commit_id  = var.github.last_commit_id
+      git_url         = var.github.git_url
+    }
+  }
+
+  dynamic "azure_devops_repo" {
+    for_each = var.devops == null ? [] : [1]
+    content {
+      account_name    = var.devops.account_name
+      project_name    = var.devops.project_name
+      branch_name     = var.devops.branch_name
+      repository_name = var.devops.repository_name
+      root_folder     = var.devops.root_folder
+      last_commit_id  = var.devops.last_commit_id
+      tenant_id       = var.devops.tenant_id
     }
   }
 }
