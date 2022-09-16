@@ -37,13 +37,31 @@ variable "min_tls_version" {
   default     = "TLS1_2"
 }
 
+variable "blob_versioning_enabled" {
+  type        = bool
+  description = "Indicates whether blob versioning is enabled for the storage account."
+  default     = false
+}
+
+variable "blob_retention_days" {
+  type        = number
+  description = "Specifies the number of days that deleted blob should be retained."
+  default     = null
+}
+
+variable "container_retention_days" {
+  type        = string
+  description = "Specifies the number of days that deleted container should be retained."
+  default     = null
+}
+
 variable "subnet_id" {
   type        = string
   description = "The ID of the Subnet from which private IP addresses will be allocated for this Private Endpoint."
 }
 
 variable "network_ip_rules" {
-  type        = list
+  type        = list(any)
   description = "List of public IP or IP ranges in CIDR Format."
   default     = []
 }
@@ -55,7 +73,7 @@ variable "network_default_action" {
 }
 
 variable "network_subnet_ids" {
-  type        = list
+  type        = list(any)
   description = "A list of virtual network subnet ids to to secure the storage account."
   default     = []
 }
@@ -65,3 +83,4 @@ variable "log_analytics_workspace_id" {
   description = "ID of a log analytics workspace (optional)."
   default     = null
 }
+

@@ -34,6 +34,9 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "filesystem" {
 resource "random_password" "sql_admin_password" {
   length           = 16
   special          = true
+  lower            = true
+  upper            = true
+  numeric          = true
   override_special = "_%@"
   keepers = {
     keeper = var.sql_admin_password_keeper
