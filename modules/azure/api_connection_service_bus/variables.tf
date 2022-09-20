@@ -1,5 +1,3 @@
-
-
 variable "resource_group_name" {
   type        = string
   description = "Location For the Connection"
