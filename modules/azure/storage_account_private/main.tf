@@ -28,6 +28,10 @@ resource "azurerm_storage_account" "storage_account" {
   network_rules {
     default_action = "Deny"
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_private_endpoint" "private_endpoint" {
