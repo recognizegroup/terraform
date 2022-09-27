@@ -20,6 +20,10 @@ resource "azurerm_storage_account" "storage_account" {
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
   is_hns_enabled           = "true"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_storage_data_lake_gen2_filesystem" "filesystem" {
