@@ -31,4 +31,8 @@ resource "azurerm_storage_account" "storage_account" {
       directory_type           = var.authentication_directory_type
     }
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
