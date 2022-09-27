@@ -46,6 +46,10 @@ resource "azurerm_storage_account" "storage_account" {
       }
     }
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 // HACK: Role assignment is needed to apply adls gen2 filesystem changes
