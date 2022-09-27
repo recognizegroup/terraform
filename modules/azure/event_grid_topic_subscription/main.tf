@@ -1,16 +1,11 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = ">=1.3.0"
 
   required_providers {
     azurerm = "=2.96.0"
   }
 
   backend "azurerm" {}
-
-  # Optional attributes and the defaults function are
-  # both experimental, so we must opt in to the experiment.
-  experiments = [module_variable_optional_attrs]
-
 }
 
 provider "azurerm" {
