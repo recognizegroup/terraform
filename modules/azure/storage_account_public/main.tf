@@ -27,7 +27,7 @@ resource "azurerm_storage_account" "storage_account" {
 
   network_rules {
     default_action             = "Deny"
-    virtual_network_subnet_ids = var.subnet_ids
+    virtual_network_subnet_ids = ["${join("\",\" ",var.subnet_ids)}"]
   }
 
   dynamic "azure_files_authentication" {
@@ -38,9 +38,3 @@ resource "azurerm_storage_account" "storage_account" {
   }
 }
 
-
-# resource "azurerm_storage_account_network_rules" "example" {
-#   storage_account_id = azurerm_storage_account.storage_account.id
-#   default_action             = "Deny"
-#   virtual_network_subnet_ids = var.subnet_ids
-# }
