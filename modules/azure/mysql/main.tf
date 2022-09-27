@@ -42,6 +42,10 @@ resource "azurerm_mysql_server" "mysql_server" {
   identity {
     type = "SystemAssigned"
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_mysql_database" "mysql_database" {
@@ -50,6 +54,10 @@ resource "azurerm_mysql_database" "mysql_database" {
   server_name         = azurerm_mysql_server.mysql_server.name
   charset             = var.mysql_database_charset
   collation           = var.mysql_database_collation
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_private_endpoint" "private_endpoint" {
