@@ -25,10 +25,22 @@ resource "azurerm_storage_account" "storage_account" {
   nfsv3_enabled             = var.nfsv3_enabled
   is_hns_enabled            = var.is_hns_enabled
 
+  network_rules {
+    default_action             = "Deny"
+    virtual_network_subnet_ids = var.subnet_ids
+  }
+
   dynamic "azure_files_authentication" {
     for_each = var.authentication_directory_type == null ? [] : [1]
     content {
-      directory_type           = var.authentication_directory_type
+      directory_type = var.authentication_directory_type
     }
   }
 }
+
+
+# resource "azurerm_storage_account_network_rules" "example" {
+#   storage_account_id = azurerm_storage_account.storage_account.id
+#   default_action             = "Deny"
+#   virtual_network_subnet_ids = var.subnet_ids
+# }

@@ -66,3 +66,10 @@ variable "authentication_directory_type" {
   description = "Active Directory Authentification Service Used. Possible Values AADDS and AD"
   default     = null
 }
+
+
+variable "subnet_ids" {
+  type = list(string)
+  description = "Subnet ids"
+  default = null
+}
