@@ -25,10 +25,25 @@ resource "azurerm_storage_account" "storage_account" {
   nfsv3_enabled             = var.nfsv3_enabled
   is_hns_enabled            = var.is_hns_enabled
 
+  dynamic "network_rules" {
+    for_each = var.nfsv3_enabled == true ? [] : [1]
+    content {
+      default_action = "Deny"
+      bypass         = ["AzureServices"]
+      ip_rules       = ["${chomp(data.http.icanhazip.body)}"]
+    }
+  }
+
   dynamic "azure_files_authentication" {
     for_each = var.authentication_directory_type == null ? [] : [1]
     content {
-      directory_type           = var.authentication_directory_type
+      directory_type = var.authentication_directory_type
     }
   }
+}
+
+# Learn our public IP address
+data "http" "amazonaws" {
+  for_each = var.nfsv3_enabled == true ? [] : [1]
+  url = "https://checkip.amazonaws.com/"
 }
