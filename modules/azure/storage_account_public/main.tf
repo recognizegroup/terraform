@@ -26,11 +26,11 @@ resource "azurerm_storage_account" "storage_account" {
   is_hns_enabled            = var.is_hns_enabled
 
   dynamic "network_rules" {
-    for_each = var.nfsv3_enabled == true ? [] : [1]
+    for_each = var.nfsv3_enabled == true ? [1] : []
     content {
       default_action = "Deny"
       bypass         = ["AzureServices"]
-      ip_rules       = ["${chomp(data.http.icanhazip.body)}"]
+      ip_rules       = ["${chomp(data.http.amazonaws[0].body)}"]
     }
   }
 
@@ -42,8 +42,8 @@ resource "azurerm_storage_account" "storage_account" {
   }
 }
 
-# Learn our public IP address
+# Get our public IP address
 data "http" "amazonaws" {
-  for_each = var.nfsv3_enabled == true ? [] : [1]
-  url = "https://checkip.amazonaws.com/"
+  count = var.nfsv3_enabled == true ? 1 : 0
+  url   = "https://checkip.amazonaws.com/"
 }

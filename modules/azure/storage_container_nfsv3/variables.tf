@@ -3,18 +3,25 @@ variable "storage_container_name" {
   description = "Name of the storage container."
 }
 
-# variable "storage_account_name" {
-#   type        = string
-#   description = "Name of the storage account."
-# }
-
-# variable "storage_container_access_type" {
-#   type        = string
-#   description = "Access type of the storage account."
-#   default     = "private"
-# }
-
 variable "storage_account_id" {
   type =string
   description = "Storage account Id"
+}
+
+variable "ace_permissions" {
+  type = list(object({
+    type = string,
+    permissions = string,
+    scope = optional(string)
+  }))
+
+  description = "list of ACE permisions"
+  default = []
+}
+
+
+variable "directories" {
+  type = list(string)
+  description = "List of directories"
+  
 }
