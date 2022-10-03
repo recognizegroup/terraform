@@ -4,24 +4,23 @@ variable "storage_container_name" {
 }
 
 variable "storage_account_id" {
-  type =string
+  type        = string
   description = "Storage account Id"
 }
 
 variable "ace_permissions" {
   type = list(object({
-    type = string,
+    type        = string,
     permissions = string,
-    scope = optional(string)
+    scope       = optional(string)
   }))
 
   description = "list of ACE permisions"
-  default = []
+  default     = []
 }
 
 
 variable "directories" {
-  type = list(string)
+  type        = list(string)
   description = "List of directories"
-  
 }

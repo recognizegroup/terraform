@@ -28,7 +28,7 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "filesystem" {
 }
 
 resource "azurerm_storage_data_lake_gen2_path" "directory" {
-  count = var.directories == null? 0: length(var.directories) 
+  count = var.directories == null ? 0 : length(var.directories)
 
   path               = var.directories[count.index]
   filesystem_name    = azurerm_storage_data_lake_gen2_filesystem.filesystem.name
