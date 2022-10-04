@@ -19,9 +19,8 @@ variable "ace_permissions" {
   default     = []
 }
 
-
 variable "directories" {
   type        = list(string)
   description = "List of directories"
-  default = null
+  default     = null
 }
