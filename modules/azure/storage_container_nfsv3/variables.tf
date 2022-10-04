@@ -23,4 +23,5 @@ variable "ace_permissions" {
 variable "directories" {
   type        = list(string)
   description = "List of directories"
+  default = null
 }
