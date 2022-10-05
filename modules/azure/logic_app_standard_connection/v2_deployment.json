@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "connection_name": {
+      "type": "String",
+      "defaultValue": ""
+    },
+    "api_id": {
+      "type": "String",
+      "defaultValue": ""
+    },
+    "parameters": {
+      "type": "Object",
+      "defaultValue": {}
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Web/connections",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('connection_name')]",
+      "location": "northeurope",
+      "kind": "V2",
+      "properties": {
+        "displayName": "[parameters('connection_name')]",
+        "customParameterValues": {},
+        "parameterValues": "[parameters('parameters')]",
+        "api": {
+          "name": "azureloganalyticsdatacollector",
+          "id": "[parameters('api_id')]",
+          "type": "Microsoft.Web/locations/managedApis"
+        },
+        "testLinks": []
+      }
+    }
+  ],
+  "outputs": {
+    "connection_id": {
+      "type": "String",
+      "value": "[resourceId('Microsoft.Web/connections', parameters('connection_name'))]"
+    },
+    "connection_runtime_url": {
+      "type": "String",
+      "value": "[reference(resourceId('Microsoft.Web/connections', parameters('connection_name'))).connectionRuntimeUrl]"
+    }
+  }
+}
