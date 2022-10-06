@@ -5,7 +5,7 @@ param location string = resourceGroup().location
 param service_bus_connection_name string
 
 @description('Service Bus namespace')
-param service_bus_namespace string
+param service_bus_namespace_endpoint string
 
 resource service_bus_connection_name_resource 'Microsoft.Web/connections@2018-07-01-preview' = {
   location: location
@@ -22,7 +22,7 @@ resource service_bus_connection_name_resource 'Microsoft.Web/connections@2018-07
       name: 'managedIdentityAuth'
       values: {
         namespaceEndpoint: {
-          value: service_bus_namespace
+          value: service_bus_namespace_endpoint
         }
       }
     }

@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.10.61.36676",
-      "templateHash": "3621231243456737375"
+      "version": "0.9.1.41621",
+      "templateHash": "14233748139416635108"
     }
   },
   "parameters": {
@@ -22,7 +22,7 @@
         "description": "Name of the Service Bus Connection Resource"
       }
     },
-    "service_bus_namespace": {
+    "service_bus_namespace_endpoint": {
       "type": "string",
       "metadata": {
         "description": "Service Bus namespace"
@@ -47,7 +47,7 @@
           "name": "managedIdentityAuth",
           "values": {
             "namespaceEndpoint": {
-              "value": "[parameters('service_bus_namespace')]"
+              "value": "[parameters('service_bus_namespace_endpoint')]"
             }
           }
         }

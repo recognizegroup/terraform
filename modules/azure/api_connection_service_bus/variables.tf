@@ -8,12 +8,7 @@ variable "connection_name" {
   description = "name space"
 }
 
-variable "serivce_bus_resource_group" {
-  type        = string
-  description = "Location Of The Service Bus"
-}
-
-variable "service_bus_namespace" {
+variable "service_bus_namespace_endpoint" {
   type = string
   description = "name space"
 }
