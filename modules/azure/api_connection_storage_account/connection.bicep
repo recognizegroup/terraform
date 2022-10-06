@@ -12,7 +12,7 @@ param storage_account_name string
 param storage_account_access_key string
 
 @description('Api Name')
-param apiName string = 'azuretables'
+param apiName string
 
 resource storage_account_table_connection 'Microsoft.Web/connections@2018-07-01-preview' = {
   name: connectionName

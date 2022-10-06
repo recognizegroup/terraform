@@ -35,6 +35,9 @@ resource "azurerm_resource_group_template_deployment" "example" {
     "storage_account_access_key" = {
       value = var.storage_account_access_key
     }
+    "apiName" = {
+      value = var.connection_api_name
+    }
   })
   deployment_mode = "Incremental"
 }
