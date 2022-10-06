@@ -1,3 +1,3 @@
-output "connection_name" {
+output "name" {
   value = var.connection_name
 }
