@@ -17,3 +17,10 @@ variable "log_analytics_workspace_key" {
   type = string
   description = "connection Name"
 }
+
+variable "arm_parameters" {
+  type        = any
+  description = "Parameter values for the ARM template."
+  default     = {}
+}
+
