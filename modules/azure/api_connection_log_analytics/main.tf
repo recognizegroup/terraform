@@ -24,7 +24,7 @@ provider "azurerm" {
 }
 
 
-resource "azurerm_template_deployment" "example" {
+resource "azurerm_resource_group_template_deployment" "example" {
   name                = "${var.log_analytics_workspace_connection_name}_deployment"
   resource_group_name = var.resource_group_name
 
