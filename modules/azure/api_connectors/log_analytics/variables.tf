@@ -4,16 +4,16 @@ variable "resource_group_name" {
 }
 
 variable "log_analytics_workspace_connection_name" {
-  type = string
+  type        = string
   description = "name space"
 }
 
 variable "log_analytics_workspace_id" {
-  type = string
+  type        = string
   description = "connection Name"
 }
 
 variable "log_analytics_workspace_key" {
-  type = string
+  type        = string
   description = "connection Name"
 }

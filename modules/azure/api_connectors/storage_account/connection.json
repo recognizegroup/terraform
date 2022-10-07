@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.10.61.36676",
-      "templateHash": "11296295536176546337"
+      "version": "0.9.1.41621",
+      "templateHash": "11011657041737157167"
     }
   },
   "parameters": {
@@ -16,22 +16,29 @@
         "description": "location"
       }
     },
-    "log_analytics_workspace_connection_name": {
+    "connection_name": {
       "type": "string",
       "metadata": {
         "description": "Name of the Service Bus Connection Resource"
       }
     },
-    "log_analytics_workspace_id": {
+    "storage_account_name": {
       "type": "string",
       "metadata": {
-        "description": "Service Bus namespace"
+        "description": "Storage account name."
       }
     },
-    "log_analytics_workspace_key": {
-      "type": "string",
+    "storage_account_access_key": {
+      "type": "secureString",
       "metadata": {
-        "description": "Service Bus namespace"
+        "description": "Storage account access key."
+      }
+    },
+    "api_name": {
+      "type": "string",
+      "defaultValue": "azuretables",
+      "metadata": {
+        "description": "Api Name"
       }
     }
   },
@@ -39,22 +46,20 @@
     {
       "type": "Microsoft.Web/connections",
       "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('log_analytics_workspace_connection_name')]",
+      "name": "[parameters('connection_name')]",
       "location": "[parameters('location')]",
       "kind": "V1",
       "properties": {
-        "displayName": "Log Analytics",
-        "customParameterValues": {},
+        "displayName": "Storage Table",
         "parameterValues": {
-          "username": "[parameters('log_analytics_workspace_id')]",
-          "password": "[parameters('log_analytics_workspace_key')]"
+          "storageaccount": "[parameters('storage_account_name')]",
+          "sharedkey": "[parameters('storage_account_access_key')]"
         },
+        "customParameterValues": {},
         "api": {
-          "name": "azureloganalyticsdatacollector",
-          "id": "[format('{0}/providers/Microsoft.Web/locations/{1}/managedApis/azureloganalyticsdatacollector', subscription().id, parameters('location'))]",
-          "type": "Microsoft.Web/locations/managedApis"
-        },
-        "testLinks": []
+          "name": "[parameters('connection_name')]",
+          "id": "[format('{0}/providers/Microsoft.Web/locations/{1}/managedApis/{2}', subscription().id, parameters('location'), parameters('api_name'))]"
+        }
       }
     }
   ]

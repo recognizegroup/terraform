@@ -6,10 +6,6 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "=3.6.0"
     }
-    azuread = {
-      source  = "hashicorp/azuread"
-      version = "=2.22.0"
-    }
   }
 
   backend "azurerm" {}
@@ -27,12 +23,12 @@ resource "azurerm_resource_group_template_deployment" "example" {
   template_content = file("./connection.json")
   parameters_content = jsonencode({
     "log_analytics_workspace_connection_name" = {
-     value = var.log_analytics_workspace_connection_name
+      value = var.log_analytics_workspace_connection_name
     }
-    "log_analytics_workspace_id"              = {
+    "log_analytics_workspace_id" = {
       value = var.log_analytics_workspace_id
     }
-    "log_analytics_workspace_key"             = {
+    "log_analytics_workspace_key" = {
       value = var.log_analytics_workspace_key
     }
   })
