@@ -74,6 +74,10 @@ data "archive_file" "workflow" {
 resource "time_sleep" "wait_for_app_settings" {
   depends_on      = [azurerm_logic_app_standard.app]
   create_duration = "${var.deployment_wait_timeout}s"
+
+  triggers = {
+    time = timestamp()
+  }
 }
 
 # The first step is to ensure that the logic apps extension is installed
