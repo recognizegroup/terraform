@@ -72,8 +72,8 @@ data "archive_file" "workflow" {
 # deployment to make sure the app settings are available before the deployment is started.
 
 resource "time_sleep" "wait_for_app_settings" {
-  depends_on = [azurerm_logic_app_standard.app]
-  create_duration = "${deployment_wait_timeout}s"
+  depends_on      = [azurerm_logic_app_standard.app]
+  create_duration = "${var.deployment_wait_timeout}s"
 }
 
 # The first step is to ensure that the logic apps extension is installed
