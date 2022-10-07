@@ -21,8 +21,8 @@ resource "azurerm_resource_group_template_deployment" "example" {
 
   template_content = file("./connection.json")
   parameters_content = jsonencode({
-    "log_analytics_workspace_connection_name" = {
-      value = var.log_analytics_workspace_connection_name
+    "connection_name" = {
+      value = var.connection_name
     }
     "log_analytics_workspace_id" = {
       value = var.log_analytics_workspace_id
