@@ -69,3 +69,8 @@ variable "pre_warmed_instance_count" {
   default     = 0
 }
 
+variable "deployment_wait_timeout" {
+  type        = number
+  description = "The amount of time to wait for the deployment to start after the logic app was deployed."
+  default     = 30
+}
