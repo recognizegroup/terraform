@@ -1,6 +1,6 @@
 variable "resource_group_name" {
   type        = string
-  description = "Location For the Connection"
+  description = "Resource group the connection should be placed in"
 }
 
 variable "connection_name" {
@@ -18,11 +18,11 @@ variable "storage_account_access_key" {
   description = "Access Key for the storage account"
 }
 
-variable "connection_api_name" {
+variable "managed_api_type" {
   type        = string
-  description = "Name of the managed api, Possible values: azuretables, azureblob"
+  description = "Type of the managed api, Possible values: azuretables, azureblob"
   validation {
-    condition     = contains(["azuretables", "azureblob"], var.connection_api_name)
+    condition     = contains(["azuretables", "azureblob"], var.managed_api_type)
     error_message = "Argument \"connection_api_name\" must be either \"azuretables\" or \"azureblob\"."
   }
 }

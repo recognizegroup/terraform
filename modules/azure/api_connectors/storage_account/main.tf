@@ -4,7 +4,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.6.0"
+      version = "=3.26.0"
     }
   }
 
@@ -14,7 +14,6 @@ terraform {
 provider "azurerm" {
   features {}
 }
-
 
 resource "azurerm_resource_group_template_deployment" "example" {
   name                = "${var.connection_name}_deployment"
@@ -32,7 +31,7 @@ resource "azurerm_resource_group_template_deployment" "example" {
       value = var.storage_account_access_key
     }
     "api_name" = {
-      value = var.connection_api_name
+      value = var.managed_api_type
     }
   })
   deployment_mode = "Incremental"

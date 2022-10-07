@@ -4,7 +4,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.6.0"
+      version = "=3.26.0"
     }
   }
 
@@ -15,9 +15,8 @@ provider "azurerm" {
   features {}
 }
 
-
 resource "azurerm_resource_group_template_deployment" "example" {
-  name                = "${var.log_analytics_workspace_connection_name}_deployment"
+  name                = "${var.connection_name}_deployment"
   resource_group_name = var.resource_group_name
 
   template_content = file("./connection.json")

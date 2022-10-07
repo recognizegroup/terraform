@@ -19,7 +19,7 @@
     "connection_name": {
       "type": "string",
       "metadata": {
-        "description": "Name of the Service Bus Connection Resource"
+        "description": "Name to give to the connection"
       }
     },
     "storage_account_name": {

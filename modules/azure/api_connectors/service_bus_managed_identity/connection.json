@@ -19,7 +19,7 @@
     "service_bus_connection_name": {
       "type": "string",
       "metadata": {
-        "description": "Name of the Service Bus Connection Resource"
+        "description": "Name to use for this connection"
       }
     },
     "service_bus_namespace_endpoint": {
