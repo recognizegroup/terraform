@@ -66,9 +66,19 @@ data "archive_file" "workflow" {
 # After the logic app is created, start a deployment using the Azure CLI
 # It is not possible to use a ZIP-deployment from blob storage, as it can not be updated from the portal
 
+# When you add parameters to your logic app using the parameters.json file, and you reference an app setting
+# the file will not be accepted if the app setting does not exist. However, there is a small delay between
+# updating the logic app and the app settings being available. Therefore, we need to add a timeout to the
+# deployment to make sure the app settings are available before the deployment is started.
+
+resource "time_sleep" "wait_for_app_settings" {
+  depends_on = [azurerm_logic_app_standard.app]
+  create_duration = "${deployment_wait_timeout}s"
+}
+
 # The first step is to ensure that the logic apps extension is installed
 resource "null_resource" "install-extension" {
-  depends_on = [azurerm_logic_app_standard.app]
+  depends_on = [time_sleep.wait_for_app_settings]
 
   triggers = {
     deploy = data.archive_file.workflow.output_sha
