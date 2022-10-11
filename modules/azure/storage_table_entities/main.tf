@@ -13,7 +13,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_storage_table_entity" "storage_table_entity" {
-  for_each = var.rows
+  for_each = { for entity in var.rows:  entity.row_key => entity }
 
   table_name           = var.storage_table_name
   storage_account_name = var.storage_account_name
