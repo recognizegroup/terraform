@@ -2,7 +2,7 @@ terraform {
   required_version = ">=1.3.0"
 
   required_providers {
-    azurerm = "=2.96.0"
+    azurerm = "=3.26.0"
   }
 
   backend "azurerm" {}
@@ -35,4 +35,13 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
     }
   }
   included_event_types = var.event_types
+  dynamic "delivery_property" {
+    for_each = var.delivery_properties
+
+    content {
+      header_name = delivery_property.value.header_name
+      type        = delivery_property.value.propertyType
+      value       = delivery_property.value.propertyValue
+    }
+  }
 }
