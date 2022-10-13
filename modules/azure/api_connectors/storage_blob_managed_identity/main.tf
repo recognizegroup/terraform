@@ -15,7 +15,7 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group_template_deployment" "log_analytics" {
+resource "azurerm_resource_group_template_deployment" "storage_blob" {
   name                = "${var.connection_name}_deployment"
   resource_group_name = var.resource_group_name
 
@@ -23,12 +23,6 @@ resource "azurerm_resource_group_template_deployment" "log_analytics" {
   parameters_content = jsonencode({
     "connection_name" = {
       value = var.connection_name
-    }
-    "log_analytics_workspace_id" = {
-      value = var.log_analytics_workspace_id
-    }
-    "log_analytics_workspace_key" = {
-      value = var.log_analytics_workspace_key
     }
   })
   deployment_mode = "Incremental"
