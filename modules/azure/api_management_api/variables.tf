@@ -115,11 +115,13 @@ variable "backend_type" {
 
 variable "basic_auth_settings" {
   type = object({
-    key_vault_id    = string,
-    username_secret = string,
-    password_secret = string,
+    key_vault_id    = optional(string),
+    username_secret = optional(string),
+    password_secret = optional(string),
+    username        = optional(string),
+    password        = optional(string),
   })
-  description = "Settings to be used for basic auth"
+  description = "Settings to be used for basic auth, one can either use a key vault or provide the username and password directly using named values."
   default     = null
 }
 
