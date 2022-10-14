@@ -129,7 +129,7 @@ az group create `
   --subscription $env:SUBSCRIPTION_ID `
   --name $env:RESOURCE_GROUP_NAME `
   --location $env:LOCATION `
-   --tags 'CostCenter=XXXX' 'Environment=XXXX' 'Workload=XXXX'
+  --tags 'CostCenter=XXXX' 'Environment=XXXX' 'Workload=XXXX'
 
 az storage account create `
   --subscription $env:SUBSCRIPTION_ID `
