@@ -136,7 +136,7 @@ az storage account create `
   --name $env:STORAGE_ACCOUNT_NAME `
   --resource-group $env:RESOURCE_GROUP_NAME `
   --location $env:LOCATION `
-  --sku Standard_GRS`
+  --sku Standard_GRS `
   --encryption-services blob `
   --https-only true `
   --allow-blob-public-access false
