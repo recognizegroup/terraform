@@ -41,9 +41,9 @@ variable "event_types" {
 
 variable "delivery_properties" {
   type = list(object({
-    header_name   = string
-    propertyType  = string
-    propertyValue = string
+    header_name    = string
+    property_type  = string
+    property_value = string
   }))
   description = "parameters for delivery properties"
 }
