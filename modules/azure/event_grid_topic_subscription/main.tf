@@ -40,8 +40,8 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
 
     content {
       header_name = delivery_property.value.header_name
-      type        = delivery_property.value.propertyType
-      value       = delivery_property.value.propertyValue
+      type        = delivery_property.value.property_type
+      value       = delivery_property.value.property_value
     }
   }
 }
