@@ -13,6 +13,37 @@ variable "name" {
   description = "Specifies the name of the function app."
 }
 
+variable "managed_identity_provider" {
+  type = object({
+    existing = optional(object({
+      client_id     = string
+      client_secret = string
+    }))
+    create = optional(object({
+      application_name = string
+      identifies_uris  = optional(list(string)) # if not set will default to api://<application_name>
+      display_name     = string
+      oauth2_settings = object({
+        admin_consent_description  = string
+        admin_consent_display_name = string
+        enabled                    = bool
+        type                       = string
+        user_consent_description   = string
+        user_consent_display_name  = string
+        role_value                 = string
+      })
+      owners        = optional(list(string)) # Deployment user will be added as owner by default
+      redirect_uris = optional(list(string)) # Only for additional URIs, function uri will be added by default
+    }))
+    allowed_clients = list(string)
+  })
+  validation {
+    condition     = var.managed_identity_provider.existing != null || var.managed_identity_provider.create != null
+    error_message = "Variable managed_identity_provider has to provide either an existing managed identity provider or given information to create one"
+  }
+  description = "The managed identity provider to use for connections on this function app"
+}
+
 variable "linux_app" {
   type        = bool
   description = "Specifies if this is a linux or windows function app. Defaults to true"
