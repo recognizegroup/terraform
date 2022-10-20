@@ -13,12 +13,6 @@ variable "name" {
   description = "Specifies the name of the function app."
 }
 
-variable "linux_app" {
-  type        = bool
-  description = "Specifies if this is a linux or windows function app. Defaults to true"
-  default     = true
-}
-
 variable "app_service_plan_id" {
   type        = string
   description = "The ID of the App Service Plan within which to create this Function App."
