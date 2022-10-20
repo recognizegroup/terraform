@@ -44,12 +44,6 @@ variable "managed_identity_provider" {
   description = "The managed identity provider to use for connections on this function app"
 }
 
-variable "linux_app" {
-  type        = bool
-  description = "Specifies if this is a linux or windows function app. Defaults to true"
-  default     = true
-}
-
 variable "app_service_plan_id" {
   type        = string
   description = "The ID of the App Service Plan within which to create this Function App."
