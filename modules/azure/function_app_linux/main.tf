@@ -45,17 +45,6 @@ resource "azurerm_linux_function_app" "function_app" {
   }
 }
 
-# Host keys
-
-data "azurerm_function_app_host_keys" "host_keys" {
-  name                = var.name
-  resource_group_name = var.resource_group_name
-
-  depends_on = [
-    azurerm_linux_function_app.function_app
-  ]
-}
-
 # VNet integration
 
 resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
