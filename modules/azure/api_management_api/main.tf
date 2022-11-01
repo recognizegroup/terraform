@@ -202,13 +202,13 @@ XML
 ######################################################
 
 data "azurerm_key_vault_secret" "username" {
-  count        = var.backend_type == "basic-auth" && var.basic_auth_settings.username_secret != null ? 1 : 0
+  count        = var.backend_type == "basic-auth" && (var.basic_auth_settings != null ? var.basic_auth_settings.username_secret != null : false) ? 1 : 0
   name         = var.basic_auth_settings.username_secret
   key_vault_id = var.basic_auth_settings.key_vault_id
 }
 
 data "azurerm_key_vault_secret" "password" {
-  count        = var.backend_type == "basic-auth" && var.basic_auth_settings.password_secret != null ? 1 : 0
+  count        = var.backend_type == "basic-auth" && (var.basic_auth_settings != null ? var.basic_auth_settings.password_secret != null : false) ? 1 : 0
   name         = var.basic_auth_settings.password_secret
   key_vault_id = var.basic_auth_settings.key_vault_id
 }
