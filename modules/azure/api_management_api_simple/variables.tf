@@ -69,7 +69,7 @@ variable "api_diagnostic_settings" {
 
 variable "backend_type" {
   type        = string
-  description = "The type of backend used by the api. Should be public, basic-auth, body-auth or managed-identity"
+  description = "The type of backend used by the api. Should be public, basic-auth, oauth, body-auth, api-token or managed-identity"
 
   validation {
     condition     = contains(["public", "basic-auth", "managed-identity", "body-auth", "oauth", "api-token"], var.backend_type)
