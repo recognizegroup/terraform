@@ -47,7 +47,7 @@ resource "azurerm_linux_function_app" "function_app" {
     active_directory {
       client_id         = local.should_create_app ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id
       client_secret     = local.should_create_app ? azuread_application_password.password[0].value : var.managed_identity_provider.existing.client_secret
-      allowed_audiences = var.managed_identity_provider.allowed_clients
+      allowed_audiences = concat(var.managed_identity_provider.allowed_clients, var.managed_identity_provider.create.identifies_uris != null ? var.managed_identity_provider.create.identifies_uris : ["api://${var.managed_identity_provider.create.application_name}"])
     }
   }
 
