@@ -21,7 +21,6 @@ variable "managed_identity_provider" {
     }))
     create = optional(object({
       application_name = string
-      identifies_uris  = optional(list(string)) # if not set will default to api://<application_name>
       display_name     = string
       oauth2_settings = object({
         admin_consent_description  = string
@@ -35,7 +34,8 @@ variable "managed_identity_provider" {
       owners        = optional(list(string)) # Deployment user will be added as owner by default
       redirect_uris = optional(list(string)) # Only for additional URIs, function uri will be added by default
     }))
-    allowed_clients = list(string)
+    identifier_uris   = optional(list(string)) #  api://<application_name> will be added by default if application is create
+    allowed_audiences = optional(list(string)) # api://<application-name> will be added by default
   })
   validation {
     condition     = var.managed_identity_provider.existing != null || var.managed_identity_provider.create != null
