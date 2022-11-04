@@ -21,5 +21,5 @@ resource "azurerm_api_management_api_operation_policy" "policy" {
   resource_group_name = var.resource_group_name
 
   operation_id = var.operation_id
-  xml_content  = file(var.policy_location)
+  xml_content  = var.policy.file_location != null ? file(var.policy.file_location) : var.policy.xml_string
 }
