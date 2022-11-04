@@ -24,7 +24,7 @@ variable "policy" {
     xml_string    = optional(string)
   })
   validation {
-    condition     = (file_location != null || xml_string != null)
+    condition     = (var.policy.file_location != null || var.policy.xml_string != null)
     error_message = "Either file_location or xml_string must be provided."
   }
   description = "XML policy described by a file (location) or raw string."
