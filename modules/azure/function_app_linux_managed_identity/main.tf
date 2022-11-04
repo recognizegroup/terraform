@@ -8,7 +8,10 @@ terraform {
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "=2.29.0"
+      version = "=2.30.0"
+    }
+    azapi = {
+      source = "Azure/azapi"
     }
   }
 
@@ -19,8 +22,14 @@ provider "azurerm" {
   features {}
 }
 
+provider "azapi" {
+
+}
+
 locals {
   should_create_app = var.managed_identity_provider.existing != null ? false : true
+  identifiers       = concat(local.should_create_app ? ["api://${var.managed_identity_provider.create.application_name}"] : [], var.managed_identity_provider.identifier_uris != null ? var.managed_identity_provider.identifier_uris : [])
+  allowed_audiences = concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : [])
 }
 
 # Function App
@@ -34,21 +43,12 @@ resource "azurerm_linux_function_app" "function_app" {
   storage_account_access_key  = var.storage_account_access_key
   functions_extension_version = var.runtime_version
 
-  app_settings = var.app_settings
+  app_settings = merge(var.app_settings, { MICROSOFT_PROVIDER_AUTHENTICATION_SECRET = "${local.should_create_app ? azuread_application_password.password[0].value : var.managed_identity_provider.existing.client_secret}" })
 
   site_config {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic
     ip_restriction         = var.ip_restriction
-  }
-
-  auth_settings {
-    enabled = true
-    active_directory {
-      client_id         = local.should_create_app ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id
-      client_secret     = local.should_create_app ? azuread_application_password.password[0].value : var.managed_identity_provider.existing.client_secret
-      allowed_audiences = concat(var.managed_identity_provider.allowed_clients, var.managed_identity_provider.create.identifies_uris != null ? var.managed_identity_provider.create.identifies_uris : ["api://${var.managed_identity_provider.create.application_name}"])
-    }
   }
 
   dynamic "connection_string" {
@@ -65,6 +65,40 @@ resource "azurerm_linux_function_app" "function_app" {
   }
 }
 
+/* The azurerm_linux_function_app module does not yet support Authentication v2 (v1 only) at the moment. Therefore, we create the function without authentication settings.
+ * In this block, we add a Microsoft Active Directory identity provider through the AZ API provider.
+ * The default audience check in the token is set to the Application ID, but keep in mind that with a valid oAuth app registration in the tenant (AzureADMyOrg), you can
+ * create a valid token with this audience. If you need more security, validate the claim in C# or add Claim rules here.
+ */
+
+resource "azapi_update_resource" "setup_auth_settings" {
+  type        = "Microsoft.Web/sites/config@2020-12-01"
+  resource_id = "${azurerm_linux_function_app.function_app.id}/config/web"
+
+  depends_on = [
+    azurerm_linux_function_app.function_app
+  ]
+
+  body = jsonencode({
+    properties = {
+      siteAuthSettingsV2 = {
+        IdentityProviders = {
+          azureActiveDirectory = {
+            enabled = true,
+            registration = {
+              clientId                = "${local.should_create_app ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id}",
+              clientSecretSettingName = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
+            },
+            validation = {
+              allowedAudiences = local.allowed_audiences
+            }
+          }
+        }
+      }
+    }
+  })
+}
+
 # Managed Identity Provider
 
 data "azuread_client_config" "current" {}
@@ -74,7 +108,7 @@ resource "azuread_application" "application" {
   display_name     = var.managed_identity_provider.create.display_name
   owners           = var.managed_identity_provider.create.owners != null ? concat([data.azuread_client_config.current.object_id], var.managed_identity_provider.create.owners) : [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
-  identifier_uris  = var.managed_identity_provider.create.identifies_uris != null ? var.managed_identity_provider.create.identifies_uris : ["api://${var.managed_identity_provider.create.application_name}"]
+  identifier_uris  = local.identifiers
 
   api {
     requested_access_token_version = 2
