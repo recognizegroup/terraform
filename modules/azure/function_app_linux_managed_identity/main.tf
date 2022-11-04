@@ -65,6 +65,10 @@ resource "azurerm_linux_function_app" "function_app" {
   }
 }
 
+### HACK
+### Terraform does not support AuthV2 currently, so we create the function without auth settings and add them later through AZ API provider
+### This has a tendency to not always properly update, forcing you to delete and redeploy your function
+
 resource "azapi_update_resource" "upgrade_auth_settings" {
   type        = "Microsoft.Web/sites/config@2020-12-01"
   resource_id = "${azurerm_linux_function_app.function_app.id}/config/web"
@@ -92,29 +96,6 @@ resource "azapi_update_resource" "upgrade_auth_settings" {
     }
   })
 }
-
-# resource "azapi_update_resource" "update_allowed_audience" {
-#   type        = "Microsoft.Web/sites/config@2020-12-01"
-#   resource_id = "${azurerm_linux_function_app.function_app.id}/config/authsettingsV2"
-
-#   depends_on = [
-#     azurerm_linux_function_app.function_app,
-#     azapi_update_resource.upgrade_auth_settings
-#   ]
-
-#   body = jsonencode({
-#     properties = {
-#       IdentityProviders = {
-#         azureActiveDirectory = {
-#           validation = {
-#             allowedAudiences = concat(var.managed_identity_provider.allowed_clients, var.managed_identity_provider.create.identifies_uris != null ? var.managed_identity_provider.create.identifies_uris : ["api://${var.managed_identity_provider.create.application_name}"]),
-#           }
-#         }
-#       }
-#     }
-#   })
-# }
-
 
 # Managed Identity Provider
 
