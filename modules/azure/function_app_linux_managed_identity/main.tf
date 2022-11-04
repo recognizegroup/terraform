@@ -65,11 +65,13 @@ resource "azurerm_linux_function_app" "function_app" {
   }
 }
 
-### HACK
-### Terraform does not support AuthV2 currently, so we create the function without auth settings and add them later through AZ API provider
-### This has a tendency to not always properly update, forcing you to delete and redeploy your function
+/* The azurerm_linux_function_app module does not yet support Authentication v2 (v1 only) at the moment. Therefore, we create the function without authentication settings.
+ * In this block, we add a Microsoft Active Directory identity provider through the AZ API provider.
+ * The default audience check in the token is set to the Application ID, but keep in mind that with a valid oAuth app registration in the tenant (AzureADMyOrg), you can
+ * create a valid token with this audience. If you need more security, validate the claim in C# or add Claim rules here.
+ */
 
-resource "azapi_update_resource" "upgrade_auth_settings" {
+resource "azapi_update_resource" "setup_auth_settings" {
   type        = "Microsoft.Web/sites/config@2020-12-01"
   resource_id = "${azurerm_linux_function_app.function_app.id}/config/web"
 
