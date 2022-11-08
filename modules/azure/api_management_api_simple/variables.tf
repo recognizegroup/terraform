@@ -138,3 +138,9 @@ variable "managed_identity_resource" {
   description = "The resource to validate the managed identity"
   default     = null
 }
+
+variable "custom_xml_policy" {
+  type        = string
+  description = "Additional xml policies to add to the policy"
+  default     = null
+}
