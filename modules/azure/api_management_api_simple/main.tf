@@ -168,6 +168,9 @@ resource "azurerm_api_management_api_policy" "api_policy" {
       %{endif}
     </set-header>
     %{endif}
+    %{if var.custom_xml_policy != null}
+    ${var.custom_xml_policy}
+    %{endif}
   </inbound>
 </policies>
 XML
