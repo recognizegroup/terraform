@@ -39,9 +39,10 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
     for_each = var.delivery_properties
 
     content {
-      header_name = delivery_property.value.header_name
-      type        = delivery_property.value.property_type
-      value       = delivery_property.value.property_value
+      header_name  = delivery_property.value.header_name
+      type         = delivery_property.value.property_type
+      value        = title(delivery_property.value.property_type) == "Static" ? delivery_property.value.property_value : null
+      source_field = title(delivery_property.value.property_type) == "Dynamic" ? delivery_property.value.source_field : null
     }
   }
 }
