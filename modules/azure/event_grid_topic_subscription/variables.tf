@@ -43,7 +43,8 @@ variable "delivery_properties" {
   type = list(object({
     header_name    = string
     property_type  = string
-    property_value = string
+    property_value = optional(string)
+    source_field   = optional(string)
   }))
-  description = "parameters for delivery properties"
+  description = "parameters for delivery properties, set property_value if type is static, otherwise use source_field for dynamics"
 }
