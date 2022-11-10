@@ -47,8 +47,6 @@ resource "azurerm_logic_app_standard" "app" {
   storage_account_access_key = var.storage_account_access_key
   storage_account_name       = var.storage_account_name
   virtual_network_subnet_id  = var.integration_subnet_id
-
-  lifecycle { ignore_changes = [virtual_network_subnet_id] }  
 }
 
 # First, create a zip file containing the workflow
