@@ -46,14 +46,7 @@ resource "azurerm_logic_app_standard" "app" {
   app_service_plan_id        = var.service_plan_id
   storage_account_access_key = var.storage_account_access_key
   storage_account_name       = var.storage_account_name
-
-  lifecycle { ignore_changes = [virtual_network_subnet_id] }
-}
-
-resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
-  count          = var.integration_subnet_id == null ? 0 : 1
-  app_service_id = azurerm_logic_app_standard.app.id
-  subnet_id      = var.integration_subnet_id
+  virtual_network_subnet_id  = var.integration_subnet_id
 }
 
 # First, create a zip file containing the workflow
