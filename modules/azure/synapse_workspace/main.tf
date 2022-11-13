@@ -2,7 +2,7 @@ terraform {
   required_version = ">=1.3.0"
 
   required_providers {
-    azurerm = "=3.23.0"
+    azurerm = "=3.31.0"
   }
 
   backend "azurerm" {}
@@ -91,6 +91,44 @@ resource "azurerm_synapse_workspace" "workspace" {
       root_folder     = var.devops.root_folder
       last_commit_id  = var.devops.last_commit_id
       tenant_id       = var.devops.tenant_id
+    }
+  }
+}
+
+data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
+  count       = var.log_analytics_workspace_id == null ? 0 : 1
+  resource_id = azurerm_synapse_workspace.workspace.id
+}
+
+resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
+  count                      = var.log_analytics_workspace_id == null ? 0 : 1
+  name                       = "diag-${var.workspace_name}"
+  target_resource_id         = azurerm_synapse_workspace.workspace.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  dynamic "log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
+
+    content {
+      category = log.value
+      enabled  = true
+
+      retention_policy {
+        enabled = false
+      }
+    }
+  }
+
+  dynamic "metric" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
+
+    content {
+      category = metric.value
+      enabled  = true
+
+      retention_policy {
+        enabled = false
+      }
     }
   }
 }
