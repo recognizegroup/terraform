@@ -115,4 +115,8 @@ variable "role_assignments" {
   default     = []
 }
 
-
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of a log analytics workspace (optional)."
+  default     = null
+}
