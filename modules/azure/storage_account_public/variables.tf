@@ -28,7 +28,7 @@ variable "tier" {
 variable "replication_type" {
   type        = string
   description = "Defines the type of replication to use for this storage account."
-  default     = "LRS"
+  default     = "GRS"
 }
 
 variable "allow_public_access" {

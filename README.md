@@ -79,7 +79,8 @@ az account set --subscription $SUBSCRIPTION_ID
 az group create \
   --subscription $SUBSCRIPTION_ID \
   --name $RESOURCE_GROUP_NAME \
-  --location $LOCATION
+  --location $LOCATION \
+  --tags 'CostCenter=XXXX' 'Environment=XXXX' 'Workload=XXXX'
 
 # Create storage account
 az storage account create \
@@ -87,7 +88,7 @@ az storage account create \
   --name $STORAGE_ACCOUNT_NAME \
   --resource-group $RESOURCE_GROUP_NAME \
   --location $LOCATION \
-  --sku Standard_LRS \
+  --sku Standard_GRS \
   --encryption-services blob \
   --https-only true \
   --allow-blob-public-access false
@@ -127,14 +128,15 @@ $env:LOCATION="westeurope"
 az group create `
   --subscription $env:SUBSCRIPTION_ID `
   --name $env:RESOURCE_GROUP_NAME `
-  --location $env:LOCATION
+  --location $env:LOCATION `
+  --tags 'CostCenter=XXXX' 'Environment=XXXX' 'Workload=XXXX'
 
 az storage account create `
   --subscription $env:SUBSCRIPTION_ID `
   --name $env:STORAGE_ACCOUNT_NAME `
   --resource-group $env:RESOURCE_GROUP_NAME `
   --location $env:LOCATION `
-  --sku Standard_LRS`
+  --sku Standard_GRS `
   --encryption-services blob `
   --https-only true `
   --allow-blob-public-access false

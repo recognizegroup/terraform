@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">=1.0.9"
+  required_version = ">=1.3.0"
 
   required_providers {
     azurerm = {
@@ -13,10 +13,6 @@ terraform {
   }
 
   backend "azurerm" {}
-
-  # Optional attributes and the defaults function are
-  # both experimental, so we must opt in to the experiment.
-  experiments = [module_variable_optional_attrs]
 }
 
 provider "azurerm" {
@@ -154,7 +150,7 @@ resource "azurerm_api_management_api_policy" "api_policy" {
       </set-header>
     %{endif}
     %{if var.backend_type == "basic-auth"}
-    <authentication-basic username="${data.azurerm_key_vault_secret.username[0].value}" password="${data.azurerm_key_vault_secret.password[0].value}" />
+    <authentication-basic username="${var.basic_auth_settings.username != null ? var.basic_auth_settings.username : data.azurerm_key_vault_secret.username[0].value}" password="${var.basic_auth_settings.password != null ? var.basic_auth_settings.password : data.azurerm_key_vault_secret.password[0].value}" />
     %{endif}
     %{if var.backend_type == "body-auth"}
     <set-body>@{
@@ -206,13 +202,13 @@ XML
 ######################################################
 
 data "azurerm_key_vault_secret" "username" {
-  count        = var.backend_type == "basic-auth" ? 1 : 0
+  count        = var.backend_type == "basic-auth" && (var.basic_auth_settings != null ? var.basic_auth_settings.username_secret != null : false) ? 1 : 0
   name         = var.basic_auth_settings.username_secret
   key_vault_id = var.basic_auth_settings.key_vault_id
 }
 
 data "azurerm_key_vault_secret" "password" {
-  count        = var.backend_type == "basic-auth" ? 1 : 0
+  count        = var.backend_type == "basic-auth" && (var.basic_auth_settings != null ? var.basic_auth_settings.password_secret != null : false) ? 1 : 0
   name         = var.basic_auth_settings.password_secret
   key_vault_id = var.basic_auth_settings.key_vault_id
 }

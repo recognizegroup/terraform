@@ -1,11 +1,9 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = ">=1.3.0"
 
   required_providers {
     azurerm = "=2.96.0"
   }
-
-  experiments = [module_variable_optional_attrs]
   backend "azurerm" {}
 }
 

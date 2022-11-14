@@ -1,16 +1,11 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = ">=1.3.0"
 
   required_providers {
-    azurerm = "=2.96.0"
+    azurerm = "=3.26.0"
   }
 
   backend "azurerm" {}
-
-  # Optional attributes and the defaults function are
-  # both experimental, so we must opt in to the experiment.
-  experiments = [module_variable_optional_attrs]
-
 }
 
 provider "azurerm" {
@@ -40,4 +35,14 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
     }
   }
   included_event_types = var.event_types
+  dynamic "delivery_property" {
+    for_each = var.delivery_properties
+
+    content {
+      header_name  = delivery_property.value.header_name
+      type         = delivery_property.value.property_type
+      value        = title(delivery_property.value.property_type) == "Static" ? delivery_property.value.property_value : null
+      source_field = title(delivery_property.value.property_type) == "Dynamic" ? delivery_property.value.source_field : null
+    }
+  }
 }
