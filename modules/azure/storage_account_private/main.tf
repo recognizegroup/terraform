@@ -35,16 +35,12 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   location            = var.location
   resource_group_name = var.resource_group_name
   subnet_id           = var.subnet_id
+  private_dns_zone_id = var.private_dns_zone_id
 
   private_service_connection {
     name                           = "psc-${var.name}"
     is_manual_connection           = false
     private_connection_resource_id = azurerm_storage_account.storage_account.id
     subresource_names              = ["blob"]
-  }
-
-  # Should be deployed by Azure policy
-  lifecycle {
-    ignore_changes = [private_dns_zone_group]
   }
 }
