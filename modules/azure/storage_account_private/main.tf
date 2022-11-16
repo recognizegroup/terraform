@@ -43,4 +43,12 @@ resource "azurerm_private_endpoint" "private_endpoint" {
     private_connection_resource_id = azurerm_storage_account.storage_account.id
     subresource_names              = ["blob"]
   }
+
+  private_dns_zone_group {
+    name = "pdzg-${var.name}"
+
+    private_dns_zone_ids = [
+      var.private_dns_zone_id,
+    ]
+  }
 }
