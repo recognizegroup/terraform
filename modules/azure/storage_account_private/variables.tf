@@ -61,6 +61,7 @@ variable "enable_https_traffic_only" {
 }
 
 variable "private_dns_zone_id" {
-  type = string
+  type        = string
   description = "ID of the private DNS zone."
+  default     = null
 }

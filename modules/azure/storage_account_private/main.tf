@@ -43,11 +43,14 @@ resource "azurerm_private_endpoint" "private_endpoint" {
     subresource_names              = ["blob"]
   }
 
-  private_dns_zone_group {
-    name = "pdzg-${var.name}"
+  dynamic "private_dns_zone_group" {
+    for_each = var.private_dns_zone_id == null ? [] : [1]
+    content {
+      name = "pdzg-${var.name}"
 
-    private_dns_zone_ids = [
-      var.private_dns_zone_id,
-    ]
+      private_dns_zone_ids = [
+        var.private_dns_zone_id,
+      ]
+    }
   }
 }
