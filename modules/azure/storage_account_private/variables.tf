@@ -59,3 +59,9 @@ variable "enable_https_traffic_only" {
   description = "Forces HTTPS when true"
   default     = true
 }
+
+variable "private_dns_zone_id" {
+  type        = string
+  description = "ID of the private DNS zone."
+  default     = null
+}
