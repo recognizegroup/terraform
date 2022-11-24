@@ -139,13 +139,13 @@ variable "managed_identity_resource" {
   default     = null
 }
 
-variable "custom_xml_policy" {
+variable "custom_policy_append" {
   type        = string
   description = "Additional xml policies to add to the policy"
   default     = null
 }
 
-variable "custom_xml_policy_before" {
+variable "custom_xml_policy_prepend" {
   type        = string
   description = "Additional xml policies to add to the policy before the default authentification policies are applied"
   default     = null
