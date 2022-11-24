@@ -144,3 +144,9 @@ variable "custom_xml_policy" {
   description = "Additional xml policies to add to the policy"
   default     = null
 }
+
+variable "custom_xml_policy_before" {
+  type        = string
+  description = "Additional xml policies to add to the policy before the default authentification policies are applied"
+  default     = null
+}
