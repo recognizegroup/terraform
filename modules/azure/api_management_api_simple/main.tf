@@ -119,6 +119,11 @@ resource "azurerm_api_management_api_policy" "api_policy" {
 <policies>
   <inbound>
   <base />
+    %{if var.custom_xml_policy_prepend != null}
+    ${var.custom_xml_policy_prepend}
+    %{endif}
+
+
     %{if var.backend_type == "managed-identity"}
     <authentication-managed-identity resource="${var.managed_identity_resource}" output-token-variable-name="msi-access-token" ignore-error="false" />
       <set-header name="Authorization" exists-action="override">
@@ -168,8 +173,8 @@ resource "azurerm_api_management_api_policy" "api_policy" {
       %{endif}
     </set-header>
     %{endif}
-    %{if var.custom_xml_policy != null}
-    ${var.custom_xml_policy}
+    %{if var.custom_xml_policy_append != null}
+    ${var.custom_xml_policy_append}
     %{endif}
   </inbound>
 </policies>
