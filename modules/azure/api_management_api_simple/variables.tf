@@ -72,8 +72,8 @@ variable "backend_type" {
   description = "The type of backend used by the api. Should be public, basic-auth, oauth, body-auth, api-token or managed-identity"
 
   validation {
-    condition     = contains(["public", "basic-auth", "managed-identity", "body-auth", "oauth", "api-token"], var.backend_type)
-    error_message = "Argument \"backend_type\" must be either \"public\", \"basic-auth\", \"body-auth\", \"oauth\" , \"api-token\" or \"managed-identity\"."
+    condition     = contains(["public", "basic-auth", "managed-identity", "body-auth", "oauth", "api-token", "custom-policy"], var.backend_type)
+    error_message = "Argument \"backend_type\" must be either \"public\", \"basic-auth\", \"body-auth\", \"oauth\" , \"api-token\" , \"custom-policy\" or \"managed-identity\"."
   }
 }
 
@@ -136,6 +136,12 @@ variable "api_token_settings" {
 variable "managed_identity_resource" {
   type        = string
   description = "The resource to validate the managed identity"
+  default     = null
+}
+
+variable "custom_xml_policy" {
+  type        = string
+  description = "Full contents xml policy to add to the policy"
   default     = null
 }
 
