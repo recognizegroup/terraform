@@ -115,7 +115,7 @@ resource "azurerm_api_management_api_policy" "api_policy" {
   api_management_name = var.api_management_name
   resource_group_name = var.resource_group_name
 
-  xml_content = <<XML
+  xml_content = var.backend_type == "custom-policy" ? var.custom_xml_policy : <<XML
 <policies>
   <inbound>
   <base />
