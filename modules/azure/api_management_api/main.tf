@@ -132,6 +132,10 @@ resource "azurerm_api_management_api_policy" "api_policy" {
 <policies>
   <inbound>
   <base />
+    %{if var.custom_xml_policy_prepend != null}
+      ${var.custom_xml_policy_prepend}
+      %{endif}
+
     <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
       <openid-config url="${var.aad_settings.openid_url}"/>
       <required-claims>
@@ -191,6 +195,9 @@ resource "azurerm_api_management_api_policy" "api_policy" {
       <value>${var.api_token_settings.token}</value>
       %{endif}
     </set-header>
+    %{endif}
+    %{if var.custom_xml_policy_append != null}
+    ${var.custom_xml_policy_append}
     %{endif}
   </inbound>
 </policies>

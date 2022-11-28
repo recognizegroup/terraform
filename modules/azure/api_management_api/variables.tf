@@ -187,3 +187,16 @@ variable "api_token_settings" {
   description = "Values for api-token authentication"
   default     = null
 }
+
+
+variable "custom_xml_policy_append" {
+  type        = string
+  description = "Additional xml policies to add to the policy"
+  default     = null
+}
+
+variable "custom_xml_policy_prepend" {
+  type        = string
+  description = "Additional xml policies to add to the policy before the default authentification policies are applied"
+  default     = null
+}
