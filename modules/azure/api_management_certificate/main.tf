@@ -26,9 +26,8 @@ resource "azurerm_api_management_certificate" "apim_certificate" {
   resource_group_name = var.resource_group_name
 
   key_vault_secret_id = var.keyvault_certificate_id
-  data                = filebase64(var.certificate_location)
+  data                = var.certificate_location != null? filebase64(var.certificate_location): null
   password            = var.certificate_password
-  
 
   lifecycle {
     precondition {
