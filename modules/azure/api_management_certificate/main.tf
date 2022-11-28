@@ -18,8 +18,6 @@ provider "azurerm" {
 locals {
 }
 
-
-
 resource "azurerm_api_management_certificate" "apim_certificate" {
   name                = var.name
   api_management_name = var.api_management_name
