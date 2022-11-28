@@ -30,7 +30,7 @@ resource "azurerm_api_management_certificate" "apim_certificate" {
   lifecycle {
     precondition {
       condition     = (var.certificate_location != null && var.keyvault_certificate_id==null) || (var.certificate_location == null && var.keyvault_certificate_id!=null)
-      error_message = "Wrong Keyvault ID and Certificate location COmbination, one and only one the those should have value"
+      error_message = "Please, specify a Certificate KeyVault ID or Certificate file location"
     }
   }
 }
