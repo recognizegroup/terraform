@@ -21,6 +21,16 @@ resource "azurerm_key_vault_certificate" "certificate" {
       name = "Self"
     }
 
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+
     key_properties {
       exportable = true
       key_size   = var.key_properties.key_size
