@@ -16,4 +16,18 @@ variable "resource_group_name" {
 variable "keyvault_certificate_id" {
   type =  string
   description = "the id of the certificate file in a keyvault"
+  default = null
+}
+
+variable "certificate_location" {
+  type = string
+  description = "location of client certificate"
+  default = null
+}
+
+variable "certificate_password" {
+  type = string
+  sensitive = true
+  description = "password for Pfx File"
+  default = null
 }

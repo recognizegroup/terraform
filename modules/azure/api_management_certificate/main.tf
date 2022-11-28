@@ -26,4 +26,14 @@ resource "azurerm_api_management_certificate" "apim_certificate" {
   resource_group_name = var.resource_group_name
 
   key_vault_secret_id = var.keyvault_certificate_id
+  data                = filebase64(var.certificate_location)
+  password            = var.certificate_password
+  
+
+  lifecycle {
+    precondition {
+      condition     = (var.certificate_location != null && var.keyvault_certificate_id==null) || (var.certificate_location == null && var.keyvault_certificate_id!=null)
+      error_message = "Wrong Keyvault ID and Certificate location COmbination, one and only one the those should have value"
+    }
+  }
 }

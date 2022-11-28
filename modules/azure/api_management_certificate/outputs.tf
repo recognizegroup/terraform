@@ -1,3 +1,7 @@
+output "name" {
+  value = var.name
+}
+
 output "thumbprint" {
   value =  azurerm_api_management_certificate.apim_certificate.thumbprint
 }
