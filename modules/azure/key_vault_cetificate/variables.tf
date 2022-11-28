@@ -20,3 +20,14 @@ variable "key_properties" {
     key_type = "RSA"
   }
 }
+
+variable "dns_names"{
+  type = list(string)
+  description = "List of dns names for the certificate"
+  default = []
+}
+
+variable "subject" {
+  type = string
+  description = "Certificate Subject"
+} 

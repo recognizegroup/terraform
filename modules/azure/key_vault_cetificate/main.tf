@@ -37,9 +37,9 @@ resource "azurerm_key_vault_certificate" "certificate" {
         "cRLSign",
       ]
       subject_alternative_names {
-        dns_names = ["PleaseChangeMe.contoso.com"]
+        dns_names = var.dns_names
       }
-      subject            = "CN=PleaseChangeMe"
+      subject            = var.subject
       validity_in_months = 12
     }
   }
