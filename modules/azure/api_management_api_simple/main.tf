@@ -177,6 +177,13 @@ resource "azurerm_api_management_api_policy" "api_policy" {
     ${var.custom_xml_policy_append}
     %{endif}
   </inbound>
+
+   <outbound> 
+    <base />
+      %{if var.custom_outbound_policy != null}
+      ${var.custom_outbound_policy}
+      %{endif}
+  </outbound>
 </policies>
 XML
 }
