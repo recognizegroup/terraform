@@ -200,3 +200,9 @@ variable "custom_xml_policy_prepend" {
   description = "Additional xml policies to add to the policy before the default authentification policies are applied"
   default     = null
 }
+
+variable "custom_outbound_policy" {
+  type        = string
+  description = "Additional outbound xml policies"
+  default     = null
+}
