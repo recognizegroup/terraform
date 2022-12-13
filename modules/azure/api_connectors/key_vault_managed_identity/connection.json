@@ -25,7 +25,7 @@
     "key_vault_name": {
       "type": "string",
       "metadata": {
-        "description": "Service Bus namespace"
+        "description": "Keyvault Name for the connection target"
       }
     }
   },
@@ -42,7 +42,6 @@
           "alternativeParameterValues": {
               "vaultName": "[parameters('key_vault_name')]"
           },
-          "customParameterValues": {},
           "api": {
               "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('location'), 'keyvault')]"
           }
