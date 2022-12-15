@@ -10,6 +10,6 @@ output "id" {
   value = azurerm_linux_function_app.function_app.id
 }
 
-output "aad_application_id" {
-  value ="${var.managed_identity_provider.existing == null ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id}"
+output "aad_application_name" {
+  value = var.managed_identity_provider.existing == null ? "api://${var.managed_identity_provider.create.application_name}" : null
 }
