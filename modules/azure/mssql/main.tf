@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = ">=1.3.4"
 
   required_providers {
-    azurerm = "=3.16.0"
+    azurerm = "=3.36.0"
   }
 
   backend "azurerm" {}
@@ -100,7 +100,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   // log_analytics_destination_type = "Dedicated"
 
   dynamic "log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
 
     content {
       category = log.value
