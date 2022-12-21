@@ -1,8 +1,8 @@
 terraform {
-  required_version = ">=1.3.2"
+  required_version = ">=1.3.4"
 
   required_providers {
-    azurerm = "=3.31.0"
+    azurerm = "=3.36.0"
   }
 
   backend "azurerm" {}
@@ -154,3 +154,17 @@ resource "azurerm_synapse_role_assignment" "role_assignment" {
     azurerm_synapse_firewall_rule.firewall_rule
   ]
 }
+
+resource "azurerm_synapse_managed_private_endpoint" "managed_private_endpoints" {
+  for_each = {
+    for endpoint in var.managed_private_endpoints :
+    endpoint.resource_name => endpoint
+  }
+  name                 = "mpep-${each.value.resource_name}"
+  synapse_workspace_id = azurerm_synapse_workspace.workspace.id
+  target_resource_id   = each.value.resource_id
+  subresource_name     = each.value.subresource_name
+
+  depends_on = [azurerm_synapse_firewall_rule.firewall_rule]
+}
+

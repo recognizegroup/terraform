@@ -120,3 +120,13 @@ variable "log_analytics_workspace_id" {
   description = "ID of a log analytics workspace (optional)."
   default     = null
 }
+
+variable "managed_private_endpoints" {
+  type = list(object({
+    resource_name    = string
+    resource_id      = string
+    subresource_name = string
+  }))
+  description = "List of managed private endpoints for the Synapse workspace."
+  default     = []
+}
