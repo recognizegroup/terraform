@@ -30,4 +30,10 @@ variable "dns_names"{
 variable "subject" {
   type = string
   description = "Certificate Subject"
-} 
+}
+
+variable "ignore_changes" {
+  type = bool
+  description = "specify if portal changes should be overrided on deploy"
+  default = false
+}

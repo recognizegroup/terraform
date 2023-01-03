@@ -53,4 +53,8 @@ resource "azurerm_key_vault_certificate" "certificate" {
       validity_in_months = 12
     }
   }
+
+  lifecycle {
+    ignore_changes = var.ignore_changes == false? [] : [certificate_policy]
+  }
 }
