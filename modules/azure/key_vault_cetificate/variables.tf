@@ -32,7 +32,6 @@ variable "subject" {
   description = "Certificate Subject"
 }
 
-
 variable "ignore_changes" {
   # If value is altered on an existing resource, first apply will fail, just re-run
   type        = bool

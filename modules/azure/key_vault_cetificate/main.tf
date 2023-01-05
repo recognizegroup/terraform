@@ -57,7 +57,6 @@ resource "azurerm_key_vault_certificate" "certificate_automatic" {
   }
 }
 
-
 resource "azurerm_key_vault_certificate" "certificate_for_manual_changes" {
   count = var.ignore_changes ? 1 : 0
 
