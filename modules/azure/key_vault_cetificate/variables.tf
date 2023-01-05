@@ -21,19 +21,21 @@ variable "key_properties" {
   }
 }
 
-variable "dns_names"{
-  type = list(string)
+variable "dns_names" {
+  type        = list(string)
   description = "List of dns names for the certificate"
-  default = []
+  default     = []
 }
 
 variable "subject" {
-  type = string
+  type        = string
   description = "Certificate Subject"
 }
 
+
 variable "ignore_changes" {
-  type = bool
+  # If value is altered on an existing resource, first apply will fail, just re-run
+  type        = bool
   description = "specify if portal changes should be overrided on deploy"
-  default = false
+  default     = false
 }
