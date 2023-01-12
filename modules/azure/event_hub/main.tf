@@ -2,7 +2,10 @@ terraform {
   required_version = ">=1.1.7"
 
   required_providers {
-    azurerm = "=2.98.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 2.98.0"
+    }
   }
 
   backend "azurerm" {}
@@ -12,6 +15,7 @@ provider "azurerm" {
   features {}
 }
 
+# TODO: Check if this is a problem https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/3.0-upgrade-guide#resource-azurerm_eventhub_namespace
 resource "azurerm_eventhub_namespace" "namespace" {
   name                = var.namespace_name
   location            = var.location

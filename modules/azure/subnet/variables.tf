@@ -42,7 +42,7 @@ variable "service_delegation" {
 }
 
 variable "service_endpoints" {
-  type        = list
+  type        = set(any)
   description = "The list of Service endpoints to associate with the subnet."
   default     = []
 }

@@ -2,8 +2,12 @@ terraform {
   required_version = ">=1.1.7"
 
   required_providers {
-    azurerm = ">=2.98.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.38"
+    }
     databricks = {
+      // FIXME: source has moved to databricks/databricks
       source  = "databrickslabs/databricks"
       version = ">=0.5.4"
     }

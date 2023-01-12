@@ -11,7 +11,7 @@ variable "storage_account_name" {
 variable "quota" {
   type        = string
   description = "The maximum size of the share, in gigabytes."
-  default     = null
+  default     = 5120 // FIXME: or should we make this a required by removing the default if we are going to make this a major change?
 }
 
 variable "enabled_protocol" {

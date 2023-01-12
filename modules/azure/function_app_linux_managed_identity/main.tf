@@ -4,12 +4,13 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.26.0"
+      version = "~> 3.38"
     }
     azuread = {
       source  = "hashicorp/azuread"
       version = "=2.30.0"
     }
+    # FIXME: Waarom heeft azapi hier geen versie nummer en bij logic_app_trigger_http_request_data wel?
     azapi = {
       source = "Azure/azapi"
     }
