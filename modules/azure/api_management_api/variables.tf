@@ -55,7 +55,9 @@ variable "api_diagnostic_settings" {
     always_log_errors         = bool,
     log_client_ip             = bool,
     verbosity                 = string, # possible values: verbose, information, error
-    http_correlation_protocol = string, # possible values: None, Legacy, W3C
+    http_correlation_protocol = string, # possible values: None, Legacy, W3C,
+    headers_to_log_request    = list(string),
+    headers_to_log_response   = list(string)
   })
 
   description = "Settings for api diagnostics, If not needed just privide a null value, Will be created only if api_management_logger_id have beeen provided"
@@ -66,6 +68,8 @@ variable "api_diagnostic_settings" {
     log_client_ip             = true,
     verbosity                 = "verbose", # possible values: verbose, information, error
     http_correlation_protocol = "W3C"
+    headers_to_log_request    = ["content-type", "accept", "origin"],
+    headers_to_log_response   = ["content-type", "content-length", "origin"]
   }
 }
 

@@ -10,6 +10,10 @@ output "server_name" {
   value = azurerm_mssql_server.mssql_server.name
 }
 
+output "server_id" {
+  value = azurerm_mssql_server.mssql_server.id
+}
+
 output "server_fqdn" {
   value = azurerm_mssql_server.mssql_server.fully_qualified_domain_name
 }
