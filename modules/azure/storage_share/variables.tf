@@ -11,7 +11,6 @@ variable "storage_account_name" {
 variable "quota" {
   type        = string
   description = "The maximum size of the share, in gigabytes."
-  default     = 5120 // FIXME: or should we make this a required by removing the default if we are going to make this a major change? https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/3.0-upgrade-guide#azurerm_storage_share
 }
 
 variable "enabled_protocol" {
