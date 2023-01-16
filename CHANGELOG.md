@@ -16,7 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `azure/data_factory_http_to_blob`: Added new variable `data_factory_id` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
 
 ### Removed
-- **Breaking:** `azure/data_factory_http_to_blob`: Removed variable `data_factory_name`, replace with `data_factory_id` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
+- **Breaking:** Remove module `azure/key_vault_cetificate`, replace with `azure/key_vault_certificate` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`y`](https://github.com/recognizegroup/terraform/commit/y))
+- **Breaking:** `azure/data_factory_http_to_blob`: Remove variable `data_factory_name`, replace with `data_factory_id` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
 
 ---- 
 modules/azure/data_factory_http_to_blob
