@@ -10,7 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **Breaking:** Bump provider `hashicorp/azurerm` from all different versions to latest `3.x` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`3620b4bb`](https://github.com/recognizegroup/terraform/commit/3620b4bb))
-- **Breaking:** In modules/azure/data_factory_http_to_blob variable `data_factory_name` is changed to `data_factory_id` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`3620b4bb`](https://github.com/recognizegroup/terraform/commit/3620b4bb))
+- **Breaking:** `azure/storage_share`: Remove default of variable `quota` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
+
+### Added
+- `azure/data_factory_http_to_blob`: Added new variable `data_factory_id` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
+
+### Removed
+- **Breaking:** `azure/data_factory_http_to_blob`: Removed variable `data_factory_name`, replace with `data_factory_id` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
 
 ---- 
 modules/azure/data_factory_http_to_blob
