@@ -13,10 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking:** `azure/storage_share`: Remove default of variable `quota` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
 
 ### Added
-- `azure/data_factory_http_to_blob`: Added new variable `data_factory_id` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
+- `azure/data_factory_http_to_blob`: Add new variable `data_factory_id` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
 
 ### Removed
-- **Breaking:** Remove module `azure/key_vault_cetificate`, replace with `azure/key_vault_certificate` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`y`](https://github.com/recognizegroup/terraform/commit/y))
+- **Breaking:** Remove deprecated module `azure/key_vault_cetificate`, replace with `azure/key_vault_certificate` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`d1574f22`](https://github.com/recognizegroup/terraform/commit/d1574f22))
 - **Breaking:** `azure/data_factory_http_to_blob`: Remove variable `data_factory_name`, replace with `data_factory_id` ([#13](https://github.com/recognizegroup/terraform/pull/13)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
 
 ---- 
