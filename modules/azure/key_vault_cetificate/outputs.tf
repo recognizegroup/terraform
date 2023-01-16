@@ -1,3 +1,5 @@
+# Deprecated use key_vault_certificate instead
+
 output "name" {
   value = var.name
 }

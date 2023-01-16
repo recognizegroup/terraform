@@ -1,3 +1,5 @@
+# Deprecated use key_vault_certificate instead
+
 terraform {
   required_version = ">=1.1.2"
 

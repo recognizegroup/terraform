@@ -1,3 +1,5 @@
+# Deprecated use key_vault_certificate instead
+
 variable "name" {
   type        = string
   description = "Name of the certificate"
