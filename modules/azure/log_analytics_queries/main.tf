@@ -28,9 +28,8 @@ resource "azurerm_log_analytics_query_pack" "query_pack" {
 }
 
 resource "random_uuid" "uuid" {
-  count = length(var.query_files)
+  count = var.query_files == null ? 0 : length(var.query_files)
 }
-
 
 resource "azurerm_log_analytics_query_pack_query" "query" {
   count         = var.query_files == null ? 0 : length(var.query_files)
