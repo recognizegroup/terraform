@@ -5,7 +5,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.38"
+      version = "~> 3.40"
     }
     databricks = {
       // FIXME: source has moved to databricks/databricks

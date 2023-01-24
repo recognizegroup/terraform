@@ -10,7 +10,7 @@ terraform {
     // FIXME: Is hier wel azurerm nodig?
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.38"
+      version = "~> 3.40"
     }
   }
 
