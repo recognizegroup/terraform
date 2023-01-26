@@ -12,7 +12,7 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_virtual_machine_extension" "example" {
+resource "azurerm_virtual_machine_extension" "vm_extension" {
   count = var.command_to_execute == null ? 0 : 1
 
   name                 = var.name

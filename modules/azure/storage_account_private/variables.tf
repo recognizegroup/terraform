@@ -28,7 +28,7 @@ variable "tier" {
 variable "replication_type" {
   type        = string
   description = "Defines the type of replication to use for this storage account."
-  default     = "LRS"
+  default     = "GRS"
 }
 
 variable "min_tls_version" {
@@ -58,4 +58,10 @@ variable "enable_https_traffic_only" {
   type        = bool
   description = "Forces HTTPS when true"
   default     = true
+}
+
+variable "private_dns_zone_id" {
+  type        = string
+  description = "ID of the private DNS zone."
+  default     = null
 }

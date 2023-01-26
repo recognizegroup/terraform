@@ -31,10 +31,20 @@ variable "subject_filter" {
     case_sensitive      = optional(bool)
   })
   description = "parameters for subject filtering"
-  default = null
+  default     = null
 }
 
 variable "event_types" {
-  type = list(string)
+  type        = list(string)
   description = "A list of applicable event types that need to be part of the event subscription."
+}
+
+variable "delivery_properties" {
+  type = list(object({
+    header_name    = string
+    property_type  = string
+    property_value = optional(string)
+    source_field   = optional(string)
+  }))
+  description = "parameters for delivery properties, set property_value if type is static, otherwise use source_field for dynamics"
 }

@@ -5,3 +5,6 @@ output "principal_id" {
 output "enpoint" {
   value = azurerm_logic_app_workflow.workflow.access_endpoint
 }
+output "id" {
+  value = azurerm_logic_app_workflow.workflow.id
+}

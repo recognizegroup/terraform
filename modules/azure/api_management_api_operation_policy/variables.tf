@@ -18,7 +18,14 @@ variable "api_name" {
   description = "API name"
 }
 
-variable "policy_location" {
-  type        = string
-  description = "location of xml policy file for this specific operation"
+variable "policy" {
+  type = object({
+    file_location = optional(string),
+    xml_string    = optional(string)
+  })
+  validation {
+    condition     = (var.policy.file_location != null || var.policy.xml_string != null)
+    error_message = "Either file_location or xml_string must be provided."
+  }
+  description = "XML policy described by a file (location) or raw string."
 }

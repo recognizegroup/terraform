@@ -1,15 +1,11 @@
 terraform {
-  required_version = ">=1.2.2"
+  required_version = ">=1.3.4"
 
   required_providers {
-    azurerm = "=3.22.0"
+    azurerm = "=3.36.0"
   }
 
   backend "azurerm" {}
-
-  # Optional attributes and the defaults function are
-  # both experimental, so we must opt in to the experiment.
-  experiments = [module_variable_optional_attrs]
 }
 
 provider "azurerm" {
@@ -76,12 +72,63 @@ resource "azurerm_synapse_workspace" "workspace" {
   dynamic "github_repo" {
     for_each = var.github == null ? [] : [1]
     content {
-      account_name    = github.value.account_name
-      branch_name     = github.value.branch_name
-      repository_name = github.value.repository_name
-      root_folder     = github.value.root_folder
-      last_commit_id  = github.value.last_commit_id
-      git_url         = github.value.git_url
+      account_name    = var.github.account_name
+      branch_name     = var.github.branch_name
+      repository_name = var.github.repository_name
+      root_folder     = var.github.root_folder
+      last_commit_id  = var.github.last_commit_id
+      git_url         = var.github.git_url
+    }
+  }
+
+  dynamic "azure_devops_repo" {
+    for_each = var.devops == null ? [] : [1]
+    content {
+      account_name    = var.devops.account_name
+      project_name    = var.devops.project_name
+      branch_name     = var.devops.branch_name
+      repository_name = var.devops.repository_name
+      root_folder     = var.devops.root_folder
+      last_commit_id  = var.devops.last_commit_id
+      tenant_id       = var.devops.tenant_id
+    }
+  }
+}
+
+data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
+  count       = var.log_analytics_workspace_id == null ? 0 : 1
+  resource_id = azurerm_synapse_workspace.workspace.id
+}
+
+resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
+  count                      = var.log_analytics_workspace_id == null ? 0 : 1
+  name                       = "diag-${var.workspace_name}"
+  target_resource_id         = azurerm_synapse_workspace.workspace.id
+  log_analytics_workspace_id = var.log_analytics_workspace_id
+
+  dynamic "log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
+
+    content {
+      category = log.value
+      enabled  = true
+
+      retention_policy {
+        enabled = false
+      }
+    }
+  }
+
+  dynamic "metric" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
+
+    content {
+      category = metric.value
+      enabled  = true
+
+      retention_policy {
+        enabled = false
+      }
     }
   }
 }
@@ -107,3 +154,17 @@ resource "azurerm_synapse_role_assignment" "role_assignment" {
     azurerm_synapse_firewall_rule.firewall_rule
   ]
 }
+
+resource "azurerm_synapse_managed_private_endpoint" "managed_private_endpoints" {
+  for_each = {
+    for endpoint in var.managed_private_endpoints :
+    endpoint.resource_name => endpoint
+  }
+  name                 = "mpep-${each.value.resource_name}"
+  synapse_workspace_id = azurerm_synapse_workspace.workspace.id
+  target_resource_id   = each.value.resource_id
+  subresource_name     = each.value.subresource_name
+
+  depends_on = [azurerm_synapse_firewall_rule.firewall_rule]
+}
+

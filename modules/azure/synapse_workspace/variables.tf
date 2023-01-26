@@ -80,15 +80,29 @@ variable "aad_admin_tenant_id" {
 }
 
 variable "github" {
-  type = list(object({
+  type = object({
     account_name    = string,
     branch_name     = string,
     repository_name = string,
     root_folder     = string,
     last_commit_id  = optional(string),
     git_url         = optional(string)
-  }))
+  })
   description = "Github repository configuration to link to the Synapse workspace."
+  default     = null
+}
+
+variable "devops" {
+  type = object({
+    account_name    = string,
+    project_name    = string
+    branch_name     = string,
+    repository_name = string,
+    root_folder     = string,
+    last_commit_id  = optional(string),
+    tenant_id       = optional(string)
+  })
+  description = "Devops repository configuration to link to the Synapse workspace."
   default     = null
 }
 
@@ -98,5 +112,21 @@ variable "role_assignments" {
     role_name = string
   }))
   description = "List of role assignments for the Synapse workspace."
+  default     = []
+}
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "ID of a log analytics workspace (optional)."
+  default     = null
+}
+
+variable "managed_private_endpoints" {
+  type = list(object({
+    resource_name    = string
+    resource_id      = string
+    subresource_name = string
+  }))
+  description = "List of managed private endpoints for the Synapse workspace."
   default     = []
 }

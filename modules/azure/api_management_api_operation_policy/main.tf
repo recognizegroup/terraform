@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">=1.0.9"
+  required_version = ">=1.3.0"
 
   required_providers {
     azurerm = {
@@ -9,10 +9,6 @@ terraform {
   }
 
   backend "azurerm" {}
-
-  # Optional attributes and the defaults function are
-  # both experimental, so we must opt in to the experiment.
-  experiments = [module_variable_optional_attrs]
 }
 
 provider "azurerm" {
@@ -25,5 +21,5 @@ resource "azurerm_api_management_api_operation_policy" "policy" {
   resource_group_name = var.resource_group_name
 
   operation_id = var.operation_id
-  xml_content  = file(var.policy_location)
+  xml_content  = var.policy.file_location != null ? file(var.policy.file_location) : var.policy.xml_string
 }

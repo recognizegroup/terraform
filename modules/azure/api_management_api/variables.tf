@@ -55,7 +55,9 @@ variable "api_diagnostic_settings" {
     always_log_errors         = bool,
     log_client_ip             = bool,
     verbosity                 = string, # possible values: verbose, information, error
-    http_correlation_protocol = string, # possible values: None, Legacy, W3C
+    http_correlation_protocol = string, # possible values: None, Legacy, W3C,
+    headers_to_log_request    = list(string),
+    headers_to_log_response   = list(string)
   })
 
   description = "Settings for api diagnostics, If not needed just privide a null value, Will be created only if api_management_logger_id have beeen provided"
@@ -66,6 +68,8 @@ variable "api_diagnostic_settings" {
     log_client_ip             = true,
     verbosity                 = "verbose", # possible values: verbose, information, error
     http_correlation_protocol = "W3C"
+    headers_to_log_request    = ["content-type", "accept", "origin"],
+    headers_to_log_response   = ["content-type", "content-length", "origin"]
   }
 }
 
@@ -115,11 +119,13 @@ variable "backend_type" {
 
 variable "basic_auth_settings" {
   type = object({
-    key_vault_id    = string,
-    username_secret = string,
-    password_secret = string,
+    key_vault_id    = optional(string),
+    username_secret = optional(string),
+    password_secret = optional(string),
+    username        = optional(string),
+    password        = optional(string),
   })
-  description = "Settings to be used for basic auth"
+  description = "Settings to be used for basic auth, one can either use a key vault or provide the username and password directly using named values."
   default     = null
 }
 
@@ -183,5 +189,24 @@ variable "api_token_settings" {
     token  = string            // Can be value or APIM named value: {{var_name}}
   })
   description = "Values for api-token authentication"
+  default     = null
+}
+
+
+variable "custom_xml_policy_append" {
+  type        = string
+  description = "Additional xml policies to add to the policy"
+  default     = null
+}
+
+variable "custom_xml_policy_prepend" {
+  type        = string
+  description = "Additional xml policies to add to the policy before the default authentification policies are applied"
+  default     = null
+}
+
+variable "custom_outbound_policy" {
+  type        = string
+  description = "Additional outbound xml policies"
   default     = null
 }

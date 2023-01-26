@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "connection_name": {
+      "type": "String",
+      "defaultValue": ""
+    },
+    "principal_id": {
+      "type": "String",
+      "defaultValue": ""
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Web/connections/accessPolicies",
+      "apiVersion": "2016-06-01",
+      "name": "[concat(parameters('connection_name'), '/', parameters('principal_id'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [],
+      "properties": {
+        "principal": {
+          "type": "ActiveDirectory",
+          "identity": {
+            "objectId": "[parameters('principal_id')]",
+            "tenantId": "[subscription().tenantId]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}
