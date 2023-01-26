@@ -2,7 +2,10 @@ terraform {
   required_version = ">=1.0.9"
 
   required_providers {
-    azurerm = "=2.82.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.40"
+    }
   }
 
   backend "azurerm" {}
@@ -13,6 +16,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_api_management_group" "group" {
+  // FIXME: Deze folder heeft geen `variables.tf` dus `var.groups` bestaat helemaal niet
   for_each = {
     for index, group in var.groups : index => group
   }
