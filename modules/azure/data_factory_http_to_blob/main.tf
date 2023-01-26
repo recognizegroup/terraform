@@ -2,7 +2,10 @@ terraform {
   required_version = ">=0.13.5"
 
   required_providers {
-    azurerm = ">=2.24.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.40"
+    }
   }
 
   backend "azurerm" {}
@@ -22,13 +25,14 @@ resource "azurerm_resource_group_template_deployment" "service_http" {
   resource_group_name = var.resource_group_name
   deployment_mode     = "Incremental"
 
+# FIXME: Check of .resources[].name can work with data_factory_id or if it needs data_factory_name somehow
   template_content = <<JSON
 {
   "contentVersion": "1.0.0.0",
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "resources" : [
     {
-      "name": "${var.data_factory_name}/${var.service_http_name}",
+      "name": "${var.data_factory_id}/${var.service_http_name}",
       "type": "Microsoft.DataFactory/factories/linkedservices",
       "apiVersion": "2018-06-01",
       "properties": {
@@ -48,7 +52,7 @@ resource "azurerm_resource_group_template_deployment" "service_http" {
 resource "azurerm_data_factory_dataset_http" "dataset_http" {
   name                = var.dataset_http_name
   resource_group_name = var.resource_group_name
-  data_factory_name   = var.data_factory_name
+  data_factory_id     = var.data_factory_id
   linked_service_name = var.service_http_name
   relative_url        = var.dataset_http_relative_url
   request_method      = var.dataset_http_request_method
@@ -58,14 +62,14 @@ resource "azurerm_data_factory_dataset_http" "dataset_http" {
 resource "azurerm_data_factory_linked_service_azure_blob_storage" "service_blob" {
   name                = var.service_blob_name
   resource_group_name = var.resource_group_name
-  data_factory_name   = var.data_factory_name
+  data_factory_id     = var.data_factory_id
   connection_string   = data.azurerm_storage_account.storage_account.primary_connection_string
 }
 
 resource "azurerm_data_factory_dataset_azure_blob" "dataset_blob" {
   name                = var.dataset_blob_name
   resource_group_name = var.resource_group_name
-  data_factory_name   = var.data_factory_name
+  data_factory_id     = var.data_factory_id
   linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.service_blob.name
   path                = var.storage_container_name
   filename            = var.dataset_blob_filename
@@ -73,7 +77,7 @@ resource "azurerm_data_factory_dataset_azure_blob" "dataset_blob" {
 
 resource "azurerm_data_factory_trigger_schedule" "schedule" {
   name                = var.data_factory_schedule_name
-  data_factory_name   = var.data_factory_name
+  data_factory_id     = var.data_factory_id
   resource_group_name = var.resource_group_name
   pipeline_name       = azurerm_data_factory_pipeline.pipeline.name
   interval            = var.schedule_interval
@@ -83,7 +87,7 @@ resource "azurerm_data_factory_trigger_schedule" "schedule" {
 resource "azurerm_data_factory_pipeline" "pipeline" {
   name                = var.data_factory_pipeline_name
   resource_group_name = var.resource_group_name
-  data_factory_name   = var.data_factory_name
+  data_factory_id     = var.data_factory_id
 
   activities_json = <<JSON
 [

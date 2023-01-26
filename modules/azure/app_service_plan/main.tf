@@ -2,7 +2,10 @@ terraform {
   required_version = ">=1.1.2"
 
   required_providers {
-    azurerm = "=2.94.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.40"
+    }
   }
 
   backend "azurerm" {}
@@ -12,6 +15,7 @@ provider "azurerm" {
   features {}
 }
 
+# TODO: Deprecated https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/3.0-upgrade-guide#resource-azurerm_app_service_plan
 resource "azurerm_app_service_plan" "asp" {
   name                = var.name
   location            = var.location

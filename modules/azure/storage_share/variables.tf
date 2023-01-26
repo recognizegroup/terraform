@@ -11,7 +11,6 @@ variable "storage_account_name" {
 variable "quota" {
   type        = string
   description = "The maximum size of the share, in gigabytes."
-  default     = null
 }
 
 variable "enabled_protocol" {
