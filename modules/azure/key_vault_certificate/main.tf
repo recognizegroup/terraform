@@ -2,14 +2,10 @@ terraform {
   required_version = ">=1.1.2"
 
   required_providers {
-<<<<<<< HEAD
-    azurerm = "=2.94.0"
-=======
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "~> 3.40"
     }
->>>>>>> origin/develop
   }
 
   backend "azurerm" {}
@@ -19,13 +15,9 @@ provider "azurerm" {
   features {}
 }
 
-<<<<<<< HEAD
-resource "azurerm_key_vault_certificate" "certificate" {
-=======
 resource "azurerm_key_vault_certificate" "certificate_automatic" {
   count = var.ignore_changes ? 0 : 1
 
->>>>>>> origin/develop
   name         = var.name
   key_vault_id = var.key_vault_id
 
@@ -67,8 +59,6 @@ resource "azurerm_key_vault_certificate" "certificate_automatic" {
     }
   }
 }
-<<<<<<< HEAD
-=======
 
 resource "azurerm_key_vault_certificate" "certificate_for_manual_changes" {
   count = var.ignore_changes ? 1 : 0
@@ -118,4 +108,3 @@ resource "azurerm_key_vault_certificate" "certificate_for_manual_changes" {
     ignore_changes = [certificate_policy]
   }
 }
->>>>>>> origin/develop
