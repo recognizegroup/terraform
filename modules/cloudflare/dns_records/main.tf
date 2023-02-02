@@ -1,12 +1,7 @@
 terraform {
   required_version = ">=1.3.0"
 
-  // FIXME: Is hier wel azurerm nodig?
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.40"
-    }
     cloudflare = {
       source  = "cloudflare/cloudflare"
       version = "~> 3.14.0"

@@ -15,20 +15,18 @@ provider "azurerm" {
   features {}
 }
 
-# FIXME: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/3.0-upgrade-guide#resource-azurerm_storage_account
 resource "azurerm_storage_account" "storage_account" {
-  name                      = var.name
-  resource_group_name       = var.resource_group_name
-  location                  = var.location
-  account_kind              = var.kind
-  account_tier              = var.tier
-  account_replication_type  = var.replication_type
-  enable_https_traffic_only = var.enable_https_traffic_only
-  # FIXME: replace allow_blob_public_access with something like allow_nested_items_to_be_public https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account#allow_nested_items_to_be_public
-  allow_blob_public_access  = var.allow_public_access
-  min_tls_version           = var.min_tls_version
-  nfsv3_enabled             = var.nfsv3_enabled
-  is_hns_enabled            = var.is_hns_enabled
+  name                            = var.name
+  resource_group_name             = var.resource_group_name
+  location                        = var.location
+  account_kind                    = var.kind
+  account_tier                    = var.tier
+  account_replication_type        = var.replication_type
+  enable_https_traffic_only       = var.enable_https_traffic_only
+  allow_nested_items_to_be_public = var.allow_public_access
+  min_tls_version                 = var.min_tls_version
+  nfsv3_enabled                   = var.nfsv3_enabled
+  is_hns_enabled                  = var.is_hns_enabled
 
   dynamic "network_rules" {
     for_each = var.nfsv3_enabled == true ? [1] : []

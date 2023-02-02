@@ -8,11 +8,11 @@ terraform {
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "=2.30.0"
+      version = "~> 2.33"
     }
-    # FIXME: Waarom heeft azapi hier geen versie nummer en bij logic_app_trigger_http_request_data wel?
     azapi = {
-      source = "Azure/azapi"
+      source  = "Azure/azapi"
+      version = "~> 1.2"
     }
   }
 
@@ -66,7 +66,10 @@ resource "azurerm_linux_function_app" "function_app" {
   }
 }
 
-/* The azurerm_linux_function_app module does not yet support Authentication v2 (v1 only) at the moment. Therefore, we create the function without authentication settings.
+/*
+ * https://github.com/hashicorp/terraform-provider-azurerm/issues/12928 blocked by https://github.com/Azure/azure-rest-api-specs/issues/18888
+ *
+ * The azurerm_linux_function_app module does not yet support Authentication v2 (v1 only) at the moment. Therefore, we create the function without authentication settings.
  * In this block, we add a Microsoft Active Directory identity provider through the AZ API provider.
  * The default audience check in the token is set to the Application ID, but keep in mind that with a valid oAuth app registration in the tenant (AzureADMyOrg), you can
  * create a valid token with this audience. If you need more security, validate the claim in C# or add Claim rules here.

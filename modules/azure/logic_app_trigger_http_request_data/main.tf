@@ -2,15 +2,9 @@ terraform {
   required_version = ">=1.1.2"
 
   required_providers {
-    # FIXME: Waarom heeft azapi hier een versie nummer en bij function_app_linux_managed_identity niet?
     azapi = {
-      source  = "azure/azapi"
-      version = "1.0.0"
-    }
-    // FIXME: Is hier wel azurerm nodig?
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.40"
+      source  = "Azure/azapi"
+      version = "~> 1.2"
     }
   }
 
@@ -18,10 +12,6 @@ terraform {
 }
 
 provider "azapi" {
-}
-
-provider "azurerm" {
-  features {}
 }
 
 // See also: https://github.com/hashicorp/terraform-provider-azurerm/issues/18866
