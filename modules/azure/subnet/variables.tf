@@ -42,7 +42,7 @@ variable "service_delegation" {
 }
 
 variable "service_endpoints" {
-  type        = set(any) // TODO: een andere optie om dit op te lossen is door de list met toset() om te zetten
+  type        = set(string)
   description = "The list of Service endpoints to associate with the subnet."
   default     = []
 }

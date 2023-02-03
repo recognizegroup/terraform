@@ -1,24 +1,14 @@
 terraform {
   required_version = ">=1.1.7"
 
-  // FIXME: Is hier wel azurerm nodig?
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.40"
-    }
     databricks = {
-      // FIXME: source has moved to databricks/databricks
-      source  = "databrickslabs/databricks"
-      version = ">=0.5.4"
+      source  = "databricks/databricks"
+      version = "~> 1.0"
     }
   }
 
   backend "azurerm" {}
-}
-
-provider "azurerm" {
-  features {}
 }
 
 provider "databricks" {

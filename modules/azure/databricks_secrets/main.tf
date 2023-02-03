@@ -7,9 +7,8 @@ terraform {
       version = "~> 3.40"
     }
     databricks = {
-      // FIXME: source has moved to databricks/databricks
-      source  = "databrickslabs/databricks"
-      version = ">=0.5.4"
+      source  = "databricks/databricks"
+      version = "~> 1.0"
     }
   }
 

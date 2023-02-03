@@ -15,7 +15,13 @@ variable "cluster_id" {
 }
 
 variable "groups" {
-  type        = map
+  type = map(object({
+    cluster_usage = string,
+    display_name  = string,
+    policy_usage  = string,
+    token_usage   = string,
+    users         = list(string),
+  }))
   description = "Groups, users and permissions for a databricks workspace."
 }
 
