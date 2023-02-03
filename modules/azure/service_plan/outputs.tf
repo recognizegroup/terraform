@@ -1,3 +1,3 @@
 output "id" {
-  value = azurerm_app_service_plan.asp.id
+  value = azurerm_service_plan.sp.id
 }

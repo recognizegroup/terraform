@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = "~> 1.1.2"
 
   required_providers {
     azurerm = {
@@ -15,18 +15,12 @@ provider "azurerm" {
   features {}
 }
 
-# TODO: Deprecated https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/3.0-upgrade-guide#resource-azurerm_app_service_plan
-resource "azurerm_app_service_plan" "asp" {
+resource "azurerm_service_plan" "sp" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
-  kind                = var.kind
-  reserved            = var.kind == "Linux" ? true : false
-
-  sku {
-    tier = var.tier
-    size = var.size
-  }
+  os_type             = var.os_type
+  sku_name            = var.sku_name
 }
 
 resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
@@ -34,7 +28,7 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
   name                = "scale-${var.name}"
   resource_group_name = var.resource_group_name
   location            = var.location
-  target_resource_id  = azurerm_app_service_plan.asp.id
+  target_resource_id  = azurerm_service_plan.sp.id
 
   profile {
     name = "scale-${var.name}"
@@ -48,7 +42,7 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
     rule {
       metric_trigger {
         metric_name        = "CpuPercentage"
-        metric_resource_id = azurerm_app_service_plan.asp.id
+        metric_resource_id = azurerm_service_plan.sp.id
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"
@@ -68,7 +62,7 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
     rule {
       metric_trigger {
         metric_name        = "CpuPercentage"
-        metric_resource_id = azurerm_app_service_plan.asp.id
+        metric_resource_id = azurerm_service_plan.sp.id
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"

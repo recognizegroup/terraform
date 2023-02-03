@@ -13,20 +13,14 @@ variable "name" {
   description = "Name of the app service plan."
 }
 
-variable "tier" {
+variable "sku_name" {
   type        = string
-  description = "Tier of the app service plan."
+  description = "The SKU for the plan. Possible values can be found on https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan#sku_name"
 }
 
-variable "size" {
-  type        = string
-  description = "Size of the app service plan."
-}
-
-variable "kind" {
+variable "os_type" {
   type        = string
   description = "The kind of app service plan."
-  default     = "Linux"
 }
 
 variable "enable_autoscaling" {
