@@ -54,12 +54,6 @@ variable "geo_redundant_backup_enabled" {
   default     = true
 }
 
-# variable "infrastructure_encryption_enabled" {
-#   type        = bool
-#   description = "Whether or not infrastructure is encrypted for the mysql server."
-#   default     = true
-# }
-
 variable "mysql_database_name" {
   type        = string
   description = "Name of the mysql database."
@@ -68,13 +62,13 @@ variable "mysql_database_name" {
 variable "mysql_database_charset" {
   type        = string
   description = "Specifies the charset for the mysql database."
-  default     = "utf8"
+  default     = "utf8mb3"
 }
 
 variable "mysql_database_collation" {
   type        = string
   description = "Specifies the collation for the mysql database."
-  default     = "utf8_unicode_ci"
+  default     = "utf8mb3_unicode_ci"
 }
 
 variable "subnet_id" {
@@ -98,10 +92,10 @@ variable "log_analytics_workspace_id" {
   default     = null
 }
 
-variable "query_store_capture_mode" {
+variable "slow_query_log" {
   type        = string
-  description = "The query store capture mode. NONE or ALL, NONE means do not capture any statements."
-  default     = "NONE"
+  description = "Slow query log. ON or OFF (default)"
+  default     = "OFF"
 }
 
 variable "private_dns_zone_id" {

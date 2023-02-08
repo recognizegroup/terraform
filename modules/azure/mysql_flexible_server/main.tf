@@ -28,7 +28,7 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
   resource_group_name = var.resource_group_name
 
   administrator_login          = var.mysql_admin_username
-  administrator_login_password = random_password.mysql_admin_password.result
+  administrator_password       = random_password.mysql_admin_password.result
 
   backup_retention_days             = var.backup_retention_days
   delegated_subnet_id               = var.subnet_id
@@ -37,25 +37,22 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
 
   sku_name   = var.mysql_server_sku
   version    = var.mysql_server_version
-  #zone = 
 
-  public_network_access_enabled     = false
-  
   storage {
     auto_grow_enabled                 = var.storage_auto_grow_enabled
     iops                              = var.mysql_server_storage_iops
     size_gb                           = var.mysql_server_storage_max
   }
 
-  identity {
-    type = "SystemAssigned"
+  lifecycle {
+    ignore_changes = [zone]
   }
 }
 
 resource "azurerm_mysql_flexible_database" "mysql_flexible_database" {
   name                = var.mysql_database_name
   resource_group_name = var.resource_group_name
-  server_name         = azurerm_mysql_server.mysql_flexible_server.name
+  server_name         = azurerm_mysql_flexible_server.mysql_flexible_server.name
   charset             = var.mysql_database_charset
   collation           = var.mysql_database_collation
 }
@@ -63,25 +60,19 @@ resource "azurerm_mysql_flexible_database" "mysql_flexible_database" {
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   count       = var.log_analytics_workspace_id == null ? 0 : 1
-  resource_id = azurerm_mysql_server.mysql_flexible_server.id
+  resource_id = azurerm_mysql_flexible_server.mysql_flexible_server.id
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   count                      = var.log_analytics_workspace_id == null ? 0 : 1
   name                       = "diag-${var.mysql_server_name}"
-  target_resource_id         = azurerm_mysql_server.mysql_flexible_server.id
+  target_resource_id         = azurerm_mysql_flexible_server.mysql_flexible_server.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  // TODO: not yet implemented by Azure
-  // log_analytics_destination_type = "Dedicated"
-
-  dynamic "log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
-
+  dynamic "enabled_log" {
+    for_each = toset(data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types)
     content {
-      category = log.value
-      enabled  = true
-
+      category = enabled_log.value
       retention_policy {
         enabled = false
       }
@@ -89,22 +80,26 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   }
 
   dynamic "metric" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
-
+    for_each = toset(data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics)
     content {
       category = metric.value
       enabled  = true
-
       retention_policy {
         enabled = false
       }
     }
   }
+
+  // TODO: not yet implemented by Azure
+  // log_analytics_destination_type = "Dedicated"
+  lifecycle {
+    ignore_changes = [ log_analytics_destination_type ]
+  }
 }
 
-resource "azurerm_mysql_configuration" "mysql_capture_mode" {
-  name                = "query_store_capture_mode"
+resource "azurerm_mysql_flexible_server_configuration" "mysql_flexible_server_configuration" {
+  name                = "slow_query_log"
   resource_group_name = var.resource_group_name
-  server_name         = azurerm_mysql_server.mysql_flexible_server.name
-  value               = var.query_store_capture_mode
+  server_name         = azurerm_mysql_flexible_server.mysql_flexible_server.name
+  value               = var.slow_query_log
 }
