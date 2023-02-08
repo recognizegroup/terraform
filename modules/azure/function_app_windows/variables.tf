@@ -43,7 +43,7 @@ variable "app_settings" {
 variable "runtime_version" {
   type        = string
   description = "The runtime version associated with the Function App."
-  default     = "~3"
+  default     = "~4"
 }
 
 variable "always_on" {
