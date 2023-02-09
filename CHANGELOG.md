@@ -29,6 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking:** Remove deprecated module `azure/key_vault_cetificate`, replace with `azure/key_vault_certificate` ([#249](https://github.com/recognizegroup/terraform/pull/249)) ([`d1574f22`](https://github.com/recognizegroup/terraform/commit/d1574f22))
 - **Breaking:** Remove module `azure/storage_container_nfsv3`, already exists as `azure/data_lake_filesystem` module ([#257](https://github.com/recognizegroup/terraform/pull/257)) ([`a1d585f3`](https://github.com/recognizegroup/terraform/commit/a1d585f3))
 - **Breaking:** Remove module `azure/app_service_plan`, replace with `azure/service_plan` ([#261](https://github.com/recognizegroup/terraform/pull/261)) ([`beaf338d`](https://github.com/recognizegroup/terraform/commit/beaf338d))
-- **Breaking:** Remove module `azure/app_service`, replace with `azure/web_app_linux` and `azure/web_app_windows` ([#261](https://github.com/recognizegroup/terraform/pull/261)) ([`8990f2e4`](https://github.com/recognizegroup/terraform/commit/8990f2e4))
+- **Breaking:** Remove module `azure/app_service`, replace with `azure/web_app_linux` and `azure/web_app_windows` ([#261](https://github.com/recognizegroup/terraform/pull/261)) ([`8990f2e4`](https://github.com/recognizegroup/terraform/commit/8990f2e4), [`1fb0c954`](https://github.com/recognizegroup/terraform/commit/1fb0c954))
 
 [3.0.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.0.0
