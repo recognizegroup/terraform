@@ -1,21 +1,21 @@
 output "name" {
-  value = azurerm_app_service.app_service.name
+  value = azurerm_linux_web_app.web_app.name
 }
 
-output "default_site_hostname" {
-  value = azurerm_app_service.app_service.default_site_hostname
+output "default_hostname" {
+  value = azurerm_linux_web_app.web_app.default_hostname
 }
 
 output "username" {
-  value     = azurerm_app_service.app_service.site_credential[0].username
+  value     = azurerm_linux_web_app.web_app.site_credential[0].username
   sensitive = true
 }
 
 output "password" {
-  value     = azurerm_app_service.app_service.site_credential[0].password
+  value     = azurerm_linux_web_app.web_app.site_credential[0].password
   sensitive = true
 }
 
 output "principal_id" {
-  value = azurerm_app_service.app_service.identity[0].principal_id
+  value = azurerm_linux_web_app.web_app.identity[0].principal_id
 }

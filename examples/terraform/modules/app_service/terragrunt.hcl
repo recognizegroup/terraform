@@ -1,3 +1,4 @@
+# TODO: update examples to work with new codebase
 terraform {
   source = "git::https://github.com/recognizegroup/terraform.git//modules/app_service_public?ref=v1.0.0"
 }

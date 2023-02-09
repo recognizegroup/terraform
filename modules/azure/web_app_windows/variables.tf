@@ -10,53 +10,53 @@ variable "resource_group_name" {
 
 variable "name" {
   type        = string
-  description = "Name of the app service."
+  description = "Name of the web app."
 }
 
-variable "app_service_plan_id" {
+variable "service_plan_id" {
   type        = string
-  description = "ID of the app service plan."
+  description = "ID of the service plan."
 }
 
 variable "scm_type" {
   type        = string
-  description = "The type of Source Control enabled for this App Service."
+  description = "The type of Source Control enabled for this Web App."
   default     = "VSTSRM"
 }
 
 variable "always_on" {
   type        = bool
-  description = "Indicates whether the App Service should be always on."
+  description = "Indicates whether the Web App should be always on."
   default     = true
 }
 
 variable "app_settings" {
   type        = map(any)
-  description = "The app settings of this app service."
+  description = "The app settings of this web app."
   default     = {}
 }
 
 variable "linux_fx_version" {
   type        = string
-  description = "Linux app framework and version for the app service."
+  description = "Linux app framework and version for the web app."
   default     = null
 }
 
 variable "dotnet_framework_version" {
   type        = string
-  description = "The .NET framework version of this app service."
+  description = "The .NET framework version of this web app."
   default     = "v5.0"
 }
 
 variable "websockets_enabled" {
   type        = bool
-  description = "Indicates whether websockets are enabled within this app service."
+  description = "Indicates whether websockets are enabled within this web app."
   default     = true
 }
 
 variable "health_check_path" {
   type        = string
-  description = "The health check path to be pinged by app service."
+  description = "The health check path to be pinged by web app."
   default     = null
 }
 
@@ -73,8 +73,8 @@ variable "private_subnet_id" {
 }
 
 variable "custom_domains" {
-  type        = list(any)
-  description = "Define custom domains attached to this app service."
+  type        = set(string)
+  description = "Define custom domains attached to this web app."
   default     = []
 }
 
@@ -84,15 +84,15 @@ variable "log_analytics_workspace_id" {
   default     = null
 }
 
-variable "use_32_bit_worker_process" {
+variable "use_32_bit_worker" {
   type        = bool
-  description = "Should the App Service run in 32 bit mode, rather than 64 bit mode?"
+  description = "Should the Web App run in 32 bit mode, rather than 64 bit mode?"
   default     = false
 }
 
 variable "ftps_state" {
   type        = string
-  description = "State of FTP / FTPS service for this App Service."
+  description = "State of FTP / FTPS service for this Web App."
   default     = "FtpsOnly"
 }
 
@@ -105,6 +105,6 @@ variable "storage_mount" {
     access_key   = string
     mount_path   = string
   })
-  description = "Storage container or share to be mount within app service instance(s). Note that container mounts are read-only."
+  description = "Storage container or share to be mount within web app instance(s). Note that container mounts are read-only."
   default     = null
 }
