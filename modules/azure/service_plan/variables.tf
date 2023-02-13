@@ -10,17 +10,19 @@ variable "resource_group_name" {
 
 variable "name" {
   type        = string
-  description = "Name of the app service plan."
+  description = "Name of the service plan."
 }
 
+# Possible values: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan#sku_name
 variable "sku_name" {
   type        = string
   description = "The SKU for the plan. Possible values can be found on https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan#sku_name"
 }
 
+# Possible values: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan#os_type
 variable "os_type" {
   type        = string
-  description = "The kind of app service plan."
+  description = "The OS type for the service plan. Possible values can be found on https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan#os_type"
 }
 
 variable "enable_autoscaling" {

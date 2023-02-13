@@ -7,7 +7,7 @@ output "default_hostname" {
 }
 
 output "username" {
-  value     = azurerm_linux_web_app.web_app.site_credential[0].username
+  value     = azurerm_linux_web_app.web_app.site_credential[0].name
   sensitive = true
 }
 

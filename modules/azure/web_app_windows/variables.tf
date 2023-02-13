@@ -36,16 +36,34 @@ variable "app_settings" {
   default     = {}
 }
 
-variable "linux_fx_version" {
+variable "current_stack" {
   type        = string
-  description = "Linux app framework and version for the web app."
+  description = "Linux app framework and version for the web app. https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app#current_stack"
   default     = null
 }
 
-variable "dotnet_framework_version" {
+variable "dotnet_version" {
   type        = string
   description = "The .NET framework version of this web app."
   default     = "v5.0"
+}
+
+variable "docker_container_name" {
+  type        = string
+  description = "Docker container name for the web app."
+  default     = null
+}
+
+variable "docker_container_registry" {
+  type        = string
+  description = "Docker container registry for the web app."
+  default     = null
+}
+
+variable "docker_container_tag" {
+  type        = string
+  description = "Docker container tag for the web app."
+  default     = null
 }
 
 variable "websockets_enabled" {

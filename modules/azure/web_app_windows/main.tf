@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">=1.1.5"
+  required_version = "~> 1.1"
 
   required_providers {
     azurerm = {
@@ -23,16 +23,21 @@ resource "azurerm_windows_web_app" "web_app" {
   https_only          = true
 
   site_config {
-    scm_type                  = var.scm_type # TODO: gone!
-    always_on                 = var.always_on
-    dotnet_framework_version  = var.dotnet_framework_version # TODO: gone! maybe changed to `dotnet_version` in the `application_stack` block
-    websockets_enabled        = var.websockets_enabled
-    linux_fx_version          = var.linux_fx_version # TODO: gone!
-    health_check_path         = var.health_check_path
-    use_32_bit_worker         = var.use_32_bit_worker
-    ftps_state                = var.ftps_state
-    http2_enabled             = true
-    minimum_tls_version       = 1.2
+    always_on           = var.always_on
+    websockets_enabled  = var.websockets_enabled
+    health_check_path   = var.health_check_path
+    use_32_bit_worker   = var.use_32_bit_worker
+    ftps_state          = var.ftps_state
+    http2_enabled       = true
+    minimum_tls_version = 1.2
+
+    application_stack {
+      current_stack             = var.current_stack
+      dotnet_version            = var.dotnet_version
+      docker_container_name     = var.docker_container_name
+      docker_container_registry = var.docker_container_registry
+      docker_container_tag      = var.docker_container_tag
+    }
   }
 
   app_settings = var.app_settings
@@ -111,16 +116,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   // TODO: not yet implemented by Azure
   // log_analytics_destination_type = "Dedicated"
 
-  # TODO: Deprecated https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting#log
-  # `log` is deprecated in favour of the `enabled_log` property and will be removed in version 4.0 of the AzureRM Provider.
-  dynamic "log" {
-    # TODO: Deprecated https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_diagnostic_categories#logs
-    # `logs` is deprecated and will be removed in favour of the property `log_category_types` and `log_category_groups` in version 4.0 of the AzureRM Provider.
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
+  dynamic "enabled_log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
 
     content {
-      category = log.value
-      enabled  = true
+      category = enabled_log.value
 
       retention_policy {
         enabled = false

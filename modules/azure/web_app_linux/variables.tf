@@ -36,16 +36,22 @@ variable "app_settings" {
   default     = {}
 }
 
-variable "linux_fx_version" {
-  type        = string
-  description = "Linux app framework and version for the web app."
-  default     = null
-}
-
-variable "dotnet_framework_version" {
+variable "dotnet_version" {
   type        = string
   description = "The .NET framework version of this web app."
   default     = "v5.0"
+}
+
+variable "docker_image" {
+  type        = string
+  description = "Docker image for the web app."
+  default     = null
+}
+
+variable "docker_image_tag" {
+  type        = string
+  description = "Docker image tag for the web app."
+  default     = null
 }
 
 variable "websockets_enabled" {
