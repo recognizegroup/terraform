@@ -15,5 +15,6 @@ variable "workbook_template" {
 
 variable "resource_id_with_data" {
   type =  string
-  description = "resource id that stores the data, such as Log analytics ID"
+  description = "resource id that stores the data, such as Log analytics ID. Leave the default value 'Azure monitor' if you want it to be a part of azure monitor"
+  default = "azure monitor"
 }
