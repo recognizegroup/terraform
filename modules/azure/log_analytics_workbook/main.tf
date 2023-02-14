@@ -18,7 +18,7 @@ provider "azurerm" {
 resource "random_uuid" "workbook_guid" {
 }
 
-resource "azurerm_application_insights_workbook" "example" {
+resource "azurerm_application_insights_workbook" "workbook" {
   name                = random_uuid.workbook_guid.result
   resource_group_name = var.resource_group_name
   location            = var.location
