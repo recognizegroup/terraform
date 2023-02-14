@@ -13,14 +13,13 @@ variable "workbook_name" {
   description = "Specifies the name of the Log Analytics Workbook."
 }
 
-variable "arm_template_path" {
-  type        = string
-  description = "Specifies the path of ARM template to be used during deployment."
-  default     = null
+variable "workbook_template" {
+  type = string
+  description = "location of workbook template"
 }
 
-variable "arm_parameters" {
-  type        = any
-  description = "Parameter values for the ARM template."
-  default     = {}
+variable "source_id" {
+  type =  string
+  description = "resource id that stores the data, such as Log analytics ID. Leave the default value 'Azure monitor' if you want it to be a part of azure monitor"
+  default = "azure monitor"
 }
