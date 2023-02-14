@@ -20,7 +20,6 @@ provider "azurerm" {
 ###########################################################
 
 resource "azurerm_key_vault_certificate" "certificate" {
-#  count = var.skip_certificate_creation == true ? 0 : length(var.custom_domains)
   for_each = {
     for domain in var.custom_domains :
     domain.host_name => domain
