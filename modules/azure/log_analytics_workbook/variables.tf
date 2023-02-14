@@ -1,3 +1,8 @@
+variable "location" {
+  type        = string
+  description = "A datacenter location in Azure."
+}
+
 variable "resource_group_name" {
   type        = string
   description = "Name of the resource group."
@@ -13,7 +18,7 @@ variable "workbook_template" {
   description = "location of workbook template"
 }
 
-variable "resource_id_with_data" {
+variable "source_id" {
   type =  string
   description = "resource id that stores the data, such as Log analytics ID. Leave the default value 'Azure monitor' if you want it to be a part of azure monitor"
   default = "azure monitor"

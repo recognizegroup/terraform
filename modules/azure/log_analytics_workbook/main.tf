@@ -18,28 +18,13 @@ provider "azurerm" {
 resource "random_uuid" "workbook_guid" {
 }
 
-resource "azurerm_resource_group_template_deployment" "log_analytics_workbook" {
-  name                = "${var.workbook_name}_deployment"
+resource "azurerm_application_insights_workbook" "example" {
+  name                = random_uuid.workbook_guid.result
   resource_group_name = var.resource_group_name
+  location            = var.location
+  display_name        = var.workbook_name
 
-  template_content = file("./workbook_arm.json")
-  parameters_content = jsonencode({
-    "workbookId" = {
-      value = random_uuid.workbook_guid.result
-    }
-
-    "workbook_name" = {
-      value = var.workbook_name
-    }
-
-    "serializedData" = {
-      // Trick that allows to take any json file and Minimize it
-      value = jsonencode(jsondecode(file(var.workbook_template)))
-    }
-
-    "sourceId" = {
-      value = var.resource_id_with_data 
-    }
-  })
-  deployment_mode = "Incremental"
+  // Trick that allows to take any json file and Minimize it
+  data_json           = jsonencode(jsondecode(file(var.workbook_template)))
+  source_id           = lower(var.source_id)
 }
