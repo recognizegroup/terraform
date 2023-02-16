@@ -55,13 +55,13 @@ variable "python_location" {
 }
 
 variable "python_packages" {
-  type        = list
+  type        = list(any)
   description = "The packages to install on the autoscaling cluster."
   default     = []
 }
 
 variable "spark_conf" {
-  type        = map
+  type        = map(any)
   description = "Databricks spark configuration variables."
   default     = {}
 }

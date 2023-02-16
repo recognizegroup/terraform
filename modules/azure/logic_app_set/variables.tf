@@ -27,9 +27,9 @@ variable "log_retention_days" {
 }
 
 variable "logic_app_instances" {
-    type    = list(object({
-        logic_app_name = string
-        arm_parameters = any
-    }))
-    description = "Individual logic app configuration"
+  type = list(object({
+    logic_app_name = string
+    arm_parameters = any
+  }))
+  description = "Individual logic app configuration"
 }

@@ -27,7 +27,7 @@ resource "azurerm_api_management_logger" "logger" {
 }
 
 resource "azurerm_api_management_api_diagnostic" "diagnostic" {
-  for_each                 = toset(var.api_names)
+  for_each                 = var.api_names
   identifier               = "applicationinsights"
   resource_group_name      = var.resource_group_name
   api_management_name      = var.api_management_name

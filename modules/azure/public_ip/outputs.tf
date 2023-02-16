@@ -1,5 +1,5 @@
 output "id" {
-    value = azurerm_public_ip.public_ip.id
+  value = azurerm_public_ip.public_ip.id
 }
 
 output "ip_address" {

@@ -41,7 +41,7 @@ resource "azurerm_mysql_server" "mysql_server" {
   public_network_access_enabled     = false
   ssl_enforcement_enabled           = true
   ssl_minimal_tls_version_enforced  = "TLS1_2"
-  
+
   identity {
     type = "SystemAssigned"
   }

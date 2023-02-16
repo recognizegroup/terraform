@@ -1,0 +1,14 @@
+name: Lint
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  lint-terraform:
+    runs-on: ubuntu-latest
+    name: Lint Terraform
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+      - run: terraform fmt -check -recursive
