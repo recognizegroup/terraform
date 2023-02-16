@@ -14,6 +14,6 @@ variable "name" {
 }
 
 variable "routes" {
-  type        = list
+  type        = list(any)
   description = "List of objects representing routes."
 }

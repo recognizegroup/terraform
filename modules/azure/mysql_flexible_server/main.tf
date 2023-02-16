@@ -27,21 +27,21 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  administrator_login          = var.mysql_admin_username
-  administrator_password       = random_password.mysql_admin_password.result
+  administrator_login    = var.mysql_admin_username
+  administrator_password = random_password.mysql_admin_password.result
 
-  backup_retention_days             = var.backup_retention_days
-  delegated_subnet_id               = var.subnet_id
-  geo_redundant_backup_enabled      = var.geo_redundant_backup_enabled
-  private_dns_zone_id               = var.private_dns_zone_id
+  backup_retention_days        = var.backup_retention_days
+  delegated_subnet_id          = var.subnet_id
+  geo_redundant_backup_enabled = var.geo_redundant_backup_enabled
+  private_dns_zone_id          = var.private_dns_zone_id
 
-  sku_name   = var.mysql_server_sku
-  version    = var.mysql_server_version
+  sku_name = var.mysql_server_sku
+  version  = var.mysql_server_version
 
   storage {
-    auto_grow_enabled                 = var.storage_auto_grow_enabled
-    iops                              = var.mysql_server_storage_iops
-    size_gb                           = var.mysql_server_storage_max
+    auto_grow_enabled = var.storage_auto_grow_enabled
+    iops              = var.mysql_server_storage_iops
+    size_gb           = var.mysql_server_storage_max
   }
 
   lifecycle {
@@ -93,7 +93,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   // TODO: not yet implemented by Azure
   // log_analytics_destination_type = "Dedicated"
   lifecycle {
-    ignore_changes = [ log_analytics_destination_type ]
+    ignore_changes = [log_analytics_destination_type]
   }
 }
 

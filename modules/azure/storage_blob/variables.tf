@@ -14,7 +14,7 @@ variable "storage_container_name" {
 }
 
 variable "storage_connection_string" {
-  type = string
+  type        = string
   description = "The connection string for the storage account to which this SAS applies. Typically directly from the primary_connection_string attribute of a terraform created azurerm_storage_account resource."
 }
 

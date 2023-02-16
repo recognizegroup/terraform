@@ -6,10 +6,10 @@ variable "command" {
 variable "working_dir" {
   type        = string
   description = "The working directory of the command being executed"
-  default = "."
+  default     = "."
 }
 
 variable "interpreter" {
-  type = set(string)
+  type        = set(string)
   description = "The shell to execute the command in, like /bin/sh or powershell"
 }

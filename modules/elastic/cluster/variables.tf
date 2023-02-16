@@ -25,13 +25,13 @@ variable "ec_deployment_template_id" {
 }
 
 variable "elasticsearch_topologies" {
-  type        = list
+  type        = list(any)
   description = "Can be set multiple times to compose complex topologies."
   default     = []
 }
 
 variable "kibana_topologies" {
-  type        = list
+  type        = list(any)
   description = "Can be set multiple times to compose complex topologies."
   default     = []
 }
@@ -49,7 +49,7 @@ variable "traffic_filter_type" {
 }
 
 variable "traffic_filter_sources" {
-  type        = list
+  type        = list(any)
   description = "Type of the ruleset. One of 'ip' or 'vpce'"
   default     = []
 }

@@ -26,6 +26,6 @@ variable "access_endpoint_type" {
 }
 
 variable "virtual_network_subnet_ids" {
-  type        = list
+  type        = list(any)
   description = "A list of virtual network subnet ids to be used by integration service environment. Exactly four distinct ids to subnets must be provided."
 }

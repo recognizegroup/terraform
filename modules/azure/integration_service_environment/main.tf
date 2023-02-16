@@ -15,6 +15,7 @@ provider "azurerm" {
   features {}
 }
 
+# TODO: Deprecated, will be removed in v4.0 of the Azure Provider https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/integration_service_environment
 resource "azurerm_integration_service_environment" "ise" {
   name                       = var.ise_name
   location                   = var.location
