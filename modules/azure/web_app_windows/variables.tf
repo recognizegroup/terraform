@@ -18,12 +18,6 @@ variable "service_plan_id" {
   description = "ID of the service plan."
 }
 
-variable "scm_type" {
-  type        = string
-  description = "The type of Source Control enabled for this Web App."
-  default     = "VSTSRM"
-}
-
 variable "always_on" {
   type        = bool
   description = "Indicates whether the Web App should be always on."
