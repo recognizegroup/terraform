@@ -8,8 +8,8 @@ variable "custom_domains" {
     type                = string,
     host_name           = string,
     certificate_name    = string,
-    key_vault_id        = string,
     default_ssl_binding = optional(bool)
+    keyvault_certificate_id = string
   }))
   description = "List of custom domains and certificate references for API Management. Type must be one of gateway, management or developer_portal."
   default     = null
