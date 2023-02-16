@@ -14,12 +14,12 @@ variable "workbook_name" {
 }
 
 variable "workbook_template" {
-  type = string
+  type        = string
   description = "location of workbook template"
 }
 
 variable "source_id" {
-  type =  string
+  type        = string
   description = "resource id that stores the data, such as Log analytics ID. Leave the default value 'Azure monitor' if you want it to be a part of azure monitor"
-  default = "azure monitor"
+  default     = "azure monitor"
 }
