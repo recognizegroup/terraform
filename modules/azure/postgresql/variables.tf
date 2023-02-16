@@ -9,17 +9,17 @@ variable "resource_group_name" {
 }
 
 variable "name" {
-  type = string
+  type        = string
   description = "Specifies the name of the PostgreSQL Flexible Server."
 }
 
 variable "postgresql_sku_name" {
-  type = string
+  type        = string
   description = "Specifies the SKU Name for this PostgreSQL Server"
 }
 
 variable "postgresql_db_size" {
-  type = number
+  type        = number
   description = "Specifies the max storage allowed for this PostgreSQL Server"
 }
 
@@ -34,13 +34,13 @@ variable "postgresql_database_name" {
 }
 
 variable "postgresql_database_collation" {
-  type = string
+  type        = string
   description = "Specifies the Collation for this PostgreSQL Flexible Server"
-  default = "en_US.utf8"
+  default     = "en_US.utf8"
 }
 
 variable "admin_username" {
-  type = string
+  type        = string
   description = "Specifies the Administrator username for this PostgreSQL Flexible Server."
 }
 
@@ -56,7 +56,7 @@ variable "delegated_subnet_id" {
 }
 
 variable "private_dns_zone_id" {
-  type = string
+  type        = string
   description = "ID of the private DNS zone."
 }
 
