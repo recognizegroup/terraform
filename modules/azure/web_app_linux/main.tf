@@ -31,19 +31,10 @@ resource "azurerm_linux_web_app" "web_app" {
     http2_enabled       = true
     minimum_tls_version = 1.2
 
-    dynamic "application_stack" {
-      for_each = var.dotnet_version == null ? [] : [1]
-      content {
-        dotnet_version = var.dotnet_version
-      }
-    }
-
-    dynamic "application_stack" {
-      for_each = var.docker_image == null ? [] : [1]
-      content {
-        docker_image     = var.docker_image
-        docker_image_tag = var.docker_image_tag
-      }
+    application_stack {
+      dotnet_version   = var.dotnet_version
+      docker_image     = var.docker_image
+      docker_image_tag = var.docker_image_tag
     }
   }
 

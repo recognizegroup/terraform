@@ -33,7 +33,7 @@ variable "app_settings" {
 variable "dotnet_version" {
   type        = string
   description = "The .NET framework version of this web app."
-  default     = "v5.0"
+  default     = null
 }
 
 variable "docker_image" {
