@@ -12,7 +12,7 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 ### Changed
 
 - **Breaking:** Bump minimum version of terraform to `~> 1.3` ([#264](https://github.com/recognizegroup/terraform/pull/264)) ([`b01fac27`](https://github.com/recognizegroup/terraform/commit/b01fac27))
-- **Breaking:** Bump provider `hashicorp/azurerm` from all different versions to latest `3.x` ([#249](https://github.com/recognizegroup/terraform/pull/249)) ([`3620b4bb`](https://github.com/recognizegroup/terraform/commit/3620b4bb))
+- **Breaking:** Bump provider `hashicorp/azurerm` from all different versions to `~> 3.40` ([#249](https://github.com/recognizegroup/terraform/pull/249)) ([`3620b4bb`](https://github.com/recognizegroup/terraform/commit/3620b4bb))
 - **Breaking:** `azure/storage_share`: Remove default of variable `quota`, variable is now required ([#249](https://github.com/recognizegroup/terraform/pull/249)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
 - **Breaking:** `azure/subnet`: Change type of variable `service_endpoints` from `list` to `set(string)` ([#257](https://github.com/recognizegroup/terraform/pull/257)) ([`f3e9d233`](https://github.com/recognizegroup/terraform/commit/f3e9d233))
 - `azure/log_analytics_workspace`: Change default of variable `sku` from `pergb2018` to `PerGB2018` ([#249](https://github.com/recognizegroup/terraform/pull/249)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
