@@ -57,6 +57,12 @@ resource "azurerm_mysql_flexible_database" "mysql_flexible_database" {
   collation           = var.mysql_database_collation
 }
 
+resource "azurerm_mysql_flexible_server_configuration" "mysql_flexible_server_configuration" {
+  name                = "slow_query_log"
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_mysql_flexible_server.mysql_flexible_server.name
+  value               = var.slow_query_log
+}
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   count       = var.log_analytics_workspace_id == null ? 0 : 1
@@ -70,9 +76,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
   dynamic "enabled_log" {
-    for_each = toset(data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types)
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
+
     content {
       category = enabled_log.value
+
       retention_policy {
         enabled = false
       }
@@ -80,10 +88,12 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   }
 
   dynamic "metric" {
-    for_each = toset(data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics)
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
+
     content {
       category = metric.value
       enabled  = true
+
       retention_policy {
         enabled = false
       }
@@ -95,11 +105,4 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   lifecycle {
     ignore_changes = [log_analytics_destination_type]
   }
-}
-
-resource "azurerm_mysql_flexible_server_configuration" "mysql_flexible_server_configuration" {
-  name                = "slow_query_log"
-  resource_group_name = var.resource_group_name
-  server_name         = azurerm_mysql_flexible_server.mysql_flexible_server.name
-  value               = var.slow_query_log
 }

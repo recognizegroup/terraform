@@ -109,12 +109,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   target_resource_id         = azurerm_synapse_workspace.workspace.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  dynamic "log" {
+  dynamic "enabled_log" {
     for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
 
     content {
-      category = log.value
-      enabled  = true
+      category = enabled_log.value
 
       retention_policy {
         enabled = false
