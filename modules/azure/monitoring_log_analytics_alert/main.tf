@@ -15,31 +15,6 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_monitor_action_group" "action_group" {
-  name                = var.action_group_name
-  resource_group_name = var.resource_group_name
-  short_name          = var.action_group_short_name
-  enabled             = var.action_group_enabled
-
-  dynamic "email_receiver" {
-    for_each = var.action_group_email_receiver == null ? [] : [1]
-    content {
-      name                    = "Email"
-      email_address           = var.action_group_email_receiver
-      use_common_alert_schema = var.action_group_use_common_alert_schema
-    }
-  }
-
-  dynamic "webhook_receiver" {
-    for_each = var.action_group_webhook_uri == null ? [] : [1]
-    content {
-      name                    = "Webhook"
-      service_uri             = var.action_group_webhook_uri
-      use_common_alert_schema = var.action_group_use_common_alert_schema
-    }
-  }
-}
-
 resource "azurerm_monitor_scheduled_query_rules_alert" "query_alert" {
   for_each = {
     for rule in var.monitoring_rules :
@@ -53,7 +28,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "query_alert" {
   data_source_id      = each.value.data_source_id
 
   action {
-    action_group  = [azurerm_monitor_action_group.action_group.id]
+    action_group  = [var.action_group_id]
     email_subject = "Monitoring Alert"
   }
 
