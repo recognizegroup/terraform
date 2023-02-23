@@ -29,16 +29,16 @@ variable "enabled" {
   default     = true
 }
 
-variable "email_receiver" {
-  type        = string
-  description = "The email address where the alert should be sent to."
-  default     = null
+variable "email_receivers" {
+  type        = set(string)
+  description = "The email addresses where the alert should be sent to."
+  default     = []
 }
 
-variable "webhook_uri" {
-  type        = string
-  description = "The webhook address where the alert should be sent to."
-  default     = null
+variable "webhook_uris" {
+  type        = set(string)
+  description = "The webhook addresses where the alert should be sent to."
+  default     = []
 }
 
 variable "use_common_alert_schema" {

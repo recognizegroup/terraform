@@ -22,19 +22,19 @@ resource "azurerm_monitor_action_group" "action_group" {
   enabled             = var.enabled
 
   dynamic "email_receiver" {
-    for_each = var.email_receiver == null ? [] : [1]
+    for_each = var.email_receivers
     content {
-      name                    = "Email"
-      email_address           = var.email_receiver
+      name                    = "Email ${email_receiver.value}"
+      email_address           = email_receiver.value
       use_common_alert_schema = var.use_common_alert_schema
     }
   }
 
   dynamic "webhook_receiver" {
-    for_each = var.webhook_uri == null ? [] : [1]
+    for_each = var.webhook_uris
     content {
-      name                    = "Webhook"
-      service_uri             = var.webhook_uri
+      name                    = "Webhook ${webhook_receiver.value}"
+      service_uri             = webhook_receiver.value
       use_common_alert_schema = var.use_common_alert_schema
     }
   }
