@@ -16,13 +16,12 @@ provider "azurerm" {
 }
 
 resource "azurerm_api_management_group" "group" {
-  // FIXME: Deze folder heeft geen `variables.tf` dus `var.groups` bestaat helemaal niet
   for_each = {
     for index, group in var.groups : index => group
   }
   name                = each.value.name
   resource_group_name = var.resource_group_name
-  api_management_name = azurerm_api_management.api_management.name
+  api_management_name = var.api_management_name
   display_name        = each.value.display_name
   description         = each.value.description
   external_id         = each.value.external_id
