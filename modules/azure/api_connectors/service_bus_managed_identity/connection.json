@@ -4,7 +4,6 @@
   "parameters": {
     "location": {
       "type": "String",
-      "defaultValue": "[resourceGroup().location]",
       "metadata": {
         "description": "location"
       }
