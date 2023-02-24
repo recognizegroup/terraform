@@ -12,3 +12,9 @@ variable "service_bus_namespace_endpoint" {
   type        = string
   description = "The namespace endpoint for the connected service bus"
 }
+
+variable "location" {
+  type        = string
+  description = "The location of the connector, set by Azure if not provided and used to avoid deployment differences."
+  default     = "westeurope"
+}

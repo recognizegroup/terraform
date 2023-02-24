@@ -27,6 +27,9 @@ resource "azurerm_resource_group_template_deployment" "service_bus_managed_ident
     "service_bus_namespace_endpoint" = {
       value = var.service_bus_namespace_endpoint
     }
+    "location" = {
+      value = var.location
+    }
   })
   deployment_mode = "Incremental"
 }
