@@ -3,7 +3,7 @@
 ## azure/subnet
 
 Replace `enforce_private_link_endpoint_network_policies` variable with `private_endpoint_network_policies_enabled` variable.
-  
+
 Warning the value has to be inverted.
 
 Before:
