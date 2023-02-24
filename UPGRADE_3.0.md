@@ -25,7 +25,8 @@ inputs = {
 `azure/monitoring` has been split up in to `azure/azure/monitoring_action_group` and `azure/monitoring_log_analytics_alert`.
 
 Before:
-`../../monitoring`:
+
+`monitoring/terragrunt.hcl`:
 ```hcl
 terraform {
   source = "git::https://github.com/recognizegroup/terraform.git//modules/azure/monitoring?ref=v2.7.0"
@@ -37,11 +38,11 @@ include {
 }
 
 dependency "resource_group" {
-  config_path = "../../resource_group"
+  config_path = "../resource_group"
 }
 
 dependency "log_analytics_workspace" {
-  config_path = "../../log_analytics_workspace"
+  config_path = "../log_analytics_workspace"
 }
 
 inputs = {
@@ -75,7 +76,8 @@ inputs = {
 ```
 
 After:
-`../../monitoring_action_group`:
+
+`monitoring_action_group/terragrunt.hcl`:
 ```hcl
 terraform {
   source = "git::https://github.com/recognizegroup/terraform.git//modules/azure/monitoring_action_group?ref=v3.0.0"
@@ -87,7 +89,7 @@ include {
 }
 
 dependency "resource_group" {
-  config_path = "../../resource_group"
+  config_path = "../resource_group"
 }
 
 inputs = {
@@ -99,7 +101,7 @@ inputs = {
 }
 ```
 
-`../../monitoring_log_analytics_alert`:
+`monitoring_log_analytics_alert/terragrunt.hcl`:
 ```hcl
 terraform {
   source = "git::https://github.com/recognizegroup/terraform.git//modules/azure/monitoring_log_analytics_alert?ref=v3.0.0"
@@ -111,15 +113,15 @@ include {
 }
 
 dependency "resource_group" {
-  config_path = "../../resource_group"
+  config_path = "../resource_group"
 }
 
 dependency "log_analytics_workspace" {
-  config_path = "../../log_analytics_workspace"
+  config_path = "../log_analytics_workspace"
 }
 
 dependency "monitoring_action_group" {
-  config_path = "../../monitoring_action_group"
+  config_path = "../monitoring_action_group"
 }
 
 inputs = {
