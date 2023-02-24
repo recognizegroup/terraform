@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/recognizegroup/terraform.git//modules/log_analytics_workspace?ref=v1.0.0"
+  source = "git::https://github.com/recognizegroup/terraform.git//modules/log_analytics_workspace?ref=v3.0.0"
 }
 
 include {
