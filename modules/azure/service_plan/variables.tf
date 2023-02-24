@@ -10,23 +10,19 @@ variable "resource_group_name" {
 
 variable "name" {
   type        = string
-  description = "Name of the app service plan."
+  description = "Name of the service plan."
 }
 
-variable "tier" {
+# Possible values: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan#sku_name
+variable "sku_name" {
   type        = string
-  description = "Tier of the app service plan."
+  description = "The SKU for the plan. Possible values can be found on https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan#sku_name"
 }
 
-variable "size" {
+# Possible values: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan#os_type
+variable "os_type" {
   type        = string
-  description = "Size of the app service plan."
-}
-
-variable "kind" {
-  type        = string
-  description = "The kind of app service plan."
-  default     = "Linux"
+  description = "The OS type for the service plan. Possible values can be found on https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan#os_type"
 }
 
 variable "enable_autoscaling" {

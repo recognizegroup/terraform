@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">=1.1.5"
+  required_version = "~> 1.1"
 
   required_providers {
     azurerm = {
@@ -15,25 +15,27 @@ provider "azurerm" {
   features {}
 }
 
-# TODO: Deprecated https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/3.0-upgrade-guide#resource-azurerm_app_service
-resource "azurerm_app_service" "app_service" {
+resource "azurerm_linux_web_app" "web_app" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
-  app_service_plan_id = var.app_service_plan_id
+  service_plan_id     = var.service_plan_id
   https_only          = true
 
   site_config {
-    scm_type                  = var.scm_type
-    always_on                 = var.always_on
-    dotnet_framework_version  = var.dotnet_framework_version
-    websockets_enabled        = var.websockets_enabled
-    linux_fx_version          = var.linux_fx_version
-    health_check_path         = var.health_check_path
-    use_32_bit_worker_process = var.use_32_bit_worker_process
-    ftps_state                = var.ftps_state
-    http2_enabled             = true
-    min_tls_version           = 1.2
+    always_on           = var.always_on
+    websockets_enabled  = var.websockets_enabled
+    health_check_path   = var.health_check_path
+    use_32_bit_worker   = var.use_32_bit_worker
+    ftps_state          = var.ftps_state
+    http2_enabled       = true
+    minimum_tls_version = 1.2
+
+    application_stack {
+      dotnet_version   = var.dotnet_version
+      docker_image     = var.docker_image
+      docker_image_tag = var.docker_image_tag
+    }
   }
 
   app_settings = var.app_settings
@@ -55,11 +57,19 @@ resource "azurerm_app_service" "app_service" {
       mount_path   = var.storage_mount.mount_path
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to virtual_network_subnet_id, because we use `app_service_virtual_network_swift_connection`
+      # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_web_app#virtual_network_subnet_id
+      virtual_network_subnet_id,
+    ]
+  }
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
   count          = var.integration_subnet_id == null ? 0 : 1
-  app_service_id = azurerm_app_service.app_service.id
+  app_service_id = azurerm_linux_web_app.web_app.id
   subnet_id      = var.integration_subnet_id
 }
 
@@ -73,7 +83,7 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   private_service_connection {
     name                           = "psc-${var.name}"
     is_manual_connection           = false
-    private_connection_resource_id = azurerm_app_service.app_service.id
+    private_connection_resource_id = azurerm_linux_web_app.web_app.id
     subresource_names              = ["sites"]
   }
 
@@ -84,32 +94,31 @@ resource "azurerm_private_endpoint" "private_endpoint" {
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "custom_domain" {
-  for_each            = toset(var.custom_domains)
+  for_each            = var.custom_domains
   hostname            = each.value
-  app_service_name    = azurerm_app_service.app_service.name
+  app_service_name    = azurerm_linux_web_app.web_app.name
   resource_group_name = var.resource_group_name
 }
 
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   count       = var.log_analytics_workspace_id == null ? 0 : 1
-  resource_id = azurerm_app_service.app_service.id
+  resource_id = azurerm_linux_web_app.web_app.id
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   count                      = var.log_analytics_workspace_id == null ? 0 : 1
   name                       = "diag-${var.name}"
-  target_resource_id         = azurerm_app_service.app_service.id
+  target_resource_id         = azurerm_linux_web_app.web_app.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
   // TODO: not yet implemented by Azure
   // log_analytics_destination_type = "Dedicated"
 
-  dynamic "log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
+  dynamic "enabled_log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
 
     content {
-      category = log.value
-      enabled  = true
+      category = enabled_log.value
 
       retention_policy {
         enabled = false
