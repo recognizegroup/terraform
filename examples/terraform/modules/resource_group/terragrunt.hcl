@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/recognizegroup/terraform.git//modules/resource_group?ref=v3.0.0"
+  source = "git::https://github.com/recognizegroup/terraform.git//modules/azure/resource_group?ref=v3.0.0"
 }
 
 include {
