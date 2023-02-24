@@ -53,5 +53,7 @@ data "azurerm_storage_account_sas" "sas_token" {
     create  = false
     update  = false
     process = false
+    tag     = false
+    filter  = false
   }
 }
