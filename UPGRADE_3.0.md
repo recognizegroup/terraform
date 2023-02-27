@@ -154,6 +154,10 @@ inputs = {
 
 ## azure/app_service_plan to azure/service_plan
 
+When updating this Terraform will try to recreate this resource and fail to do so because it already exists.
+
+Please follow the following guide to fix this https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/migrating-from-deprecated-resources.
+
 Before:
 ```hcl
 terraform {
@@ -202,6 +206,10 @@ inputs = {
 ```
 
 ## azure/app_service to azure/web_app_linux
+
+When updating this Terraform will try to recreate this resource and fail to do so because it already exists.
+
+Please follow the following guide to fix this https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/migrating-from-deprecated-resources.
 
 Before:
 ```hcl
