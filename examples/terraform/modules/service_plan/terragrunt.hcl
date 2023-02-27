@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/recognizegroup/terraform.git//modules/app_service_plan?ref=v1.0.0"
+  source = "git::https://github.com/recognizegroup/terraform.git//modules/azure/service_plan?ref=v3.0.0"
 }
 
 include {
@@ -14,7 +14,6 @@ dependency "resource_group" {
 inputs = {
   resource_group_name = dependency.resource_group.outputs.name
   name                = "asp-${include.locals.client}-${include.locals.workload}-${include.locals.environment}"
-  tier                = include.locals.env.app_service_plan_tier
-  size                = include.locals.env.app_service_plan_size
-  enable_autoscaling  = try(include.locals.env.app_service_plan_enable_autoscaling, false)
+  sku_name            = include.locals.env.service_plan_sku_name
+  enable_autoscaling  = try(include.locals.env.service_plan_enable_autoscaling, false)
 }
