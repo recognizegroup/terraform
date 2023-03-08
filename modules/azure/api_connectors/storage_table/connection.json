@@ -10,19 +10,19 @@
   },
   "parameters": {
     "connection_name": {
-      "type": "string",
+      "type": "String",
       "metadata": {
         "description": "Name to give to the connection"
       }
     },
     "storage_account_name": {
-      "type": "string",
+      "type": "String",
       "metadata": {
         "description": "Storage account name."
       }
     },
     "storage_account_access_key": {
-      "type": "secureString",
+      "type": "SecureString",
       "metadata": {
         "description": "Storage account access key."
       }

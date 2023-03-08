@@ -10,7 +10,7 @@
     },
     "parameters": {
         "connection_name": {
-            "type": "string",
+            "type": "String",
             "metadata": {
                 "description": "Connection resource name to connect to an Office365 mailbox."
             }
