@@ -33,13 +33,6 @@
       "metadata": {
         "description": "Storage account access key."
       }
-    },
-    "api_name": {
-      "type": "string",
-      "defaultValue": "azuretables",
-      "metadata": {
-        "description": "Api Name"
-      }
     }
   },
   "resources": [
@@ -58,7 +51,7 @@
         "customParameterValues": {},
         "api": {
           "name": "[parameters('connection_name')]",
-          "id": "[format('{0}/providers/Microsoft.Web/locations/{1}/managedApis/{2}', subscription().id, parameters('location'), parameters('api_name'))]"
+          "id": "[format('{0}/providers/Microsoft.Web/locations/{1}/managedApis/azuretables', subscription().id, parameters('location'))]"
         }
       }
     }
