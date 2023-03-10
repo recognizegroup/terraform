@@ -1,35 +1,28 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "metadata": {
-        "_generator": {
-            "name": "bicep",
-            "version": "0.10.61.36676",
-            "templateHash": "11296295536176546337"
-        }
-    },
     "parameters": {
         "location": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "[resourceGroup().location]",
             "metadata": {
                 "description": "location"
             }
         },
         "connection_name": {
-            "type": "string",
+            "type": "String",
             "metadata": {
                 "description": "Name to use for this connection"
             }
         },
         "log_analytics_workspace_id": {
-            "type": "string",
+            "type": "String",
             "metadata": {
                 "description": "workspace ID for the connected Log Analytics Workspace"
             }
         },
         "log_analytics_workspace_key": {
-            "type": "string",
+            "type": "String",
             "metadata": {
                 "description": "Access Key for the connected Log Analytics Workspace"
             }
