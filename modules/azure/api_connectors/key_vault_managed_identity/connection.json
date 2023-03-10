@@ -1,29 +1,22 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "metadata": {
-    "_generator": {
-      "name": "bicep",
-      "version": "0.9.1.41621",
-      "templateHash": "14233748139416635108"
-    }
-  },
   "parameters": {
     "location": {
-      "type": "string",
+      "type": "String",
       "defaultValue": "[resourceGroup().location]",
       "metadata": {
         "description": "location"
       }
     },
     "keyvault_connection_name": {
-      "type": "string",
+      "type": "String",
       "metadata": {
         "description": "Name to use for this connection"
       }
     },
     "key_vault_name": {
-      "type": "string",
+      "type": "String",
       "metadata": {
         "description": "Keyvault Name for the connection target"
       }
@@ -37,15 +30,15 @@
       "location": "[parameters('location')]",
       "kind": "V1",
       "properties": {
-          "displayName": "[parameters('keyvault_connection_name')]",
-          "parameterValueType": "Alternative",
-          "alternativeParameterValues": {
-              "vaultName": "[parameters('key_vault_name')]"
-          },
-          "api": {
-              "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('location'), 'keyvault')]"
-          }
+        "displayName": "[parameters('keyvault_connection_name')]",
+        "parameterValueType": "Alternative",
+        "alternativeParameterValues": {
+          "vaultName": "[parameters('key_vault_name')]"
+        },
+        "api": {
+          "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('location'), 'keyvault')]"
+        }
       }
-  }
+    }
   ]
 }
