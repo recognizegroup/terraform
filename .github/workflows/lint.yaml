@@ -11,4 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
       - run: terraform fmt -check -recursive
