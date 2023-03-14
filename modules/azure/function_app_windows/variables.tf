@@ -13,9 +13,9 @@ variable "name" {
   description = "Specifies the name of the function app."
 }
 
-variable "app_service_plan_id" {
+variable "service_plan_id" {
   type        = string
-  description = "The ID of the App Service Plan within which to create this Function App."
+  description = "The ID of the Service Plan within which to create this Function App."
 }
 
 variable "log_analytics_workspace_id" {

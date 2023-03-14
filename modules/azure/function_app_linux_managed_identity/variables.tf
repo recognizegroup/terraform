@@ -44,9 +44,9 @@ variable "managed_identity_provider" {
   description = "The managed identity provider to use for connections on this function app"
 }
 
-variable "app_service_plan_id" {
+variable "service_plan_id" {
   type        = string
-  description = "The ID of the App Service Plan within which to create this Function App."
+  description = "The ID of the Service Plan within which to create this Function App."
 }
 
 variable "log_analytics_workspace_id" {
