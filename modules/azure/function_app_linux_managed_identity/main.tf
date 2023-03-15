@@ -66,16 +66,16 @@ resource "azurerm_linux_function_app" "function_app" {
   }
 
   auth_settings_v2 {
-    auth_enabled = true
-    require_authentication = var.authetification_settings.require_authentication == null?false:var.authetification_settings.require_authentication
-    unauthenticated_action = var.authetification_settings.unauthenticated_action == null?null:var.authetification_settings.unauthenticated_action
-    excluded_paths = var.authetification_settings.excluded_paths == null? []: var.authetification_settings.excluded_paths
+    auth_enabled           = true
+    require_authentication = var.authetification_settings.require_authentication == null ? false : var.authetification_settings.require_authentication
+    unauthenticated_action = var.authetification_settings.unauthenticated_action == null ? null : var.authetification_settings.unauthenticated_action
+    excluded_paths         = var.authetification_settings.excluded_paths == null ? [] : var.authetification_settings.excluded_paths
 
     active_directory_v2 {
-      client_id                  = "${local.should_create_app ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id}"
+      client_id                  = local.should_create_app ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id
       client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
-      tenant_auth_endpoint  = "https://login.microsoftonline.com/v2.0/${data.azurerm_client_config.current.tenant_id}/"
-      allowed_audiences = local.allowed_audiences
+      tenant_auth_endpoint       = "https://login.microsoftonline.com/v2.0/${data.azurerm_client_config.current.tenant_id}/"
+      allowed_audiences          = local.allowed_audiences
     }
 
     login {
