@@ -76,13 +76,13 @@ variable "deployment_wait_timeout" {
 }
 
 variable "https_only" {
-  type = bool
+  type        = bool
   description = "Allow only HTTPS access."
-  default = false
+  default     = false
 }
 
 variable "version" {
-  type = string
-  description = "The runtime version associated with the Logic App"
-  default = "~3"
+  type        = string
+  description = "The runtime version associated with the Logic App."
+  default     = "~3"
 }
