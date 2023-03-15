@@ -84,5 +84,5 @@ variable "https_only" {
 variable "version" {
   type        = string
   description = "The runtime version associated with the Logic App."
-  default     = "~3"
+  default     = "~4"
 }

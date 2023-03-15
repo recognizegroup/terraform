@@ -44,7 +44,7 @@ resource "azurerm_logic_app_standard" "app" {
   }
 
   app_settings = merge({
-    WEBSITE_NODE_DEFAULT_VERSION = "~14",
+    WEBSITE_NODE_DEFAULT_VERSION = "~18",
     FUNCTIONS_WORKER_RUNTIME     = "node",
   }, var.app_settings)
 
