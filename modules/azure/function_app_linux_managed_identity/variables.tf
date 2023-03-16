@@ -126,14 +126,14 @@ variable "ip_restriction" {
 
 variable "authetification_settings" {
   type = object({
-    require_authentication = optional(bool), 
+    require_authentication = optional(bool),
     unauthenticated_action = optional(string)
-    excluded_paths = optional(list(string))
+    excluded_paths         = optional(list(string))
   })
   description = "Authentification settings for the Function app"
   default = {
     require_authentication = true,
     unauthenticated_action = "RedirectToLoginPage",
-    excluded_paths = []
+    excluded_paths         = []
   }
 }
