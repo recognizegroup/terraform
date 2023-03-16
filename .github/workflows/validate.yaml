@@ -1,0 +1,16 @@
+name: Validate
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  validate-terraform:
+    runs-on: ubuntu-latest
+    name: Validate Terraform
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+      - run: bash ./.github/workflows/validate.sh
