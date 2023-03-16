@@ -27,6 +27,8 @@ resource "azurerm_logic_app_standard" "app" {
   location            = var.location
   resource_group_name = var.resource_group_name
   enabled             = var.enabled
+  https_only          = var.https_only
+  version             = var.version
 
   dynamic "identity" {
     for_each = var.use_managed_identity ? [1] : []
@@ -42,7 +44,7 @@ resource "azurerm_logic_app_standard" "app" {
   }
 
   app_settings = merge({
-    WEBSITE_NODE_DEFAULT_VERSION = "~14",
+    WEBSITE_NODE_DEFAULT_VERSION = "~18",
     FUNCTIONS_WORKER_RUNTIME     = "node",
   }, var.app_settings)
 
