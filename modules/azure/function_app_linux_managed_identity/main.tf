@@ -165,7 +165,6 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
 
     content {
       category = enabled_log.value
-      enabled  = true
 
       retention_policy {
         enabled = false
