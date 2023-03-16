@@ -124,7 +124,7 @@ variable "ip_restriction" {
   default     = null
 }
 
-variable "authetification_settings" {
+variable "authentication_settings" {
   type = object({
     require_authentication = optional(bool),
     unauthenticated_action = optional(string)
