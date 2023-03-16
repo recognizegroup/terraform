@@ -74,3 +74,15 @@ variable "deployment_wait_timeout" {
   description = "The amount of time to wait for the deployment to start after the logic app was deployed."
   default     = 30
 }
+
+variable "https_only" {
+  type        = bool
+  description = "Allow only HTTPS access."
+  default     = false
+}
+
+variable "version" {
+  type        = string
+  description = "The runtime version associated with the Logic App."
+  default     = "~4"
+}
