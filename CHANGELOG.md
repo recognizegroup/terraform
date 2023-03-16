@@ -17,14 +17,16 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - **Breaking:** `azure/storage_share`: Remove default of variable `quota`, variable is now required ([#249](https://github.com/recognizegroup/terraform/pull/249)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
 - **Breaking:** `azure/subnet`: Change type of variable `service_endpoints` from `list` to `set(string)` ([#257](https://github.com/recognizegroup/terraform/pull/257)) ([`f3e9d233`](https://github.com/recognizegroup/terraform/commit/f3e9d233))
 - **Breaking:** `azure/api_connectors/service_bus_managed_identity`: Add required variable `location` ([#269](https://github.com/recognizegroup/terraform/pull/269)) ([`d9243eba`](https://github.com/recognizegroup/terraform/commit/d9243eba), [`123fbee4`](https://github.com/recognizegroup/terraform/commit/123fbee4), [`724a0910`](https://github.com/recognizegroup/terraform/commit/724a0910))
-- **Breaking:** `azure/function_app_linux`: Rename variable from `app_service_plan_id` to `service_plan_id` ([#](https://github.com/recognizegroup/terraform/pull/)) ([``](https://github.com/recognizegroup/terraform/commit/))
-- **Breaking:** `azure/function_app_linux_managed_identity`: Rename variable from `app_service_plan_id` to `service_plan_id` ([#](https://github.com/recognizegroup/terraform/pull/)) ([``](https://github.com/recognizegroup/terraform/commit/))
-- **Breaking:** `azure/function_app_windows`: Rename variable from `app_service_plan_id` to `service_plan_id` ([#](https://github.com/recognizegroup/terraform/pull/)) ([``](https://github.com/recognizegroup/terraform/commit/))
+- **Breaking:** `azure/function_app_linux`: Rename variable from `app_service_plan_id` to `service_plan_id` ([#282](https://github.com/recognizegroup/terraform/pull/282)) ([`14e2c94`](https://github.com/recognizegroup/terraform/commit/14e2c94))
+- **Breaking:** `azure/function_app_linux_managed_identity`: Rename variable from `app_service_plan_id` to `service_plan_id` ([#282](https://github.com/recognizegroup/terraform/pull/282)) ([`14e2c94`](https://github.com/recognizegroup/terraform/commit/14e2c94))
+- **Breaking:** `azure/function_app_windows`: Rename variable from `app_service_plan_id` to `service_plan_id` ([#282](https://github.com/recognizegroup/terraform/pull/282)) ([`14e2c94`](https://github.com/recognizegroup/terraform/commit/14e2c94))
+- **Breaking:** `azure/virtual_network`: Change type of variable `address_space` from `list` to `list(string)` ([#263](https://github.com/recognizegroup/terraform/pull/263)) ([`baf86211`](https://github.com/recognizegroup/terraform/commit/baf86211))
 - `azure/log_analytics_workspace`: Change default of variable `sku` from `pergb2018` to `PerGB2018` ([#249](https://github.com/recognizegroup/terraform/pull/249)) ([`84c2448b`](https://github.com/recognizegroup/terraform/commit/84c2448b))
 - `azure/function_app_linux`: Change default of variable `runtime_version` from `~3` to `~4` ([#259](https://github.com/recognizegroup/terraform/pull/259)) ([`b3edd9e7`](https://github.com/recognizegroup/terraform/commit/b3edd9e7))
 - `azure/function_app_linux_managed_identity`: Change default of variable `runtime_version` from `~3` to `~4` ([#259](https://github.com/recognizegroup/terraform/pull/259)) ([`b3edd9e7`](https://github.com/recognizegroup/terraform/commit/b3edd9e7))
 - `azure/function_app_windows`: Change default of variable `runtime_version` from `~3` to `~4` ([#259](https://github.com/recognizegroup/terraform/pull/259)) ([`b3edd9e7`](https://github.com/recognizegroup/terraform/commit/b3edd9e7))
 - `azure/api_management_custom_domains`: Add `default_ssl_binding` option to `custom_domains` variable ([#260](https://github.com/recognizegroup/terraform/pull/260)) ([`d44ab78d`](https://github.com/recognizegroup/terraform/commit/d44ab78d))
+- `azure/service_bus_subscription`: Change default of variable `auto_delete_on_idle` from `P14D` to `P10675199DT2H48M5.4775807S` ([#286](https://github.com/recognizegroup/terraform/pull/286)) ([`0aed80dd`](https://github.com/recognizegroup/terraform/commit/0aed80dd))
 
 ### Added
 
@@ -39,6 +41,9 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - Add module `azure/monitoring_action_group` ([#268](https://github.com/recognizegroup/terraform/pull/268)) ([`5bd013c1`](https://github.com/recognizegroup/terraform/commit/5bd013c1), [`a1e363a6`](https://github.com/recognizegroup/terraform/commit/a1e363a6))
 - Add module `azure/monitoring_log_analytics_alert` ([#268](https://github.com/recognizegroup/terraform/pull/268)) ([`5bd013c1`](https://github.com/recognizegroup/terraform/commit/5bd013c1))
 - Add module `azure/monitoring_metric_alert` ([#268](https://github.com/recognizegroup/terraform/pull/268)) ([`5bd013c1`](https://github.com/recognizegroup/terraform/commit/5bd013c1))
+- Add module `azure/api_connectors/office365_set` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886))
+- Add module `azure/api_connectors/storage_blob` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886))
+- Add module `azure/api_connectors/storage_table` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886))
 
 ### Removed
 
@@ -50,5 +55,6 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - **Breaking:** Remove module `azure/app_service_plan`, replace with `azure/service_plan` ([#261](https://github.com/recognizegroup/terraform/pull/261)) ([`beaf338d`](https://github.com/recognizegroup/terraform/commit/beaf338d))
 - **Breaking:** Remove module `azure/app_service`, replace with `azure/web_app_linux` and `azure/web_app_windows` ([#261](https://github.com/recognizegroup/terraform/pull/261)) ([`8990f2e4`](https://github.com/recognizegroup/terraform/commit/8990f2e4), [`1fb0c954`](https://github.com/recognizegroup/terraform/commit/1fb0c954))
 - **Breaking:** Remove module `azure/monitoring`, replace with `azure/azure/monitoring_action_group` and `azure/monitoring_log_analytics_alert` ([#268](https://github.com/recognizegroup/terraform/pull/268)) ([`5bd013c1`](https://github.com/recognizegroup/terraform/commit/5bd013c1))
+- **Breaking:** Remove module `azure/api_connectors/storage_account`, replace with `azure/api_connectors/storage_blob` and `azure/api_connectors/storage_table` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886))
 
 [3.0.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.0.0
