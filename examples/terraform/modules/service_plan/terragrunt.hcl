@@ -15,5 +15,6 @@ inputs = {
   resource_group_name = dependency.resource_group.outputs.name
   name                = "asp-${include.locals.client}-${include.locals.workload}-${include.locals.environment}"
   sku_name            = include.locals.env.service_plan_sku_name
+  os_name             = include.locals.env.service_plan_os_name
   enable_autoscaling  = try(include.locals.env.service_plan_enable_autoscaling, false)
 }

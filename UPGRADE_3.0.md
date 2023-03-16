@@ -178,6 +178,7 @@ inputs = {
   name                = "asp-${include.locals.client}-${include.locals.workload}-${include.locals.environment}"
   tier                = "PremiumV2"
   size                = "P1v2"
+  kind                = "Linux"
   enable_autoscaling  = try(include.locals.env.app_service_plan_enable_autoscaling, false)
 }
 ```
@@ -201,6 +202,7 @@ inputs = {
   resource_group_name = dependency.resource_group.outputs.name
   name                = "asp-${include.locals.client}-${include.locals.workload}-${include.locals.environment}"
   sku_name            = "P1v2"
+  os_name             = "Linux"
   enable_autoscaling  = try(include.locals.env.app_service_plan_enable_autoscaling, false)
 }
 ```
