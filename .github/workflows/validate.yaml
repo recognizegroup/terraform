@@ -13,4 +13,4 @@ jobs:
       - uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: false
-      - run: bash ./.github/workflows/validate.sh
+      - run: bash ./validate/validate.sh

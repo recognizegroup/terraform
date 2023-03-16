@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-find ./modules/other -name "*.tf" -exec dirname {} + | sort | uniq | while read -r line ; do
+find ./modules -name "*.tf" -exec dirname {} + | sort | uniq | while read -r line ; do
   echo "Run test on $line"
-  cp ./main_override.tf "$line/main_override.tf"
+  cp ./validate/main_override.tf.dist "$line/main_override.tf"
   cd "$line" || exit
   terraform init
   terraform validate
