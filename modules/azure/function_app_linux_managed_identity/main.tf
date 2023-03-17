@@ -80,6 +80,7 @@ resource "azurerm_linux_function_app" "function_app" {
 
     login {
       // Bug within terraform module it just requires it
+      // https://github.com/hashicorp/terraform-provider-azurerm/issues/21002
     }
   }
 
