@@ -46,6 +46,7 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - Add module `azure/api_connectors/storage_table` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886))
 - `azure/logic_app_standard`: Add variable `https_only` ([#283](https://github.com/recognizegroup/terraform/pull/283)) ([`a9fce065`](https://github.com/recognizegroup/terraform/commit/a9fce065))
 - `azure/logic_app_standard`: Add variable `logic_app_version` ([#283](https://github.com/recognizegroup/terraform/pull/283), [#287](https://github.com/recognizegroup/terraform/pull/287)) ([`a9fce065`](https://github.com/recognizegroup/terraform/commit/a9fce065), [`76468a79`](https://github.com/recognizegroup/terraform/commit/76468a79))
+- `azure/function_app_linux_managed_identity`: Add variable `authentication_settings` ([#284](https://github.com/recognizegroup/terraform/pull/284)) ([`833e1c4c`](https://github.com/recognizegroup/terraform/commit/833e1c4c), [`a40fc302`](https://github.com/recognizegroup/terraform/commit/a40fc302))
 
 ### Removed
 
