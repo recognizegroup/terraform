@@ -53,7 +53,7 @@ variable "enable_batched_operations" {
 variable "auto_delete_on_idle" {
   type        = string # ISO 8601
   description = "The idle interval after which the topic is automatically deleted."
-  default     = "P14D"
+  default     = "P10675199DT2H48M5.4775807S"
 }
 
 variable "sql_filter_query" {

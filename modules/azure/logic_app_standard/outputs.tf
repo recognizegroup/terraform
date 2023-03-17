@@ -5,3 +5,7 @@ output "principal_id" {
 output "name" {
   value = azurerm_logic_app_standard.app.name
 }
+
+output "default_hostname" {
+  value = azurerm_logic_app_standard.app.default_hostname
+}

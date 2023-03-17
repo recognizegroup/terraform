@@ -113,7 +113,7 @@ data "http" "ip" {
 resource "azurerm_storage_account_network_rules" "storage_account_network_rules" {
   storage_account_id         = azurerm_storage_account.storage_account.id
   default_action             = var.network_default_action
-  ip_rules                   = concat(var.network_ip_rules, [data.http.ip.body])
+  ip_rules                   = concat(var.network_ip_rules, [data.http.ip.response_body])
   virtual_network_subnet_ids = var.network_subnet_ids
   bypass                     = ["Logging", "Metrics", "AzureServices"]
 }
