@@ -7,5 +7,6 @@ locals {
   docker_image                    = "docker.io/swaggerapi/petstore"
   docker_image_tag                = "latest"
   service_plan_sku_name           = "S1"
+  service_plan_os_name            = "Linux"
   service_plan_enable_autoscaling = false
 }
