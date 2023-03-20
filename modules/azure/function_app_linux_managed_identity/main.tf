@@ -82,12 +82,12 @@ resource "azurerm_linux_function_app" "function_app" {
  * create a valid token with this audience. If you need more security, validate the claim in C# or add Claim rules here.
  */
 
+// Needed to have a trigger that allows recreating some resource every time
 resource "null_resource" "always_run" {
   triggers = {
     timestamp = "${timestamp()}"
   }
 }
-
 
 resource "azapi_update_resource" "setup_auth_settings" {
   type        = "Microsoft.Web/sites/config@2020-12-01"
@@ -122,6 +122,9 @@ resource "azapi_update_resource" "setup_auth_settings" {
     }
   })
   lifecycle {
+    /* This action should always be replaces since is works under the hood as an api call
+    * So it does not really track issues with the function app properly
+    */
     replace_triggered_by = [
       null_resource.always_run
     ]
