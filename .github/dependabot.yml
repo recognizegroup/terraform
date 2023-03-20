@@ -33,17 +33,27 @@ updates:
       interval: "daily"
 
   - package-ecosystem: "terraform"
+    directory: "/modules/azure/api_connectors/office365_set"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
     directory: "/modules/azure/api_connectors/service_bus_managed_identity"
     schedule:
       interval: "daily"
 
   - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_connectors/storage_account"
+    directory: "/modules/azure/api_connectors/storage_blob"
     schedule:
       interval: "daily"
 
   - package-ecosystem: "terraform"
     directory: "/modules/azure/api_connectors/storage_blob_managed_identity"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/azure/api_connectors/storage_table"
     schedule:
       interval: "daily"
 
