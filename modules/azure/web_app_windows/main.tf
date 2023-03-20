@@ -42,6 +42,16 @@ resource "azurerm_windows_web_app" "web_app" {
 
   app_settings = var.app_settings
 
+  dynamic "connection_string" {
+    for_each = var.connection_strings
+
+    content {
+      name  = connection_string.value.name
+      type  = connection_string.value.type
+      value = connection_string.value.value
+    }
+  }
+
   identity {
     type = "SystemAssigned"
   }
