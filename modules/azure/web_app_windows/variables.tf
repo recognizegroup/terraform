@@ -120,3 +120,15 @@ variable "storage_mount" {
   description = "Storage container or share to be mount within web app instance(s). Note that container mounts are read-only."
   default     = null
 }
+
+variable "connection_strings" {
+  type = set(
+    object({
+      name  = string,
+      type  = string,
+      value = string
+    })
+  )
+  description = "A list of connection strings used by the app service."
+  default     = []
+}
