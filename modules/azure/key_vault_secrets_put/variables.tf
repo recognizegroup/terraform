@@ -1,7 +1,7 @@
 variable "secrets" {
   type = list(object({
-    secret_name  = string
-    secret_value = string
+    secret_name     = string
+    secret_value    = string
     expiration_date = optional(string)
   }))
   description = "A list containing secret objects."
