@@ -23,5 +23,5 @@ resource "azurerm_key_vault_secret" "secret" {
   name            = each.value.secret_name
   value           = each.value.secret_value
   key_vault_id    = var.key_vault_id
-  expiration_date = var.expiration_date
+  expiration_date = each.value.expiration_date
 }
