@@ -14,7 +14,7 @@ variable "key_vault_id" {
 }
 
 variable "expiration_date" {
-  type = string
+  type        = string
   description = "Date secrete expires"
-  default = null
+  default     = null
 }
