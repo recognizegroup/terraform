@@ -4,16 +4,18 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.47"
+      version = "~> 3.48"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 2.33"
+      version = "~> 2.36"
     }
     azapi = {
       source  = "Azure/azapi"
-      version = "~> 1.2"
+      version = "~> 1.4"
     }
+
+
   }
 
   backend "azurerm" {}
@@ -27,14 +29,14 @@ provider "azapi" {
 
 }
 
+provider "null" {
+
+}
+
 locals {
   should_create_app = var.managed_identity_provider.existing != null ? false : true
   identifiers       = concat(local.should_create_app ? ["api://${var.managed_identity_provider.create.application_name}"] : [], var.managed_identity_provider.identifier_uris != null ? var.managed_identity_provider.identifier_uris : [])
   allowed_audiences = concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : [])
-}
-
-
-data "azurerm_client_config" "current" {
 }
 
 # Function App
@@ -65,29 +67,70 @@ resource "azurerm_linux_function_app" "function_app" {
     }
   }
 
-  auth_settings_v2 {
-    auth_enabled           = true
-    require_authentication = var.authentication_settings.require_authentication == null ? false : var.authentication_settings.require_authentication
-    unauthenticated_action = var.authentication_settings.unauthenticated_action == null ? null : var.authentication_settings.unauthenticated_action
-    excluded_paths         = var.authentication_settings.excluded_paths == null ? [] : var.authentication_settings.excluded_paths
-
-    active_directory_v2 {
-      client_id                  = local.should_create_app ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id
-      client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
-      tenant_auth_endpoint       = "https://login.microsoftonline.com/v2.0/${data.azurerm_client_config.current.tenant_id}/"
-      allowed_audiences          = local.allowed_audiences
-    }
-
-    login {
-      // Bug within terraform module it just requires it
-      // https://github.com/hashicorp/terraform-provider-azurerm/issues/21002
-    }
-  }
-
   identity {
     type = "SystemAssigned"
   }
 }
+
+
+/*
+ * https://github.com/hashicorp/terraform-provider-azurerm/issues/12928 blocked by https://github.com/Azure/azure-rest-api-specs/issues/18888
+ *
+ * The azurerm_linux_function_app module does not yet support Authentication v2 (v1 only) at the moment. Therefore, we create the function without authentication settings.
+ * In this block, we add a Microsoft Active Directory identity provider through the AZ API provider.
+ * The default audience check in the token is set to the Application ID, but keep in mind that with a valid oAuth app registration in the tenant (AzureADMyOrg), you can
+ * create a valid token with this audience. If you need more security, validate the claim in C# or add Claim rules here.
+ */
+
+// Needed to have a trigger that allows recreating some resource every time
+resource "null_resource" "always_run" {
+  triggers = {
+    timestamp = "${timestamp()}"
+  }
+}
+
+resource "azapi_update_resource" "setup_auth_settings" {
+  type        = "Microsoft.Web/sites/config@2020-12-01"
+  resource_id = "${azurerm_linux_function_app.function_app.id}/config/web"
+
+  depends_on = [
+    azurerm_linux_function_app.function_app,
+    null_resource.always_run
+  ]
+
+  body = jsonencode({
+    properties = {
+      siteAuthSettingsV2 = {
+        globalValidation = {
+          excludedPaths               = var.authentication_settings.excluded_paths == null ? [] : var.authentication_settings.excluded_paths,
+          require_authentication      = var.authentication_settings.require_authentication == null ? false : var.authentication_settings.require_authentication,
+          unauthenticatedClientAction = var.authentication_settings.unauthenticated_action == null ? null : var.authentication_settings.unauthenticated_action
+        },
+        IdentityProviders = {
+          azureActiveDirectory = {
+            enabled = true,
+            registration = {
+              clientId                = "${local.should_create_app ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id}",
+              clientSecretSettingName = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
+            },
+            validation = {
+              allowedAudiences = local.allowed_audiences
+            }
+          }
+        }
+      }
+    }
+  })
+  lifecycle {
+    /* This action should always be replaces since is works under the hood as an api call
+    * So it does not really track issues with the function app properly
+    */
+    replace_triggered_by = [
+      null_resource.always_run
+    ]
+  }
+}
+
 
 # Managed Identity Provider
 data "azuread_client_config" "current" {}
