@@ -90,5 +90,5 @@ variable "ip_restriction" {
     }))
   }))
   description = "A List of objects representing ip restrictions."
-  default     = null
+  default     = []
 }
