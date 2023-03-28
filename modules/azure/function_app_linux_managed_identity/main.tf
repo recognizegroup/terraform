@@ -35,7 +35,7 @@ provider "null" {
 
 locals {
   should_create_app = var.managed_identity_provider.existing != null ? false : true
-  identifiers       = concat(local.should_create_app ? [
+  identifiers = concat(local.should_create_app ? [
     "api://${var.managed_identity_provider.create.application_name}"
   ] : [], var.managed_identity_provider.identifier_uris != null ? var.managed_identity_provider.identifier_uris : [])
   allowed_audiences = concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : [])
@@ -133,7 +133,7 @@ resource "azapi_update_resource" "setup_auth_settings" {
         },
         IdentityProviders = {
           azureActiveDirectory = {
-            enabled      = true,
+            enabled = true,
             registration = {
               clientId                = "${local.should_create_app ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id}",
               clientSecretSettingName = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
@@ -163,7 +163,7 @@ data "azuread_client_config" "current" {}
 resource "azuread_application" "application" {
   count        = local.should_create_app ? 1 : 0
   display_name = var.managed_identity_provider.create.display_name
-  owners       = var.managed_identity_provider.create.owners != null ? concat([
+  owners = var.managed_identity_provider.create.owners != null ? concat([
     data.azuread_client_config.current.object_id
   ], var.managed_identity_provider.create.owners) : [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"

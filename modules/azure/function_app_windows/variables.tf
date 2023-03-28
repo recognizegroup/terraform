@@ -82,7 +82,7 @@ variable "ip_restriction" {
     name                      = string,
     priority                  = number,
     action                    = string,
-    headers                   = list(object({
+    headers = list(object({
       x_azure_fdid      = list(string),
       x_fd_health_probe = list(string),
       x_forwarded_for   = list(string),
