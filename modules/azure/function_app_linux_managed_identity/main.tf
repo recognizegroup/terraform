@@ -35,9 +35,7 @@ provider "null" {
 
 locals {
   should_create_app = var.managed_identity_provider.existing != null ? false : true
-  identifiers = concat(local.should_create_app ? [
-    "api://${var.managed_identity_provider.create.application_name}"
-  ] : [], var.managed_identity_provider.identifier_uris != null ? var.managed_identity_provider.identifier_uris : [])
+  identifiers = concat(local.should_create_app ? ["api://${var.managed_identity_provider.create.application_name}"] : [], var.managed_identity_provider.identifier_uris != null ? var.managed_identity_provider.identifier_uris : [])
   allowed_audiences = concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : [])
 }
 
@@ -161,11 +159,9 @@ resource "azapi_update_resource" "setup_auth_settings" {
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "application" {
-  count        = local.should_create_app ? 1 : 0
-  display_name = var.managed_identity_provider.create.display_name
-  owners = var.managed_identity_provider.create.owners != null ? concat([
-    data.azuread_client_config.current.object_id
-  ], var.managed_identity_provider.create.owners) : [data.azuread_client_config.current.object_id]
+  count            = local.should_create_app ? 1 : 0
+  display_name     = var.managed_identity_provider.create.display_name
+  owners           = var.managed_identity_provider.create.owners != null ? concat([data.azuread_client_config.current.object_id], var.managed_identity_provider.create.owners) : [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
   identifier_uris  = local.identifiers
 

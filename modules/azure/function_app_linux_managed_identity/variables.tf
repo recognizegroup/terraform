@@ -34,8 +34,7 @@ variable "managed_identity_provider" {
       owners        = optional(list(string)) # Deployment user will be added as owner by default
       redirect_uris = optional(list(string)) # Only for additional URIs, function uri will be added by default
     }))
-    identifier_uris = optional(list(string))
-    #  api://<application_name> will be added by default if application is create
+    identifier_uris   = optional(list(string)) #  api://<application_name> will be added by default if application is create
     allowed_audiences = optional(list(string)) # api://<application-name> will be added by default
   })
   validation {
