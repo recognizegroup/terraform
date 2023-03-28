@@ -22,7 +22,7 @@ variable "managed_identity_provider" {
     create = optional(object({
       application_name = string
       display_name     = string
-      oauth2_settings = object({
+      oauth2_settings  = object({
         admin_consent_description  = string
         admin_consent_display_name = string
         enabled                    = bool
@@ -34,7 +34,8 @@ variable "managed_identity_provider" {
       owners        = optional(list(string)) # Deployment user will be added as owner by default
       redirect_uris = optional(list(string)) # Only for additional URIs, function uri will be added by default
     }))
-    identifier_uris   = optional(list(string)) #  api://<application_name> will be added by default if application is create
+    identifier_uris   = optional(list(string))
+    #  api://<application_name> will be added by default if application is create
     allowed_audiences = optional(list(string)) # api://<application-name> will be added by default
   })
   validation {
@@ -113,7 +114,7 @@ variable "ip_restriction" {
     name                      = string,
     priority                  = number,
     action                    = string,
-    headers = list(object({
+    headers                   = list(object({
       x_azure_fdid      = list(string),
       x_fd_health_probe = list(string),
       x_forwarded_for   = list(string),
@@ -131,7 +132,7 @@ variable "authentication_settings" {
     excluded_paths         = optional(list(string))
   })
   description = "Authentification settings for the Function app"
-  default = {
+  default     = {
     require_authentication = true,
     unauthenticated_action = "RedirectToLoginPage",
     excluded_paths         = []

@@ -69,7 +69,7 @@ resource "azurerm_linux_function_app" "function_app" {
         name                      = ip_restriction.value.name
         priority                  = ip_restriction.value.priority
         action                    = ip_restriction.value.action
-        
+
         dynamic "headers" {
           for_each = ip_restriction.value.headers
           content {
