@@ -107,9 +107,9 @@ variable "route_all_outbound_traffic" {
 
 variable "ip_restriction" {
   type = list(object({
-    ip_address                = string,
-    service_tag               = string,
-    virtual_network_subnet_id = string,
+    ip_address                = optional(string),
+    service_tag               = optional(string),
+    virtual_network_subnet_id = optional(string),
     name                      = string,
     priority                  = number,
     action                    = string,
