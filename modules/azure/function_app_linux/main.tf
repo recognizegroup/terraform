@@ -33,7 +33,8 @@ resource "azurerm_linux_function_app" "function_app" {
     vnet_route_all_enabled = var.route_all_outbound_traffic
 
     dynamic "ip_restriction" {
-      for_each = var.ip_restriction
+      for_each = var.ip_restrictions
+
       content {
         ip_address                = ip_restriction.value.ip_address
         service_tag               = ip_restriction.value.service_tag
@@ -44,6 +45,7 @@ resource "azurerm_linux_function_app" "function_app" {
 
         dynamic "headers" {
           for_each = ip_restriction.value.headers
+
           content {
             x_azure_fdid      = headers.value.x_azure_fdid
             x_fd_health_probe = headers.value.x_fd_health_probe
