@@ -50,12 +50,37 @@ resource "azurerm_linux_function_app" "function_app" {
   storage_account_access_key  = var.storage_account_access_key
   functions_extension_version = var.runtime_version
 
-  app_settings = merge(var.app_settings, { MICROSOFT_PROVIDER_AUTHENTICATION_SECRET = "${local.should_create_app ? azuread_application_password.password[0].value : var.managed_identity_provider.existing.client_secret}" })
+  app_settings = merge(var.app_settings, {
+    MICROSOFT_PROVIDER_AUTHENTICATION_SECRET = "${local.should_create_app ? azuread_application_password.password[0].value : var.managed_identity_provider.existing.client_secret}"
+  })
 
   site_config {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic
-    ip_restriction         = var.ip_restriction
+
+    dynamic "ip_restriction" {
+      for_each = var.ip_restrictions
+
+      content {
+        ip_address                = ip_restriction.value.ip_address
+        service_tag               = ip_restriction.value.service_tag
+        virtual_network_subnet_id = ip_restriction.value.virtual_network_subnet_id
+        name                      = ip_restriction.value.name
+        priority                  = ip_restriction.value.priority
+        action                    = ip_restriction.value.action
+
+        dynamic "headers" {
+          for_each = ip_restriction.value.headers
+
+          content {
+            x_azure_fdid      = headers.value.x_azure_fdid
+            x_fd_health_probe = headers.value.x_fd_health_probe
+            x_forwarded_for   = headers.value.x_forwarded_for
+            x_forwarded_host  = headers.value.x_forwarded_host
+          }
+        }
+      }
+    }
   }
 
   dynamic "connection_string" {
