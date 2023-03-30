@@ -21,6 +21,9 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - **Breaking:** `azure/function_app_linux_managed_identity`: Rename variable from `app_service_plan_id` to `service_plan_id` ([#282](https://github.com/recognizegroup/terraform/pull/282)) ([`14e2c94`](https://github.com/recognizegroup/terraform/commit/14e2c94))
 - **Breaking:** `azure/function_app_windows`: Rename variable from `app_service_plan_id` to `service_plan_id` ([#282](https://github.com/recognizegroup/terraform/pull/282)) ([`14e2c94`](https://github.com/recognizegroup/terraform/commit/14e2c94))
 - **Breaking:** `azure/virtual_network`: Change type of variable `address_space` from `list` to `list(string)` ([#263](https://github.com/recognizegroup/terraform/pull/263)) ([`baf86211`](https://github.com/recognizegroup/terraform/commit/baf86211))
+- **Breaking:** `azure/function_app_linux`: Rename variable from `ip_restriction` to `ip_restrictions` ([#296](https://github.com/recognizegroup/terraform/pull/296)) ([`e60e867a`](https://github.com/recognizegroup/terraform/commit/e60e867a))
+- **Breaking:** `azure/function_app_linux_managed_identity`: Rename variable from `ip_restriction` to `ip_restrictions` ([#296](https://github.com/recognizegroup/terraform/pull/296)) ([`e60e867a`](https://github.com/recognizegroup/terraform/commit/e60e867a))
+- **Breaking:** `azure/function_app_windows`: Rename variable from `ip_restriction` to `ip_restrictions` ([#296](https://github.com/recognizegroup/terraform/pull/296)) ([`e60e867a`](https://github.com/recognizegroup/terraform/commit/e60e867a))
 - Bump provider `hashicorp/azuread` from `2.22.0` to `~> 2.36` ([#257](https://github.com/recognizegroup/terraform/pull/257), [#290](https://github.com/recognizegroup/terraform/pull/290)) ([`f3e9d233`](https://github.com/recognizegroup/terraform/commit/f3e9d233), [`d1e8281a`](https://github.com/recognizegroup/terraform/commit/d1e8281a))
 - Bump provider `Azure/azapi` from `1.0.0` to `~> 1.4` ([#257](https://github.com/recognizegroup/terraform/pull/257), [#290](https://github.com/recognizegroup/terraform/pull/290)) ([`f3e9d233`](https://github.com/recognizegroup/terraform/commit/f3e9d233), [`d1e8281a`](https://github.com/recognizegroup/terraform/commit/d1e8281a))
 - Bump provider `hashicorp/archive` from `2.2.0` to `~> 2.3` ([#285](https://github.com/recognizegroup/terraform/pull/285)) ([`eefff320`](https://github.com/recognizegroup/terraform/commit/eefff320))
@@ -30,6 +33,8 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - `azure/function_app_windows`: Change default of variable `runtime_version` from `~3` to `~4` ([#259](https://github.com/recognizegroup/terraform/pull/259)) ([`b3edd9e7`](https://github.com/recognizegroup/terraform/commit/b3edd9e7))
 - `azure/api_management_custom_domains`: Add `default_ssl_binding` option to `custom_domains` variable ([#260](https://github.com/recognizegroup/terraform/pull/260)) ([`d44ab78d`](https://github.com/recognizegroup/terraform/commit/d44ab78d))
 - `azure/service_bus_subscription`: Change default of variable `auto_delete_on_idle` from `P14D` to `P10675199DT2H48M5.4775807S` ([#286](https://github.com/recognizegroup/terraform/pull/286)) ([`0aed80dd`](https://github.com/recognizegroup/terraform/commit/0aed80dd))
+- `azure/key_vault_secrets_put`: Add `expiration_date` option to `secrets` variable ([#294](https://github.com/recognizegroup/terraform/pull/294)) ([`ac9905ea`](https://github.com/recognizegroup/terraform/commit/ac9905ea))
+- `azure/key_vault_secrets_put_once`: Add `expiration_date` option to `secrets` variable ([#294](https://github.com/recognizegroup/terraform/pull/294)) ([`ac9905ea`](https://github.com/recognizegroup/terraform/commit/ac9905ea))
 
 ### Added
 
@@ -50,6 +55,8 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - `azure/logic_app_standard`: Add variable `https_only` ([#283](https://github.com/recognizegroup/terraform/pull/283)) ([`a9fce065`](https://github.com/recognizegroup/terraform/commit/a9fce065))
 - `azure/logic_app_standard`: Add variable `logic_app_version` ([#283](https://github.com/recognizegroup/terraform/pull/283), [#287](https://github.com/recognizegroup/terraform/pull/287)) ([`a9fce065`](https://github.com/recognizegroup/terraform/commit/a9fce065), [`76468a79`](https://github.com/recognizegroup/terraform/commit/76468a79))
 - `azure/function_app_linux_managed_identity`: Add variable `authentication_settings` ([#284](https://github.com/recognizegroup/terraform/pull/284)) ([`833e1c4c`](https://github.com/recognizegroup/terraform/commit/833e1c4c), [`a40fc302`](https://github.com/recognizegroup/terraform/commit/a40fc302))
+- `azure/resource_group`: Add variable `readonly` ([#295](https://github.com/recognizegroup/terraform/pull/295)) ([`97400ba2`](https://github.com/recognizegroup/terraform/commit/97400ba2))
+- `azure/resource_group`: Add variable `cannotdelete` ([#295](https://github.com/recognizegroup/terraform/pull/295)) ([`97400ba2`](https://github.com/recognizegroup/terraform/commit/97400ba2))
 
 ### Removed
 
