@@ -14,8 +14,6 @@ terraform {
       source  = "Azure/azapi"
       version = "~> 1.4"
     }
-
-
   }
 
   backend "azurerm" {}
