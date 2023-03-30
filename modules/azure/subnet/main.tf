@@ -1,8 +1,11 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = "~> 1.3"
 
   required_providers {
-    azurerm = "=2.94.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.48"
+    }
   }
 
   backend "azurerm" {}
@@ -13,12 +16,12 @@ provider "azurerm" {
 }
 
 resource "azurerm_subnet" "subnet" {
-  name                                           = var.name
-  resource_group_name                            = var.resource_group_name
-  virtual_network_name                           = var.virtual_network_name
-  address_prefixes                               = var.address_prefixes
-  enforce_private_link_endpoint_network_policies = var.enforce_private_link_endpoint_network_policies
-  service_endpoints                              = var.service_endpoints
+  name                                      = var.name
+  resource_group_name                       = var.resource_group_name
+  virtual_network_name                      = var.virtual_network_name
+  address_prefixes                          = var.address_prefixes
+  private_endpoint_network_policies_enabled = var.private_endpoint_network_policies_enabled
+  service_endpoints                         = var.service_endpoints
 
   dynamic "delegation" {
     for_each = var.service_delegation == null ? [] : [1]

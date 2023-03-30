@@ -1,8 +1,11 @@
 terraform {
-  required_version = ">=1.0.9"
+  required_version = "~> 1.3"
 
   required_providers {
-    azurerm = "=2.82.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.48"
+    }
   }
 
   backend "azurerm" {}
@@ -24,7 +27,7 @@ resource "azurerm_api_management_logger" "logger" {
 }
 
 resource "azurerm_api_management_api_diagnostic" "diagnostic" {
-  for_each                 = toset(var.api_names)
+  for_each                 = var.api_names
   identifier               = "applicationinsights"
   resource_group_name      = var.resource_group_name
   api_management_name      = var.api_management_name

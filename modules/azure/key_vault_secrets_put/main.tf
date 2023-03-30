@@ -1,8 +1,11 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = "~> 1.3"
 
   required_providers {
-    azurerm = "=2.94.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.48"
+    }
   }
 
   backend "azurerm" {}
@@ -17,7 +20,8 @@ resource "azurerm_key_vault_secret" "secret" {
     for index, secret in nonsensitive(var.secrets) :
     secret.secret_name => secret
   }
-  name         = each.value.secret_name
-  value        = each.value.secret_value
-  key_vault_id = var.key_vault_id
+  name            = each.value.secret_name
+  value           = each.value.secret_value
+  key_vault_id    = var.key_vault_id
+  expiration_date = each.value.expiration_date
 }

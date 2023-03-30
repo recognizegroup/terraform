@@ -24,6 +24,6 @@ variable "application_insights_instrumentation_key" {
 }
 
 variable "api_names" {
-  type        = list
+  type        = set(string)
   description = ""
 }

@@ -1,8 +1,11 @@
 terraform {
-  required_version = ">=0.14.9"
+  required_version = "~> 1.3"
 
   required_providers {
-    azurerm = "=3.11.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.48"
+    }
   }
 
   backend "azurerm" {}
@@ -18,7 +21,7 @@ resource "azurerm_windows_function_app" "function_app" {
   name                        = var.name
   location                    = var.location
   resource_group_name         = var.resource_group_name
-  service_plan_id             = var.app_service_plan_id
+  service_plan_id             = var.service_plan_id
   storage_account_name        = var.storage_account_name
   storage_account_access_key  = var.storage_account_access_key
   functions_extension_version = var.runtime_version
@@ -28,7 +31,30 @@ resource "azurerm_windows_function_app" "function_app" {
   site_config {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic
-    ip_restriction         = var.ip_restriction
+
+    dynamic "ip_restriction" {
+      for_each = var.ip_restrictions
+
+      content {
+        ip_address                = ip_restriction.value.ip_address
+        service_tag               = ip_restriction.value.service_tag
+        virtual_network_subnet_id = ip_restriction.value.virtual_network_subnet_id
+        name                      = ip_restriction.value.name
+        priority                  = ip_restriction.value.priority
+        action                    = ip_restriction.value.action
+
+        dynamic "headers" {
+          for_each = ip_restriction.value.headers
+
+          content {
+            x_azure_fdid      = headers.value.x_azure_fdid
+            x_fd_health_probe = headers.value.x_fd_health_probe
+            x_forwarded_for   = headers.value.x_forwarded_for
+            x_forwarded_host  = headers.value.x_forwarded_host
+          }
+        }
+      }
+    }
   }
 
   dynamic "connection_string" {
@@ -77,12 +103,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   target_resource_id         = azurerm_windows_function_app.function_app.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  dynamic "log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
+  dynamic "enabled_log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
 
     content {
-      category = log.value
-      enabled  = true
+      category = enabled_log.value
 
       retention_policy {
         enabled = false

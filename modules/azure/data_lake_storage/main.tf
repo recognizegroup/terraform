@@ -1,8 +1,11 @@
 terraform {
-  required_version = ">=1.1.7"
+  required_version = "~> 1.3"
 
   required_providers {
-    azurerm = "=3.21.1"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.48"
+    }
   }
 
   backend "azurerm" {}
@@ -110,7 +113,7 @@ data "http" "ip" {
 resource "azurerm_storage_account_network_rules" "storage_account_network_rules" {
   storage_account_id         = azurerm_storage_account.storage_account.id
   default_action             = var.network_default_action
-  ip_rules                   = concat(var.network_ip_rules, [data.http.ip.body])
+  ip_rules                   = concat(var.network_ip_rules, [data.http.ip.response_body])
   virtual_network_subnet_ids = var.network_subnet_ids
   bypass                     = ["Logging", "Metrics", "AzureServices"]
 }
@@ -129,12 +132,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   // TODO: not yet implemented by Azure
   // log_analytics_destination_type = "Dedicated"
 
-  dynamic "log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
+  dynamic "enabled_log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
 
     content {
-      category = log.value
-      enabled  = true
+      category = enabled_log.value
 
       retention_policy {
         enabled = false

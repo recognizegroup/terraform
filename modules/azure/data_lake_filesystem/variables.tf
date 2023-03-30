@@ -9,11 +9,11 @@ variable "filesystem_name" {
 }
 
 variable "root_permissions" {
-  type        = list
+  type        = list(any)
   description = "List of ADLS gen2 root permissions."
 }
 
 variable "filesystem_paths" {
-  type        = list
+  type        = list(any)
   description = "List of ADLS gen2 filesystem paths with permissions."
 }

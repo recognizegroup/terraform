@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">=1.0.9"
+  required_version = "~> 1.3"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.5.0"
+      version = "~> 3.48"
     }
   }
 
@@ -24,6 +24,7 @@ resource "azurerm_key_vault_certificate" "certificate" {
     for domain in var.custom_domains :
     domain.host_name => domain
   }
+
   name         = each.value.certificate_name
   key_vault_id = each.value.key_vault_id
 
@@ -83,8 +84,9 @@ resource "azurerm_api_management_custom_domain" "custom_domain" {
       domain.host_name => domain if domain.type == "gateway"
     }
     content {
-      host_name    = gateway.value.host_name
-      key_vault_id = azurerm_key_vault_certificate.certificate[gateway.value.host_name].versionless_secret_id
+      host_name           = gateway.value.host_name
+      key_vault_id        = azurerm_key_vault_certificate.certificate[gateway.value.host_name].versionless_secret_id
+      default_ssl_binding = gateway.value.default_ssl_binding
     }
   }
 

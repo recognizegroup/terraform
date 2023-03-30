@@ -1,29 +1,21 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "metadata": {
-    "_generator": {
-      "name": "bicep",
-      "version": "0.9.1.41621",
-      "templateHash": "14233748139416635108"
-    }
-  },
   "parameters": {
     "location": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().location]",
+      "type": "String",
       "metadata": {
         "description": "location"
       }
     },
     "service_bus_connection_name": {
-      "type": "string",
+      "type": "String",
       "metadata": {
         "description": "Name to use for this connection"
       }
     },
     "service_bus_namespace_endpoint": {
-      "type": "string",
+      "type": "String",
       "metadata": {
         "description": "Service Bus namespace"
       }

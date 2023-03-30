@@ -1,8 +1,11 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = "~> 1.3"
 
   required_providers {
-    azurerm = "=2.88.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.48"
+    }
   }
 
   backend "azurerm" {}
@@ -55,12 +58,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   // TODO: not yet implemented by Azure
   // log_analytics_destination_type = "Dedicated"
 
-  dynamic "log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[each.key].logs
+  dynamic "enabled_log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[each.key].log_category_types
 
     content {
-      category = log.value
-      enabled  = true
+      category = enabled_log.value
 
       retention_policy {
         enabled = false

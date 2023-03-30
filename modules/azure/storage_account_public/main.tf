@@ -1,8 +1,11 @@
 terraform {
-  required_version = ">=1.1.5"
+  required_version = "~> 1.3"
 
   required_providers {
-    azurerm = "=2.96.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.48"
+    }
   }
 
   backend "azurerm" {}
@@ -13,17 +16,17 @@ provider "azurerm" {
 }
 
 resource "azurerm_storage_account" "storage_account" {
-  name                      = var.name
-  resource_group_name       = var.resource_group_name
-  location                  = var.location
-  account_kind              = var.kind
-  account_tier              = var.tier
-  account_replication_type  = var.replication_type
-  enable_https_traffic_only = var.enable_https_traffic_only
-  allow_blob_public_access  = var.allow_public_access
-  min_tls_version           = var.min_tls_version
-  nfsv3_enabled             = var.nfsv3_enabled
-  is_hns_enabled            = var.is_hns_enabled
+  name                            = var.name
+  resource_group_name             = var.resource_group_name
+  location                        = var.location
+  account_kind                    = var.kind
+  account_tier                    = var.tier
+  account_replication_type        = var.replication_type
+  enable_https_traffic_only       = var.enable_https_traffic_only
+  allow_nested_items_to_be_public = var.allow_public_access
+  min_tls_version                 = var.min_tls_version
+  nfsv3_enabled                   = var.nfsv3_enabled
+  is_hns_enabled                  = var.is_hns_enabled
 
   dynamic "network_rules" {
     for_each = var.nfsv3_enabled == true ? [1] : []

@@ -19,7 +19,7 @@ variable "virtual_network_name" {
 }
 
 variable "address_prefixes" {
-  type        = list
+  type        = list(string)
   description = "The address prefix to use for the subnet."
 }
 
@@ -29,10 +29,10 @@ variable "route_table_id" {
   default     = null
 }
 
-variable "enforce_private_link_endpoint_network_policies" {
+variable "private_endpoint_network_policies_enabled" {
   type        = bool
-  description = "Enable or Disable network policies for the private link endpoint on the subnet."
-  default     = false
+  description = "Enable or Disable network policies for the private link service on the subnet."
+  default     = true
 }
 
 variable "service_delegation" {
@@ -42,7 +42,7 @@ variable "service_delegation" {
 }
 
 variable "service_endpoints" {
-  type        = list
+  type        = set(string)
   description = "The list of Service endpoints to associate with the subnet."
   default     = []
 }

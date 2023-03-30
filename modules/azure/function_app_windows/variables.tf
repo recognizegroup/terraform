@@ -13,9 +13,9 @@ variable "name" {
   description = "Specifies the name of the function app."
 }
 
-variable "app_service_plan_id" {
+variable "service_plan_id" {
   type        = string
-  description = "The ID of the App Service Plan within which to create this Function App."
+  description = "The ID of the Service Plan within which to create this Function App."
 }
 
 variable "log_analytics_workspace_id" {
@@ -43,7 +43,7 @@ variable "app_settings" {
 variable "runtime_version" {
   type        = string
   description = "The runtime version associated with the Function App."
-  default     = "~3"
+  default     = "~4"
 }
 
 variable "always_on" {
@@ -74,21 +74,22 @@ variable "route_all_outbound_traffic" {
   default     = false
 }
 
-variable "ip_restriction" {
+variable "ip_restrictions" {
   type = list(object({
-    ip_address                = string,
-    service_tag               = string,
-    virtual_network_subnet_id = string,
-    name                      = string,
-    priority                  = number,
-    action                    = string,
-    headers = list(object({
-      x_azure_fdid      = list(string),
-      x_fd_health_probe = list(string),
-      x_forwarded_for   = list(string),
-      x_forwarded_host  = list(string)
-    }))
+    ip_address                = optional(string),
+    service_tag               = optional(string),
+    virtual_network_subnet_id = optional(string),
+    name                      = optional(string),
+    priority                  = optional(number),
+    action                    = optional(string),
+
+    headers = optional(list(object({
+      x_azure_fdid      = optional(list(string)),
+      x_fd_health_probe = optional(list(string)),
+      x_forwarded_for   = optional(list(string)),
+      x_forwarded_host  = optional(list(string))
+    })))
   }))
   description = "A List of objects representing ip restrictions."
-  default     = null
+  default     = []
 }

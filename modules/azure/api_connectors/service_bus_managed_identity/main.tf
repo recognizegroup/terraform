@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">=1.0.9"
+  required_version = "~> 1.3"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.26.0"
+      version = "~> 3.48"
     }
   }
 
@@ -26,6 +26,9 @@ resource "azurerm_resource_group_template_deployment" "service_bus_managed_ident
     }
     "service_bus_namespace_endpoint" = {
       value = var.service_bus_namespace_endpoint
+    }
+    "location" = {
+      value = var.location
     }
   })
   deployment_mode = "Incremental"

@@ -17,3 +17,7 @@ output "logger_id" {
 output "developer_portal_url" {
   value = azurerm_api_management.api_management.developer_portal_url
 }
+
+output "public_ip_addresses" {
+  value = azurerm_api_management.api_management.public_ip_addresses
+}

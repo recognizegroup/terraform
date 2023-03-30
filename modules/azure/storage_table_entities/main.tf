@@ -1,8 +1,11 @@
 terraform {
-  required_version = ">=0.14.9"
+  required_version = "~> 1.3"
 
   required_providers {
-    azurerm = "3.6.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.48"
+    }
   }
 
   backend "azurerm" {}
@@ -13,7 +16,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_storage_table_entity" "storage_table_entity" {
-  for_each = { for entity in var.rows:  entity.row_key => entity }
+  for_each = { for entity in var.rows : entity.row_key => entity }
 
   table_name           = var.storage_table_name
   storage_account_name = var.storage_account_name

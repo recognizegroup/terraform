@@ -20,7 +20,7 @@ variable "storage_container_name" {
 
 variable "data_factory_name" {
   type        = string
-  description = "The name of the datafactory."
+  description = "The name of the data factory."
 }
 
 variable "data_factory_pipeline_name" {

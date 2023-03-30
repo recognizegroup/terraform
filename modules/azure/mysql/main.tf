@@ -1,8 +1,11 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = "~> 1.3"
 
   required_providers {
-    azurerm = "=2.94.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.48"
+    }
   }
 
   backend "azurerm" {}
@@ -38,7 +41,7 @@ resource "azurerm_mysql_server" "mysql_server" {
   public_network_access_enabled     = false
   ssl_enforcement_enabled           = true
   ssl_minimal_tls_version_enforced  = "TLS1_2"
-  
+
   identity {
     type = "SystemAssigned"
   }
@@ -85,12 +88,11 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   // TODO: not yet implemented by Azure
   // log_analytics_destination_type = "Dedicated"
 
-  dynamic "log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].logs
+  dynamic "enabled_log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
 
     content {
-      category = log.value
-      enabled  = true
+      category = enabled_log.value
 
       retention_policy {
         enabled = false

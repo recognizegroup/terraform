@@ -1,22 +1,17 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = "~> 1.3"
 
   required_providers {
     azapi = {
-      source  = "azure/azapi"
-      version = "1.0.0"
+      source  = "Azure/azapi"
+      version = "~> 1.4"
     }
-    azurerm = "=3.10.0"
   }
 
   backend "azurerm" {}
 }
 
 provider "azapi" {
-}
-
-provider "azurerm" {
-  features {}
 }
 
 // See also: https://github.com/hashicorp/terraform-provider-azurerm/issues/18866

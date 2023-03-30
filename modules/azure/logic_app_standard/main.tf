@@ -1,11 +1,14 @@
 terraform {
-  required_version = ">=1.1.2"
+  required_version = "~> 1.3"
 
   required_providers {
-    azurerm = "=3.25.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.48"
+    }
     archive = {
       source  = "hashicorp/archive"
-      version = "2.2.0"
+      version = "~> 2.3"
     }
   }
 
@@ -24,6 +27,8 @@ resource "azurerm_logic_app_standard" "app" {
   location            = var.location
   resource_group_name = var.resource_group_name
   enabled             = var.enabled
+  https_only          = var.https_only
+  version             = var.logic_app_version
 
   dynamic "identity" {
     for_each = var.use_managed_identity ? [1] : []
@@ -39,7 +44,7 @@ resource "azurerm_logic_app_standard" "app" {
   }
 
   app_settings = merge({
-    WEBSITE_NODE_DEFAULT_VERSION = "~14",
+    WEBSITE_NODE_DEFAULT_VERSION = "~18",
     FUNCTIONS_WORKER_RUNTIME     = "node",
   }, var.app_settings)
 
