@@ -22,7 +22,7 @@ resource "azurerm_application_insights_workbook" "workbook" {
   name                = random_uuid.workbook_guid.result
   resource_group_name = var.resource_group_name
   location            = var.location
-  display_name        = var.workbook_name
+  display_name        = var.name
 
   // Trick that allows to take any json file and Minimize it
   data_json = jsonencode(jsondecode(file("${path.module}/workbook.json")))

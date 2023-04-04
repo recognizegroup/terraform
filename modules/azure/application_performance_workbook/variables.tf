@@ -8,7 +8,7 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "workbook_name" {
+variable "name" {
   type        = string
   description = "Specifies the name of the Log Analytics Workbook."
 }
