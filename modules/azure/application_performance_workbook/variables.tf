@@ -13,7 +13,7 @@ variable "workbook_name" {
   description = "Specifies the name of the Log Analytics Workbook."
 }
 
-variable "log_analytics_id" {
+variable "log_analytics_workspace_id" {
   type        = string
   description = "ID of the Log Analytics Workspace."
 }

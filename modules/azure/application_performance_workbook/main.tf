@@ -26,5 +26,5 @@ resource "azurerm_application_insights_workbook" "workbook" {
 
   // Trick that allows to take any json file and Minimize it
   data_json = jsonencode(jsondecode(file("${path.module}/workbook.json")))
-  source_id = lower(var.log_analytics_id)
+  source_id = lower(var.log_analytics_workspace_id)
 }
