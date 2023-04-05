@@ -1,0 +1,440 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "591e614c-f618-4d67-a6d6-4ec2f43f24ff",
+            "version": "KqlParameterItem/1.0",
+            "name": "range",
+            "label": "Time range",
+            "type": 4,
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 300000
+                },
+                {
+                  "durationMs": 900000
+                },
+                {
+                  "durationMs": 1800000
+                },
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                }
+              ]
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": {
+              "durationMs": 172800000
+            }
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "Parameters"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "# Application performance\n---\n\nThis is an application performance dashboard. This dashboard contains information about various statistics and data coming from the application. The dashboard works based on diagnostic settings from app services and databases."
+      },
+      "name": "text - 2"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Web"
+      },
+      "name": "text - 5"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AppExceptions\n   | project View=_ItemId, Problem=ProblemId, Time=TimeGenerated, Type=ClientType, Browser=ClientBrowser\n   | order by Time desc",
+        "size": 3,
+        "title": "Recent exceptions",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "View",
+              "formatter": 7,
+              "formatOptions": {
+                "linkTarget": "ExceptionDetails",
+                "linkLabel": "Open details",
+                "linkIsContextBlade": true
+              }
+            },
+            {
+              "columnMatch": "ProblemId",
+              "formatter": 7,
+              "formatOptions": {
+                "linkTarget": "ExceptionFlows",
+                "linkLabel": "",
+                "linkIsContextBlade": false
+              }
+            }
+          ]
+        }
+      },
+      "customWidth": "50",
+      "name": "exceptions"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AppExceptions\n   | project View=_ItemId, Problem=ProblemId, Time=TimeGenerated, Type=ClientType, Browser=ClientBrowser\n   | summarize Total=count() by Type",
+        "size": 3,
+        "title": "Exceptions per platform",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "piechart"
+      },
+      "customWidth": "25",
+      "name": "exceptionsPerPlatform"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AppExceptions\n   | project View=_ItemId, Problem=ProblemId, Time=TimeGenerated, Type=ClientType, Browser=ClientBrowser\n   | summarize Total=count() by Problem",
+        "size": 3,
+        "title": "Exception occurences per type",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "piechart"
+      },
+      "customWidth": "25",
+      "name": "exceptionsPerType"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AppServiceHTTPLogs\n  | where UserAgent != 'AlwaysOn'\n  | where CsMethod != 'OPTIONS'\n  | project Url=CsUriStem, Method=CsMethod, Time=TimeTaken, At=TimeGenerated\n  | extend Extension = extract(\"\\\\.([^.]*)$\", 1, Url)\n  | where Extension == ''\n  | summarize AverageProcessingTime = avg(Time) by bin(At, 5m)",
+        "size": 0,
+        "title": "Server processing times (non-static resources)",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "timechart",
+        "chartSettings": {
+          "ySettings": {
+            "numberFormatSettings": {
+              "unit": 23,
+              "options": {
+                "style": "decimal",
+                "useGrouping": true
+              }
+            }
+          }
+        }
+      },
+      "customWidth": "25",
+      "name": "Server processing times (non-static resources)"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AppServiceHTTPLogs\n  | where UserAgent != 'AlwaysOn'\n  | where CsMethod != 'OPTIONS'\n  | project Url=CsUriStem, Method=CsMethod, Time=TimeTaken, At=TimeGenerated\n  | summarize AverageProcessingTime = avg(Time) by bin(At, 5m)",
+        "size": 0,
+        "title": "Server processing times (including static resources)",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "timechart",
+        "chartSettings": {
+          "ySettings": {
+            "numberFormatSettings": {
+              "unit": 23,
+              "options": {
+                "style": "decimal",
+                "useGrouping": true
+              }
+            }
+          }
+        }
+      },
+      "customWidth": "25",
+      "name": "Server processing times (including static resources)"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AppPageViews\n  | summarize AverageDuration = avg(DurationMs) by bin(TimeGenerated, 5m)",
+        "size": 0,
+        "title": "Response times (browser)",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "timechart",
+        "chartSettings": {
+          "ySettings": {
+            "numberFormatSettings": {
+              "unit": 23,
+              "options": {
+                "style": "decimal",
+                "useGrouping": true
+              }
+            }
+          }
+        }
+      },
+      "customWidth": "25",
+      "name": "Response times (browser)"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AppPageViews\n  | project URL=OperationName, TimeGenerated\n  | summarize LastVisit=max(TimeGenerated), Visits=count() by URL\n  | order by Visits desc",
+        "size": 3,
+        "title": "Most viewed pages",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "table",
+        "chartSettings": {
+          "ySettings": {
+            "numberFormatSettings": {
+              "unit": 23,
+              "options": {
+                "style": "decimal",
+                "useGrouping": true
+              }
+            }
+          }
+        }
+      },
+      "customWidth": "25",
+      "name": "Most viewed pages (browser)"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AppServiceHTTPLogs\n  | where UserAgent != 'AlwaysOn'\n  | where CsMethod != 'OPTIONS'\n  | project Url=CsUriStem, Method=CsMethod, Time=TimeTaken, At=TimeGenerated\n  | extend Extension = extract(\"\\\\.([^.]*)$\", 1, Url)\n  | where Extension == ''\n  | summarize AverageTime=avg(Time) by Url\n  | order by AverageTime desc",
+        "size": 3,
+        "title": "Endpoint performance",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "AverageTime",
+              "formatter": 3,
+              "formatOptions": {
+                "min": 1000,
+                "max": 10000,
+                "palette": "greenRed",
+                "compositeBarSettings": {
+                  "labelText": "",
+                  "columnSettings": []
+                }
+              },
+              "numberFormat": {
+                "unit": 23,
+                "options": {
+                  "style": "decimal"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "customWidth": "25",
+      "name": "Endpoint performance"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AzureMetrics\n| where ResourceProvider == \"MICROSOFT.WEB\"\n| where MetricName == \"MemoryWorkingSet\"\n| summarize MemoryUsage = avg(Average) by bin(TimeGenerated, 5m), Resource\n| project Resource, TimeGenerated, MemoryUsage",
+        "size": 1,
+        "title": "App service memory usage",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "linechart",
+        "chartSettings": {
+          "yAxis": [
+            "MemoryUsage"
+          ],
+          "group": "Resource",
+          "createOtherGroup": null,
+          "showMetrics": false,
+          "showLegend": true,
+          "ySettings": {
+            "numberFormatSettings": {
+              "unit": 2,
+              "options": {
+                "style": "decimal",
+                "useGrouping": true
+              }
+            }
+          }
+        }
+      },
+      "customWidth": "25",
+      "name": "App service memory usage"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AzureMetrics\n| where ResourceProvider == \"MICROSOFT.WEB\"\n| where MetricName == \"CpuTime\"\n| summarize CPUTime = avg(Average) by bin(TimeGenerated, 5m), Resource\n| project Resource, TimeGenerated, CPUTime",
+        "size": 1,
+        "title": "App service CPU time",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "linechart",
+        "chartSettings": {
+          "yAxis": [
+            "CPUTime"
+          ],
+          "group": "Resource",
+          "createOtherGroup": null,
+          "showMetrics": false,
+          "showLegend": true,
+          "ySettings": {
+            "numberFormatSettings": {
+              "unit": 24,
+              "options": {
+                "style": "decimal",
+                "useGrouping": true
+              }
+            }
+          }
+        }
+      },
+      "customWidth": "25",
+      "name": "App service CPU time"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "## Database"
+      },
+      "name": "text - 4"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AzureMetrics\n| where ResourceProvider == \"MICROSOFT.DBFORPOSTGRESQL\"\n| where MetricName == \"memory_percent\"\n| summarize AvgMemoryUsage = avg(Average) by bin(TimeGenerated, 5m), Resource\n| project Resource, TimeGenerated, AvgMemoryUsage",
+        "size": 1,
+        "title": "Database memory usage",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "linechart",
+        "chartSettings": {
+          "yAxis": [
+            "AvgMemoryUsage"
+          ],
+          "group": "Resource",
+          "createOtherGroup": null,
+          "showMetrics": false,
+          "showLegend": true,
+          "ySettings": {
+            "numberFormatSettings": {
+              "unit": 1,
+              "options": {
+                "style": "decimal",
+                "useGrouping": true
+              }
+            },
+            "min": 0,
+            "max": 100
+          }
+        }
+      },
+      "customWidth": "25",
+      "name": "Database memory usage"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "AzureMetrics\n| where ResourceProvider == \"MICROSOFT.DBFORPOSTGRESQL\"\n| where MetricName == \"cpu_percent\"\n| summarize AvgMemoryUsage = avg(Average) by bin(TimeGenerated, 5m), Resource\n| project Resource, TimeGenerated, AvgMemoryUsage",
+        "size": 1,
+        "title": "Database CPU utilisation",
+        "timeContextFromParameter": "range",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "linechart",
+        "chartSettings": {
+          "yAxis": [
+            "AvgMemoryUsage"
+          ],
+          "group": "Resource",
+          "createOtherGroup": null,
+          "showMetrics": false,
+          "showLegend": true,
+          "ySettings": {
+            "numberFormatSettings": {
+              "unit": 1,
+              "options": {
+                "style": "decimal",
+                "useGrouping": true
+              }
+            },
+            "min": 0,
+            "max": 100
+          }
+        }
+      },
+      "customWidth": "25",
+      "name": "Database CPU utilisation"
+    }
+  ],
+  "fallbackResourceIds": [],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
