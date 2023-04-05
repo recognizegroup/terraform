@@ -5,7 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0] - 2023-01-12
+## [3.1.0] - 2023-04-05
+
+### Added
+
+- Add module `azure/application_performance_workbook` ([#300](https://github.com/recognizegroup/terraform/pull/300)) ([`7b0c705e`](https://github.com/recognizegroup/terraform/commit/7b0c705e))
+- `azure/application_role_assignment`: Add variable `use_existing_service_principal` ([#299](https://github.com/recognizegroup/terraform/pull/299)) ([`4a0673f9`](https://github.com/recognizegroup/terraform/commit/4a0673f9))
+
+## [3.0.0] - 2023-03-30
 
 _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 
