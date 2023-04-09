@@ -31,6 +31,7 @@ resource "azurerm_windows_function_app" "function_app" {
   site_config {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic
+    use_32_bit_worker      = var.use_32_bit_worker
 
     dynamic "ip_restriction" {
       for_each = var.ip_restrictions

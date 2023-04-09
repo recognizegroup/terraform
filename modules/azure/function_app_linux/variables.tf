@@ -93,3 +93,9 @@ variable "ip_restrictions" {
   description = "A List of objects representing ip restrictions."
   default     = []
 }
+
+variable "use_32_bit_worker" {
+  type        = bool
+  description = "Should the Linux Web App use a 32-bit worker process."
+  default     = true
+}

@@ -138,3 +138,9 @@ variable "authentication_settings" {
     excluded_paths         = []
   }
 }
+
+variable "use_32_bit_worker" {
+  type        = bool
+  description = "Should the Linux Web App use a 32-bit worker process."
+  default     = true
+}
