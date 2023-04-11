@@ -17,7 +17,7 @@ variable "max_delivery_count" {
 variable "lock_duration" {
   type        = string # ISO 8601
   description = "The lock duration for the subscription."
-  default     = "P0DT0H1M0S"
+  default     = "PT1M"
 }
 
 variable "requires_session" {
