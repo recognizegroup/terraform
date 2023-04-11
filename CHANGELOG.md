@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2023-04-11
+
+### Changed
+
+- `azure/service_bus_subscription`: Change default of variable `lock_duration` from `P0DT0H1M0S` to `PT1M` ([#304](https://github.com/recognizegroup/terraform/pull/304)) ([`3b50ca39`](https://github.com/recognizegroup/terraform/commit/3b50ca39))
+
+### Added
+
+- `azure/function_app_linux`: Add variable `use_32_bit_worker` ([#305](https://github.com/recognizegroup/terraform/pull/305)) ([`1cf8b62b`](https://github.com/recognizegroup/terraform/commit/1cf8b62b))
+- `azure/function_app_linux_managed_identity`: Add variable `use_32_bit_worker` ([#305](https://github.com/recognizegroup/terraform/pull/305)) ([`1cf8b62b`](https://github.com/recognizegroup/terraform/commit/1cf8b62b))
+- `azure/function_app_windows`: Add variable `use_32_bit_worker` ([#305](https://github.com/recognizegroup/terraform/pull/305)) ([`1cf8b62b`](https://github.com/recognizegroup/terraform/commit/1cf8b62b))
+
 ## [3.1.0] - 2023-04-05
 
 ### Added
@@ -77,4 +89,6 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - **Breaking:** Remove module `azure/monitoring`, replace with `azure/azure/monitoring_action_group` and `azure/monitoring_log_analytics_alert` ([#268](https://github.com/recognizegroup/terraform/pull/268)) ([`5bd013c1`](https://github.com/recognizegroup/terraform/commit/5bd013c1))
 - **Breaking:** Remove module `azure/api_connectors/storage_account`, replace with `azure/api_connectors/storage_blob` and `azure/api_connectors/storage_table` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886))
 
+[3.2.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.2.0
+[3.1.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.1.0
 [3.0.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.0.0
