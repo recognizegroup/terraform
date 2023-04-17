@@ -67,18 +67,15 @@ variable "authentication_directory_type" {
   default     = null
 }
 
-variable "blob_storage_rules"{
+variable "auto_delete_rules" {
   type = object({
-    name = string,
-    delete_after_creation = optional(number),
-    delete_after_access = optional(number),
-    delete_after_modification = optional(number)
+    name                    = string,
+    prefixes                = list(string), // Blob prefixes for fillering
+    days_after_creation     = optional(number),
+    days_after_access       = optional(number),
+    days_after_modification = optional(number)
   })
 
-  description = "Parameter that describes the rule to delete the blobs after x days, trigger for of timer being either creation, acess or modification"
-  default = {
-    delete_after_modification = 30
-    name = "Delete30DaysAfterCreation"
-  }
-} 
+  description = "Describes the rules for auto deleting files after actions like creation, access of modification of a blob"
+}
 

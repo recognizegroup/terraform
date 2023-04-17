@@ -55,18 +55,19 @@ resource "azurerm_storage_management_policy" "example" {
   storage_account_id = azurerm_storage_account.storage_account.id
 
   dynamic "rule" {
-    for_each = var.blob_storage_rules != null ? [1] : []
+    for_each = var.auto_delete_rules != null ? [1] : []
     content {
-      name    = var.blob_storage_rules.name
+      name    = var.auto_delete_rules.name
       enabled = true
       filters {
-        blob_types = ["blockBlob"]
+        prefix_match = var.auto_delete_rules.prefixes
+        blob_types   = ["blockBlob"]
       }
       actions {
         base_blob {
-          delete_after_days_since_modification_greater_than = var.blob_storage_rules.delete_after_modification
-          delete_after_days_since_last_access_time_greater_than =  var.blob_storage_rules.delete_after_access
-          delete_after_days_since_creation_greater_than = var.blob_storage_rules.delete_after_creation
+          delete_after_days_since_modification_greater_than     = var.auto_delete_rules.days_after_modification
+          delete_after_days_since_last_access_time_greater_than = var.auto_delete_rules.days_after_access
+          delete_after_days_since_creation_greater_than         = var.auto_delete_rules.days_after_creation
         }
       }
     }
