@@ -39,6 +39,27 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
       maximum = var.maximum_scaling_capacity
     }
 
+    dynamic "rule" {
+      content {
+        metric_trigger {
+          metric_name        = "MemoryPercentage"
+          metric_resource_id = azurerm_service_plan.sp.idd
+          time_grain         = "PT1M"
+          statistic          = "Average"
+          time_window        = "PT5M"
+          time_aggregation   = "Average"
+          operator           = "GreaterThan"
+          threshold          = 80
+        }
+        scale_action {
+          direction = "Increase"
+          type      = "ChangeCount"
+          value     = "1"
+          cooldown  = "PT1M"
+        }
+      }
+    }
+
     rule {
       metric_trigger {
         metric_name        = "CpuPercentage"
