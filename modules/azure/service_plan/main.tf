@@ -15,6 +15,38 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+  autoscaling_memoryRules = var.memory_scaling_settings !=null? [
+    {
+      threshold = var.memory_scaling_settings.scale_in_threshold
+      metric = "MemoryPercentage"
+      direction = "Decrease"
+      operator = "LessThan"
+    },
+    {
+      threshold = var.memory_scaling_settings.scale_out_threshold
+      metric = "MemoryPercentage"
+      operator = "GreaterThan"
+      direction = "Increase"
+    }
+  ]: []
+
+  autoscaling_CpuRules = var.cpu_scaling_settings !=null? [
+    {
+      threshold = var.cpu_scaling_settings.scale_in_threshold
+      metric = "MemoryPercentage"
+      direction = "Decrease"
+      operator = "LessThan"
+    },
+    {
+      threshold = var.cpu_scaling_settings.scale_out_threshold
+      metric = "MemoryPercentage"
+      operator = "GreaterThan"
+      direction = "Increase"
+    }
+  ]: []
+}
+
 resource "azurerm_service_plan" "sp" {
   name                = var.name
   location            = var.location
@@ -40,63 +72,24 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
     }
 
     dynamic "rule" {
+      for_each = concat(local.autoscaling_memoryRules,local.autoscaling_CpuRules)
       content {
         metric_trigger {
-          metric_name        = "MemoryPercentage"
-          metric_resource_id = azurerm_service_plan.sp.idd
+          metric_name        = rule.value.metric
+          metric_resource_id = azurerm_service_plan.sp.id
           time_grain         = "PT1M"
           statistic          = "Average"
           time_window        = "PT5M"
           time_aggregation   = "Average"
-          operator           = "GreaterThan"
-          threshold          = 80
+          operator           = rule.value.operator
+          threshold          = rule.value.threshold
         }
         scale_action {
-          direction = "Increase"
+          direction = rule.value.direction
           type      = "ChangeCount"
           value     = "1"
           cooldown  = "PT1M"
         }
-      }
-    }
-
-    rule {
-      metric_trigger {
-        metric_name        = "CpuPercentage"
-        metric_resource_id = azurerm_service_plan.sp.id
-        time_grain         = "PT1M"
-        statistic          = "Average"
-        time_window        = "PT5M"
-        time_aggregation   = "Average"
-        operator           = "GreaterThan"
-        threshold          = 80
-      }
-
-      scale_action {
-        direction = "Increase"
-        type      = "ChangeCount"
-        value     = "1"
-        cooldown  = "PT1M"
-      }
-    }
-
-    rule {
-      metric_trigger {
-        metric_name        = "CpuPercentage"
-        metric_resource_id = azurerm_service_plan.sp.id
-        time_grain         = "PT1M"
-        statistic          = "Average"
-        time_window        = "PT5M"
-        time_aggregation   = "Average"
-        operator           = "LessThan"
-        threshold          = 20
-      }
-
-      scale_action {
-        direction = "Decrease"
-        type      = "ChangeCount"
-        value     = "1"
-        cooldown  = "PT1M"
       }
     }
   }

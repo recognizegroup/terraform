@@ -48,3 +48,29 @@ variable "maximum_scaling_capacity" {
   description = "The maximum number of instances for this resource."
   default     = 3
 }
+
+variable "memory_scaling_settings"{
+  type  = object({
+    scale_out_threshold = number
+    scale_in_threshold = number
+  })
+  description = "Scaling settings for memory"
+
+  default = {
+    scale_out_threshold = 80,
+    scale_in_threshold = 20
+  }
+}
+
+variable "cpu_scaling_settings"{
+  type  = object({
+    scale_out_threshold = number
+    scale_in_threshold = number
+  })
+  description = "Scaling settings for CPU"
+
+  default = {
+    scale_out_threshold = 80,
+    scale_in_threshold = 20
+  }
+}
