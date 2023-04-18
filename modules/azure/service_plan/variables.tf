@@ -49,28 +49,27 @@ variable "maximum_scaling_capacity" {
   default     = 3
 }
 
-variable "memory_scaling_settings" {
-  type = object({
-    scale_out_threshold = number
-    scale_in_threshold  = number
-  })
+variable "scaling_rules" {
+  type = set(object({
+    threshold = number
+    metric  = string
+    direction = string
+    operator = string
+  }))
   description = "Scaling settings for memory"
 
-  default = {
-    scale_out_threshold = 80,
-    scale_in_threshold  = 20
-  }
-}
-
-variable "cpu_scaling_settings" {
-  type = object({
-    scale_out_threshold = number
-    scale_in_threshold  = number
-  })
-  description = "Scaling settings for CPU"
-
-  default = {
-    scale_out_threshold = 80,
-    scale_in_threshold  = 20
-  }
+  default = [
+    {
+      threshold = 80
+      metric = "CpuPercentage"
+      direction = "Increase"
+      operator = "GreaterThan"
+    },
+    {
+      threshold  = 20
+      metric = "CpuPercentage"
+      direction = "Decrease"
+      operator = "LessThan"
+    }
+  ]
 }

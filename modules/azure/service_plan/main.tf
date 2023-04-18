@@ -15,38 +15,6 @@ provider "azurerm" {
   features {}
 }
 
-locals {
-  autoscaling_memoryRules = var.memory_scaling_settings != null ? [
-    {
-      threshold = var.memory_scaling_settings.scale_in_threshold
-      metric    = "MemoryPercentage"
-      direction = "Decrease"
-      operator  = "LessThan"
-    },
-    {
-      threshold = var.memory_scaling_settings.scale_out_threshold
-      metric    = "MemoryPercentage"
-      operator  = "GreaterThan"
-      direction = "Increase"
-    }
-  ] : []
-
-  autoscaling_CpuRules = var.cpu_scaling_settings != null ? [
-    {
-      threshold = var.cpu_scaling_settings.scale_in_threshold
-      metric    = "MemoryPercentage"
-      direction = "Decrease"
-      operator  = "LessThan"
-    },
-    {
-      threshold = var.cpu_scaling_settings.scale_out_threshold
-      metric    = "MemoryPercentage"
-      operator  = "GreaterThan"
-      direction = "Increase"
-    }
-  ] : []
-}
-
 resource "azurerm_service_plan" "sp" {
   name                = var.name
   location            = var.location
@@ -72,7 +40,8 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
     }
 
     dynamic "rule" {
-      for_each = concat(local.autoscaling_memoryRules, local.autoscaling_CpuRules)
+      for_each = var.scaling_rules
+
       content {
         metric_trigger {
           metric_name        = rule.value.metric
@@ -84,6 +53,7 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
           operator           = rule.value.operator
           threshold          = rule.value.threshold
         }
+
         scale_action {
           direction = rule.value.direction
           type      = "ChangeCount"
