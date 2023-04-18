@@ -29,8 +29,8 @@ locals {
     for rule in var.scaling_rules : {
       threshold   = rule.scale_out_threshold
       metric_name = rule.metric_name
-      direction   = "GreaterThan"
-      operator    = "Increase"
+      direction   = "Increase"
+      operator    = "GreaterThan"
     }
   ]
 }
