@@ -15,6 +15,26 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+  scale_in_threshold_rules = [
+    for rule in var.scaling_rules : {
+      threshold   = rule.scale_in_threshold
+      metric_name = rule.metric_name
+      direction   = "Decrease"
+      operator    = "LessThan"
+    }
+  ]
+
+  scale_out_threshold_rules = [
+    for rule in var.scaling_rules : {
+      threshold   = rule.scale_out_threshold
+      metric_name = rule.metric_name
+      direction   = "GreaterThan"
+      operator    = "Increase"
+    }
+  ]
+}
+
 resource "azurerm_service_plan" "sp" {
   name                = var.name
   location            = var.location
@@ -39,43 +59,27 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
       maximum = var.maximum_scaling_capacity
     }
 
-    rule {
-      metric_trigger {
-        metric_name        = "CpuPercentage"
-        metric_resource_id = azurerm_service_plan.sp.id
-        time_grain         = "PT1M"
-        statistic          = "Average"
-        time_window        = "PT5M"
-        time_aggregation   = "Average"
-        operator           = "GreaterThan"
-        threshold          = 80
-      }
+    dynamic "rule" {
+      for_each = concat(local.scale_in_threshold_rules, local.scale_out_threshold_rules)
 
-      scale_action {
-        direction = "Increase"
-        type      = "ChangeCount"
-        value     = "1"
-        cooldown  = "PT1M"
-      }
-    }
+      content {
+        metric_trigger {
+          metric_name        = rule.value.metric_name
+          metric_resource_id = azurerm_service_plan.sp.id
+          time_grain         = "PT1M"
+          statistic          = "Average"
+          time_window        = "PT5M"
+          time_aggregation   = "Average"
+          operator           = rule.value.operator
+          threshold          = rule.value.threshold
+        }
 
-    rule {
-      metric_trigger {
-        metric_name        = "CpuPercentage"
-        metric_resource_id = azurerm_service_plan.sp.id
-        time_grain         = "PT1M"
-        statistic          = "Average"
-        time_window        = "PT5M"
-        time_aggregation   = "Average"
-        operator           = "LessThan"
-        threshold          = 20
-      }
-
-      scale_action {
-        direction = "Decrease"
-        type      = "ChangeCount"
-        value     = "1"
-        cooldown  = "PT1M"
+        scale_action {
+          direction = rule.value.direction
+          type      = "ChangeCount"
+          value     = "1"
+          cooldown  = "PT1M"
+        }
       }
     }
   }
