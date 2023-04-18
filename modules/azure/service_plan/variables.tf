@@ -51,25 +51,17 @@ variable "maximum_scaling_capacity" {
 
 variable "scaling_rules" {
   type = set(object({
-    metric_name = string
-    threshold   = number
-    operator    = string
-    direction   = string
+    metric_name         = string
+    scale_out_threshold = number
+    scale_in_threshold  = number
   }))
   description = "Scaling rules for autoscaling."
 
   default = [
     {
-      metric_name = "CpuPercentage"
-      threshold   = 80
-      operator    = "GreaterThan"
-      direction   = "Increase"
-    },
-    {
-      metric_name = "CpuPercentage"
-      threshold   = 20
-      operator    = "LessThan"
-      direction   = "Decrease"
+      metric_name         = "CpuPercentage"
+      scale_out_threshold = 80
+      scale_in_threshold  = 20
     }
   ]
 }

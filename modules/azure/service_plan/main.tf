@@ -15,6 +15,26 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+  scale_in_threshold_rules = [
+    for rule in var.scaling_rules : {
+      threshold   = rule.scale_in_threshold
+      metric_name = rule.metric_name
+      direction   = "Decrease"
+      operator    = "LessThan"
+    }
+  ]
+
+  scale_out_threshold_rules = [
+    for rule in var.scaling_rules : {
+      threshold   = rule.scale_out_threshold
+      metric_name = rule.metric_name
+      direction   = "GreaterThan"
+      operator    = "Increase"
+    }
+  ]
+}
+
 resource "azurerm_service_plan" "sp" {
   name                = var.name
   location            = var.location
@@ -40,7 +60,7 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
     }
 
     dynamic "rule" {
-      for_each = var.scaling_rules
+      for_each = concat(local.scale_in_threshold_rules, local.scale_out_threshold_rules)
 
       content {
         metric_trigger {
