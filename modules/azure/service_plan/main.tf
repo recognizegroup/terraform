@@ -44,7 +44,7 @@ resource "azurerm_monitor_autoscale_setting" "autoscale_setting" {
 
       content {
         metric_trigger {
-          metric_name        = rule.value.metric
+          metric_name        = rule.value.metric_name
           metric_resource_id = azurerm_service_plan.sp.id
           time_grain         = "PT1M"
           statistic          = "Average"
