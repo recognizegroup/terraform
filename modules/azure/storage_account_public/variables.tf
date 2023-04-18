@@ -68,14 +68,15 @@ variable "authentication_directory_type" {
 }
 
 variable "auto_delete_rules" {
-  type = object({
+  type = set(object({
     name                    = string,
     prefixes                = list(string), // Blob prefixes for fillering
     days_after_creation     = optional(number),
     days_after_access       = optional(number),
     days_after_modification = optional(number)
-  })
+  }))
 
   description = "Describes the rules for auto deleting files after actions like creation, access of modification of a blob"
+  default     = null
 }
 

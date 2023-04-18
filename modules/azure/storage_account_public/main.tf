@@ -51,23 +51,28 @@ data "http" "amazonaws" {
   url   = "https://checkip.amazonaws.com/"
 }
 
-resource "azurerm_storage_management_policy" "example" {
+resource "azurerm_storage_management_policy" "storage_management_policy" {
+  count = var.auto_delete_rules != null ? 1 : 0
+
   storage_account_id = azurerm_storage_account.storage_account.id
 
   dynamic "rule" {
-    for_each = var.auto_delete_rules != null ? [1] : []
+    for_each = var.auto_delete_rules
+
     content {
-      name    = var.auto_delete_rules.name
+      name    = rule.value.name
       enabled = true
+
       filters {
-        prefix_match = var.auto_delete_rules.prefixes
+        prefix_match = rule.value.prefixes
         blob_types   = ["blockBlob"]
       }
+
       actions {
         base_blob {
-          delete_after_days_since_modification_greater_than     = var.auto_delete_rules.days_after_modification
-          delete_after_days_since_last_access_time_greater_than = var.auto_delete_rules.days_after_access
-          delete_after_days_since_creation_greater_than         = var.auto_delete_rules.days_after_creation
+          delete_after_days_since_modification_greater_than     = rule.value.days_after_modification
+          delete_after_days_since_last_access_time_greater_than = rule.value.days_after_access
+          delete_after_days_since_creation_greater_than         = rule.value.days_after_creation
         }
       }
     }
