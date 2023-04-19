@@ -35,7 +35,6 @@ resource "azurerm_postgresql_flexible_server" "postgresql_server" {
   administrator_login    = var.admin_username
   administrator_password = random_password.postgresql_admin.result
   version                = var.postgresql_version
-  zone                   = "1"
 
   maintenance_window {
     day_of_week  = 1 # Monday
