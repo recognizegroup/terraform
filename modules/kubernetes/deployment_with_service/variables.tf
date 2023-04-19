@@ -49,28 +49,28 @@ variable "target_port" {
 }
 
 variable "readiness_probe" {
-  type = optional(object({
+  type = object({
     path = string
     port = number
-  }))
+  })
   description = "The readiness probe for the application"
   default     = null
 }
 
 variable "liveness_probe" {
-  type = optional(object({
+  type = object({
     path = string
     port = number
-  }))
+  })
   description = "The liveness probe for the application"
   default     = null
 }
 
 variable "scaler" {
-  type = optional(object({
+  type = object({
     type         = string
     min_replicas = number
     max_replicas = number
-  }))
+  })
   default = null
 }
