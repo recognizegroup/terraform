@@ -81,5 +81,5 @@ variable "scaler" {
 variable "config_path" {
   type        = string
   description = "The path to the config file"
-  default = "~/.kube/config"
+  default     = "~/.kube/config"
 }
