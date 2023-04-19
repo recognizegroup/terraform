@@ -13,7 +13,7 @@ terraform {
 
 provider "kubernetes" {}
 
-resource "kubernetes_persistent_volume_claim" "volume" {
+resource "kubernetes_persistent_volume_claim_v1" "volume" {
   metadata {
     name      = var.name
     namespace = var.namespace
