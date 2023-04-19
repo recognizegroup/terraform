@@ -501,3 +501,23 @@ updates:
     directory: "/modules/other/password_generator"
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/configmap"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/deployment_with_service"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/ingress"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/secret"
+    schedule:
+      interval: "daily"
