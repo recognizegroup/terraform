@@ -22,4 +22,10 @@ resource "kubernetes_secret_v1" "secret" {
   }
 
   data = var.data
+
+  lifecycle {
+    ignore_changes = [
+      metadata[0].labels,
+    ]
+  }
 }

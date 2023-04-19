@@ -32,4 +32,10 @@ resource "kubernetes_persistent_volume_claim_v1" "volume" {
 
     storage_class_name = var.storage_class
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata[0].labels,
+    ]
+  }
 }

@@ -50,4 +50,10 @@ resource "kubernetes_ingress_v1" "ingress" {
       hosts       = flatten([for rule in var.rules : rule.host])
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata[0].labels,
+    ]
+  }
 }

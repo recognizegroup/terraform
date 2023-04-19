@@ -117,6 +117,12 @@ resource "kubernetes_service_v1" "service" {
 
     type = "ClusterIP"
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata[0].labels,
+    ]
+  }
 }
 
 resource "kubernetes_manifest" "http-scaler" {
