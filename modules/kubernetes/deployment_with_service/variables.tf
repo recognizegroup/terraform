@@ -68,7 +68,7 @@ variable "liveness_probe" {
 
 variable "scaler" {
   type = object({
-    type         = string
+    type = string
     replicas = object({
       min = number
       max = number
