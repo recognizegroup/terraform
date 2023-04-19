@@ -526,3 +526,8 @@ updates:
     directory: "/modules/kubernetes/secret"
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/pvc"
+    schedule:
+      interval: "daily"
