@@ -343,6 +343,11 @@ updates:
       interval: "daily"
 
   - package-ecosystem: "terraform"
+    directory: "/modules/azure/postgresql_public"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
     directory: "/modules/azure/private_dns_zone"
     schedule:
       interval: "daily"
