@@ -11,7 +11,9 @@ terraform {
   backend "azurerm" {}
 }
 
-provider "kubernetes" {}
+provider "kubernetes" {
+  config_path = var.config_path
+}
 
 resource "kubernetes_ingress_v1" "ingress" {
   metadata {

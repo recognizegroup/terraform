@@ -11,7 +11,9 @@ terraform {
   backend "azurerm" {}
 }
 
-provider "kubernetes" {}
+provider "kubernetes" {
+  config_path = var.config_path
+}
 
 resource "kubernetes_persistent_volume_claim_v1" "volume" {
   metadata {

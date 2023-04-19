@@ -26,3 +26,9 @@ variable "rules" {
   description = "The rules for the ingress"
   default     = []
 }
+
+variable "config_path" {
+  type        = string
+  description = "The path to the config file"
+  default = "~/.kube/config"
+}

@@ -12,3 +12,9 @@ variable "data" {
   type        = map(string)
   description = "The data to store in the configmap"
 }
+
+variable "config_path" {
+  type        = string
+  description = "The path to the config file"
+  default = "~/.kube/config"
+}
