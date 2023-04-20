@@ -29,17 +29,21 @@ resource "kubernetes_ingress_v1" "ingress" {
       content {
         host = rule.value.host
         http {
-          path {
-            backend {
-              service {
-                name = rule.value.service
-                port {
-                  number = rule.value.port
+          dynamic "path" {
+            for_each = rule.value.paths
+
+            content {
+              backend {
+                service {
+                  name = path.value.service
+                  port {
+                      number = path.value.port
+                  }
                 }
               }
-            }
 
-            path = rule.value.path
+              path = path.value.path
+            }
           }
         }
       }
