@@ -77,8 +77,8 @@ resource "kubernetes_deployment_v1" "deployment" {
 
             content {
               http_get {
-                path   = readiness_probe.value.path
-                port   = readiness_probe.value.port
+                path   = var.readiness_probe.path
+                port   = var.readiness_probe.port
                 scheme = "HTTP"
               }
 
@@ -94,8 +94,8 @@ resource "kubernetes_deployment_v1" "deployment" {
 
             content {
               http_get {
-                path   = liveness_probe.value.path
-                port   = liveness_probe.value.port
+                path   = var.liveness_probe.path
+                port   = var.liveness_probe.port
                 scheme = "HTTP"
               }
 
@@ -159,6 +159,7 @@ resource "kubernetes_manifest" "http-scaler" {
     apiVersion = "http.keda.sh/v1alpha1"
     metadata = {
       name = var.name
+      namespace=  var.namespace
     }
     spec = {
       host = var.scaler.host
