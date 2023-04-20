@@ -45,7 +45,7 @@ variable "storage_auto_grow_enabled" {
 variable "backup_retention_days" {
   type        = number
   description = "Backup retention days for the mysql server."
-  default     = 7
+  default     = 30
 }
 
 variable "geo_redundant_backup_enabled" {
