@@ -101,9 +101,9 @@ resource "kubernetes_deployment_v1" "deployment" {
                 scheme = "HTTP"
               }
 
-              initial_delay_seconds = 5
-              period_seconds        = 25
-              failure_threshold     = 3
+              initial_delay_seconds = 10
+              period_seconds        = 5
+              failure_threshold     = 10
               timeout_seconds       = 5
             }
           }
@@ -119,7 +119,7 @@ resource "kubernetes_deployment_v1" "deployment" {
               }
 
               initial_delay_seconds = 5
-              period_seconds        = 25
+              period_seconds        = 5
               failure_threshold     = 3
               timeout_seconds       = 5
             }
@@ -191,7 +191,7 @@ resource "kubernetes_manifest" "http-scaler" {
       scaleTargetRef = {
         deployment = var.name
         service    = var.name
-        port       = var.container_port
+        port       = var.target_port
       }
       replicas = {
         min = var.scaler.replicas.min
