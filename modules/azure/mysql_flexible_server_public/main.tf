@@ -43,7 +43,7 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
   }
 
   lifecycle {
-    ignore_changes = [zone]
+    ignore_changes  = [zone]
     prevent_destroy = true
   }
 }

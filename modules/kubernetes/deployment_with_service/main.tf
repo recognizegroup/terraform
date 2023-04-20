@@ -58,6 +58,10 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
           }
 
+          port {
+            container_port = var.container_port
+          }
+
           dynamic "readiness_probe" {
             for_each = var.readiness_probe ? [1] : []
 
