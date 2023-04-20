@@ -11,7 +11,7 @@ output "database_name" {
 }
 
 output "admin_username" {
-  value     = "${azurerm_mysql_flexible_server.mysql_flexible_server.administrator_login}@${var.server_name}"
+  value     = azurerm_mysql_flexible_server.mysql_flexible_server.administrator_login
   sensitive = true
 }
 
