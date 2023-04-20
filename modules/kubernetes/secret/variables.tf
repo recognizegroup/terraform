@@ -11,6 +11,7 @@ variable "name" {
 variable "data" {
   type        = map(string)
   description = "The data to store in the secret"
+  sensitive   = true
 }
 
 variable "config_path" {
