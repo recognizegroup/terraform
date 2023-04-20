@@ -73,7 +73,7 @@ resource "kubernetes_deployment_v1" "deployment" {
           }
 
           dynamic "readiness_probe" {
-            for_each = var.readiness_probe ? [1] : []
+            for_each = var.readiness_probe != null ? [1] : []
 
             content {
               http_get {
@@ -90,7 +90,7 @@ resource "kubernetes_deployment_v1" "deployment" {
           }
 
           dynamic "liveness_probe" {
-            for_each = var.liveness_probe ? [1] : []
+            for_each = var.liveness_probe != null ? [1] : []
 
             content {
               http_get {
