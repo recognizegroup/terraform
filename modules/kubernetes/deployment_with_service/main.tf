@@ -58,6 +58,26 @@ resource "kubernetes_deployment_v1" "deployment" {
             }
           }
 
+          dynamic "env_from" {
+            for_each = var.env_secret_refs
+
+            content {
+              secret_ref {
+                name = env_from.value
+              }
+            }
+          }
+
+          dynamic "env_from" {
+            for_each = var.env_configmap_refs
+
+            content {
+              config_map_ref {
+                name = env_from.value
+              }
+            }
+          }
+
           port {
             container_port = var.container_port
           }

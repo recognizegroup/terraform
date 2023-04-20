@@ -79,6 +79,18 @@ variable "scaler" {
   default = null
 }
 
+variable "env_secret_refs" {
+  type = list(string)
+  description = "The list of secret references to use as environment variables"
+  default     = []
+}
+
+variable "env_configmap_refs" {
+  type = list(string)
+  description = "The list of configmap references to use as environment variables"
+  default     = []
+}
+
 variable "config_path" {
   type        = string
   description = "The path to the config file"
