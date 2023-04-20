@@ -37,7 +37,6 @@ resource "kubernetes_deployment_v1" "deployment" {
       metadata {
         labels = {
           "io.kompose.service" = var.name
-          app                  = var.name
         }
       }
 
@@ -159,7 +158,7 @@ resource "kubernetes_service_v1" "service" {
 
   spec {
     selector = {
-      app = kubernetes_deployment_v1.deployment.metadata[0].name
+      "io.kompose.service" = kubernetes_deployment_v1.deployment.metadata[0].name
     }
 
     port {
