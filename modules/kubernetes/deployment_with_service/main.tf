@@ -29,7 +29,7 @@ resource "kubernetes_deployment_v1" "deployment" {
 
     selector {
       match_labels = {
-        app = var.name
+        "io.kompose.service" = var.name
       }
     }
 
