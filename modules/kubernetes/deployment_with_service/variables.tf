@@ -76,17 +76,17 @@ variable "scaler" {
     })
   })
   description = "The scaler for the application"
-  default = null
+  default     = null
 }
 
 variable "env_secret_refs" {
-  type = list(string)
+  type        = list(string)
   description = "The list of secret references to use as environment variables"
   default     = []
 }
 
 variable "env_configmap_refs" {
-  type = list(string)
+  type        = list(string)
   description = "The list of configmap references to use as environment variables"
   default     = []
 }
@@ -99,9 +99,10 @@ variable "config_path" {
 
 variable "volume_mounts" {
   type = list(object({
-    claim     = string
+    claim      = string
     mount_path = string
-    sub_path = string
+    sub_path   = string
   }))
   description = "The volume mounts for the application"
+  default     = []
 }

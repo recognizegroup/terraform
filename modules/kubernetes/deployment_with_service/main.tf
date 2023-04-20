@@ -183,8 +183,8 @@ resource "kubernetes_manifest" "http-scaler" {
     kind       = "HTTPScaledObject"
     apiVersion = "http.keda.sh/v1alpha1"
     metadata = {
-      name = var.name
-      namespace=  var.namespace
+      name      = var.name
+      namespace = var.namespace
     }
     spec = {
       host = var.scaler.host
