@@ -82,8 +82,8 @@ resource "kubernetes_deployment_v1" "deployment" {
                 scheme = "HTTP"
               }
 
-              initial_delay_seconds = 10
-              period_seconds        = 10
+              initial_delay_seconds = 5
+              period_seconds        = 25
               failure_threshold     = 3
               timeout_seconds       = 5
             }
@@ -99,11 +99,17 @@ resource "kubernetes_deployment_v1" "deployment" {
                 scheme = "HTTP"
               }
 
-              initial_delay_seconds = 10
-              period_seconds        = 10
+              initial_delay_seconds = 5
+              period_seconds        = 25
               failure_threshold     = 3
               timeout_seconds       = 5
             }
+          }
+        }
+
+        dns_config {
+          option {
+            name = "single-request-reopen"
           }
         }
 
