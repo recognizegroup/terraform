@@ -31,9 +31,7 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
   administrator_password = random_password.mysql_admin_password.result
 
   backup_retention_days        = var.backup_retention_days
-  delegated_subnet_id          = var.subnet_id
   geo_redundant_backup_enabled = var.geo_redundant_backup_enabled
-  private_dns_zone_id          = var.private_dns_zone_id
 
   sku_name = var.server_sku
   version  = var.server_version
