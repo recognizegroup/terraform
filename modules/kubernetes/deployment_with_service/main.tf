@@ -200,3 +200,28 @@ resource "kubernetes_manifest" "http-scaler" {
     }
   }
 }
+
+#
+resource "kubernetes_service_v1" "http-scaler-service-proxy" {
+  count = var.scaler != null && var.scaler.type == "http" ? 1 : 0
+
+  metadata {
+    name      = "${var.name}-keda-bridge"
+    namespace = var.namespace
+  }
+
+  spec {
+    external_name = "keda-add-ons-http-interceptor-proxy.keda.svc.cluster.local"
+    port {
+      port = 8080
+    }
+
+    type = "ExternalName"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      metadata[0].labels,
+    ]
+  }
+}
