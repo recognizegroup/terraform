@@ -38,7 +38,6 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
 
   storage {
     auto_grow_enabled = var.storage_auto_grow_enabled
-    iops              = var.server_storage_iops
     size_gb           = var.server_storage_max
   }
 
@@ -106,12 +105,13 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   }
 }
 
-resource "azurerm_postgresql_flexible_server_firewall_rule" "rule" {
+resource "azurerm_mysql_flexible_server_firewall_rule" "rule" {
   for_each = var.whitelist_ip_addresses
 
-  name             = "fw-${var.server_name}-${replace(each.value, ".", "-")}"
-  server_id        = azurerm_mysql_flexible_server.mysql_flexible_server.id
-  start_ip_address = each.value
-  end_ip_address   = each.value
+  name                = "fw-${var.server_name}-${replace(each.value, ".", "-")}"
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_mysql_flexible_server.mysql_flexible_server.name
+  start_ip_address    = each.value
+  end_ip_address      = each.value
 }
 

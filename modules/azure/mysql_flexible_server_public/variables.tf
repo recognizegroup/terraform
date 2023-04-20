@@ -25,12 +25,6 @@ variable "server_storage_max" {
   default     = 20
 }
 
-variable "server_storage_iops" {
-  type        = number
-  description = "Storage IOPS betweeb 360 and 20000."
-  default     = 1000
-}
-
 variable "server_version" {
   type        = string
   description = "Mysql server version."
