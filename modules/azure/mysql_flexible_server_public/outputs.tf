@@ -7,7 +7,7 @@ output "fqdn" {
 }
 
 output "database_name" {
-  value = azurerm_mysql_flexible_server.mysql_flexible_server.name
+  value = azurerm_mysql_flexible_database.mysql_flexible_database.name
 }
 
 output "admin_username" {
