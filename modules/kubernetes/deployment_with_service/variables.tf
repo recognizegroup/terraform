@@ -75,6 +75,7 @@ variable "scaler" {
       max = number
     })
   })
+  description = "The scaler for the application"
   default = null
 }
 
@@ -82,4 +83,13 @@ variable "config_path" {
   type        = string
   description = "The path to the config file"
   default     = "~/.kube/config"
+}
+
+variable "volume_mounts" {
+  type = list(object({
+    claim     = string
+    mount_path = string
+    sub_path = string
+  }))
+  description = "The volume mounts for the application"
 }

@@ -62,6 +62,16 @@ resource "kubernetes_deployment_v1" "deployment" {
             container_port = var.container_port
           }
 
+          dynamic "volume_mount" {
+            for_each = var.volume_mounts
+
+            content {
+              mount_path = volume_mount.value.mount_path
+              name       = volume_mount.value.claim
+              sub_path   = volume_mount.value.sub_path
+            }
+          }
+
           dynamic "readiness_probe" {
             for_each = var.readiness_probe ? [1] : []
 
@@ -97,6 +107,18 @@ resource "kubernetes_deployment_v1" "deployment" {
           }
         }
 
+        dynamic "volume" {
+          for_each = var.volume_mounts
+
+          content {
+            name = volume.value.claim
+
+            persistent_volume_claim {
+              claim_name = volume.value.claim
+            }
+          }
+        }
+
         restart_policy = "Always"
       }
     }
@@ -115,8 +137,8 @@ resource "kubernetes_service_v1" "service" {
     }
 
     port {
-      port        = var.container_port
-      target_port = var.target_port
+      port        = var.target_port
+      target_port = var.container_port
     }
 
     type = "ClusterIP"
