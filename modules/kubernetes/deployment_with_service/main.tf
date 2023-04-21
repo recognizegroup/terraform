@@ -225,3 +225,49 @@ resource "kubernetes_service_v1" "http-scaler-service-proxy" {
     ]
   }
 }
+
+resource "kubernetes_horizontal_pod_autoscaler_v2" "resource-scaler" {
+  count = var.scaler != null && var.scaler.type == "resource" ? 1 : 0
+
+  metadata {
+    name      = var.name
+    namespace = var.namespace
+  }
+
+  spec {
+    scale_target_ref {
+      api_version = "apps/v1"
+      kind        = "Deployment"
+      name        = var.name
+    }
+
+    min_replicas = var.scaler.replicas.min
+    max_replicas = var.scaler.replicas.max
+
+    metric {
+      type = "Resource"
+
+      resource {
+        name = "cpu"
+
+        target {
+          type                = "Utilization"
+          average_utilization = lookup(var.scaler.metrics, "cpu", 70)
+        }
+      }
+    }
+
+    metric {
+      type = "Resource"
+
+      resource {
+        name = "memory"
+
+        target {
+          type                = "Utilization"
+          average_utilization = lookup(var.scaler.metrics, "memory", 80)
+        }
+      }
+    }
+  }
+}
