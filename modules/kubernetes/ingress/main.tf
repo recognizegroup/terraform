@@ -16,6 +16,8 @@ provider "kubernetes" {
 }
 
 resource "kubernetes_ingress_v1" "ingress" {
+  count = var.enabled ? 1 : 0
+
   metadata {
     name        = var.name
     namespace   = var.namespace

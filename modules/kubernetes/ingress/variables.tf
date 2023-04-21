@@ -32,3 +32,9 @@ variable "config_path" {
   description = "The path to the config file"
   default     = "~/.kube/config"
 }
+
+variable "enabled" {
+  type        = bool
+  description = "Whether to enable the ingress"
+  default     = true
+}
