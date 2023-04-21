@@ -101,10 +101,10 @@ resource "kubernetes_deployment_v1" "deployment" {
                 scheme = "HTTP"
               }
 
-              initial_delay_seconds = 10
-              period_seconds        = 5
-              failure_threshold     = 50
-              timeout_seconds       = 5
+              initial_delay_seconds = lookup(var.readiness_probe, "initial_delay_seconds", 10)
+              period_seconds        = lookup(var.readiness_probe, "period_seconds", 5)
+              failure_threshold     = lookup(var.readiness_probe, "failure_threshold", 50)
+              timeout_seconds       = lookup(var.readiness_probe, "timeout_seconds", 5)
             }
           }
 
@@ -118,10 +118,10 @@ resource "kubernetes_deployment_v1" "deployment" {
                 scheme = "HTTP"
               }
 
-              initial_delay_seconds = 5
-              period_seconds        = 25
-              failure_threshold     = 3
-              timeout_seconds       = 5
+              initial_delay_seconds = lookup(var.liveness_probe, "initial_delay_seconds", 5)
+              period_seconds        = lookup(var.liveness_probe, "period_seconds", 25)
+              failure_threshold     = lookup(var.liveness_probe, "failure_threshold", 3)
+              timeout_seconds       = lookup(var.liveness_probe, "timeout_seconds", 5)
             }
           }
         }

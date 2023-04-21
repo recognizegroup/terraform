@@ -50,8 +50,12 @@ variable "target_port" {
 
 variable "readiness_probe" {
   type = object({
-    path = string
-    port = number
+    path                  = string
+    port                  = number
+    initial_delay_seconds = number
+    period_seconds        = number
+    failure_threshold     = number
+    timeout_seconds       = number
   })
   description = "The readiness probe for the application"
   default     = null
@@ -59,8 +63,12 @@ variable "readiness_probe" {
 
 variable "liveness_probe" {
   type = object({
-    path = string
-    port = number
+    path                  = string
+    port                  = number
+    initial_delay_seconds = number
+    period_seconds        = number
+    failure_threshold     = number
+    timeout_seconds       = number
   })
   description = "The liveness probe for the application"
   default     = null
@@ -75,7 +83,7 @@ variable "scaler" {
       max = number
     })
     metrics = object({
-      cpu = number,
+      cpu    = number,
       memory = number
     })
   })

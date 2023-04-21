@@ -37,7 +37,7 @@ resource "kubernetes_ingress_v1" "ingress" {
                 service {
                   name = path.value.service
                   port {
-                      number = path.value.port
+                    number = path.value.port
                   }
                 }
               }
