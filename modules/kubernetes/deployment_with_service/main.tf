@@ -177,7 +177,7 @@ resource "kubernetes_service_v1" "service" {
 }
 
 resource "kubernetes_manifest" "http-scaler" {
-  count = lookup(var.scaler == null ? {} : var.scaler, "type", "-") == "http" ? 1 : 0
+  count = lookup(var.scaler == null ? {} : tomap(var.scaler), "type", "-") == "http" ? 1 : 0
 
   manifest = {
     kind       = "HTTPScaledObject"
@@ -203,7 +203,7 @@ resource "kubernetes_manifest" "http-scaler" {
 
 #
 resource "kubernetes_service_v1" "http-scaler-service-proxy" {
-  count = lookup(var.scaler == null ? {} : var.scaler, "type", "-") == "http" ? 1 : 0
+  count = lookup(var.scaler == null ? {} : tomap(var.scaler), "type", "-") == "http" ? 1 : 0
 
   metadata {
     name      = "${var.name}-keda-bridge"
@@ -227,7 +227,7 @@ resource "kubernetes_service_v1" "http-scaler-service-proxy" {
 }
 
 resource "kubernetes_horizontal_pod_autoscaler_v2" "resource-scaler" {
-  count = lookup(var.scaler == null ? {} : var.scaler, "type", "-") == "resource" ? 1 : 0
+  count = lookup(var.scaler == null ? {} : tomap(var.scaler), "type", "-") == "resource" ? 1 : 0
 
   metadata {
     name      = var.name
