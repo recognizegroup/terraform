@@ -4,9 +4,9 @@ output "deployment_name" {
 }
 
 output "service_port" {
-  value = lookup(var.scaler == null ? {} : tomap(var.scaler), "type", "-") == "http" ? kubernetes_service_v1.http-scaler-service-proxy.0.spec.0.port.0.port : kubernetes_service_v1.service.spec.0.port.0.port
+  value = var.scaler.type == "http" ? kubernetes_service_v1.http-scaler-service-proxy.0.spec.0.port.0.port : kubernetes_service_v1.service.spec.0.port.0.port
 }
 
 output "service_name" {
-  value = lookup(var.scaler == null ? {} : tomap(var.scaler), "type", "-") == "http" ? kubernetes_service_v1.http-scaler-service-proxy.0.metadata.0.name : kubernetes_service_v1.service.metadata.0.name
+  value = var.scaler.type == "http" ? kubernetes_service_v1.http-scaler-service-proxy.0.metadata.0.name : kubernetes_service_v1.service.metadata.0.name
 }
