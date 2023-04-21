@@ -82,10 +82,10 @@ variable "scaler" {
       min = number
       max = number
     })
-    metrics = object({
+    metrics = optional(object({
       cpu    = number,
       memory = number
-    })
+    }))
   })
   description = "The scaler for the application"
   default     = null
