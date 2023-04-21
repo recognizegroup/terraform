@@ -52,10 +52,10 @@ variable "readiness_probe" {
   type = object({
     path                  = string
     port                  = number
-    initial_delay_seconds = number
-    period_seconds        = number
-    failure_threshold     = number
-    timeout_seconds       = number
+    initial_delay_seconds = optional(number)
+    period_seconds        = optional(number)
+    failure_threshold     = optional(number)
+    timeout_seconds       = optional(number)
   })
   description = "The readiness probe for the application"
   default     = null
