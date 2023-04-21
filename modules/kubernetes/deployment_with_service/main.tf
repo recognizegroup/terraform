@@ -177,7 +177,7 @@ resource "kubernetes_service_v1" "service" {
 }
 
 resource "kubernetes_manifest" "http-scaler" {
-  count = var.scaler != null && var.scaler.type == "http" ? 1 : 0
+  count = var.scaler != null && lookup(var.scaler, "type", "-") == "http" ? 1 : 0
 
   manifest = {
     kind       = "HTTPScaledObject"
