@@ -103,6 +103,12 @@ variable "env_configmap_refs" {
   default     = []
 }
 
+variable "env" {
+  type        = map(string)
+  description = "The environment variables for the application"
+  default     = {}
+}
+
 variable "config_path" {
   type        = string
   description = "The path to the config file"
