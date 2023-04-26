@@ -34,10 +34,13 @@ variable "enabled" {
   default     = true
 }
 
-variable "use_managed_identity" {
-  type        = bool
-  description = "Use Managed Identity for this logic app"
-  default     = false
+variable "identity" {
+  type = object({
+    identity_type = string, # use one of these values: "SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned"
+    identity_ids  = optional(list(string), [])
+  })
+  default     = null
+  description = "Logic App Identity settings"
 }
 
 variable "app_settings" {

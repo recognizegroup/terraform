@@ -31,9 +31,10 @@ resource "azurerm_logic_app_standard" "app" {
   version             = var.logic_app_version
 
   dynamic "identity" {
-    for_each = var.use_managed_identity ? [1] : []
+    for_each = var.identity != null ? [1] : []
     content {
-      type = "SystemAssigned"
+      type         = var.identity.identity_type
+      identity_ids = var.identity.identity_ids
     }
   }
 
