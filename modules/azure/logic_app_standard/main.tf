@@ -84,7 +84,7 @@ resource "null_resource" "zip_logic_app" {
 # deployment to make sure the app settings are available before the deployment is started.
 
 resource "time_sleep" "wait_for_app_settings" {
-  depends_on      = [
+  depends_on = [
     azurerm_logic_app_standard.app,
     null_resource.zip_logic_app
   ]
