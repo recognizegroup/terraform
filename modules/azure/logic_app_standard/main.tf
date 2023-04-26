@@ -22,6 +22,10 @@ provider "azurerm" {
 provider "archive" {
 }
 
+locals {
+  is_linux = length(regexall("/home/", lower(abspath(path.root)))) > 0
+}
+
 resource "azurerm_logic_app_standard" "app" {
   name                = var.logic_app_name
   location            = var.location
@@ -71,7 +75,8 @@ resource "null_resource" "zip_logic_app" {
   }
   # if check.zip file changes, create deploy.zip file
   provisioner "local-exec" {
-    command = "cd ${path.module} && mkdir -p files && cd files && cd ${var.workflows_source_path} && zip -rq $OLDPWD/deploy.zip ."
+    interpreter = local.is_linux ? ["bash", "-c"] : ["PowerShell", "-Command"]
+    command = local.is_linux ? "cd ${path.module} && mkdir -p files && cd files && cd ${var.workflows_source_path} && zip -rq $OLDPWD/deploy.zip ." : "New-Item -Path \"${path.module}\" -Name \"files\" -ItemType \"directory\" -Force; Compress-Archive -Path \"${var.workflows_source_path}\\*\" -DestinationPath \"${path.module}\\files\\deploy.zip\""
   }
 }
 
