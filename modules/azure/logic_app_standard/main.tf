@@ -76,7 +76,7 @@ resource "null_resource" "zip_logic_app" {
   # if check.zip file changes, create deploy.zip file
   provisioner "local-exec" {
     interpreter = local.is_linux ? ["bash", "-c"] : ["PowerShell", "-Command"]
-    command     = local.is_linux ? "cd ${path.module} && mkdir -p files && cd files && cd ${var.workflows_source_path} && zip -rq $OLDPWD/deploy.zip ." : "New-Item -Path \"${path.module}\" -Name \"files\" -ItemType \"directory\" -Force; Compress-Archive -Path \"${var.workflows_source_path}\\*\" -DestinationPath \"${path.module}\\files\\deploy.zip\""
+    command     = local.is_linux ? "cd ${path.module} && mkdir -p files && cd ${var.workflows_source_path} && zip -rq $OLDPWD/files/deploy.zip ." : "New-Item -Path \"${path.module}\" -Name \"files\" -ItemType \"directory\" -Force; Compress-Archive -Path \"${var.workflows_source_path}\\*\" -DestinationPath \"${path.module}\\files\\deploy.zip\""
   }
 }
 
