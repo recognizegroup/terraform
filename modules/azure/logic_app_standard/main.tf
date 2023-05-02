@@ -22,6 +22,10 @@ provider "azurerm" {
 provider "archive" {
 }
 
+locals {
+  identity_type = var.use_managed_identity && length(var.identity_ids) > 0 ? "SystemAssigned, UserAssigned" : var.use_managed_identity ? "SystemAssigned" : length(var.identity_ids) > 0 ? "UserAssigned" : null
+}
+
 resource "azurerm_logic_app_standard" "app" {
   name                = var.logic_app_name
   location            = var.location
@@ -31,10 +35,10 @@ resource "azurerm_logic_app_standard" "app" {
   version             = var.logic_app_version
 
   dynamic "identity" {
-    for_each = var.identity != null ? [1] : []
+    for_each = local.identity_type != null ? [1] : []
     content {
-      type         = var.identity.identity_type
-      identity_ids = var.identity.identity_ids
+      type         = local.identity_type
+      identity_ids = var.identity_ids
     }
   }
 
