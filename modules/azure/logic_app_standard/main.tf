@@ -24,6 +24,7 @@ provider "archive" {
 
 locals {
   identity_type = var.use_managed_identity && length(var.identity_ids) > 0 ? "SystemAssigned, UserAssigned" : var.use_managed_identity ? "SystemAssigned" : length(var.identity_ids) > 0 ? "UserAssigned" : null
+  is_linux      = length(regexall("/home/", lower(abspath(path.root)))) > 0
 }
 
 resource "azurerm_logic_app_standard" "app" {
@@ -59,11 +60,26 @@ resource "azurerm_logic_app_standard" "app" {
   virtual_network_subnet_id  = var.integration_subnet_id
 }
 
-# First, create a zip file containing the workflow
-data "archive_file" "workflow" {
+# First, create a check.zip with archive_file to check diffs (this step is required)
+# replacing this step by checking of deploy.zip created by local-exec doesn't work
+# because local-exec is not executed during 'plan' so it would take old deploy.zip
+data "archive_file" "check_zip" {
   type        = "zip"
   source_dir  = var.workflows_source_path
-  output_path = "${path.module}/files/deploy.zip"
+  output_path = "${path.module}/files/check.zip"
+}
+
+resource "null_resource" "zip_logic_app" {
+  depends_on = [data.archive_file.check_zip]
+
+  triggers = {
+    deploy = data.archive_file.check_zip.output_sha
+  }
+  # if check.zip file changes, create deploy.zip file
+  provisioner "local-exec" {
+    interpreter = local.is_linux ? ["bash", "-c"] : ["PowerShell", "-Command"]
+    command     = local.is_linux ? "cd ${path.module} && mkdir -p files && cd ${var.workflows_source_path} && zip -rq $OLDPWD/files/deploy.zip ." : "New-Item -Path \"${path.module}\" -Name \"files\" -ItemType \"directory\" -Force; Compress-Archive -Path \"${var.workflows_source_path}\\*\" -DestinationPath \"${path.module}\\files\\deploy.zip\""
+  }
 }
 
 # After the logic app is created, start a deployment using the Azure CLI
@@ -75,11 +91,14 @@ data "archive_file" "workflow" {
 # deployment to make sure the app settings are available before the deployment is started.
 
 resource "time_sleep" "wait_for_app_settings" {
-  depends_on      = [azurerm_logic_app_standard.app]
+  depends_on = [
+    azurerm_logic_app_standard.app,
+    null_resource.zip_logic_app
+  ]
   create_duration = "${var.deployment_wait_timeout}s"
 
   triggers = {
-    time = timestamp()
+    deploy = data.archive_file.check_zip.output_sha
   }
 }
 
@@ -88,7 +107,7 @@ resource "null_resource" "install-extension" {
   depends_on = [time_sleep.wait_for_app_settings]
 
   triggers = {
-    deploy = data.archive_file.workflow.output_sha
+    deploy = data.archive_file.check_zip.output_sha
   }
 
   provisioner "local-exec" {
@@ -104,10 +123,10 @@ resource "null_resource" "deploy" {
   depends_on = [null_resource.install-extension]
 
   triggers = {
-    deploy = data.archive_file.workflow.output_sha
+    deploy = data.archive_file.check_zip.output_sha
   }
 
   provisioner "local-exec" {
-    command = "az logicapp deployment source config-zip --name ${var.logic_app_name} --resource-group ${var.resource_group_name} --subscription ${data.azurerm_subscription.current.display_name} --src ${data.archive_file.workflow.output_path}"
+    command = "az logicapp deployment source config-zip --name ${var.logic_app_name} --resource-group ${var.resource_group_name} --subscription ${data.azurerm_subscription.current.display_name} --src ${path.module}/files/deploy.zip"
   }
 }
