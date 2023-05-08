@@ -20,6 +20,10 @@ resource "random_password" "postgresql_admin" {
   special          = false
   override_special = "_%@"
   keepers          = var.password_keeper
+  min_lower        = 1
+  min_upper        = 1
+  min_numeric      = 1
+  min_special      = 1
 }
 
 resource "azurerm_postgresql_flexible_server" "postgresql_server" {
