@@ -37,6 +37,11 @@ resource "random_password" "sql_admin_password" {
   upper            = true
   numeric          = true
   override_special = "_%@"
+  min_lower        = 1
+  min_upper        = 1
+  min_numeric      = 1
+  min_special      = 1
+
   keepers = {
     keeper = var.sql_admin_password_keeper
   }
