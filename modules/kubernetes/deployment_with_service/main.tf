@@ -257,11 +257,11 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "resource-scaler" {
       type = "Resource"
 
       resource {
-        name = "cpu"
+        name = "memory"
 
         target {
           type                = "Utilization"
-          average_utilization = lookup(var.scaler.metrics, "cpu", 70)
+          average_utilization = lookup(var.scaler.metrics, "memory", 80)
         }
       }
     }
@@ -270,11 +270,11 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "resource-scaler" {
       type = "Resource"
 
       resource {
-        name = "memory"
+        name = "cpu"
 
         target {
           type                = "Utilization"
-          average_utilization = lookup(var.scaler.metrics, "memory", 80)
+          average_utilization = lookup(var.scaler.metrics, "cpu", 70)
         }
       }
     }
