@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2023-05-15
+
+### Changed
+
+- `azure/mysql_flexible_server`: Change default of variable `backup_retention_days` from `7` to `30` ([#313](https://github.com/recognizegroup/terraform/pull/313)) ([`06870489`](https://github.com/recognizegroup/terraform/commit/06870489))
+
+### Added
+
+- `azure/service_plan`: Add variable `scaling_rules` ([#309](https://github.com/recognizegroup/terraform/pull/309), [#312](https://github.com/recognizegroup/terraform/pull/312)) ([`fd0039e3`](https://github.com/recognizegroup/terraform/commit/fd0039e3), [`4fdb7698`](https://github.com/recognizegroup/terraform/commit/4fdb7698))
+- `azure/storage_account_public`: Add variable `auto_delete_rules` ([#310](https://github.com/recognizegroup/terraform/pull/310)) ([`d0eb9139`](https://github.com/recognizegroup/terraform/commit/d0eb9139))
+- `azure/api_management_api`: Add variable `custom_backend_policy` ([#311](https://github.com/recognizegroup/terraform/pull/311), [#314](https://github.com/recognizegroup/terraform/pull/314)) ([`37b46fd7`](https://github.com/recognizegroup/terraform/commit/37b46fd7), [`385a1af1`](https://github.com/recognizegroup/terraform/commit/385a1af1))
+- Add module `azure/mysql_flexible_server_public` ([#313](https://github.com/recognizegroup/terraform/pull/313), [#320](https://github.com/recognizegroup/terraform/pull/320)) ([`06870489`](https://github.com/recognizegroup/terraform/commit/06870489), [`cd6ca71d`](https://github.com/recognizegroup/terraform/commit/cd6ca71d))
+- Add module `azure/postgresql_public` ([#313](https://github.com/recognizegroup/terraform/pull/313), [#320](https://github.com/recognizegroup/terraform/pull/320)) ([`06870489`](https://github.com/recognizegroup/terraform/commit/06870489), [`cd6ca71d`](https://github.com/recognizegroup/terraform/commit/cd6ca71d))
+- Add module `kubernetes/configmap` ([#313](https://github.com/recognizegroup/terraform/pull/313)) ([`06870489`](https://github.com/recognizegroup/terraform/commit/06870489))
+- Add module `kubernetes/deployment_with_service` ([#313](https://github.com/recognizegroup/terraform/pull/313), [#321](https://github.com/recognizegroup/terraform/pull/321)) ([`06870489`](https://github.com/recognizegroup/terraform/commit/06870489), [`383bdda5`](https://github.com/recognizegroup/terraform/commit/383bdda5))
+- Add module `kubernetes/ingress` ([#313](https://github.com/recognizegroup/terraform/pull/313)) ([`06870489`](https://github.com/recognizegroup/terraform/commit/06870489))
+- Add module `kubernetes/pvc` ([#313](https://github.com/recognizegroup/terraform/pull/313)) ([`06870489`](https://github.com/recognizegroup/terraform/commit/06870489))
+- Add module `kubernetes/secret` ([#313](https://github.com/recognizegroup/terraform/pull/313)) ([`06870489`](https://github.com/recognizegroup/terraform/commit/06870489))
+- `azure/logic_app_standard`: Add variable `identity_ids` ([#317](https://github.com/recognizegroup/terraform/pull/317)) ([`ab4272ad`](https://github.com/recognizegroup/terraform/commit/ab4272ad), [`b6d06c84`](https://github.com/recognizegroup/terraform/commit/b6d06c84))
+- `other/password_generator`: Add variables `min_lower`, `min_upper`, `min_numeric`, `min_special` ([#320](https://github.com/recognizegroup/terraform/pull/320)) ([`cd6ca71d`](https://github.com/recognizegroup/terraform/commit/cd6ca71d), [`bd78f656`](https://github.com/recognizegroup/terraform/commit/bd78f656))
+
+### Fixed
+
+- `azure/logic_app_standard`: Fix deployment bug caused by [hashicorp/terraform-provider-archive#40](https://github.com/hashicorp/terraform-provider-archive/issues/40) ([#316](https://github.com/recognizegroup/terraform/pull/316)) ([`cdae9fcb`](https://github.com/recognizegroup/terraform/commit/cdae9fcb))
+- `azure/mssql`: Fix bug where random_password could generate a password with only one type of character be it lowercase, uppercase, numeric or special ([#320](https://github.com/recognizegroup/terraform/pull/320)) ([`cd6ca71d`](https://github.com/recognizegroup/terraform/commit/cd6ca71d))
+- `azure/mysql`: Fix bug where random_password could generate a password with only one type of character be it lowercase, uppercase, numeric or special ([#320](https://github.com/recognizegroup/terraform/pull/320)) ([`cd6ca71d`](https://github.com/recognizegroup/terraform/commit/cd6ca71d))
+- `azure/mysql_flexible_server`: Fix bug where random_password could generate a password with only one type of character be it lowercase, uppercase, numeric or special ([#320](https://github.com/recognizegroup/terraform/pull/320)) ([`cd6ca71d`](https://github.com/recognizegroup/terraform/commit/cd6ca71d))
+- `azure/postgresql`: Fix bug where random_password could generate a password with only one type of character be it lowercase, uppercase, numeric or special ([#320](https://github.com/recognizegroup/terraform/pull/320)) ([`cd6ca71d`](https://github.com/recognizegroup/terraform/commit/cd6ca71d))
+- `azure/synapse_workspace`: Fix bug where random_password could generate a password with only one type of character be it lowercase, uppercase, numeric or special ([#320](https://github.com/recognizegroup/terraform/pull/320)) ([`cd6ca71d`](https://github.com/recognizegroup/terraform/commit/cd6ca71d))
+
 ## [3.2.0] - 2023-04-11
 
 ### Changed
@@ -89,6 +119,7 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - **Breaking:** Remove module `azure/monitoring`, replace with `azure/azure/monitoring_action_group` and `azure/monitoring_log_analytics_alert` ([#268](https://github.com/recognizegroup/terraform/pull/268)) ([`5bd013c1`](https://github.com/recognizegroup/terraform/commit/5bd013c1))
 - **Breaking:** Remove module `azure/api_connectors/storage_account`, replace with `azure/api_connectors/storage_blob` and `azure/api_connectors/storage_table` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886))
 
+[3.3.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.3.0
 [3.2.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.2.0
 [3.1.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.1.0
 [3.0.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.0.0

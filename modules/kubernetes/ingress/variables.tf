@@ -17,6 +17,7 @@ variable "annotations" {
 variable "rules" {
   type = list(object({
     host = string
+
     paths = list(object({
       service = string
       port    = number

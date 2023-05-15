@@ -78,6 +78,7 @@ variable "scaler" {
   type = object({
     type = optional(string)
     host = optional(string)
+
     replicas = optional(object({
       min = number
       max = number
