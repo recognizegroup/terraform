@@ -23,7 +23,8 @@ provider "archive" {
 }
 
 locals {
-  is_linux = length(regexall("/home/", lower(abspath(path.root)))) > 0
+  identity_type = var.use_managed_identity && length(var.identity_ids) > 0 ? "SystemAssigned, UserAssigned" : var.use_managed_identity ? "SystemAssigned" : length(var.identity_ids) > 0 ? "UserAssigned" : null
+  is_linux      = length(regexall("/home/", lower(abspath(path.root)))) > 0
 }
 
 resource "azurerm_logic_app_standard" "app" {
@@ -35,9 +36,10 @@ resource "azurerm_logic_app_standard" "app" {
   version             = var.logic_app_version
 
   dynamic "identity" {
-    for_each = var.use_managed_identity ? [1] : []
+    for_each = local.identity_type != null ? [1] : []
     content {
-      type = "SystemAssigned"
+      type         = local.identity_type
+      identity_ids = var.identity_ids
     }
   }
 
