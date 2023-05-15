@@ -19,6 +19,7 @@ resource "kubernetes_deployment_v1" "deployment" {
   metadata {
     name      = var.name
     namespace = var.namespace
+
     labels = {
       app = var.name
     }
@@ -191,17 +192,20 @@ resource "kubernetes_manifest" "http-scaler" {
   manifest = {
     kind       = "HTTPScaledObject"
     apiVersion = "http.keda.sh/v1alpha1"
+
     metadata = {
       name      = var.name
       namespace = var.namespace
     }
     spec = {
       host = var.scaler.host
+
       scaleTargetRef = {
         deployment = var.name
         service    = var.name
         port       = var.target_port
       }
+
       replicas = {
         min = var.scaler.replicas.min
         max = var.scaler.replicas.max
