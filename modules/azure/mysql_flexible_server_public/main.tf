@@ -27,38 +27,36 @@ resource "random_password" "mysql_admin_password" {
 }
 
 resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
-  name                = var.mysql_server_name
+  name                = var.server_name
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  administrator_login    = var.mysql_admin_username
+  administrator_login    = var.admin_username
   administrator_password = random_password.mysql_admin_password.result
 
   backup_retention_days        = var.backup_retention_days
-  delegated_subnet_id          = var.subnet_id
   geo_redundant_backup_enabled = var.geo_redundant_backup_enabled
-  private_dns_zone_id          = var.private_dns_zone_id
 
-  sku_name = var.mysql_server_sku
-  version  = var.mysql_server_version
+  sku_name = var.server_sku
+  version  = var.server_version
 
   storage {
     auto_grow_enabled = var.storage_auto_grow_enabled
-    iops              = var.mysql_server_storage_iops
-    size_gb           = var.mysql_server_storage_max
+    size_gb           = var.server_storage_max
   }
 
   lifecycle {
-    ignore_changes = [zone]
+    ignore_changes  = [zone]
+    prevent_destroy = true
   }
 }
 
 resource "azurerm_mysql_flexible_database" "mysql_flexible_database" {
-  name                = var.mysql_database_name
+  name                = var.database_name
   resource_group_name = var.resource_group_name
   server_name         = azurerm_mysql_flexible_server.mysql_flexible_server.name
-  charset             = var.mysql_database_charset
-  collation           = var.mysql_database_collation
+  charset             = var.database_charset
+  collation           = var.database_collation
 }
 
 resource "azurerm_mysql_flexible_server_configuration" "mysql_flexible_server_configuration" {
@@ -75,7 +73,7 @@ data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   count                      = var.log_analytics_workspace_id == null ? 0 : 1
-  name                       = "diag-${var.mysql_server_name}"
+  name                       = "diag-${var.server_name}"
   target_resource_id         = azurerm_mysql_flexible_server.mysql_flexible_server.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
@@ -110,3 +108,14 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
     ignore_changes = [log_analytics_destination_type]
   }
 }
+
+resource "azurerm_mysql_flexible_server_firewall_rule" "rule" {
+  for_each = var.whitelist_ip_addresses
+
+  name                = "fw-${var.server_name}-${replace(each.value, ".", "-")}"
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_mysql_flexible_server.mysql_flexible_server.name
+  start_ip_address    = each.value
+  end_ip_address      = each.value
+}
+

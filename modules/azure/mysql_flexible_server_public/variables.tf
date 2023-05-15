@@ -8,30 +8,24 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "mysql_server_name" {
+variable "server_name" {
   type        = string
   description = "Name of the mysql server."
 }
 
-variable "mysql_server_sku" {
+variable "server_sku" {
   type        = string
   description = "Specifies the sku for the mysql server"
   default     = "GP_Standard_D2ds_v4"
 }
 
-variable "mysql_server_storage_max" {
+variable "server_storage_max" {
   type        = number
   description = "Max storage allowed in GB for the mysql server."
   default     = 20
 }
 
-variable "mysql_server_storage_iops" {
-  type        = number
-  description = "Storage IOPS betweeb 360 and 20000."
-  default     = 1000
-}
-
-variable "mysql_server_version" {
+variable "server_version" {
   type        = string
   description = "Mysql server version."
 }
@@ -54,29 +48,24 @@ variable "geo_redundant_backup_enabled" {
   default     = true
 }
 
-variable "mysql_database_name" {
+variable "database_name" {
   type        = string
   description = "Name of the mysql database."
 }
 
-variable "mysql_database_charset" {
+variable "database_charset" {
   type        = string
   description = "Specifies the charset for the mysql database."
   default     = "utf8mb3"
 }
 
-variable "mysql_database_collation" {
+variable "database_collation" {
   type        = string
   description = "Specifies the collation for the mysql database."
   default     = "utf8mb3_unicode_ci"
 }
 
-variable "subnet_id" {
-  type        = string
-  description = "The ID of the subnet from which private IP addresses will be allocated for this private endpoint."
-}
-
-variable "mysql_admin_username" {
+variable "admin_username" {
   type        = string
   description = "The administrator login username for the mysql server."
 }
@@ -98,7 +87,8 @@ variable "slow_query_log" {
   default     = "OFF"
 }
 
-variable "private_dns_zone_id" {
-  type        = string
-  description = "ID of the private dns zone"
+variable "whitelist_ip_addresses" {
+  type        = set(string)
+  description = "List of IP addresses to whitelist."
+  default     = []
 }

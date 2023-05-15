@@ -36,8 +36,14 @@ variable "enabled" {
 
 variable "use_managed_identity" {
   type        = bool
-  description = "Use Managed Identity for this logic app"
+  description = "Use System Assigned Managed Identity for this logic app"
   default     = false
+}
+
+variable "identity_ids" {
+  type        = list(string)
+  description = "User Assigned Managed Identity ids for this logic app"
+  default     = []
 }
 
 variable "app_settings" {

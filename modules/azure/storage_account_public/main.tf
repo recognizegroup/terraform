@@ -50,3 +50,31 @@ data "http" "amazonaws" {
   count = var.nfsv3_enabled == true ? 1 : 0
   url   = "https://checkip.amazonaws.com/"
 }
+
+resource "azurerm_storage_management_policy" "storage_management_policy" {
+  count = var.auto_delete_rules != null ? 1 : 0
+
+  storage_account_id = azurerm_storage_account.storage_account.id
+
+  dynamic "rule" {
+    for_each = var.auto_delete_rules
+
+    content {
+      name    = rule.value.name
+      enabled = true
+
+      filters {
+        prefix_match = rule.value.prefixes
+        blob_types   = ["blockBlob"]
+      }
+
+      actions {
+        base_blob {
+          delete_after_days_since_modification_greater_than     = rule.value.days_after_modification
+          delete_after_days_since_last_access_time_greater_than = rule.value.days_after_access
+          delete_after_days_since_creation_greater_than         = rule.value.days_after_creation
+        }
+      }
+    }
+  }
+}

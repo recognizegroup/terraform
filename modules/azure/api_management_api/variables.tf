@@ -210,3 +210,9 @@ variable "custom_outbound_policy" {
   description = "Additional outbound xml policies"
   default     = null
 }
+
+variable "custom_backend_policy" {
+  type        = string
+  description = "Additional backend xml policies"
+  default     = null
+}

@@ -333,12 +333,22 @@ updates:
       interval: "daily"
 
   - package-ecosystem: "terraform"
+    directory: "/modules/azure/mysql_flexible_server_public"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
     directory: "/modules/azure/network_security_group"
     schedule:
       interval: "daily"
 
   - package-ecosystem: "terraform"
     directory: "/modules/azure/postgresql"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/azure/postgresql_public"
     schedule:
       interval: "daily"
 
@@ -499,5 +509,30 @@ updates:
 
   - package-ecosystem: "terraform"
     directory: "/modules/other/password_generator"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/configmap"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/deployment_with_service"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/ingress"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/secret"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/pvc"
     schedule:
       interval: "daily"

@@ -40,8 +40,6 @@ resource "azurerm_postgresql_flexible_server" "postgresql_server" {
   administrator_password = random_password.postgresql_admin.result
   version                = var.postgresql_version
   zone                   = "1"
-  delegated_subnet_id    = var.delegated_subnet_id
-  private_dns_zone_id    = var.private_dns_zone_id
 
   maintenance_window {
     day_of_week  = 1 # Monday
@@ -109,4 +107,13 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
       }
     }
   }
+}
+
+resource "azurerm_postgresql_flexible_server_firewall_rule" "rule" {
+  for_each = var.whitelist_ip_addresses
+
+  name             = "fw-${var.name}-${replace(each.value, ".", "-")}"
+  server_id        = azurerm_postgresql_flexible_server.postgresql_server.id
+  start_ip_address = each.value
+  end_ip_address   = each.value
 }
