@@ -50,17 +50,16 @@ resource "azurerm_network_security_group" "nsg" {
   resource_group_name = var.resource_group_name
 
   security_rule {
-    name                    = "Allow_RDP"
-    priority                = 100
-    direction               = "Inbound"
-    access                  = "Allow"
-    protocol                = "Tcp"
-    source_port_range       = "*"
-    destination_port_range  = "3389"
-    source_address_prefix   = "Internet"
-    source_address_prefixes = var.allow_rdp_ip_prefixes
+    name                       = "Allow_RDP"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
+    source_address_prefixes    = var.allow_rdp_ip_prefixes
+    destination_address_prefix = "*"
   }
-
 }
 
 resource "azurerm_network_interface_security_group_association" "association" {
