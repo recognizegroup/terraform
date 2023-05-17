@@ -10,18 +10,6 @@ terraform {
       source  = "hashicorp/random"
       version = "~> 3.5"
     }
-    null = {
-      source  = "hashicorp/null"
-      version = "~> 3.1"
-    }
-    http = {
-      source  = "hashicorp/http"
-      version = "~> 2.1"
-    }
-    local = {
-      source  = "hashicorp/local"
-      version = "~> 2.1"
-    }
   }
 
   backend "azurerm" {}
@@ -37,7 +25,8 @@ resource "azurerm_public_ip" "public_ip" {
   name                = "public-ip-${var.virtual_machine_name}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 resource "azurerm_network_interface" "network_interface" {
@@ -68,8 +57,8 @@ resource "azurerm_network_security_group" "nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "3389"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+    source_address_prefix      = "Internet"
+    source_address_prefixes    = var.allow_rdp_ip
   }
 
 }
@@ -84,7 +73,10 @@ resource "azurerm_network_interface_security_group_association" "association" {
 resource "random_password" "vm_user_password" {
   length           = 16
   special          = true
-  override_special = "_%@"
+  min_lower        = 1
+  min_upper        = 1
+  min_numeric      = 1
+  min_special      = 1
 }
 
 resource "azurerm_windows_virtual_machine" "virtual_machine" {
