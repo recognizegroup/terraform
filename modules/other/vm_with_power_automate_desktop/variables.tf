@@ -60,10 +60,10 @@ variable "enable_public_access" {
   default     = false
 }
 
-variable "allow_rdp_ip" {
-  type        = string
-  description = "The IP address to allow RDP access from."
-  default     = ""
+variable "allow_rdp_ip_prefixes" {
+  type        = set(string)
+  description = "The set of IP addresses or CIDR to allow RDP access from."
+  default     = []
 }
 
 variable "power_automate_desktop_installer_uri" {

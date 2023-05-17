@@ -58,7 +58,7 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range       = "*"
     destination_port_range  = "3389"
     source_address_prefix   = "Internet"
-    source_address_prefixes = var.allow_rdp_ip
+    source_address_prefixes = var.allow_rdp_ip_prefixes
   }
 
 }
