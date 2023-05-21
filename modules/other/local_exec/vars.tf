@@ -12,4 +12,5 @@ variable "working_dir" {
 variable "interpreter" {
   type        = set(string)
   description = "The shell to execute the command in, like /bin/sh or powershell"
+  default     = ""
 }
