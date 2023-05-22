@@ -536,3 +536,8 @@ updates:
     directory: "/modules/kubernetes/pvc"
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/other/vm_with_power_automate_desktop"
+    schedule:
+      interval: "daily"
