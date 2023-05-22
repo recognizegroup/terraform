@@ -518,6 +518,11 @@ updates:
       interval: "daily"
 
   - package-ecosystem: "terraform"
+    directory: "/modules/kubernetes/cron_job"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
     directory: "/modules/kubernetes/deployment_with_service"
     schedule:
       interval: "daily"
