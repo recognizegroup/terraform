@@ -44,7 +44,7 @@ resource "kubernetes_deployment_v1" "deployment" {
       spec {
         container {
           image             = var.docker_image
-          image_pull_policy = "Always"
+          image_pull_policy = var.image_pull_policy
           name              = var.name
 
           resources {
