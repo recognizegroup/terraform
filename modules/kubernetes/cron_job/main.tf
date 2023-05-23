@@ -15,7 +15,7 @@ provider "kubernetes" {
   config_path = var.config_path
 }
 
-resource "kubernetes_cron_job" "demo" {
+resource "kubernetes_cron_job_v1" "cron_job" {
   metadata {
     name      = var.name
     namespace = var.namespace
