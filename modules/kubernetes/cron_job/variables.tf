@@ -3,6 +3,12 @@ variable "namespace" {
   description = "The namespace to deploy the cronjob to"
 }
 
+variable "enabled" {
+  type        = bool
+  description = "Whether or not to deploy the cronjob"
+  default     = true
+}
+
 variable "name" {
   type        = string
   description = "The name of the cronjob"

@@ -16,6 +16,8 @@ provider "kubernetes" {
 }
 
 resource "kubernetes_cron_job_v1" "cron_job" {
+  count = var.enabled ? 1 : 0
+
   metadata {
     name      = var.name
     namespace = var.namespace
