@@ -125,3 +125,9 @@ variable "volume_mounts" {
   description = "The volume mounts for the application"
   default     = []
 }
+
+variable "image_pull_policy" {
+  type        = string
+  description = "The image pull policy for the application"
+  default     = "Always"
+}
