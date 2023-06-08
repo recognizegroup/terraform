@@ -53,11 +53,11 @@ variable "advanced_filter" {
   type = list(object({
     string_begins_with = object({
       values = list(string)
-      key   = string
+      key    = string
     })
     string_ends_with = object({
       values = list(string)
-      key   = string
+      key    = string
     })
   }))
   description = "parameters for advanced filters"

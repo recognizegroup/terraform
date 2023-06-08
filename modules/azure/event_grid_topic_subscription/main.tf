@@ -58,7 +58,7 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
       }
     }
   }
-  
+
   included_event_types = var.event_types
   dynamic "delivery_property" {
     for_each = var.delivery_properties
