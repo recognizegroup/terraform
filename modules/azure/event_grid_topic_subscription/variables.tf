@@ -54,11 +54,11 @@ variable "advanced_filter" {
     string_begins_with = optional(object({
       values = list(string)
       key    = string
-    }), [])
+    }))
     string_ends_with = optional(object({
       values = list(string)
       key    = string
-    }), [])
+    }))
   }))
   description = "parameters for advanced filters"
   default     = []
