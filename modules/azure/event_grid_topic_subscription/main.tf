@@ -43,17 +43,20 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
 
     content {
       dynamic "string_begins_with" {
-        for_each = [advanced_filter.value.string_begins_with]
+        for_each = advanced_filter.value.string_begins_with == null ? [] : [1]
+
         content {
-          key    = string_begins_with.value.key
-          values = string_begins_with.value.values
+          key    = advanced_filter.value.string_begins_with.key
+          values = advanced_filter.value.string_begins_with.values
         }
       }
+
       dynamic "string_ends_with" {
-        for_each = [advanced_filter.value.string_ends_with]
+        for_each = advanced_filter.value.string_ends_with == null ? [] : [1]
+
         content {
-          key    = string_ends_with.value.key
-          values = string_ends_with.value.values
+          key    = advanced_filter.value.string_ends_with.key
+          values = advanced_filter.value.string_ends_with.values
         }
       }
     }
