@@ -51,14 +51,14 @@ variable "delivery_properties" {
 
 variable "advanced_filter" {
   type = list(object({
-    string_begins_with = object({
+    string_begins_with = optional(object({
       values = list(string)
       key    = string
-    })
-    string_ends_with = object({
+    }), [])
+    string_ends_with = optional(object({
       values = list(string)
       key    = string
-    })
+    }), [])
   }))
   description = "parameters for advanced filters"
   default     = []
