@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[//]: # (TODO: update date)
+## [3.5.0] - (unreleased)
+
+### Added
+
+- `azure/event_grid_topic_subscription`: Add variable `advanced_filter` ([#331](https://github.com/recognizegroup/terraform/pull/331)) ([`71e1a5a0`](https://github.com/recognizegroup/terraform/commit/71e1a5a0)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+
+### Fixed
+
+- `kubernetes/deployment_with_service`: Fix duplicate volume ([#332](https://github.com/recognizegroup/terraform/pull/332)) ([`da211366`](https://github.com/recognizegroup/terraform/commit/da211366)) ([@tom-reinders](https://github.com/tom-reinders))
+- `kubernetes/cron_job`: Fix variable description ([#332](https://github.com/recognizegroup/terraform/pull/332)) ([`da211366`](https://github.com/recognizegroup/terraform/commit/da211366)) ([@tom-reinders](https://github.com/tom-reinders))
+
 ## [3.4.0] - 2023-05-30
 
 ### Added
@@ -128,6 +140,7 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - **Breaking:** Remove module `azure/monitoring`, replace with `azure/azure/monitoring_action_group` and `azure/monitoring_log_analytics_alert` ([#268](https://github.com/recognizegroup/terraform/pull/268)) ([`5bd013c1`](https://github.com/recognizegroup/terraform/commit/5bd013c1)) ([@pipalmic](https://github.com/pipalmic))
 - **Breaking:** Remove module `azure/api_connectors/storage_account`, replace with `azure/api_connectors/storage_blob` and `azure/api_connectors/storage_table` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886)) ([@pipalmic](https://github.com/pipalmic))
 
+[3.5.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.5.0
 [3.4.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.4.0
 [3.3.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.3.0
 [3.2.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.2.0
