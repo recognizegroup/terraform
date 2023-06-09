@@ -32,7 +32,7 @@ variable "docker_image" {
 
 variable "image_pull_policy" {
   type        = string
-  description = "The restart policy for the application"
+  description = "The image pull policy for the cronjob"
   default     = null
 }
 
