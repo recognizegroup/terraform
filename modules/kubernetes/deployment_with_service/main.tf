@@ -203,7 +203,7 @@ resource "kubernetes_manifest" "http-scaler" {
       scaleTargetRef = {
         deployment = var.name
         service    = var.name
-        port       = var.target_port
+        port       = var.container_port
       }
 
       replicas = {
