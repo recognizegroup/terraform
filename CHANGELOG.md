@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `kubernetes/deployment_with_service`: Fix duplicate volume ([#332](https://github.com/recognizegroup/terraform/pull/332)) ([`da211366`](https://github.com/recognizegroup/terraform/commit/da211366)) ([@tom-reinders](https://github.com/tom-reinders))
 - `kubernetes/cron_job`: Fix variable description ([#332](https://github.com/recognizegroup/terraform/pull/332)) ([`da211366`](https://github.com/recognizegroup/terraform/commit/da211366)) ([@tom-reinders](https://github.com/tom-reinders))
+- `kubernetes/deployment_with_service`: Fix bug where the http-scaler used the wrong port ([#333](https://github.com/recognizegroup/terraform/pull/333)) ([`270e3947`](https://github.com/recognizegroup/terraform/commit/270e3947)) ([@tom-reinders](https://github.com/tom-reinders))
 
 ## [3.4.0] - 2023-05-30
 
