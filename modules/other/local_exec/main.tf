@@ -1,7 +1,5 @@
 terraform {
   required_version = "~> 1.3"
-
-  backend "azurerm" {}
 }
 
 resource "null_resource" "local_execute_code" {

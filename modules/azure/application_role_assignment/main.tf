@@ -7,8 +7,6 @@ terraform {
       version = "~> 2.36"
     }
   }
-
-  backend "azurerm" {}
 }
 
 provider "azuread" {}

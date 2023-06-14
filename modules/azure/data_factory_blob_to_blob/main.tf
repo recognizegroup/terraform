@@ -7,8 +7,6 @@ terraform {
       version = "~> 3.48"
     }
   }
-
-  backend "azurerm" {}
 }
 
 provider "azurerm" {
@@ -99,15 +97,15 @@ resource "azurerm_data_factory_pipeline" "pipeline" {
           "wildcardFolderPath": "*",
           "wildcardFileName": "*",
           "deleteFilesAfterCompletion": false,
-          "modifiedDatetimeStart": {  
+          "modifiedDatetimeStart": {
             "value":"@{pipeline().parameters.LastModified_From}",
             "type":"Expression"
           },
-          "modifiedDatetimeEnd": {  
+          "modifiedDatetimeEnd": {
             "value":"@{pipeline().parameters.LastModified_To}",
             "type":"Expression"
           }
-        }                                                           
+        }
       },
       "sink": {
         "type": "BinarySink",

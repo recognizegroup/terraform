@@ -7,8 +7,6 @@ terraform {
       version = "~> 1.4"
     }
   }
-
-  backend "azurerm" {}
 }
 
 provider "azapi" {

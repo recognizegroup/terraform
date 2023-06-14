@@ -7,8 +7,6 @@ terraform {
       version = "0.1.1"
     }
   }
-
-  backend "azurerm" {}
 }
 
 provider "ec" {}

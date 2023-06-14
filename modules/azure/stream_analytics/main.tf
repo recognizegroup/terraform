@@ -7,8 +7,6 @@ terraform {
       version = "~> 3.48"
     }
   }
-
-  backend "azurerm" {}
 }
 
 provider "azurerm" {
@@ -59,10 +57,10 @@ resource "azurerm_stream_analytics_stream_input_eventhub" "eventhub_stream_input
 
 /*
   The following block is a bit of a hack.
-  
+
   azurerm v3.3.0 has no compression settings for the
-  "azurerm_stream_analytics_stream_input_eventhub" module. 
-  We work around this by directly invoking an Azure CLI 
+  "azurerm_stream_analytics_stream_input_eventhub" module.
+  We work around this by directly invoking an Azure CLI
   update command.
 
   This command has been wrapped in a bash script for

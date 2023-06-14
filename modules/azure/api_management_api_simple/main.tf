@@ -7,8 +7,6 @@ terraform {
       version = "~> 3.48"
     }
   }
-
-  backend "azurerm" {}
 }
 
 provider "azurerm" {
@@ -178,7 +176,7 @@ resource "azurerm_api_management_api_policy" "api_policy" {
     %{endif}
   </inbound>
 
-   <outbound> 
+   <outbound>
     <base />
       %{if var.custom_outbound_policy != null}
       ${var.custom_outbound_policy}

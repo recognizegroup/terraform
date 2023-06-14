@@ -7,8 +7,6 @@ terraform {
       version = "~> 2.20"
     }
   }
-
-  backend "azurerm" {}
 }
 
 provider "kubernetes" {
