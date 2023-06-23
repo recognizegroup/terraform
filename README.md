@@ -9,7 +9,7 @@ This repository contains terraform modules which can be used in combination with
 ```terraform
 # Use Terragrunt to download the module code
 terraform {
-  source = "git::https://github.com/recognizegroup/terraform.git//path/to/module?ref=v3.0.0"
+  source = "github.com/recognizegroup/terraform.git//path/to/module?ref=v3"
 }
 
 # Fill in the variables for that module

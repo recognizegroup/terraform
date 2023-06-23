@@ -19,6 +19,12 @@ variable "schedule" {
   description = "The schedule for the cronjob"
 }
 
+variable "timezone" {
+  type        = string
+  description = "The timezone for the cronjob"
+  default     = null
+}
+
 variable "starting_deadline_seconds" {
   type        = number
   description = "The deadline in seconds for starting the job if it misses scheduled time for any reason"
