@@ -48,3 +48,20 @@ variable "delivery_properties" {
   }))
   description = "parameters for delivery properties, set property_value if type is static, otherwise use source_field for dynamics"
 }
+
+variable "advanced_filter" {
+  type = list(object({
+    string_begins_with = optional(object({
+      values = list(string)
+      key    = string
+    }))
+    string_ends_with = optional(object({
+      values = list(string)
+      key    = string
+    }))
+  }))
+  description = "parameters for advanced filters"
+  default     = []
+}
+
+

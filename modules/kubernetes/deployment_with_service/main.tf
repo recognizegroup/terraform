@@ -143,13 +143,13 @@ resource "kubernetes_deployment_v1" "deployment" {
         }
 
         dynamic "volume" {
-          for_each = var.volume_mounts
+          for_each = toset(var.volume_mounts[*].claim)
 
           content {
-            name = volume.value.claim
+            name = volume.value
 
             persistent_volume_claim {
-              claim_name = volume.value.claim
+              claim_name = volume.value
             }
           }
         }
@@ -203,7 +203,7 @@ resource "kubernetes_manifest" "http-scaler" {
       scaleTargetRef = {
         deployment = var.name
         service    = var.name
-        port       = var.target_port
+        port       = var.container_port
       }
 
       replicas = {

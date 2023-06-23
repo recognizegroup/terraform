@@ -37,6 +37,31 @@ resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
       case_sensitive      = var.subject_filter.case_sensitive
     }
   }
+
+  dynamic "advanced_filter" {
+    for_each = var.advanced_filter
+
+    content {
+      dynamic "string_begins_with" {
+        for_each = advanced_filter.value.string_begins_with == null ? [] : [1]
+
+        content {
+          key    = advanced_filter.value.string_begins_with.key
+          values = advanced_filter.value.string_begins_with.values
+        }
+      }
+
+      dynamic "string_ends_with" {
+        for_each = advanced_filter.value.string_ends_with == null ? [] : [1]
+
+        content {
+          key    = advanced_filter.value.string_ends_with.key
+          values = advanced_filter.value.string_ends_with.values
+        }
+      }
+    }
+  }
+
   included_event_types = var.event_types
   dynamic "delivery_property" {
     for_each = var.delivery_properties

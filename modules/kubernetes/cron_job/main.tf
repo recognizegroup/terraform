@@ -26,6 +26,7 @@ resource "kubernetes_cron_job_v1" "cron_job" {
   spec {
     concurrency_policy        = "Forbid"
     schedule                  = var.schedule
+    timezone                  = var.timezone
     starting_deadline_seconds = var.starting_deadline_seconds
 
     job_template {
