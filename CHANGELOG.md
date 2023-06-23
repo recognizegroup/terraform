@@ -5,12 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-[//]: # (TODO: update date)
-## [3.5.0] - (unreleased)
+## [3.5.0] - 2023-06-23
+
+### Changed
+
+- Update getting started example in README.md ([#334](https://github.com/recognizegroup/terraform/pull/334)) ([`8a1fea64`](https://github.com/recognizegroup/terraform/commit/8a1fea64)) ([@wslaghekke](https://github.com/wslaghekke))
 
 ### Added
 
 - `azure/event_grid_topic_subscription`: Add variable `advanced_filter` ([#331](https://github.com/recognizegroup/terraform/pull/331)) ([`71e1a5a0`](https://github.com/recognizegroup/terraform/commit/71e1a5a0)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- `kubernetes/cron_job`: Add variable `timezone` ([#335](https://github.com/recognizegroup/terraform/pull/335)) ([`dcd4faa0`](https://github.com/recognizegroup/terraform/commit/dcd4faa0)) ([@tom-reinders](https://github.com/tom-reinders))
 
 ### Fixed
 
