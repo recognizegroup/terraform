@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[//]: # (TODO: update date)
+## [4.0.0] - (unreleased)
+
+### Removed
+
+- **Breaking:** Remove backend declaration from modules ([`44c65ee8`](https://github.com/recognizegroup/terraform/commit/44c65ee8)) ([@bartwesselink](https://github.com/bartwesselink))
+
 ## [3.5.0] - 2023-06-23
 
 ### Changed
