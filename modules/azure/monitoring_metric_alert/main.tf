@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_monitor_metric_alert" "metric_alert" {
   for_each = {
     for rule in var.monitoring_rules :

@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_api_management_group" "group" {
   for_each            = { for k, v in var.groups : k => v }
   name                = each.value.name

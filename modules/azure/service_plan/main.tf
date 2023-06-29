@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 locals {
   scale_in_threshold_rules = [
     for rule in var.scaling_rules : {

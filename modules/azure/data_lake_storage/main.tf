@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_storage_account" "storage_account" {

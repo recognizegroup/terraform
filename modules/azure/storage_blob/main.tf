@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_storage_blob" "storage_blob" {
   name                   = var.remote_file_name
   storage_account_name   = var.storage_account_name

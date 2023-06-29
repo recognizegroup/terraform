@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_storage_table_entity" "storage_table_entity" {
   for_each = { for entity in var.rows : entity.row_key => entity }
 

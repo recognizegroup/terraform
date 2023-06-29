@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 locals {
   eventhub_inputs = { for eventhub_input in var.eventhub_inputs : eventhub_input.name => eventhub_input }
   blob_outputs    = { for blob_output in var.blob_outputs : blob_output.name => blob_output }

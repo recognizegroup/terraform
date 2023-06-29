@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 locals {
   logic_app_instances = { for app in var.logic_app_instances : app.logic_app_name => app }
 }

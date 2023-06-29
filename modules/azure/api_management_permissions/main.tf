@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_api_management_group" "group" {
   for_each = {
     for index, group in var.groups : index => group

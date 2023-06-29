@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_key_vault_secret" "secret" {
   for_each = {
     for index, secret in nonsensitive(var.secrets) :

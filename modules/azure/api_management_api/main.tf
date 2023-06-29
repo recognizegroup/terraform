@@ -13,10 +13,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 locals {
   //Do this if statement here instead of twice for both api:// settings
   app_api_endpoint = var.app_api_endpoint != null ? var.app_api_endpoint : "${lower(replace(var.application_name, " ", "-"))}"

@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_monitor_diagnostic_setting" "setting" {
   name                       = var.name
   target_resource_id         = var.target_resource_id

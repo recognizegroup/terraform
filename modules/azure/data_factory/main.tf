@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_data_factory" "data_factory" {
   name                = var.name
   resource_group_name = var.resource_group_name

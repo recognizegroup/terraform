@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_eventhub_namespace" "namespace" {
   name                = var.namespace_name
   location            = var.location

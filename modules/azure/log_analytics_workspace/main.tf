@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_log_analytics_workspace" "workspace" {
   name                = var.name
   location            = var.location

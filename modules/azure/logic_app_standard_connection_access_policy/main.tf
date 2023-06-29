@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_resource_group_template_deployment" "policy" {
   name                = "${var.connection_name}-ap"
   resource_group_name = var.resource_group_name

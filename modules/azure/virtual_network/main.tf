@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_virtual_network" "virtual_network" {
   name                = var.name
   address_space       = var.address_space

@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_key_vault_certificate" "certificate_automatic" {
   count = var.ignore_changes ? 0 : 1
 
