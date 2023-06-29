@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_role_assignment" "role_assignment" {
   for_each = {
     for role in var.roles :

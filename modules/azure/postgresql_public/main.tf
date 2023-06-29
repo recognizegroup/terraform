@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "random_password" "postgresql_admin" {
   length           = 16
   special          = false

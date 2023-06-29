@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_servicebus_namespace" "service_bus" {
   name                = var.name
   location            = var.location

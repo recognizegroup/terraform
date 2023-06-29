@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_eventgrid_system_topic" "topic" {
   name                   = var.topic_name
   location               = var.location

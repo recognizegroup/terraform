@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_recovery_services_vault" "vault" {
   name                = var.recovery_services_vault_name
   location            = var.location

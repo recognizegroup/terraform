@@ -13,10 +13,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_public_ip" "public_ip" {
   count = var.enable_public_access ? 1 : 0
 

@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_route_table" "route_table" {
   name                = var.name
   location            = var.location

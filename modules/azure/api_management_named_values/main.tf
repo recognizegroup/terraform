@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_api_management_named_value" "named_value" {
   for_each            = { for named_value in var.named_values : named_value.name => named_value }
   name                = each.value.name

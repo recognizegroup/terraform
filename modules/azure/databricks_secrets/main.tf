@@ -13,10 +13,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 provider "databricks" {
   host = var.databricks_workspace_url
 }

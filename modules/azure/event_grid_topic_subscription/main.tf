@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_eventgrid_system_topic_event_subscription" "subscription" {
   name                = var.name
   system_topic        = var.system_topic_name

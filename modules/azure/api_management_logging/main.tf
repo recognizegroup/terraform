@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_api_management_logger" "logger" {
   name                = var.api_management_logger_name
   api_management_name = var.api_management_name

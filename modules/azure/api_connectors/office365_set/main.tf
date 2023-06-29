@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_resource_group_template_deployment" "office365_connector" {
   for_each = var.connection_names
 

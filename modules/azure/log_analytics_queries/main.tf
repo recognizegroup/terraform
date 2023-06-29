@@ -16,10 +16,6 @@ terraform {
 provider "random" {
   # Configuration options
 }
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_log_analytics_query_pack" "query_pack" {
   name                = var.query_pack_name
   resource_group_name = var.resource_group_name

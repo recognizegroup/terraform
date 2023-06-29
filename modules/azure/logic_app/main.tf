@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 locals {
   // Remove need for specifying the "value" field for every parameter
   parameters_content = {

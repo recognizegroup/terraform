@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_api_management_api_operation_policy" "policy" {
   api_name            = var.api_name
   api_management_name = var.api_management_name

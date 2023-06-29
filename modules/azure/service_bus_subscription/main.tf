@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_servicebus_subscription" "service_bus_subscription" {
   name                                      = var.name
   topic_id                                  = var.topic_id

@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 data "azurerm_client_config" "current" {}
 
 resource "random_password" "mssql_admin_password" {

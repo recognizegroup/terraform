@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 # Function App
 
 resource "azurerm_windows_function_app" "function_app" {

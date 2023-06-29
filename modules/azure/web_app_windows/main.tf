@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_windows_web_app" "web_app" {
   name                = var.name
   location            = var.location

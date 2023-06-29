@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_analysis_services_server" "server" {
   name                    = var.name
   location                = var.location

@@ -9,10 +9,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-}
-
 // TODO: Refactor when pull request closed https://github.com/hashicorp/terraform-provider-azurerm/pull/16671
 resource "azurerm_frontdoor" "frontdoor" {
   name                = var.name
