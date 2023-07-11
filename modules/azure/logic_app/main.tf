@@ -40,12 +40,12 @@ resource "azurerm_logic_app_workflow" "workflow" {
     for_each = length(var.trigger_oauth_policy_claims) > 0 ? [1] : []
     trigger {
       open_authentication_policy {
-        name       = "Default"
+        name = "Default"
         claim {
           for_each = var.trigger_oauth_policy_claims
           name     = each.key
           value    = each.value
-        }        
+        }
       }
     }
   }
