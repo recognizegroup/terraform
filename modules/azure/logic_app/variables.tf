@@ -48,3 +48,9 @@ variable "use_managed_identity" {
   description = "Use Managed Identity for this logic app"
   default     = false
 }
+
+variable "trigger_oauth_policy_claims" {
+  type        = map(string)
+  description = "Trigger open authentication policy validated claims"
+  default     = {}
+}
