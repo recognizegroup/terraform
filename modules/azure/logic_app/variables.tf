@@ -51,6 +51,6 @@ variable "use_managed_identity" {
 
 variable "trigger_oauth_policy_claims" {
   type        = map(string)
-  description = "Trigger open authentication policy validated claims"
+  description = "Claims validated by open authentication policy in HTTP trigger"
   default     = {}
 }
