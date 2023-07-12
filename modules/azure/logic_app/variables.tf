@@ -58,5 +58,5 @@ variable "trigger_oauth_policy_claims" {
 variable "trigger_ip_address_range" {
   type        = set(string)
   description = "IP address range allowed to call HTTP trigger"
-  default     = [ "0.0.0.0/0" ]
+  default     = ["0.0.0.0/0"]
 }

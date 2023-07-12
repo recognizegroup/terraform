@@ -47,11 +47,11 @@ resource "azurerm_logic_app_workflow" "workflow" {
             for_each = var.trigger_oauth_policy_claims
             content {
               name  = claim.key
-              value = claim.value        
+              value = claim.value
             }
           }
         }
-      }      
+      }
     }
   }
 }
