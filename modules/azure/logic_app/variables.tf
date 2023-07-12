@@ -51,6 +51,12 @@ variable "use_managed_identity" {
 
 variable "trigger_oauth_policy_claims" {
   type        = map(string)
-  description = "Claims validated by open authentication policy in HTTP trigger"
+  description = "Claims validated by OAuth policy in HTTP trigger"
   default     = {}
+}
+
+variable "trigger_ip_address_range" {
+  type        = set(string)
+  description = "IP address range allowed to call HTTP trigger"
+  default     = [ "0.0.0.0/0" ]
 }
