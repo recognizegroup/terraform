@@ -118,6 +118,11 @@ updates:
       interval: "daily"
 
   - package-ecosystem: "terraform"
+    directory: "/modules/azure/application_insights_smart_detection_rule"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "terraform"
     directory: "/modules/azure/application_insights_workbook"
     schedule:
       interval: "daily"
