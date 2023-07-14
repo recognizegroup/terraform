@@ -80,3 +80,14 @@ variable "auto_delete_rules" {
   default     = null
 }
 
+variable "cors_rules" {
+  type = set(object({
+    allowed_headers    = list(string),
+    allowed_methods    = list(string),
+    allowed_origins    = list(string),
+    exposed_headers    = list(string),
+    max_age_in_seconds = number
+  }))
+  description = "Describes the CORS rules for the storage account"
+  default     = null
+}
