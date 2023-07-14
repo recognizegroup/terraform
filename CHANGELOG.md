@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `azure/storage_account_public`: Add variable `cors_rules` ([#343](https://github.com/recognizegroup/terraform/pull/343)) ([`31477279`](https://github.com/recognizegroup/terraform/commit/31477279)) ([@tom-reinders](https://github.com/tom-reinders))
+- `azure/storage_account_public`: Add variable `cors_rules` ([#343](https://github.com/recognizegroup/terraform/pull/343)) ([`242a7de0`](https://github.com/recognizegroup/terraform/commit/242a7de0)) ([@tom-reinders](https://github.com/tom-reinders))
 
 ## [3.6.0] - 2023-07-13
 
