@@ -28,6 +28,24 @@ resource "azurerm_storage_account" "storage_account" {
   nfsv3_enabled                   = var.nfsv3_enabled
   is_hns_enabled                  = var.is_hns_enabled
 
+  dynamic "blob_properties" {
+    for_each = var.cors_rules != null ? [1] : []
+
+    content {
+      dynamic "cors_rule" {
+        for_each = var.cors_rules
+
+        content {
+          allowed_headers    = cors_rule.value.allowed_headers
+          allowed_methods    = cors_rule.value.allowed_methods
+          allowed_origins    = cors_rule.value.allowed_origins
+          exposed_headers    = cors_rule.value.exposed_headers
+          max_age_in_seconds = cors_rule.value.max_age_in_seconds
+        }
+      }
+    }
+  }
+
   dynamic "network_rules" {
     for_each = var.nfsv3_enabled == true ? [1] : []
     content {

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.0] - 2023-07-14
+
+### Added
+
+- `azure/storage_account_public`: Add variable `cors_rules` ([#343](https://github.com/recognizegroup/terraform/pull/343)) ([`242a7de0`](https://github.com/recognizegroup/terraform/commit/242a7de0)) ([@tom-reinders](https://github.com/tom-reinders))
+
 ## [3.6.0] - 2023-07-13
 
 ### Added
@@ -153,6 +159,7 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - **Breaking:** Remove module `azure/monitoring`, replace with `azure/azure/monitoring_action_group` and `azure/monitoring_log_analytics_alert` ([#268](https://github.com/recognizegroup/terraform/pull/268)) ([`5bd013c1`](https://github.com/recognizegroup/terraform/commit/5bd013c1)) ([@pipalmic](https://github.com/pipalmic))
 - **Breaking:** Remove module `azure/api_connectors/storage_account`, replace with `azure/api_connectors/storage_blob` and `azure/api_connectors/storage_table` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886)) ([@pipalmic](https://github.com/pipalmic))
 
+[3.7.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.7.0
 [3.6.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.6.0
 [3.5.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.5.0
 [3.4.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.4.0
