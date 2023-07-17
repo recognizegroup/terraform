@@ -91,3 +91,12 @@ variable "cors_rules" {
   description = "Describes the CORS rules for the storage account"
   default     = null
 }
+
+variable "static_website" {
+  type = object({
+    index_document = string,
+    error_document = string
+  })
+  description = "Describes the static website configuration for the storage account"
+  default     = null
+}
