@@ -95,7 +95,7 @@ variable "cors_rules" {
 variable "static_website" {
   type = object({
     index_document = string,
-    error_404_page = string
+    error_document = string
   })
   description = "Describes the static website configuration for the storage account"
   default     = null
