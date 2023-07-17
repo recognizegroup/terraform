@@ -69,6 +69,14 @@ resource "azurerm_storage_account" "storage_account" {
       error_404_document = var.static_website.error_document
     }
   }
+
+  dynamic "custom_domain" {
+    for_each = var.custom_domain != null ? [1] : []
+    content {
+      name = var.custom_domain.name
+      use_sub_domain_name = var.custom_domain.use_sub_domain_name
+    }
+  }
 }
 
 # Get our public IP address
