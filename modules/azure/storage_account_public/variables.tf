@@ -103,8 +103,8 @@ variable "static_website" {
 
 variable "custom_domain" {
   type = object({
-    name                = string,
-    use_sub_domain_name = bool
+    name          = string,
+    use_subdomain = bool
   })
   description = "Describes the custom domain configuration for the storage account"
   default     = null
