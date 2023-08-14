@@ -20,7 +20,10 @@ output "primary_connection_string" {
   sensitive = true
 }
 
+# Deprecated in favor of primary_connection_string
+# TODO: Remove deprecated output in next major version
 output "primary_access_connection_string" {
-  value     = azurerm_storage_account.storage_account.primary_connection_string
-  sensitive = true
+  description = "Deprecated in favor of primary_connection_string"
+  value       = azurerm_storage_account.storage_account.primary_connection_string
+  sensitive   = true
 }
