@@ -100,3 +100,12 @@ variable "static_website" {
   description = "Describes the static website configuration for the storage account"
   default     = null
 }
+
+variable "custom_domain" {
+  type = object({
+    name          = string,
+    use_subdomain = optional(bool)
+  })
+  description = "Describes the custom domain configuration for the storage account"
+  default     = null
+}
