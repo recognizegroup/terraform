@@ -61,6 +61,22 @@ resource "azurerm_storage_account" "storage_account" {
       directory_type = var.authentication_directory_type
     }
   }
+
+  dynamic "static_website" {
+    for_each = var.static_website != null ? [1] : []
+    content {
+      index_document     = var.static_website.index_document
+      error_404_document = var.static_website.error_document
+    }
+  }
+
+  dynamic "custom_domain" {
+    for_each = var.custom_domain != null ? [1] : []
+    content {
+      name          = var.custom_domain.name
+      use_subdomain = var.custom_domain.use_subdomain
+    }
+  }
 }
 
 # Get our public IP address
