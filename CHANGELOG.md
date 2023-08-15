@@ -11,8 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - **Breaking:** Remove backend declaration from modules ([`44c65ee8`](https://github.com/recognizegroup/terraform/commit/44c65ee8)) ([@bartwesselink](https://github.com/bartwesselink))
-- **Breaking:** `azure/storage_account_private`: Remove deprecated `primary_access_connection_string` output ([#](https://github.com/recognizegroup/terraform/pull/)) ([``](https://github.com/recognizegroup/terraform/commit/)) ([@tom-reinders](https://github.com/tom-reinders))
-- **Breaking:** `azure/storage_account_public`: Remove deprecated `primary_access_connection_string` output ([#](https://github.com/recognizegroup/terraform/pull/)) ([``](https://github.com/recognizegroup/terraform/commit/)) ([@tom-reinders](https://github.com/tom-reinders))
+- **Breaking:** `azure/storage_account_private`: Remove deprecated `primary_access_connection_string` output ([#351](https://github.com/recognizegroup/terraform/pull/351)) ([`347374ed`](https://github.com/recognizegroup/terraform/commit/347374ed)) ([@tom-reinders](https://github.com/tom-reinders))
+- **Breaking:** `azure/storage_account_public`: Remove deprecated `primary_access_connection_string` output ([#351](https://github.com/recognizegroup/terraform/pull/351)) ([`347374ed`](https://github.com/recognizegroup/terraform/commit/347374ed)) ([@tom-reinders](https://github.com/tom-reinders))
 
 ## [3.8.0] - 2023-08-15
 
