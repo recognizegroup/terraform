@@ -48,3 +48,15 @@ variable "use_managed_identity" {
   description = "Use Managed Identity for this logic app"
   default     = false
 }
+
+variable "trigger_oauth_policy_claims" {
+  type        = map(string)
+  description = "Claims validated by OAuth policy in HTTP trigger"
+  default     = {}
+}
+
+variable "trigger_ip_address_range" {
+  type        = set(string)
+  description = "IP address range allowed to call HTTP trigger"
+  default     = ["0.0.0.0/0"]
+}

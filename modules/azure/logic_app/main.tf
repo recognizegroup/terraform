@@ -29,6 +29,25 @@ resource "azurerm_logic_app_workflow" "workflow" {
       type = "SystemAssigned"
     }
   }
+
+  dynamic "access_control" {
+    for_each = length(var.trigger_oauth_policy_claims) > 0 ? [1] : []
+    content {
+      trigger {
+        allowed_caller_ip_address_range = var.trigger_ip_address_range
+        open_authentication_policy {
+          name = "Default"
+          dynamic "claim" {
+            for_each = var.trigger_oauth_policy_claims
+            content {
+              name  = claim.key
+              value = claim.value
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 // Deploy workflow as ARM template conditional when arm_template_path is specified

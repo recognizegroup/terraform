@@ -80,3 +80,32 @@ variable "auto_delete_rules" {
   default     = null
 }
 
+variable "cors_rules" {
+  type = set(object({
+    allowed_headers    = list(string),
+    allowed_methods    = list(string),
+    allowed_origins    = list(string),
+    exposed_headers    = list(string),
+    max_age_in_seconds = number
+  }))
+  description = "Describes the CORS rules for the storage account"
+  default     = null
+}
+
+variable "static_website" {
+  type = object({
+    index_document = string,
+    error_document = string
+  })
+  description = "Describes the static website configuration for the storage account"
+  default     = null
+}
+
+variable "custom_domain" {
+  type = object({
+    name          = string,
+    use_subdomain = optional(bool)
+  })
+  description = "Describes the custom domain configuration for the storage account"
+  default     = null
+}

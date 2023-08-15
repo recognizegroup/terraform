@@ -12,6 +12,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Breaking:** Remove backend declaration from modules ([`44c65ee8`](https://github.com/recognizegroup/terraform/commit/44c65ee8)) ([@bartwesselink](https://github.com/bartwesselink))
 
+## [3.8.0] - 2023-08-15
+
+### Added
+
+- `azure/storage_account_public`: Add variable `static_website` ([#345](https://github.com/recognizegroup/terraform/pull/345)) ([`fa6cc9b2`](https://github.com/recognizegroup/terraform/commit/fa6cc9b2)) ([@bartwesselink](https://github.com/bartwesselink))
+- `azure/storage_account_public`: Add variable `custom_domain` ([#346](https://github.com/recognizegroup/terraform/pull/346)) ([`54c6931e`](https://github.com/recognizegroup/terraform/commit/54c6931e)) ([@bartwesselink](https://github.com/bartwesselink))
+- `azure/storage_account_private`: Add output `primary_connection_string` ([#348](https://github.com/recognizegroup/terraform/pull/348)) ([`ba78e538`](https://github.com/recognizegroup/terraform/commit/ba78e538)) ([@tom-reinders](https://github.com/tom-reinders))
+- `azure/storage_account_public`: Add output `primary_connection_string` ([#348](https://github.com/recognizegroup/terraform/pull/348)) ([`ba78e538`](https://github.com/recognizegroup/terraform/commit/ba78e538)) ([@tom-reinders](https://github.com/tom-reinders))
+
+## [3.7.0] - 2023-07-14
+
+### Added
+
+- `azure/storage_account_public`: Add variable `cors_rules` ([#343](https://github.com/recognizegroup/terraform/pull/343)) ([`242a7de0`](https://github.com/recognizegroup/terraform/commit/242a7de0)) ([@tom-reinders](https://github.com/tom-reinders))
+
+## [3.6.0] - 2023-07-13
+
+### Added
+
+- Add module `azure/application_insights_smart_detection_rule` ([#339](https://github.com/recognizegroup/terraform/pull/339)) ([`b5ba2c58`](https://github.com/recognizegroup/terraform/commit/b5ba2c58)) ([@tom-reinders](https://github.com/tom-reinders))
+- `azure/logic_app`: Add variable `trigger_oauth_policy_claims` ([#340](https://github.com/recognizegroup/terraform/pull/340)) ([`e2381256`](https://github.com/recognizegroup/terraform/commit/e2381256)) ([@mkostalrecognize](https://github.com/mkostalrecognize))
+- `azure/logic_app`: Add variable `trigger_ip_address_range` ([#340](https://github.com/recognizegroup/terraform/pull/340)) ([`31477279`](https://github.com/recognizegroup/terraform/commit/31477279)) ([@mkostalrecognize](https://github.com/mkostalrecognize))
+
 ## [3.5.0] - 2023-06-23
 
 ### Changed
@@ -152,6 +175,9 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - **Breaking:** Remove module `azure/monitoring`, replace with `azure/azure/monitoring_action_group` and `azure/monitoring_log_analytics_alert` ([#268](https://github.com/recognizegroup/terraform/pull/268)) ([`5bd013c1`](https://github.com/recognizegroup/terraform/commit/5bd013c1)) ([@pipalmic](https://github.com/pipalmic))
 - **Breaking:** Remove module `azure/api_connectors/storage_account`, replace with `azure/api_connectors/storage_blob` and `azure/api_connectors/storage_table` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886)) ([@pipalmic](https://github.com/pipalmic))
 
+[3.8.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.8.0
+[3.7.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.7.0
+[3.6.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.6.0
 [3.5.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.5.0
 [3.4.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.4.0
 [3.3.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.3.0

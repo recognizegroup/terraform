@@ -22,6 +22,24 @@ resource "azurerm_storage_account" "storage_account" {
   nfsv3_enabled                   = var.nfsv3_enabled
   is_hns_enabled                  = var.is_hns_enabled
 
+  dynamic "blob_properties" {
+    for_each = var.cors_rules != null ? [1] : []
+
+    content {
+      dynamic "cors_rule" {
+        for_each = var.cors_rules
+
+        content {
+          allowed_headers    = cors_rule.value.allowed_headers
+          allowed_methods    = cors_rule.value.allowed_methods
+          allowed_origins    = cors_rule.value.allowed_origins
+          exposed_headers    = cors_rule.value.exposed_headers
+          max_age_in_seconds = cors_rule.value.max_age_in_seconds
+        }
+      }
+    }
+  }
+
   dynamic "network_rules" {
     for_each = var.nfsv3_enabled == true ? [1] : []
     content {
@@ -35,6 +53,22 @@ resource "azurerm_storage_account" "storage_account" {
     for_each = var.authentication_directory_type == null ? [] : [1]
     content {
       directory_type = var.authentication_directory_type
+    }
+  }
+
+  dynamic "static_website" {
+    for_each = var.static_website != null ? [1] : []
+    content {
+      index_document     = var.static_website.index_document
+      error_404_document = var.static_website.error_document
+    }
+  }
+
+  dynamic "custom_domain" {
+    for_each = var.custom_domain != null ? [1] : []
+    content {
+      name          = var.custom_domain.name
+      use_subdomain = var.custom_domain.use_subdomain
     }
   }
 }
