@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - develop
+      - 4.x
 
 jobs:
   validate-terraform:
