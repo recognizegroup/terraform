@@ -7,12 +7,6 @@ terraform {
       version = "~> 3.48"
     }
   }
-
-  backend "azurerm" {}
-}
-
-provider "azurerm" {
-  features {}
 }
 
 resource "azurerm_application_insights_smart_detection_rule" "application_insights_smart_detection_rule" {
