@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `azure/web_app_linux`: Add variable `docker_image_name` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [``](https://github.com/recognizegroup/terraform/commit/)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
-- `azure/web_app_windows`: Add variable `docker_image_name` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [``](https://github.com/recognizegroup/terraform/commit/)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
-- `azure/web_app_windows`: Add variable `docker_registry_url` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [``](https://github.com/recognizegroup/terraform/commit/)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/web_app_linux`: Add variable `docker_image_name` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [`9f0663a2`](https://github.com/recognizegroup/terraform/commit/9f0663a2)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/web_app_windows`: Add variable `docker_image_name` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [`9f0663a2`](https://github.com/recognizegroup/terraform/commit/9f0663a2)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/web_app_windows`: Add variable `docker_registry_url` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [`9f0663a2`](https://github.com/recognizegroup/terraform/commit/9f0663a2)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
 
 ## [3.8.0] - 2023-08-15
 
