@@ -33,7 +33,8 @@ resource "azurerm_linux_web_app" "web_app" {
 
     application_stack {
       dotnet_version    = var.dotnet_version
-      docker_image_name = var.docker_image
+      docker_image_name = var.docker_image_name
+      docker_image      = var.docker_image
       docker_image_tag  = var.docker_image_tag
     }
   }

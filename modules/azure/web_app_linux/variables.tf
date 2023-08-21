@@ -36,15 +36,25 @@ variable "dotnet_version" {
   default     = null
 }
 
-variable "docker_image" {
+variable "docker_image_name" {
   type        = string
-  description = "Docker image for the web app."
+  description = "Docker image name and tag for the web app."
   default     = null
 }
 
+# Deprecated in favor of docker_image_name
+# TODO: Remove deprecated variable in next major version
+variable "docker_image" {
+  type        = string
+  description = "(Deprecated) Docker image for the web app."
+  default     = null
+}
+
+# Deprecated in favor of docker_image_name
+# TODO: Remove deprecated variable in next major version
 variable "docker_image_tag" {
   type        = string
-  description = "Docker image tag for the web app."
+  description = "(Deprecated) Docker image tag for the web app."
   default     = null
 }
 

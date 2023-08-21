@@ -42,21 +42,39 @@ variable "dotnet_version" {
   default     = null
 }
 
-variable "docker_container_name" {
+variable "docker_image_name" {
   type        = string
-  description = "Docker container name for the web app."
+  description = "Docker image name and tag for the web app."
   default     = null
 }
 
-variable "docker_container_registry" {
+variable "docker_registry_url" {
   type        = string
   description = "Docker container registry for the web app."
   default     = null
 }
 
+# Deprecated in favor of docker_image_name
+# TODO: Remove deprecated variable in next major version
+variable "docker_container_name" {
+  type        = string
+  description = "(Deprecated) Docker container name for the web app."
+  default     = null
+}
+
+# Deprecated in favor of docker_registry_url
+# TODO: Remove deprecated variable in next major version
+variable "docker_container_registry" {
+  type        = string
+  description = "(Deprecated) Docker container registry for the web app."
+  default     = null
+}
+
+# Deprecated in favor of docker_image_name
+# TODO: Remove deprecated variable in next major version
 variable "docker_container_tag" {
   type        = string
-  description = "Docker container tag for the web app."
+  description = "(Deprecated) Docker container tag for the web app."
   default     = null
 }
 

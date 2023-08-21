@@ -34,6 +34,8 @@ resource "azurerm_windows_web_app" "web_app" {
     application_stack {
       current_stack             = var.current_stack
       dotnet_version            = var.dotnet_version
+      docker_image_name         = var.docker_image_name
+      docker_registry_url       = var.docker_registry_url
       docker_container_name     = var.docker_container_name
       docker_container_registry = var.docker_container_registry
       docker_container_tag      = var.docker_container_tag

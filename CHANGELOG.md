@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `azure/web_app_linux`: Add variable `docker_image_name` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [``](https://github.com/recognizegroup/terraform/commit/)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/web_app_windows`: Add variable `docker_image_name` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [``](https://github.com/recognizegroup/terraform/commit/)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/web_app_windows`: Add variable `docker_registry_url` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [``](https://github.com/recognizegroup/terraform/commit/)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
+
+## [3.8.0] - 2023-08-15
+
+### Added
+
 - `azure/storage_account_public`: Add variable `static_website` ([#345](https://github.com/recognizegroup/terraform/pull/345)) ([`fa6cc9b2`](https://github.com/recognizegroup/terraform/commit/fa6cc9b2)) ([@bartwesselink](https://github.com/bartwesselink))
 - `azure/storage_account_public`: Add variable `custom_domain` ([#346](https://github.com/recognizegroup/terraform/pull/346)) ([`54c6931e`](https://github.com/recognizegroup/terraform/commit/54c6931e)) ([@bartwesselink](https://github.com/bartwesselink))
 - `azure/storage_account_private`: Add output `primary_connection_string` ([#348](https://github.com/recognizegroup/terraform/pull/348)) ([`ba78e538`](https://github.com/recognizegroup/terraform/commit/ba78e538)) ([@tom-reinders](https://github.com/tom-reinders))
