@@ -67,7 +67,7 @@ variable "docker_image_tag" {
 # Use workaround as described in https://github.com/hashicorp/terraform/issues/25609#issuecomment-1057614400
 locals {
   # tflint-ignore: terraform_unused_declarations
-  validate_docker_image_tag = (var.docker_image_tag != null && var.docker_image_name != null) ? tobool("Both docker_image and docker_image_name are set. Please only set docker_image_name.") : true
+  validate_docker_image_tag = (var.docker_image_tag != null && var.docker_image_name != null) ? tobool("Both docker_image_tag and docker_image_name are set. Please only set docker_image_name.") : true
 }
 
 variable "websockets_enabled" {
