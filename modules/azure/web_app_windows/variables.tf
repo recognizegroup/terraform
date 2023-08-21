@@ -62,6 +62,12 @@ variable "docker_container_name" {
   default     = null
 }
 
+# Use workaround as described in https://github.com/hashicorp/terraform/issues/25609#issuecomment-1057614400
+locals {
+  # tflint-ignore: terraform_unused_declarations
+  validate_docker_container_name = (var.docker_container_name != null && var.docker_image_name != null) ? tobool("Both docker_container_name and docker_image_name are set. Please only set docker_image_name.") : true
+}
+
 # Deprecated in favor of docker_registry_url
 # TODO: Remove deprecated variable in next major version
 variable "docker_container_registry" {
@@ -70,12 +76,24 @@ variable "docker_container_registry" {
   default     = null
 }
 
+# Use workaround as described in https://github.com/hashicorp/terraform/issues/25609#issuecomment-1057614400
+locals {
+  # tflint-ignore: terraform_unused_declarations
+  validate_docker_container_registry = (var.docker_container_registry != null && var.docker_registry_url != null) ? tobool("Both docker_container_registry and docker_registry_url are set. Please only set docker_registry_url.") : true
+}
+
 # Deprecated in favor of docker_image_name
 # TODO: Remove deprecated variable in next major version
 variable "docker_container_tag" {
   type        = string
   description = "(Deprecated) Docker container tag for the web app."
   default     = null
+}
+
+# Use workaround as described in https://github.com/hashicorp/terraform/issues/25609#issuecomment-1057614400
+locals {
+  # tflint-ignore: terraform_unused_declarations
+  validate_docker_container_tag = (var.docker_container_tag != null && var.docker_image_name != null) ? tobool("Both docker_container_tag and docker_image_name are set. Please only set docker_image_name.") : true
 }
 
 variable "websockets_enabled" {

@@ -50,12 +50,24 @@ variable "docker_image" {
   default     = null
 }
 
+# Use workaround as described in https://github.com/hashicorp/terraform/issues/25609#issuecomment-1057614400
+locals {
+  # tflint-ignore: terraform_unused_declarations
+  validate_docker_image = (var.docker_image != null && var.docker_image_name != null) ? tobool("Both docker_image and docker_image_name are set. Please only set docker_image_name.") : true
+}
+
 # Deprecated in favor of docker_image_name
 # TODO: Remove deprecated variable in next major version
 variable "docker_image_tag" {
   type        = string
   description = "(Deprecated) Docker image tag for the web app."
   default     = null
+}
+
+# Use workaround as described in https://github.com/hashicorp/terraform/issues/25609#issuecomment-1057614400
+locals {
+  # tflint-ignore: terraform_unused_declarations
+  validate_docker_image_tag = (var.docker_image_tag != null && var.docker_image_name != null) ? tobool("Both docker_image and docker_image_name are set. Please only set docker_image_name.") : true
 }
 
 variable "websockets_enabled" {
