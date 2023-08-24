@@ -5,14 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-[//]: # (TODO: update date)
-## [3.9.0] - (unreleased)
+## [3.9.0] - 2023-08-24
 
 ### Added
 
 - `azure/web_app_linux`: Add variable `docker_image_name` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [`9f0663a2`](https://github.com/recognizegroup/terraform/commit/9f0663a2)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
 - `azure/web_app_windows`: Add variable `docker_image_name` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [`9f0663a2`](https://github.com/recognizegroup/terraform/commit/9f0663a2)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
 - `azure/web_app_windows`: Add variable `docker_registry_url` ([#352](https://github.com/recognizegroup/terraform/pull/352)) ([`b45c8380`](https://github.com/recognizegroup/terraform/commit/b45c8380), [`9f0663a2`](https://github.com/recognizegroup/terraform/commit/9f0663a2)) ([@jkemperman](https://github.com/jkemperman), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/key_vault`: Add variable `add_current_principal_as_administrator` ([#353](https://github.com/recognizegroup/terraform/pull/353) ([`0a3492f3`](https://github.com/recognizegroup/terraform/commit/0a3492f3)) ([@bartwesselink](https://github.com/bartwesselink))
 
 ## [3.8.0] - 2023-08-15
 
