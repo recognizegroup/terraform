@@ -60,3 +60,9 @@ variable "log_analytics_workspace_id" {
   description = "ID of a log analytics workspace (optional)."
   default     = null
 }
+
+variable "add_current_principal_as_administrator" {
+  type        = bool
+  description = "Flag to specify whether to add the current principal as administrator."
+  default     = true # This default behavior is to maintain backwards compatibility.
+}

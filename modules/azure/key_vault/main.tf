@@ -31,7 +31,7 @@ resource "azurerm_key_vault" "key_vault" {
   // Set secrets administrator policy
   dynamic "access_policy" {
     for_each = {
-      for index, object_id in distinct(concat(var.secret_administrators, [data.azurerm_client_config.current.object_id])) :
+      for index, object_id in distinct(concat(var.secret_administrators, var.add_current_principal_as_administrator ? [] : [data.azurerm_client_config.current.object_id])) :
       object_id => object_id if !var.enable_rbac
     }
 
