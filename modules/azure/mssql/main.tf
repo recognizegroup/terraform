@@ -97,6 +97,11 @@ data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   resource_id = azurerm_mssql_database.mssql_database.id
 }
 
+data "azurerm_private_endpoint_connection" "private_endpoint_connection" {
+  name                = azurerm_private_endpoint.private_endpoint.name
+  resource_group_name = azurerm_private_endpoint.private_endpoint.resource_group_name
+}
+
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   count                      = var.log_analytics_workspace_id == null ? 0 : 1
   name                       = "diag-${var.database_name}"
