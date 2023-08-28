@@ -32,5 +32,5 @@ output "principal_id" {
 }
 
 output "private_ip_address" {
-  value = data.azurerm_private_endpoint_connection.private_endpoint_connection.private_service_connection.0.private_ip_address
+  value = azurerm_private_endpoint.private_endpoint.private_service_connection.0.private_ip_address
 }
