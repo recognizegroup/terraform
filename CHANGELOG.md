@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.10.0] - 2023-08-28
+
+### Added
+
+- `azure/mssql`: Add variable `private_ip_address` ([#356](https://github.com/recognizegroup/terraform/pull/356), [#357](https://github.com/recognizegroup/terraform/pull/357)) ([`9f6aff1c`](https://github.com/recognizegroup/terraform/commit/9f6aff1c), [`963fe420`](https://github.com/recognizegroup/terraform/commit/963fe420)) ([@jeroenvleeming](https://github.com/jeroenvleeming), [@tom-reinders](https://github.com/tom-reinders))
+
 ## [3.9.0] - 2023-08-24
 
 ### Added
