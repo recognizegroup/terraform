@@ -30,3 +30,7 @@ output "admin_password" {
 output "principal_id" {
   value = azurerm_mssql_server.mssql_server.identity[0].principal_id
 }
+
+output "private_ip_address" {
+  value = azurerm_private_endpoint.private_endpoint.private_service_connection.0.private_ip_address
+}

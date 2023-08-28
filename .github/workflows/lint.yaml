@@ -13,4 +13,4 @@ jobs:
       - uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: false
-      - run: terraform fmt -check -recursive
+      - run: terraform fmt -check -diff -recursive
