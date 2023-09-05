@@ -1,8 +1,9 @@
 name: "Dummy Code Scanning"
 
 on:
-  push:
-    branches: [ develop ]
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
 
 jobs:
   code-scanning-dummy:
