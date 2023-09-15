@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `kubernetes/deployment_with_service`: Add variable `ports` ([#](https://github.com/recognizegroup/terraform/pull/)) ([``](https://github.com/recognizegroup/terraform/commit/)) ([@tom-reinders](https://github.com/tom-reinders))
+- `kubernetes/deployment_with_service`: Add variable `ports` ([#361](https://github.com/recognizegroup/terraform/pull/361)) ([`a14adaed`](https://github.com/recognizegroup/terraform/commit/a14adaed), [`d26561e3`](https://github.com/recognizegroup/terraform/commit/d26561e3)) ([@tom-reinders](https://github.com/tom-reinders))
 
 ## [3.10.0] - 2023-08-28
 
