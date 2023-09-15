@@ -92,7 +92,7 @@ resource "kubernetes_deployment_v1" "deployment" {
           }
 
           dynamic "port" {
-            for_each = var.ports
+            for_each = var.extra_ports
 
             content {
               container_port = port.value.target_port
