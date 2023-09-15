@@ -48,7 +48,7 @@ variable "target_port" {
   description = "The port the service forwards to"
 }
 
-variable "ports" {
+variable "extra_ports" {
   type = list(object({
     name        = string
     port        = number
