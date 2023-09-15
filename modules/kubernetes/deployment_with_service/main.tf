@@ -91,6 +91,14 @@ resource "kubernetes_deployment_v1" "deployment" {
             container_port = var.container_port
           }
 
+          dynamic "port" {
+            for_each = var.ports
+
+            content {
+              container_port = port.value.target_port
+            }
+          }
+
           dynamic "volume_mount" {
             for_each = var.volume_mounts
 
@@ -174,6 +182,16 @@ resource "kubernetes_service_v1" "service" {
     port {
       port        = var.target_port
       target_port = var.container_port
+    }
+
+    dynamic "port" {
+      for_each = var.ports
+
+      content {
+        name        = port.value.name
+        port        = port.value.port
+        target_port = port.value.target_port
+      }
     }
 
     type = "ClusterIP"
