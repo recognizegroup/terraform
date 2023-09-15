@@ -179,9 +179,23 @@ resource "kubernetes_service_v1" "service" {
       "io.kompose.service" = kubernetes_deployment_v1.deployment.metadata[0].name
     }
 
-    port {
-      port        = var.target_port
-      target_port = var.container_port
+    dynamic "port" {
+      for_each = var.extra_ports == [] ? [1] : []
+
+      content {
+        port        = var.target_port
+        target_port = var.container_port
+      }
+    }
+
+    dynamic "port" {
+      for_each = var.extra_ports != [] ? [1] : []
+
+      content {
+        name        = "main target to container port"
+        port        = var.target_port
+        target_port = var.container_port
+      }
     }
 
     dynamic "port" {
