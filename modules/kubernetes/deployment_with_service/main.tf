@@ -192,7 +192,7 @@ resource "kubernetes_service_v1" "service" {
       for_each = var.extra_ports != [] ? [1] : []
 
       content {
-        name        = "main target to container port"
+        name        = "main-target-to-container-port"
         port        = var.target_port
         target_port = var.container_port
       }
