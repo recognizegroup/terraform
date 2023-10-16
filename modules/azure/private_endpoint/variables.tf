@@ -28,6 +28,12 @@ variable "is_manual_connection" {
   description = "Specifies whether the connection must be approved manually"
 }
 
+variable "private_connection_request_message" {
+  type        = string
+  description = "The message sent with manual connection request. Relevant only for manual connections"
+  default     = null
+}
+
 variable "subnet_id" {
   type        = string
   description = "The Id of the subnet"
