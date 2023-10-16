@@ -20,10 +20,10 @@ locals {
     for principal_key, principal_id in var.principals :
     [
       for role in var.roles : {
-      scope                = role.scope
-      role_definition_name = role.role_name
-      principal_id         = principal_id
-    }
+        scope                = role.scope
+        role_definition_name = role.role_name
+        principal_id         = principal_id
+      }
     ]
   ])
 }

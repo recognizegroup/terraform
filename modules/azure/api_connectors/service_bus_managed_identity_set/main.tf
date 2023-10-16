@@ -17,7 +17,7 @@ provider "azurerm" {
 
 resource "azurerm_resource_group_template_deployment" "service_bus_managed_identity" {
   for_each = var.connection_names
-  
+
   name                = "${each.value}_deployment"
   resource_group_name = var.resource_group_name
 
