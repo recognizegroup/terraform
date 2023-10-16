@@ -18,9 +18,9 @@ variable "private_connection_resource_id" {
   description = "The ID of the resource where the connection should be made to."
 }
 
-variable "private_connection_resource_subresource_type" {
-  type        = string
-  description = "The subresource type of the resource where the connection should be made to."
+variable "private_connection_subresource_names" {
+  type        = set(string)
+  description = "The subresource names of the resource where the connection should be made to."
 }
 
 variable "subnet_id" {
@@ -33,9 +33,9 @@ variable "private_connection_name" {
   description = "The name of the private connection name"
 }
 
-variable "private_dns_zone_id" {
-  type        = string
-  description = "The ID of the private DNS zone."
+variable "private_dns_zone_ids" {
+  type        = set(string)
+  description = "The IDs of the private DNS zones."
 }
 
 variable "private_dns_zone_group_name" {
