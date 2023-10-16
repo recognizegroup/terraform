@@ -31,6 +31,7 @@ variable "is_manual_connection" {
 variable "private_connection_request_message" {
   type        = string
   description = "The message sent with manual connection request. Relevant only for manual connections"
+  default     = null
 }
 
 variable "subnet_id" {
