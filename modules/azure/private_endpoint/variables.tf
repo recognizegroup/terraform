@@ -23,6 +23,11 @@ variable "private_connection_subresource_names" {
   description = "The subresource names of the resource where the connection should be made to."
 }
 
+variable "is_manual_connection" {
+  type        = bool
+  description = "Specifies whether the connection must be approved manually"
+}
+
 variable "subnet_id" {
   type        = string
   description = "The Id of the subnet"
