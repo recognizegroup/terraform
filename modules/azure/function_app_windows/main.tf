@@ -70,6 +70,14 @@ resource "azurerm_windows_function_app" "function_app" {
   identity {
     type = "SystemAssigned"
   }
+
+  /*
+   * VNet integration is set by a separate resource below, so this must be ignored, see 'NOTE on regional virtual network integration:' here
+   * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_function_app
+   */
+  lifecycle {
+    ignore_changes = [virtual_network_subnet_id]
+  }
 }
 
 # Host keys
