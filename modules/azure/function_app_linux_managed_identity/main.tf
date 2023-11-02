@@ -94,6 +94,14 @@ resource "azurerm_linux_function_app" "function_app" {
   identity {
     type = "SystemAssigned"
   }
+
+  /*
+   * VNet integration is set by a separate resource 'vnet_integration' below, so this must be ignored, see 'NOTE on regional virtual network integration:' here
+   * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_function_app
+   */
+  lifecycle {
+    ignore_changes = [virtual_network_subnet_id]
+  }
 }
 
 
