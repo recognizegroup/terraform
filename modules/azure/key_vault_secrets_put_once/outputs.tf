@@ -1,6 +1,6 @@
 output "secrets" {
   value = {
-    for prop in values(data.azurerm_key_vault_secret.secrets)[*] :
+    for prop in values(resource.azurerm_key_vault_secret.secret)[*] :
     prop.name => prop.value
   }
   sensitive = true

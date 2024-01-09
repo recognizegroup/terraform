@@ -29,13 +29,3 @@ resource "azurerm_key_vault_secret" "secret" {
     ignore_changes = [value]
   }
 }
-
-data "azurerm_key_vault_secret" "secrets" {
-  for_each = {
-    for index, secret in nonsensitive(var.secrets) :
-    secret.secret_name => secret
-  }
-
-  name         = each.value.secret_name
-  key_vault_id = var.key_vault_id
-}
