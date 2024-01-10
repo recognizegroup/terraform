@@ -13,3 +13,7 @@ output "application_id" {
 output "default_role" {
   value = azuread_application.application.app_role_ids["Default.Access"]
 }
+
+output "api_audience" {
+  value = azuread_application.application.identifier_uris
+}
