@@ -19,5 +19,5 @@ output "api_audiences" {
 }
 
 output "api_audience" {
-  value = azuread_application.application.identifier_uris[0]
+  value = "api://${local.app_api_endpoint}"
 }
