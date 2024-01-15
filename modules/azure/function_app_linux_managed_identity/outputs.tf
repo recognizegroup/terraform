@@ -15,5 +15,5 @@ output "aad_application_name" {
 }
 
 output "api_audience" {
-  value = concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : [])
+  value = local.allowed_audiences
 }
