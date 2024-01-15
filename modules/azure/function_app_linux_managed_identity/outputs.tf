@@ -15,5 +15,5 @@ output "aad_application_name" {
 }
 
 output "api_audience" {
-  value = tolist(tolist(tolist(data.azurerm_linux_function_app.function_app.auth_settings)[0].active_directory)[0].allowed_audiences)[0]
+  value = concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : [])
 }
