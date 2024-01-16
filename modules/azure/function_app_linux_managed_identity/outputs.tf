@@ -17,7 +17,3 @@ output "aad_application_name" {
 output "api_audiences" {
   value = local.allowed_audiences
 }
-
-output "api_audience" {
-  value = "api://${var.managed_identity_provider.create.application_name}"
-}
