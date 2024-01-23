@@ -166,10 +166,10 @@ variable "soap_body_key" {
   default     = null
 }
 
-variable "soap_pass_through" {
+variable "api_type" {
   type        = string
-  description = "defines wether soap api should be converted to REST API"
-  default     = false
+  description = "Type of API. Possible values are graphql, http, soap, and websocket. Defaults to http"
+  default     = "http"
 }
 
 variable "oauth_settings" {

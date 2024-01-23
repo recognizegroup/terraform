@@ -47,7 +47,7 @@ resource "azurerm_api_management_api" "api" {
     authorization_server_name = "${lower(replace(var.api_settings.name, " ", "-"))}-auth"
   }
 
-  soap_pass_through = var.soap_pass_through
+  api_type = var.api_type
 
   import {
     content_format = var.api_settings.openapi_file_path != null ? "openapi" : "wsdl"
