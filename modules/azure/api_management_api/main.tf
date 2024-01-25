@@ -313,7 +313,7 @@ resource "azurerm_api_management_authorization_server" "oauth2" {
 }
 
 resource "azuread_application_password" "password" {
-  application_object_id = azuread_application.application.object_id
+  application_id = azuread_application.application.id
 }
 
 resource "random_uuid" "oath2_uuid" {}
