@@ -14,8 +14,8 @@ terraform {
 provider "azuread" {}
 
 resource "azuread_service_principal" "internal" {
-  client_id = var.application_id
-  use_existing   = var.use_existing_service_principal
+  client_id    = var.application_id
+  use_existing = var.use_existing_service_principal
 }
 
 resource "azuread_app_role_assignment" "role_assignment" {
