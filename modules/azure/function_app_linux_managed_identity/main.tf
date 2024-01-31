@@ -217,9 +217,9 @@ resource "azuread_service_principal" "application" {
 }
 
 resource "azuread_group_member" "registered_app_member" {
-  count             = local.should_assign_group ? 1 : 0
-  group_object_id   = var.managed_identity_provider.create.group_id
-  member_object_id  = azuread_service_principal.application[0].object_id
+  count            = local.should_assign_group ? 1 : 0
+  group_object_id  = var.managed_identity_provider.create.group_id
+  member_object_id = azuread_service_principal.application[0].object_id
 }
 
 resource "azuread_application_password" "password" {
