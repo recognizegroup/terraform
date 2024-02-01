@@ -89,6 +89,14 @@ resource "kubernetes_deployment_v1" "deployment" {
             container_port = var.container_port
           }
 
+          dynamic "port" {
+            for_each = var.extra_ports
+
+            content {
+              container_port = port.value.target_port
+            }
+          }
+
           dynamic "volume_mount" {
             for_each = var.volume_mounts
 
@@ -169,9 +177,33 @@ resource "kubernetes_service_v1" "service" {
       "io.kompose.service" = kubernetes_deployment_v1.deployment.metadata[0].name
     }
 
-    port {
-      port        = var.target_port
-      target_port = var.container_port
+    dynamic "port" {
+      for_each = var.extra_ports == [] ? [1] : []
+
+      content {
+        port        = var.target_port
+        target_port = var.container_port
+      }
+    }
+
+    dynamic "port" {
+      for_each = var.extra_ports != [] ? [1] : []
+
+      content {
+        name        = "main-target-to-container-port"
+        port        = var.target_port
+        target_port = var.container_port
+      }
+    }
+
+    dynamic "port" {
+      for_each = var.extra_ports
+
+      content {
+        name        = port.value.name
+        port        = port.value.port
+        target_port = port.value.target_port
+      }
     }
 
     type = "ClusterIP"

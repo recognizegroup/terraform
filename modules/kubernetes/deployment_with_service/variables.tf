@@ -48,6 +48,16 @@ variable "target_port" {
   description = "The port the service forwards to"
 }
 
+variable "extra_ports" {
+  type = list(object({
+    name        = string
+    port        = number
+    target_port = number
+  }))
+  description = "The extra ports the application exposes"
+  default     = []
+}
+
 variable "readiness_probe" {
   type = object({
     path                  = string

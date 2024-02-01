@@ -14,6 +14,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking:** `azure/storage_account_private`: Remove output `primary_access_connection_string`, replace with `primary_connection_string` ([#351](https://github.com/recognizegroup/terraform/pull/351)) ([`347374ed`](https://github.com/recognizegroup/terraform/commit/347374ed)) ([@tom-reinders](https://github.com/tom-reinders))
 - **Breaking:** `azure/storage_account_public`: Remove output `primary_access_connection_string`, replace with `primary_connection_string` ([#351](https://github.com/recognizegroup/terraform/pull/351)) ([`347374ed`](https://github.com/recognizegroup/terraform/commit/347374ed)) ([@tom-reinders](https://github.com/tom-reinders))
 
+## [3.11.0] - 2023-10-02
+
+### Added
+
+- `kubernetes/deployment_with_service`: Add variable `extra_ports` ([#361](https://github.com/recognizegroup/terraform/pull/361)) ([`a14adaed`](https://github.com/recognizegroup/terraform/commit/a14adaed), [`d26561e3`](https://github.com/recognizegroup/terraform/commit/d26561e3)) ([@tom-reinders](https://github.com/tom-reinders))
+
+## [3.10.0] - 2023-08-28
+
+### Added
+
+- `azure/mssql`: Add variable `private_ip_address` ([#356](https://github.com/recognizegroup/terraform/pull/356), [#357](https://github.com/recognizegroup/terraform/pull/357)) ([`9f6aff1c`](https://github.com/recognizegroup/terraform/commit/9f6aff1c), [`963fe420`](https://github.com/recognizegroup/terraform/commit/963fe420)) ([@jeroenvleeming](https://github.com/jeroenvleeming), [@tom-reinders](https://github.com/tom-reinders))
+
 ## [3.9.0] - 2023-08-24
 
 ### Added
@@ -187,6 +199,8 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - **Breaking:** Remove module `azure/api_connectors/storage_account`, replace with `azure/api_connectors/storage_blob` and `azure/api_connectors/storage_table` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886)) ([@pipalmic](https://github.com/pipalmic))
 
 [4.0.0]: https://github.com/recognizegroup/terraform/releases/tag/v4.0.0
+[3.11.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.11.0
+[3.10.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.10.0
 [3.9.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.9.0
 [3.8.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.8.0
 [3.7.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.7.0
