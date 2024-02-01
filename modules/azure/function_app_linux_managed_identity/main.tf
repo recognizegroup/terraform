@@ -32,9 +32,10 @@ provider "null" {
 }
 
 locals {
-  should_create_app = var.managed_identity_provider.existing != null ? false : true
-  identifiers       = concat(local.should_create_app ? ["api://${var.managed_identity_provider.create.application_name}"] : [], var.managed_identity_provider.identifier_uris != null ? var.managed_identity_provider.identifier_uris : [])
-  allowed_audiences = concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : [])
+  should_create_app   = var.managed_identity_provider.existing != null ? false : true
+  should_assign_group = var.managed_identity_provider.create.group_id != null ? true : false
+  identifiers         = concat(local.should_create_app ? ["api://${var.managed_identity_provider.create.application_name}"] : [], var.managed_identity_provider.identifier_uris != null ? var.managed_identity_provider.identifier_uris : [])
+  allowed_audiences   = concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : [])
 }
 
 # Function App
@@ -206,6 +207,19 @@ resource "azuread_application" "application" {
       type = "Scope"
     }
   }
+}
+
+resource "azuread_service_principal" "application" {
+  count                        = local.should_assign_group ? 1 : 0
+  application_id               = azuread_application.application[0].application_id
+  app_role_assignment_required = false
+  owners                       = [data.azuread_client_config.current.object_id]
+}
+
+resource "azuread_group_member" "registered_app_member" {
+  count            = local.should_assign_group ? 1 : 0
+  group_object_id  = var.managed_identity_provider.create.group_id
+  member_object_id = azuread_service_principal.application[0].object_id
 }
 
 resource "azuread_application_password" "password" {
