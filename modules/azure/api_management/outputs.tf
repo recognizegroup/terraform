@@ -21,3 +21,8 @@ output "developer_portal_url" {
 output "public_ip_addresses" {
   value = azurerm_api_management.api_management.public_ip_addresses
 }
+
+output "app_registration_secret" {
+  value     = azuread_application_password.password.value
+  sensitive = true
+}
