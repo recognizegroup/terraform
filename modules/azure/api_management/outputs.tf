@@ -23,6 +23,6 @@ output "public_ip_addresses" {
 }
 
 output "app_registration_secret" {
-  value = azuread_application_password.password.value
+  value     = azuread_application_password.password.value
   sensitive = true
 }
