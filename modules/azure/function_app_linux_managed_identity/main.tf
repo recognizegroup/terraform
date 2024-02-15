@@ -194,7 +194,7 @@ resource "azuread_application" "application" {
   }
 }
 
-resource "azuread_password" "password" {
+resource "azuread_application_password" "password" {
   count                 = local.should_create_app ? 1 : 0
   application_object_id = azuread_application.application[0].object_id
 }
