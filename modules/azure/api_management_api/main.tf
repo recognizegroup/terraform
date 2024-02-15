@@ -41,7 +41,7 @@ resource "azurerm_api_management_api" "api" {
     authorization_server_name = "${lower(replace(var.api_settings.name, " ", "-"))}-auth"
   }
 
-  soap_pass_through = var.soap_pass_through
+  api_type = var.api_type == null && var.soap_pass_through ? "soap": var.api_type !=null ? var.api_type : "http"
 
   import {
     content_format = var.api_settings.openapi_file_path != null ? "openapi" : "wsdl"
@@ -118,7 +118,7 @@ resource "azurerm_api_management_api_policy" "api_policy" {
       <openid-config url="${var.aad_settings.openid_url}"/>
       <required-claims>
         <claim name="aud" match="any">
-          <value>${azuread_application.application.application_id}</value>
+          <value>${azuread_application.application.id}</value>
         </claim>
         <claim name="iss" match="any">
           <value>${var.aad_settings.issuer}</value>
@@ -298,7 +298,7 @@ resource "azurerm_api_management_authorization_server" "oauth2" {
   authorization_endpoint       = var.auth_endpoint != null ? var.auth_endpoint : "https://login.microsoftonline.com/${var.authorization_tenant}/oauth2/v2.0/authorize"
   token_endpoint               = var.token_endpoint != null ? var.token_endpoint : "https://login.microsoftonline.com/${var.authorization_tenant}/oauth2/v2.0/token"
   client_registration_endpoint = var.client_registration_endpoint
-  client_id                    = azuread_application.application.application_id
+  client_id                    = azuread_application.application.id
   client_secret                = azuread_application_password.password.value
   bearer_token_sending_methods = ["authorizationHeader"]
   client_authentication_method = ["Body"]
@@ -307,7 +307,7 @@ resource "azurerm_api_management_authorization_server" "oauth2" {
 }
 
 resource "azuread_application_password" "password" {
-  application_object_id = azuread_application.application.object_id
+  application_id = azuread_application.application.id
 }
 
 resource "random_uuid" "oath2_uuid" {}

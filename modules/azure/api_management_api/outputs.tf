@@ -7,7 +7,7 @@ output "api_management_api_diagnostic" {
 }
 
 output "application_id" {
-  value = azuread_application.application.application_id
+  value = azuread_application.application.object_id
 }
 
 output "default_role" {
