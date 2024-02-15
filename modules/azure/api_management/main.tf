@@ -204,7 +204,7 @@ resource "azuread_application_password" "password" {
 resource "azurerm_api_management_identity_provider_aad" "identity_provider_aad" {
   resource_group_name = var.resource_group_name
   api_management_name = azurerm_api_management.api_management.name
-  client_id           = azuread_application.application.application_id
+  client_id           = azuread_application.application.id
   client_secret       = azuread_application_password.password.value
   allowed_tenants     = var.allowed_tenants
   signin_tenant       = var.signin_tenant
