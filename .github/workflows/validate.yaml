@@ -11,6 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Validate Terraform
     steps:
+      - name: Make space for terragrunt
+        run: |
+          df -h
+          sudo rm -rf "usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          df -h
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v2
         with:
