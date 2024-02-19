@@ -21,7 +21,7 @@ variable "dotnet_version" {
 
 variable "dotnet_isolated" {
   type        = string
-  description = "Specifies the version of dotnet."
+  description = "Specifies if it is isolated function app."
   default     = false
 }
 
