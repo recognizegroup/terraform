@@ -19,6 +19,12 @@ variable "dotnet_version" {
   default     = ""
 }
 
+variable "dotnet_isolated" {
+  type        = string
+  description = "Specifies the version of dotnet."
+  default     = false
+}
+
 variable "managed_identity_provider" {
   type = object({
     existing = optional(object({
