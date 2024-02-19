@@ -172,6 +172,12 @@ variable "soap_pass_through" {
   default     = false
 }
 
+variable "api_type" {
+  type        = string
+  description = "Type of API. Possible values are graphql, http, soap, and websocket"
+  default     = null
+}
+
 variable "oauth_settings" {
   type = object({
     tenant_id     = string, // May contain value or APIM variable: {{var_name}}

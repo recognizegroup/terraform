@@ -128,7 +128,7 @@ resource "azapi_update_resource" "setup_auth_settings" {
           azureActiveDirectory = {
             enabled = true,
             registration = {
-              clientId                = "${local.should_create_app ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id}",
+              clientId                = "${local.should_create_app ? azuread_application.application[0].object_id : var.managed_identity_provider.existing.client_id}",
               clientSecretSettingName = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
             },
             validation = {
