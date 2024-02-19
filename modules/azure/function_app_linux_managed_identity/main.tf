@@ -53,6 +53,13 @@ resource "azurerm_linux_function_app" "function_app" {
     MICROSOFT_PROVIDER_AUTHENTICATION_SECRET = "${local.should_create_app ? azuread_application_password.password[0].value : var.managed_identity_provider.existing.client_secret}"
   })
 
+  dynamic "application_stack" {
+    for_each = var.dotnet_version != "" ? [var.dotnet_version] : []
+    content {
+      dotnet_version = application_stack.value
+    }
+  }
+
   site_config {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic

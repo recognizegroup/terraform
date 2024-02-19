@@ -13,6 +13,12 @@ variable "name" {
   description = "Specifies the name of the function app."
 }
 
+variable "dotnet_version" {
+  type        = string
+  description = "Specifies the version of dotnet."
+  default     = ""
+}
+
 variable "managed_identity_provider" {
   type = object({
     existing = optional(object({
