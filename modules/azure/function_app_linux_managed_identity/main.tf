@@ -60,8 +60,8 @@ resource "azurerm_linux_function_app" "function_app" {
     dynamic "application_stack" {
       for_each = var.dotnet_version != "" ? [var.dotnet_version] : []
       content {
-        dotnet_version               = application_stack.value
-        use_dotnet_isolated_runtime  = var.dotnet_isolated
+        dotnet_version              = application_stack.value
+        use_dotnet_isolated_runtime = var.dotnet_isolated
       }
     }
 
