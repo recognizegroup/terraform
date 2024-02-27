@@ -27,18 +27,18 @@ variable "arm_parameters" {
 
 variable "templates_files" {
   type = object({
-    bicep_path = optional(string),
+    bicep_path        = optional(string),
     arm_template_path = optional(string)
   })
-  
+
   default = {
-    bicep_path = null
+    bicep_path        = null
     arm_template_path = null
   }
 
   validation {
     condition     = var.templates_files.bicep_path != null || var.templates_files.arm_template_path != null
-    error_message = "One of these (bicep_path, arm_template_path) needs to be set "  
+    error_message = "One of these (bicep_path, arm_template_path) needs to be set "
   }
 }
 

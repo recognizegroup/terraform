@@ -8,7 +8,7 @@ terraform {
     }
 
     local = {
-      source = "hashicorp/local"
+      source  = "hashicorp/local"
       version = "2.4.1"
     }
   }
@@ -27,7 +27,7 @@ locals {
     key => { "value" = value }
   }
 
-  do_bicep_build   = var.templates_files.bicep_path != null ? true : false
+  do_bicep_build = var.templates_files.bicep_path != null ? true : false
 }
 
 resource "azurerm_logic_app_workflow" "workflow" {
@@ -118,18 +118,18 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
 }
 
 resource "null_resource" "bicep_build_locally" {
-  count       = local.do_bicep_build == false ? 0 : 1
+  count = local.do_bicep_build == false ? 0 : 1
   triggers = {
     timestamp = "${timestamp()}" # by setting the timestamp we will make it running every time
   }
   provisioner "local-exec" {
-    command = "az bicep build --file ${var.templates_files.bicep_path}"
-    working_dir = "${var.module_dir}"
+    command     = "az bicep build --file ${var.templates_files.bicep_path}"
+    working_dir = var.module_dir
   }
 }
 
 resource "null_resource" "bicep_build" {
-  count       = local.do_bicep_build == false ? 0 : 1
+  count = local.do_bicep_build == false ? 0 : 1
   triggers = {
     timestamp = "${timestamp()}" # by setting the timestamp we will make it running every time
   }
@@ -139,6 +139,6 @@ resource "null_resource" "bicep_build" {
 }
 
 data "local_file" "workflow_json" {
-    depends_on = [ null_resource.bicep_build ]
-    filename = "./workflow.json"
+  depends_on = [null_resource.bicep_build]
+  filename   = "./workflow.json"
 }
