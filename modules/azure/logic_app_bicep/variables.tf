@@ -13,16 +13,34 @@ variable "logic_app_name" {
   description = "Specifies the name of the Log Analytics Workspace."
 }
 
-variable "arm_template_path" {
-  type        = string
-  description = "Specifies the path of ARM template to be used during deployment."
-  default     = null
-}
-
 variable "arm_parameters" {
   type        = any
   description = "Parameter values for the ARM template."
   default     = {}
+}
+
+variable "templates_files" {
+  type = object({
+    bicep_path        = optional(string),
+    arm_template_path = optional(string)
+  })
+
+  default = {
+    bicep_path        = null
+    arm_template_path = null
+  }
+
+  validation {
+    condition     = (var.templates_files.bicep_path == null && var.templates_files.arm_template_path == null)
+    error_message = "One of these (bicep_path, arm_template_path) needs to be set "
+  }
+}
+
+# it is neccessary for the creation of workflow.json localy using bicep
+variable "module_dir" {
+  type        = string
+  description = "Module direcory"
+  default     = "."
 }
 
 variable "log_analytics_workspace_id" {

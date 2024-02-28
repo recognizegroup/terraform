@@ -6,6 +6,11 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.48"
     }
+
+    local = {
+      source  = "hashicorp/local"
+      version = "2.4.1"
+    }
   }
 
   backend "azurerm" {}
@@ -21,6 +26,8 @@ locals {
     for key, value in var.arm_parameters :
     key => { "value" = value }
   }
+
+  do_bicep_build = var.templates_files.bicep_path != null ? true : false
 }
 
 resource "azurerm_logic_app_workflow" "workflow" {
@@ -59,11 +66,11 @@ resource "azurerm_logic_app_workflow" "workflow" {
 // Deploy workflow as ARM template conditional when arm_template_path is specified
 // To export the ARM template from the Azure portal go to Logic App > Automation > Export Template
 resource "azurerm_resource_group_template_deployment" "workflow_deployment" {
-  count               = var.arm_template_path == null ? 0 : 1
+  count               = (var.templates_files.arm_template_path == null && var.templates_files.bicep_path == null) ? 0 : 1
   name                = "${var.logic_app_name}-deployment"
   resource_group_name = var.resource_group_name
   deployment_mode     = "Incremental"
-  template_content    = file(var.arm_template_path)
+  template_content    = var.templates_files.arm_template_path != null ? file(var.templates_files.arm_template_path) : data.local_file.workflow_json.content
   parameters_content  = jsonencode(local.parameters_content)
 
   depends_on = [azurerm_logic_app_workflow.workflow]
@@ -108,4 +115,20 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
       }
     }
   }
+}
+
+resource "null_resource" "bicep_build" {
+  count = local.do_bicep_build ? 1 : 0
+  triggers = {
+    timestamp = "${timestamp()}" # by setting the timestamp we will make it running every time
+  }
+  provisioner "local-exec" {
+    command     = "az bicep build --file ${var.templates_files.bicep_path}"
+    working_dir = var.module_dir
+  }
+}
+
+data "local_file" "workflow_json" {
+  depends_on = [null_resource.bicep_build]
+  filename   = "${var.module_dir}/workflow.json"
 }
