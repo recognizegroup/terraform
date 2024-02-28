@@ -31,7 +31,7 @@ variable "templates_files" {
   }
 
   validation {
-    condition     = (var.templates_files.bicep_path == null && var.templates_files.arm_template_path == null)
+    condition     = ((var.templates_files.bicep_path == null && var.templates_files.arm_template_path != null) || (var.templates_files.bicep_path != null && var.templates_files.arm_template_path == null))
     error_message = "One of these (bicep_path, arm_template_path) needs to be set "
   }
 }
