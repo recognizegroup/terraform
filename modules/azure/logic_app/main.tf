@@ -117,7 +117,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   }
 }
 
-resource "null_resource" "bicep_build_locally" {
+resource "null_resource" "bicep_build" {
   count = local.do_bicep_build == false ? 0 : 1
   triggers = {
     timestamp = "${timestamp()}" # by setting the timestamp we will make it running every time
@@ -128,17 +128,7 @@ resource "null_resource" "bicep_build_locally" {
   }
 }
 
-resource "null_resource" "bicep_build" {
-  count = local.do_bicep_build == false ? 0 : 1
-  triggers = {
-    timestamp = "${timestamp()}" # by setting the timestamp we will make it running every time
-  }
-  provisioner "local-exec" {
-    command = "az bicep build --file ${var.templates_files.bicep_path}"
-  }
-}
-
 data "local_file" "workflow_json" {
   depends_on = [null_resource.bicep_build]
-  filename   = "./workflow.json"
+  filename   = "${var.module_dir}/workflow.json"
 }
