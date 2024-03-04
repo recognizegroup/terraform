@@ -13,6 +13,18 @@ variable "name" {
   description = "Specifies the name of the function app."
 }
 
+variable "dotnet_version" {
+  type        = string
+  description = "Specifies the version of dotnet."
+  default     = ""
+}
+
+variable "dotnet_isolated" {
+  type        = string
+  description = "Specifies if it is isolated function app."
+  default     = false
+}
+
 variable "managed_identity_provider" {
   type = object({
     existing = optional(object({
@@ -33,6 +45,7 @@ variable "managed_identity_provider" {
       })
       owners        = optional(list(string)) # Deployment user will be added as owner by default
       redirect_uris = optional(list(string)) # Only for additional URIs, function uri will be added by default
+      group_id      = optional(string)       # Group ID where service principal of the existing application will belong to
     }))
     identifier_uris   = optional(list(string)) #  api://<application_name> will be added by default if application is create
     allowed_audiences = optional(list(string)) # api://<application-name> will be added by default

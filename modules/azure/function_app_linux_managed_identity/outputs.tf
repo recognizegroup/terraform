@@ -13,3 +13,7 @@ output "id" {
 output "aad_application_name" {
   value = var.managed_identity_provider.existing == null ? "api://${var.managed_identity_provider.create.application_name}" : null
 }
+
+output "api_audiences" {
+  value = local.allowed_audiences
+}
