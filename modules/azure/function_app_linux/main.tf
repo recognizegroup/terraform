@@ -40,7 +40,7 @@ resource "azurerm_linux_function_app" "function_app" {
         use_dotnet_isolated_runtime = var.dotnet_isolated
       }
     }
-    
+
     dynamic "ip_restriction" {
       for_each = var.ip_restrictions
 
