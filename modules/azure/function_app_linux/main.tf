@@ -32,13 +32,12 @@ resource "azurerm_linux_function_app" "function_app" {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic
     use_32_bit_worker      = var.use_32_bit_worker
-    
+
     dynamic "application_stack" {
-      for_each = var.application_stack
-      
+      for_each = var.dotnet_version != "" ? [var.dotnet_version] : []
       content {
-        dotnet_version              = application_stack.value.dotnet_version
-        use_dotnet_isolated_runtime = application_stack.value.use_dotnet_isolated_runtime
+        dotnet_version              = application_stack.value
+        use_dotnet_isolated_runtime = var.dotnet_isolated
       }
     }
     
