@@ -157,12 +157,3 @@ variable "use_32_bit_worker" {
   description = "Should the Linux Web App use a 32-bit worker process."
   default     = true
 }
-
-variable "application_stack" {
-  type = list(object({
-    dotnet_version  = optional(string),
-    use_dotnet_isolated_runtime = optional(string)
-  }))
-  description = "A List of objects representing application stack."
-  default     = []
-}
