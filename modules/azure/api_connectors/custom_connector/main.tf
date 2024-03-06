@@ -36,4 +36,3 @@ resource "azurerm_resource_group_template_deployment" "arm_managed_identity" {
   })
   deployment_mode = "Incremental"
 }
-
