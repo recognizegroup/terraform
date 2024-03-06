@@ -181,6 +181,6 @@ variable "schema" {
     condition     = ((var.schema.file_location != null && var.schema.type != null && var.schema.schema_id != null) || (var.schema.file_location == null && var.schema.type == null && var.schema.schema_id == null))
     error_message = "schema_id, file_location and type must be provided."
   }
-  
+
   description = "Schema for validation of request"
 }
