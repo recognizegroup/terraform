@@ -10,12 +10,12 @@ variable "connection_name" {
 
 variable "connector_resource_group_name" {
   type        = string
-  description = "Name for the connection"
+  description = "Resource group name where the custom logic app connector is located"
 }
 
 variable "connector_name" {
   type        = string
-  description = "Name for the connection"
+  description = "The name of the custom logic app connector that connection will connect to"
 }
 
 variable "location" {
