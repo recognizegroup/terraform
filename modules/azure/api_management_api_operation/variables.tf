@@ -41,6 +41,7 @@ variable "description" {
 variable "request_content_type" {
   type        = string
   description = "Request representation content type"
+  default     = ""
 }
 
 variable "policy" {
