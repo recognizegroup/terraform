@@ -28,22 +28,9 @@ resource "azurerm_api_management_api_operation" "operation" {
   response {
     status_code = 200
   }
-
-  dynamic "request" {
-    for_each = var.request_content_type != null ? tolist([var.request_content_type]) : []
-
-    content {
-      representation {
-        content_type = request.value
-      }
-    }
-  }
 }
 
 resource "azurerm_api_management_api_operation_policy" "policy" {
-  depends_on = [
-    azurerm_api_management_api_operation.operation
-  ]
   api_name            = var.api_name
   api_management_name = var.api_management_name
   resource_group_name = var.resource_group_name
