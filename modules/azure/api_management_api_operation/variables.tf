@@ -38,6 +38,11 @@ variable "description" {
   description = "Description of operation"
 }
 
+variable "request_content_type"{
+  type        = string
+  description = "Request representation content type"
+}
+
 variable "policy" {
   type = object({
     file_location = optional(string),
