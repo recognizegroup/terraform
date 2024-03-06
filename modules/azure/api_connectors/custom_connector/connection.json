@@ -11,7 +11,7 @@
     "arm_connection_name": {
       "type": "string"
     },
-    "api_connector_id":{
+    "api_connector_id": {
       "type": "string"
     }
   },
