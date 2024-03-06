@@ -16,6 +16,9 @@
     },
     "connector_name":{
       "type": "string"
+    },
+    "api_connector_id":{
+      "type": "string"
     }
   },
   "variables": {},
@@ -38,7 +41,7 @@
         "api": {
           "name": "[parameters('arm_connection_name')]",
           "displayName": "[parameters('arm_connection_name')]",
-          "id": "[format('{0}/resourceGroups/{1}/providers/Microsoft.Web/customApis/{2}', subscription().id, parameters('connector_resource_group_name') ,parameters('connector_name'))]",
+          "id": "[parameters('api_connector_id')]",
           "type": "Microsoft.Web/customApis"
         }
       }

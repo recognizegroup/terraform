@@ -15,6 +15,9 @@ provider "azurerm" {
   features {}
 }
 
+data "azurerm_subscription" "current" {
+}
+
 resource "azurerm_resource_group_template_deployment" "arm_managed_identity" {
   name                = "${var.connection_name}_deployment"
   resource_group_name = var.resource_group_name
@@ -32,6 +35,9 @@ resource "azurerm_resource_group_template_deployment" "arm_managed_identity" {
     },
     "connector_name": {
       value = var.connector_name
+    },
+    "api_connector_id":{
+      value = "${data.azurerm_subscription.current.id}/resourceGroups/${var.connector_resource_group_name}/providers/Microsoft.Web/customApis/${var.connector_name}"
     }
   })
   deployment_mode = "Incremental"
