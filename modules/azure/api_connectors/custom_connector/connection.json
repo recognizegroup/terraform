@@ -11,12 +11,6 @@
     "arm_connection_name": {
       "type": "string"
     },
-    "connector_resource_group_name":{
-      "type": "string"
-    },
-    "connector_name":{
-      "type": "string"
-    },
     "api_connector_id":{
       "type": "string"
     }

@@ -30,12 +30,6 @@ resource "azurerm_resource_group_template_deployment" "arm_managed_identity" {
     "location" = {
       value = var.location
     },
-    "connector_resource_group_name" = {
-      value = var.connector_resource_group_name
-    },
-    "connector_name": {
-      value = var.connector_name
-    },
     "api_connector_id":{
       value = "${data.azurerm_subscription.current.id}/resourceGroups/${var.connector_resource_group_name}/providers/Microsoft.Web/customApis/${var.connector_name}"
     }
