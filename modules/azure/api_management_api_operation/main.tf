@@ -30,7 +30,7 @@ resource "azurerm_api_management_api_operation" "operation" {
   }
 
   dynamic "request" {
-    for_each = var.request_content_type != null ? tolist([var.request_content_type]) : []
+    for_each = var.request_content_type != "" ? tolist([var.request_content_type]) : []
 
     content {
       representation {
