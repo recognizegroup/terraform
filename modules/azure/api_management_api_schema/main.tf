@@ -21,9 +21,9 @@ provider "azurerm" {
 ######################################################
 
 resource "azurerm_api_management_global_schema" "schema" {
-  schema_id           = var.schema.schema_id
+  schema_id           = var.schema_id
   api_management_name = var.api_management_name
   resource_group_name = var.resource_group_name
-  type                = var.schema.type
-  value               = file(var.schema.file_location)
+  type                = var.type
+  value               = file(var.file_location)
 }

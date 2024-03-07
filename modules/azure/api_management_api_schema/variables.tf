@@ -8,12 +8,17 @@ variable "api_management_name" {
   description = "The name of the API management service."
 }
 
-variable "schema" {
-  type = object({
-    file_location = string,
-    type          = string,
-    schema_id     = string
-  })
+variable "file_location" {
+  type        = string
+  description = "Path to schema file."
+}
 
-  description = "Schema for validation of request"
+variable "type" {
+  type        = string
+  description = "The content type of the Schema. Possible values are xml and json."
+}
+
+variable "schema_id" {
+  type        = string
+  description = "A unique identifier for this Schema."
 }
