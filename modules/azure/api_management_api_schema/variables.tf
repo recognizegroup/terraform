@@ -15,11 +15,5 @@ variable "schema" {
     schema_id     = string
   })
 
-  default = {
-    file_location = null
-    type          = null
-    schema_id     = null
-  }
-
   description = "Schema for validation of request"
 }
