@@ -17,3 +17,9 @@ variable "swagger" {
   type        = string
   description = "Swagger definition"
 }
+
+variable "swagger_path" {
+  description = "Path to the Swagger JSON file"
+  type        = string
+  default     = ""
+}
