@@ -28,7 +28,7 @@ resource "azurerm_resource_group_template_deployment" "log_analytics" {
       value = var.function_url
     },
     "swagger" = {
-      value = jsondecode(file(var.swagger))
+      value = jsondecode(var.swagger)
     }
   })
   deployment_mode = "Incremental"
