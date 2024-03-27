@@ -251,26 +251,23 @@ data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   resource_id = azurerm_linux_function_app.function_app.id
 }
 
-resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
+/*resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   count                      = var.log_analytics_workspace_id == null ? 0 : 1
   name                       = "diag-${var.name}"
   target_resource_id         = azurerm_linux_function_app.function_app.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
- # dynamic "enabled_log" {
- #   for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
- #
- #
- #   content {
- #     category = enabled_log.value
- #
- #
- # 
- #     retention_policy {
- #       enabled = false
- #     }
- #   }
- # }
+  dynamic "enabled_log" {
+    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
+  
+    content {
+      category = enabled_log.value
+  
+      retention_policy {
+        enabled = false
+      }
+    }
+  }
 
   dynamic "metric" {
     for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
@@ -285,3 +282,4 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
     }
   }
 }
+*/
