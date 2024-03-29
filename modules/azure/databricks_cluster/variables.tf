@@ -81,3 +81,9 @@ variable "init_script" {
   description = "Script to run when initalizing a databricks job or cluster."
   default     = ""
 }
+
+variable "cluster_policy" {
+  type        = string
+  description = "Default cluster policy."
+  default     = ""
+}

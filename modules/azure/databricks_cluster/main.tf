@@ -54,3 +54,17 @@ resource "databricks_global_init_script" "init_script" {
   name    = "init script"
   enabled = true
 }
+
+resource "databricks_cluster_policy" "fair_use_policy" {
+  name       = "Fair use cluster policy"
+  definition = var.cluster_policy
+}
+
+resource "databricks_permissions" "fair_use_policy_usage" {
+  cluster_policy_id = databricks_cluster_policy.fair_use_policy.id
+
+  access_control {
+    group_name       = "users"
+    permission_level = "CAN_USE"
+  }
+}
