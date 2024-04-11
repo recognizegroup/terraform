@@ -21,13 +21,13 @@ locals {
   all_operations = flatten([
     for path, methods in local.openapi_data["paths"] : [
       for method, details in methods : {
-        path        = path
-        method      = method
-        summary     = details.summary
-        operationId = details.operationId
-        description = details.description
+        path         = path
+        method       = method
+        summary      = details.summary
+        operationId  = details.operationId
+        description  = details.description
         content_type = try(keys(details.requestBody.content), [""])[0]
-        responses   = { for code, response in details.responses : code => response.description }
+        responses    = { for code, response in details.responses : code => response.description }
       }
     ]
   ])
@@ -51,7 +51,7 @@ resource "azurerm_api_management_api_operation" "operation" {
     for_each = each.value.responses
 
     content {
-      status_code  = response.key
+      status_code = response.key
       description = response.value
     }
   }
