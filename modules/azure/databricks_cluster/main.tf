@@ -65,7 +65,7 @@ resource "databricks_cluster_policy" "fair_use_policy" {
 resource "databricks_permissions" "fair_use_policy_usage" {
   count = var.cluster_policy == "" ? 0 : 1
 
-  cluster_policy_id = databricks_cluster_policy.fair_use_policy.id
+  cluster_policy_id = databricks_cluster_policy.fair_use_policy[0].id
 
   access_control {
     group_name       = "users"
