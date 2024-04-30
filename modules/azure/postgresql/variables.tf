@@ -28,6 +28,12 @@ variable "postgresql_version" {
   description = "Version of the PostgreSQL database."
 }
 
+variable "postgresql_zone" {
+  type        = string
+  description = "Zone of the PostgreSQL database."
+  default     = "1"
+}
+
 variable "postgresql_database_name" {
   type        = string
   description = "Name of the PostgreSQL resource."
