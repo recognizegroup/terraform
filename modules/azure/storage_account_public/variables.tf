@@ -109,3 +109,9 @@ variable "custom_domain" {
   description = "Describes the custom domain configuration for the storage account"
   default     = null
 }
+
+variable "delete_retention_policy_days" {
+  type        = number
+  description = "Number of days to retain deleted blobs."
+  default     = null
+}
