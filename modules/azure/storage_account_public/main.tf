@@ -40,12 +40,12 @@ resource "azurerm_storage_account" "storage_account" {
         max_age_in_seconds = var.cors_rules.value.max_age_in_seconds
       }
     }
-    
+
     dynamic "delete_retention_policy" {
       for_each = var.delete_retention_policy_days != null ? [1] : []
-      
-      content{
-         days = var.delete_retention_policy_days 
+
+      content {
+        days = var.delete_retention_policy_days
       }
     }
   }
