@@ -23,6 +23,12 @@ variable "postgresql_db_size" {
   description = "Specifies the max storage allowed for this PostgreSQL Server"
 }
 
+variable "public_network_access_enabled" {
+  type        = bool
+  description = "Specifies whether or not public network access is allowed for this PostgreSQL Server"
+  default     = false
+}
+
 variable "postgresql_version" {
   type        = string
   description = "Version of the PostgreSQL database."
