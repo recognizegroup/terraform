@@ -28,3 +28,9 @@ variable "authorization_rule" {
   description = "Manages a ServiceBus Namespace authorization Rule within the ServiceBus."
   default     = null
 }
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "Specifies the ID of a Log Analytics Workspace where diagnostics data should be sent."
+  default     = null
+}
