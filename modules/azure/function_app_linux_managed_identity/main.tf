@@ -41,14 +41,14 @@ locals {
 # Function App
 
 resource "azurerm_linux_function_app" "function_app" {
-  name                        = var.name
-  location                    = var.location
-  resource_group_name         = var.resource_group_name
-  service_plan_id             = var.service_plan_id
-  storage_account_name        = var.storage_account_name
+  name                 = var.name
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  service_plan_id      = var.service_plan_id
+  storage_account_name = var.storage_account_name
 
-  storage_account_access_key  = var.use_managed_identity ? null : var.storage_account_access_key
-  storage_uses_managed_identity = var.use_managed_identity ? var.use_managed_identity: null 
+  storage_account_access_key    = var.use_managed_identity ? null : var.storage_account_access_key
+  storage_uses_managed_identity = var.use_managed_identity ? var.use_managed_identity : null
 
   functions_extension_version = var.runtime_version
 
