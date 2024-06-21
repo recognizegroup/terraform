@@ -75,7 +75,7 @@ variable "storage_account_name" {
 
 variable "storage_account_access_key" {
   type        = string
-  description = "DEPRECATED in favor of use_manged_identity instead. The access key which will be used to access the backend storage account for the Function App."
+  description = "DEPRECATED in favor of use_managed_identity instead. The access key which will be used to access the backend storage account for the Function App."
   default     = null
 }
 
