@@ -11,6 +11,13 @@ variable "resource_group_name" {
 variable "action_group_id" {
   type        = string
   description = "ID of the action group to associate the alert with."
+  default = null
+}
+
+variable "action_groups" {
+  type = list(string)
+  description = "Action groups that must be triggered"
+  default = null
 }
 
 variable "monitoring_rules" {
