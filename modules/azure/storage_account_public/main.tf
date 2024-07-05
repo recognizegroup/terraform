@@ -116,3 +116,119 @@ resource "azurerm_storage_management_policy" "storage_management_policy" {
     }
   }
 }
+
+data "azurerm_monitor_diagnostic_categories" "blob" {
+  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.blob == null ? 0 : 1
+  resource_id = "${azurerm_storage_account.storage_account.id}/blobServices/default/"
+}
+
+data "azurerm_monitor_diagnostic_categories" "queue" {
+  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.queue == null ? 0 : 1
+  resource_id = "${azurerm_storage_account.storage_account.id}/queueServices/default/"
+}
+
+data "azurerm_monitor_diagnostic_categories" "table" {
+  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1
+  resource_id = "${azurerm_storage_account.storage_account.id}/tableServices/default/"
+}
+
+data "azurerm_monitor_diagnostic_categories" "file" {
+  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.file == null ? 0 : 1
+  resource_id = "${azurerm_storage_account.storage_account.id}/tableServices/default/"
+}
+
+resource "azurerm_monitor_diagnostic_setting" "blob" {
+  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.blob == null ? 0 : 1
+  name               = "diag-blob-${var.name}"
+  target_resource_id = "${azurerm_storage_account.storage_account.id}/blobServices/default/"
+  log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
+
+  dynamic "enabled_log" {
+    for_each = var.loganalytics_diagnostic_setting.blob.categories == null ? data.azurerm_monitor_diagnostic_categories.blob[0].log_category_types : var.loganalytics_diagnostic_setting.blob.categories
+
+    content {
+      category = enabled_log.value
+    }
+  }
+
+  dynamic "metric" {
+    for_each = var.loganalytics_diagnostic_setting.blob.metrics == null ? data.azurerm_monitor_diagnostic_categories.blob[0].metrics : var.loganalytics_diagnostic_setting.blob.metrics
+
+    content {
+      category = metric.value
+      enabled  = true
+    }
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "queue" {
+  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.queue == null ? 0 : 1
+  name               = "diag-blob-${var.name}"
+  target_resource_id = "${azurerm_storage_account.storage_account.id}/queueServices/default/"
+  log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
+
+  dynamic "enabled_log" {
+    for_each = var.loganalytics_diagnostic_setting.queue.categories == null ? data.azurerm_monitor_diagnostic_categories.queue[0].log_category_types : var.loganalytics_diagnostic_setting.queue.categories
+
+    content {
+      category = enabled_log.value
+    }
+  }
+
+  dynamic "metric" {
+    for_each = var.loganalytics_diagnostic_setting.queue.metrics == null ? data.azurerm_monitor_diagnostic_categories.queue[0].metrics : var.loganalytics_diagnostic_setting.queue.metrics
+
+    content {
+      category = metric.value
+      enabled  = true
+    }
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "table" {
+  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1
+  name               = "diag-blob-${var.name}"
+  target_resource_id = "${azurerm_storage_account.storage_account.id}/tableServices/default/"
+  log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
+
+  dynamic "enabled_log" {
+    for_each = var.loganalytics_diagnostic_setting.table.categories == null ? data.azurerm_monitor_diagnostic_categories.table[0].log_category_types : var.loganalytics_diagnostic_setting.table.categories
+
+    content {
+      category = enabled_log.value
+    }
+  }
+
+  dynamic "metric" {
+    for_each = var.loganalytics_diagnostic_setting.table.metrics == null ? data.azurerm_monitor_diagnostic_categories.table[0].metrics : var.loganalytics_diagnostic_setting.table.metrics
+
+    content {
+      category = metric.value
+      enabled  = true
+    }
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "file" {
+  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1
+  name               = "diag-blob-${var.name}"
+  target_resource_id = "${azurerm_storage_account.storage_account.id}/fileServices/default/"
+  log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
+
+  dynamic "enabled_log" {
+    for_each = var.loganalytics_diagnostic_setting.file.categories == null ? data.azurerm_monitor_diagnostic_categories.file[0].log_category_types : var.loganalytics_diagnostic_setting.file.categories
+
+    content {
+      category = enabled_log.value
+    }
+  }
+
+  dynamic "metric" {
+    for_each = var.loganalytics_diagnostic_setting.file.metrics == null ? data.azurerm_monitor_diagnostic_categories.file[0].metrics : var.loganalytics_diagnostic_setting.file.metrics
+
+    content {
+      category = metric.value
+      enabled  = true
+    }
+  }
+}
