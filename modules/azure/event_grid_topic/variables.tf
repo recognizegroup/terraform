@@ -32,3 +32,5 @@ variable "loganalytics_diagnostic_setting" {
   description = "Specifies the log categories that have to be sent to Log analytics."
   default     = null
 }
+
+
