@@ -32,10 +32,10 @@ variable "daily_quota_gb" {
 }
 
 variable "loganalytics_diagnostic_setting" {
-  type        = object({
-      categories = optional(list(string)), // null list,means send all categories
-      metrics  = optional(list(string)), // null list means send all metrics
-      destination_type = optional(string), // AzureDiagnostics or Dedicated
+  type = object({
+    categories       = optional(list(string)), // null list,means send all categories
+    metrics          = optional(list(string)), // null list means send all metrics
+    destination_type = optional(string),       // AzureDiagnostics or Dedicated
   })
   description = "Specifies the log categories that have to be sent to Log analytics."
   default     = null

@@ -45,11 +45,11 @@ data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
-  count                      = var.loganalytics_diagnostic_setting == null ? 0 : 1
-  name                       = "diag-${var.namespace_name}"
-  target_resource_id         = azurerm_eventhub_namespace.namespace.id
-  log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
-  log_analytics_destination_type = var.loganalytics_diagnostic_setting.destination_type == null ? null : var.loganalytics_diagnostic_setting.destination_type   
+  count                          = var.loganalytics_diagnostic_setting == null ? 0 : 1
+  name                           = "diag-${var.namespace_name}"
+  target_resource_id             = azurerm_eventhub_namespace.namespace.id
+  log_analytics_workspace_id     = var.loganalytics_diagnostic_setting.workspace_id
+  log_analytics_destination_type = var.loganalytics_diagnostic_setting.destination_type == null ? null : var.loganalytics_diagnostic_setting.destination_type
 
   dynamic "enabled_log" {
     for_each = var.loganalytics_diagnostic_setting.categories == null ? data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types : var.loganalytics_diagnostic_setting.categories
