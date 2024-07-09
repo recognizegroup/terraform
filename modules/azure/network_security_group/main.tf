@@ -46,3 +46,36 @@ resource "azurerm_subnet_network_security_group_association" "nsg_subnet_associa
   subnet_id                 = each.key
   network_security_group_id = azurerm_network_security_group.network_security_group.id
 }
+
+
+data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
+  count       = var.loganalytics_diagnostic_setting == null ? 0 : 1
+  resource_id = azurerm_network_security_group.network_security_group.id
+}
+
+resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
+  count                      = var.loganalytics_diagnostic_setting == null ? 0 : 1
+  name                       = "diag-${var.network_security_group_name}"
+  target_resource_id         = azurerm_network_security_group.network_security_group.id
+  log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
+
+
+  dynamic "enabled_log" {
+    for_each = var.loganalytics_diagnostic_setting.categories == null ? data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types : var.loganalytics_diagnostic_setting.categories
+
+    content {
+      category = enabled_log.value
+    }
+  }
+
+  dynamic "metric" {
+    for_each = var.loganalytics_diagnostic_setting.metrics == null ? data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics : var.loganalytics_diagnostic_setting.metrics
+
+    content {
+      category = metric.value
+      enabled  = true
+    }
+  }
+}
+
+

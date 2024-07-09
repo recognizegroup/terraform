@@ -115,3 +115,32 @@ variable "delete_retention_policy_days" {
   description = "Number of days to retain deleted blobs."
   default     = null
 }
+
+variable "loganalytics_diagnostic_setting" {
+  type = object({
+    workspace_id = string, // log analytics workspace ID
+    blob = optional(object({
+      categories       = optional(list(string)), // null list,means send all categories
+      metrics          = optional(list(string)), // null list means send all metrics
+      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+    })),
+    queue = optional(object({
+      categories       = optional(list(string)), // null list,means send all categories
+      metrics          = optional(list(string)), // null list means send all metrics
+      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+    })),
+    table = optional(object({
+      categories       = optional(list(string)), // null list,means send all categories
+      metrics          = optional(list(string)), // null list means send all metrics
+      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+    }))
+    file = optional(object({
+      categories       = optional(list(string)), // null list,means send all categories
+      metrics          = optional(list(string)), // null list means send all metrics
+      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+    }))
+  })
+  description = "Specifies the log categories that have to be sent to Log analytics."
+  default     = null
+}
+
