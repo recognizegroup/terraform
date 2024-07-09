@@ -134,7 +134,7 @@ data "azurerm_monitor_diagnostic_categories" "table" {
 
 data "azurerm_monitor_diagnostic_categories" "file" {
   count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.file == null ? 0 : 1
-  resource_id = "${azurerm_storage_account.storage_account.id}/tableServices/default/"
+  resource_id = "${azurerm_storage_account.storage_account.id}/fileServices/default/"
 }
 
 resource "azurerm_monitor_diagnostic_setting" "blob" {
