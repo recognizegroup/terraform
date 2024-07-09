@@ -187,7 +187,7 @@ resource "azurerm_monitor_diagnostic_setting" "queue" {
 
 resource "azurerm_monitor_diagnostic_setting" "table" {
   count                      = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1
-  name                       = "diag-blob-${var.name}"
+  name                       = "diag-table-${var.name}"
   target_resource_id         = "${azurerm_storage_account.storage_account.id}/tableServices/default/"
   log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
 
