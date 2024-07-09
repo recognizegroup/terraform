@@ -211,7 +211,7 @@ resource "azurerm_monitor_diagnostic_setting" "table" {
 
 resource "azurerm_monitor_diagnostic_setting" "file" {
   count                      = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1
-  name                       = "diag-blob-${var.name}"
+  name                       = "diag-file-${var.name}"
   target_resource_id         = "${azurerm_storage_account.storage_account.id}/fileServices/default/"
   log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
 
