@@ -119,7 +119,7 @@ variable "use_32_bit_worker" {
 }
 
 variable "vnet_route_all_enabled" {
-  type        = string
+  type        = bool
   description = "Should all outbound traffic have NAT Gateways, Network Security Groups and User Defined Routes applied?"
   default     = false
 }
