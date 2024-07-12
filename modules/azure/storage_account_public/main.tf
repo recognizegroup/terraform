@@ -30,14 +30,14 @@ resource "azurerm_storage_account" "storage_account" {
 
   blob_properties {
     dynamic "cors_rule" {
-      for_each = var.cors_rules != null ? [1] : []
+      for_each = var.cors_rules
 
       content {
-        allowed_headers    = var.cors_rules.value.allowed_headers
-        allowed_methods    = var.cors_rules.value.allowed_methods
-        allowed_origins    = var.cors_rules.value.allowed_origins
-        exposed_headers    = var.cors_rules.value.exposed_headers
-        max_age_in_seconds = var.cors_rules.value.max_age_in_seconds
+        allowed_headers    = cors_rule.value.allowed_headers
+        allowed_methods    = cors_rule.value.allowed_methods
+        allowed_origins    = cors_rule.value.allowed_origins
+        exposed_headers    = cors_rule.value.exposed_headers
+        max_age_in_seconds = cors_rule.value.max_age_in_seconds
       }
     }
 

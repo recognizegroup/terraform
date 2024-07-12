@@ -89,7 +89,7 @@ variable "cors_rules" {
     max_age_in_seconds = number
   }))
   description = "Describes the CORS rules for the storage account"
-  default     = null
+  default     = []
 }
 
 variable "static_website" {
