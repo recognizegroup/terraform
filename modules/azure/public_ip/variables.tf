@@ -30,3 +30,13 @@ variable "domain_name_label" {
   description = "Label for the Domain Name. Will be used to make up the FQDN"
   default     = null
 }
+
+variable "loganalytics_diagnostic_setting" {
+  type = object({
+    workspace_id = string,                 // log analytics workspace ID
+    categories   = optional(list(string)), // null list,means send all categories
+    metrics      = optional(list(string)), // null list means send all metrics
+  })
+  description = "Specifies the log categories that have to be sent to Log analytics."
+  default     = null
+}

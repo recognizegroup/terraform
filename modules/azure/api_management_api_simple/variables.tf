@@ -163,3 +163,24 @@ variable "custom_outbound_policy" {
   description = "Additional outbound xml policies"
   default     = null
 }
+
+variable "schema" {
+  type = object({
+    file_location = optional(string),
+    type          = optional(string),
+    schema_id     = optional(string)
+  })
+
+  default = {
+    file_location = null
+    type          = null
+    schema_id     = null
+  }
+
+  validation {
+    condition     = ((var.schema.file_location != null && var.schema.type != null && var.schema.schema_id != null) || (var.schema.file_location == null && var.schema.type == null && var.schema.schema_id == null))
+    error_message = "schema_id, file_location and type must be provided."
+  }
+
+  description = "Schema for validation of request"
+}

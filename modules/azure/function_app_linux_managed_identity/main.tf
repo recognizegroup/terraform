@@ -32,30 +32,41 @@ provider "null" {
 }
 
 locals {
-  should_create_app = var.managed_identity_provider.existing != null ? false : true
-  identifiers       = concat(local.should_create_app ? ["api://${var.managed_identity_provider.create.application_name}"] : [], var.managed_identity_provider.identifier_uris != null ? var.managed_identity_provider.identifier_uris : [])
-  allowed_audiences = concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : [])
+  should_create_app   = var.managed_identity_provider.existing != null ? false : true
+  should_assign_group = var.managed_identity_provider.create.group_id != null ? true : false
+  identifiers         = concat(local.should_create_app ? ["api://${var.managed_identity_provider.create.application_name}"] : [], var.managed_identity_provider.identifier_uris != null ? var.managed_identity_provider.identifier_uris : [])
+  allowed_audiences   = concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : [])
 }
 
 # Function App
 
 resource "azurerm_linux_function_app" "function_app" {
-  name                        = var.name
-  location                    = var.location
-  resource_group_name         = var.resource_group_name
-  service_plan_id             = var.service_plan_id
-  storage_account_name        = var.storage_account_name
-  storage_account_access_key  = var.storage_account_access_key
+  name                 = var.name
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  service_plan_id      = var.service_plan_id
+  storage_account_name = var.storage_account_name
+
+  storage_account_access_key    = (var.use_managed_identity == null || var.use_managed_identity == false) ? var.storage_account_access_key : null
+  storage_uses_managed_identity = var.use_managed_identity == true ? var.use_managed_identity : null //null due to conflict with storage_account_access_key
+
   functions_extension_version = var.runtime_version
 
   app_settings = merge(var.app_settings, {
     MICROSOFT_PROVIDER_AUTHENTICATION_SECRET = "${local.should_create_app ? azuread_application_password.password[0].value : var.managed_identity_provider.existing.client_secret}"
   })
-
   site_config {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic
     use_32_bit_worker      = var.use_32_bit_worker
+
+    dynamic "application_stack" {
+      for_each = var.dotnet_version != "" ? [var.dotnet_version] : []
+      content {
+        dotnet_version              = application_stack.value
+        use_dotnet_isolated_runtime = var.dotnet_isolated
+      }
+    }
 
     dynamic "ip_restriction" {
       for_each = var.ip_restrictions
@@ -93,6 +104,14 @@ resource "azurerm_linux_function_app" "function_app" {
 
   identity {
     type = "SystemAssigned"
+  }
+
+  /*
+   * VNet integration is set by a separate resource 'vnet_integration' below, so this must be ignored, see 'NOTE on regional virtual network integration:' here
+   * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_function_app
+   */
+  lifecycle {
+    ignore_changes = [virtual_network_subnet_id]
   }
 }
 
@@ -198,6 +217,19 @@ resource "azuread_application" "application" {
       type = "Scope"
     }
   }
+}
+
+resource "azuread_service_principal" "application" {
+  count                        = local.should_assign_group ? 1 : 0
+  application_id               = azuread_application.application[0].application_id
+  app_role_assignment_required = false
+  owners                       = [data.azuread_client_config.current.object_id]
+}
+
+resource "azuread_group_member" "registered_app_member" {
+  count            = local.should_assign_group ? 1 : 0
+  group_object_id  = var.managed_identity_provider.create.group_id
+  member_object_id = azuread_service_principal.application[0].object_id
 }
 
 resource "azuread_application_password" "password" {

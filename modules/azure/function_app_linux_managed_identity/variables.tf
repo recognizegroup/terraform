@@ -13,6 +13,18 @@ variable "name" {
   description = "Specifies the name of the function app."
 }
 
+variable "dotnet_version" {
+  type        = string
+  description = "Specifies the version of dotnet."
+  default     = ""
+}
+
+variable "dotnet_isolated" {
+  type        = bool
+  description = "Specifies if it is isolated function app."
+  default     = false
+}
+
 variable "managed_identity_provider" {
   type = object({
     existing = optional(object({
@@ -33,6 +45,7 @@ variable "managed_identity_provider" {
       })
       owners        = optional(list(string)) # Deployment user will be added as owner by default
       redirect_uris = optional(list(string)) # Only for additional URIs, function uri will be added by default
+      group_id      = optional(string)       # Group ID where service principal of the existing application will belong to
     }))
     identifier_uris   = optional(list(string)) #  api://<application_name> will be added by default if application is create
     allowed_audiences = optional(list(string)) # api://<application-name> will be added by default
@@ -62,7 +75,14 @@ variable "storage_account_name" {
 
 variable "storage_account_access_key" {
   type        = string
-  description = " The access key which will be used to access the backend storage account for the Function App."
+  description = "DEPRECATED in favor of use_managed_identity instead. The access key which will be used to access the backend storage account for the Function App."
+  default     = null
+}
+
+variable "use_managed_identity" {
+  type        = bool
+  description = "Adds managed identity to the function app, that allows to avoid explicit access token usage"
+  default     = null
 }
 
 variable "app_settings" {

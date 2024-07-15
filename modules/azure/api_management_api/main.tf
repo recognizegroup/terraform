@@ -21,7 +21,8 @@ provider "azurerm" {
 
 locals {
   //Do this if statement here instead of twice for both api:// settings
-  app_api_endpoint = var.app_api_endpoint != null ? var.app_api_endpoint : "${lower(replace(var.application_name, " ", "-"))}"
+  app_api_endpoint    = var.app_api_endpoint != null ? var.app_api_endpoint : "${lower(replace(var.application_name, " ", "-"))}"
+  should_assign_group = var.group_id != null ? true : false
 }
 
 #######################################################
@@ -310,6 +311,19 @@ resource "azurerm_api_management_authorization_server" "oauth2" {
   client_authentication_method = ["Body"]
   default_scope                = "api://${local.app_api_endpoint}/Default.OAuth"
 
+}
+
+resource "azuread_service_principal" "application" {
+  count                        = local.should_assign_group ? 1 : 0
+  application_id               = azuread_application.application.application_id
+  app_role_assignment_required = false
+  owners                       = [data.azuread_client_config.current.object_id]
+}
+
+resource "azuread_group_member" "registered_app_member" {
+  count            = local.should_assign_group ? 1 : 0
+  group_object_id  = var.group_id
+  member_object_id = azuread_service_principal.application[0].object_id
 }
 
 resource "azuread_application_password" "password" {

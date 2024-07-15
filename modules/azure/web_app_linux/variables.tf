@@ -36,6 +36,12 @@ variable "dotnet_version" {
   default     = null
 }
 
+variable "docker_registry_url" {
+  type        = string
+  description = "URL where to look for a Docker image for the web app."
+  default     = null
+}
+
 variable "docker_image_name" {
   type        = string
   description = "Docker image name and tag for the web app."
@@ -112,6 +118,12 @@ variable "use_32_bit_worker" {
   default     = false
 }
 
+variable "vnet_route_all_enabled" {
+  type        = bool
+  description = "Should all outbound traffic have NAT Gateways, Network Security Groups and User Defined Routes applied?"
+  default     = false
+}
+
 variable "ftps_state" {
   type        = string
   description = "State of FTP / FTPS service for this Web App."
@@ -129,4 +141,15 @@ variable "storage_mount" {
   })
   description = "Storage container or share to be mount within web app instance(s). Note that container mounts are read-only."
   default     = null
+}
+
+variable "ip_restrictions" {
+  type = set(object({
+    action     = optional(string, "Allow")
+    ip_address = string
+    name       = string
+    priority   = number
+  }))
+  description = "Specify IP addresses which are allowed to access the app"
+  default     = []
 }
