@@ -15,3 +15,7 @@ output "primary_access_connection_string" {
   value     = azurerm_servicebus_namespace.service_bus.default_primary_connection_string
   sensitive = true
 }
+
+output "endpoint" {
+  value = azurerm_servicebus_namespace.service_bus.endpoint
+}

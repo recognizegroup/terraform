@@ -17,19 +17,31 @@ resource "azurerm_linux_web_app" "web_app" {
   https_only          = true
 
   site_config {
-    always_on           = var.always_on
-    websockets_enabled  = var.websockets_enabled
-    health_check_path   = var.health_check_path
-    use_32_bit_worker   = var.use_32_bit_worker
-    ftps_state          = var.ftps_state
-    http2_enabled       = true
-    minimum_tls_version = 1.2
+    always_on              = var.always_on
+    websockets_enabled     = var.websockets_enabled
+    health_check_path      = var.health_check_path
+    use_32_bit_worker      = var.use_32_bit_worker
+    ftps_state             = var.ftps_state
+    http2_enabled          = true
+    minimum_tls_version    = 1.2
+    vnet_route_all_enabled = var.vnet_route_all_enabled
 
     application_stack {
-      dotnet_version    = var.dotnet_version
-      docker_image_name = var.docker_image_name
-      docker_image      = var.docker_image
-      docker_image_tag  = var.docker_image_tag
+      dotnet_version      = var.dotnet_version
+      docker_image_name   = var.docker_image_name
+      docker_registry_url = var.docker_registry_url
+      docker_image        = var.docker_image
+      docker_image_tag    = var.docker_image_tag
+    }
+
+    dynamic "ip_restriction" {
+      for_each = var.ip_restrictions
+      content {
+        action     = ip_restriction.value.action
+        ip_address = ip_restriction.value.ip_address
+        name       = ip_restriction.value.name
+        priority   = ip_restriction.value.priority
+      }
     }
   }
 

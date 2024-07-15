@@ -33,3 +33,9 @@ variable "logic_app_instances" {
   }))
   description = "Individual logic app configuration"
 }
+
+variable "use_managed_identity" {
+  type        = bool
+  description = "Use Managed Identity for this logic app"
+  default     = false
+}

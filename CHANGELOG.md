@@ -14,6 +14,83 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Breaking:** `azure/storage_account_private`: Remove output `primary_access_connection_string`, replace with `primary_connection_string` ([#351](https://github.com/recognizegroup/terraform/pull/351)) ([`347374ed`](https://github.com/recognizegroup/terraform/commit/347374ed)) ([@tom-reinders](https://github.com/tom-reinders))
 - **Breaking:** `azure/storage_account_public`: Remove output `primary_access_connection_string`, replace with `primary_connection_string` ([#351](https://github.com/recognizegroup/terraform/pull/351)) ([`347374ed`](https://github.com/recognizegroup/terraform/commit/347374ed)) ([@tom-reinders](https://github.com/tom-reinders))
 
+## [3.12.0] - 2024-07-15
+
+### Changed
+
+- Update version of multiple GitHub Actions ([#372](https://github.com/recognizegroup/terraform/pull/372), [#379](https://github.com/recognizegroup/terraform/pull/379)) ([@tom-reinders](https://github.com/tom-reinders))
+- `azure/logic_app`: Deprecate output `enpoint`, replace with `endpoint` ([#384](https://github.com/recognizegroup/terraform/pull/384)) ([@pipalmic](https://github.com/pipalmic), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/function_app_linux_managed_identity`: Add `group_id` to `managed_identity_provider` variable in `var.managed_identity_provider.create` path ([#386](https://github.com/recognizegroup/terraform/pull/386)) ([@zjanura](https://github.com/zjanura))
+- `azure/function_app_linux_managed_identity`: Deprecate variable `storage_account_access_key`, use `use_managed_identity` instead ([#414](https://github.com/recognizegroup/terraform/pull/414)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/function_app_linux_managed_identity`: Add default with value of `null` to variable `storage_account_access_key` ([#414](https://github.com/recognizegroup/terraform/pull/414)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/monitoring_log_analytics_alert`: Add default with value of `null` to variable `action_group_id` ([#415](https://github.com/recognizegroup/terraform/pull/415)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/api_management`: Add `frontend_request_body_bytes` to `diagnostic_settings` variable ([#416](https://github.com/recognizegroup/terraform/pull/416), [#419](https://github.com/recognizegroup/terraform/pull/419)) ([@pipalmic](https://github.com/pipalmic), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/api_management`: Add `frontend_response_body_bytes` to `diagnostic_settings` variable ([#416](https://github.com/recognizegroup/terraform/pull/416), [#419](https://github.com/recognizegroup/terraform/pull/419)) ([@pipalmic](https://github.com/pipalmic), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/api_management`: Add `backend_request_body_bytes` to `diagnostic_settings` variable ([#416](https://github.com/recognizegroup/terraform/pull/416), [#419](https://github.com/recognizegroup/terraform/pull/419)) ([@pipalmic](https://github.com/pipalmic), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/api_management`: Add `backend_response_body_bytes` to `diagnostic_settings` variable ([#416](https://github.com/recognizegroup/terraform/pull/416), [#419](https://github.com/recognizegroup/terraform/pull/419)) ([@pipalmic](https://github.com/pipalmic), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/storage_account_public`: Change default of variable `cors_rules` from `null` to `[]` ([#419](https://github.com/recognizegroup/terraform/pull/419)) ([@tom-reinders](https://github.com/tom-reinders))
+
+### Added
+
+- `azure/log_analytics_workspace`: Add output `primary_key` ([#366](https://github.com/recognizegroup/terraform/pull/366)) ([@pipalmic](https://github.com/pipalmic))
+- `azure/service_bus_public`: Add output `endpoint` ([#366](https://github.com/recognizegroup/terraform/pull/366)) ([@pipalmic](https://github.com/pipalmic))
+- Add module `azure/private_endpoint` ([#369](https://github.com/recognizegroup/terraform/pull/369), [#370](https://github.com/recognizegroup/terraform/pull/370), [#371](https://github.com/recognizegroup/terraform/pull/371)) ([@pipalmic](https://github.com/pipalmic))
+- `azure/logic_app_set`: Add variable `use_managed_identity` ([#368](https://github.com/recognizegroup/terraform/pull/368)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- `azure/logic_app_set`: Add output `principal_id` ([#368](https://github.com/recognizegroup/terraform/pull/368)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- Add module `azure/iam_set` ([#368](https://github.com/recognizegroup/terraform/pull/368)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- Add module `azure/api_connectors/service_bus_managed_identity_set` ([#368](https://github.com/recognizegroup/terraform/pull/368)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- Add module `azure/api_connectors/event_hub_managed_identity` ([#374](https://github.com/recognizegroup/terraform/pull/374)) ([@mkostalrecognize](https://github.com/mkostalrecognize))
+- `azure/web_app_linux`: Add variable `docker_registry_url` ([#376](https://github.com/recognizegroup/terraform/pull/376)) ([@pipalmic](https://github.com/pipalmic))
+- `azure/web_app_linux`: Add variable `vnet_route_all_enabled` ([#376](https://github.com/recognizegroup/terraform/pull/376), [#419](https://github.com/recognizegroup/terraform/pull/419)) ([@pipalmic](https://github.com/pipalmic), [@tom-reinders](https://github.com/tom-reinders))
+- `azure/web_app_linux`: Add variable `ip_restrictions` ([#376](https://github.com/recognizegroup/terraform/pull/376)) ([@pipalmic](https://github.com/pipalmic))
+- Add module `azure/storage_table_entities_rewritable` ([#377](https://github.com/recognizegroup/terraform/pull/377)) ([@pipalmic](https://github.com/pipalmic))
+- Add module `azure/api_connectors/arm_managed_identity` ([#378](https://github.com/recognizegroup/terraform/pull/378)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- Add module `azure/api_connectors/excel_online` ([#378](https://github.com/recognizegroup/terraform/pull/378)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- Add module `azure/api_connectors/sharepoint_online` ([#378](https://github.com/recognizegroup/terraform/pull/378)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- `azure/key_vault_secrets_put_once`: Add output `secrets` ([#380](https://github.com/recognizegroup/terraform/pull/380), [#387](https://github.com/recognizegroup/terraform/pull/387), [#388](https://github.com/recognizegroup/terraform/pull/388)) ([@pipalmic](https://github.com/pipalmic), [@szymonrozek](https://github.com/szymonrozek))
+- `azure/api_management_api`: Add output `api_audiences` ([#381](https://github.com/recognizegroup/terraform/pull/381)) ([@zjanura](https://github.com/zjanura))
+- `azure/api_management_api`: Add output `api_audience` ([#381](https://github.com/recognizegroup/terraform/pull/381)) ([@zjanura](https://github.com/zjanura))
+- `azure/function_app_linux_managed_identity`: Add output `api_audiences` ([#382](https://github.com/recognizegroup/terraform/pull/382), [#383](https://github.com/recognizegroup/terraform/pull/383)) ([@zjanura](https://github.com/zjanura))
+- `azure/logic_app`: Add output `endpoint` ([#384](https://github.com/recognizegroup/terraform/pull/384)) ([@pipalmic](https://github.com/pipalmic))
+- `azure/api_management_api`: Add variable `group_id` ([#389](https://github.com/recognizegroup/terraform/pull/389)) ([@zjanura](https://github.com/zjanura))
+- `azure/api_management_api`: Add output `app_registration_secret` ([#390](https://github.com/recognizegroup/terraform/pull/390)) ([@szymonrozek](https://github.com/szymonrozek))
+- `azure/function_app_linux_managed_identity`: Add variable `dotnet_version` ([#393](https://github.com/recognizegroup/terraform/pull/393)) ([@szymonrozek](https://github.com/szymonrozek))
+- `azure/function_app_linux_managed_identity`: Add variable `dotnet_isolated` ([#393](https://github.com/recognizegroup/terraform/pull/393), [#419](https://github.com/recognizegroup/terraform/pull/419)) ([@szymonrozek](https://github.com/szymonrozek), [@tom-reinders](https://github.com/tom-reinders))
+- Add module `azure/logic_app_bicep` ([#394](https://github.com/recognizegroup/terraform/pull/394)) ([@zjanura](https://github.com/zjanura))
+- Add module `azure/api_connectors/logic_app_custom_connector` ([#395](https://github.com/recognizegroup/terraform/pull/395), [#404](https://github.com/recognizegroup/terraform/pull/404)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- `azure/function_app_linux`: Add variable `dotnet_version` ([#396](https://github.com/recognizegroup/terraform/pull/396)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- `azure/function_app_linux`: Add variable `dotnet_isolated` ([#396](https://github.com/recognizegroup/terraform/pull/396), [#419](https://github.com/recognizegroup/terraform/pull/419)) ([@patrik-pa4k](https://github.com/patrik-pa4k), [@tom-reinders](https://github.com/tom-reinders))
+- Add module `azure/api_management_api_operation` ([#397](https://github.com/recognizegroup/terraform/pull/397), [#400](https://github.com/recognizegroup/terraform/pull/400), [#401](https://github.com/recognizegroup/terraform/pull/401), [#408](https://github.com/recognizegroup/terraform/pull/408)) ([@zjanura](https://github.com/zjanura))
+- `azure/api_management_api_simple`: Add output `id` ([#397](https://github.com/recognizegroup/terraform/pull/397)) ([@zjanura](https://github.com/zjanura))
+- `azure/api_management_api_simple`: Add variable `schema` ([#399](https://github.com/recognizegroup/terraform/pull/399)) ([@zjanura](https://github.com/zjanura))
+- Add module `azure/api_connectors/custom_connector` ([#398](https://github.com/recognizegroup/terraform/pull/398)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- Add module `azure/api_management_api_schema` ([#402](https://github.com/recognizegroup/terraform/pull/402)) ([@zjanura](https://github.com/zjanura))
+- `azure/postgresql`: Add variable `postgresql_zone` ([#410](https://github.com/recognizegroup/terraform/pull/410)) ([@khillen](https://github.com/khillen))
+- `azure/databricks_cluster`: Add variable `cluster_policy` ([#409](https://github.com/recognizegroup/terraform/pull/409)) ([@tom-reinders](https://github.com/tom-reinders))
+- Add module `azure/databricks_permissions_user_based` ([#409](https://github.com/recognizegroup/terraform/pull/409)) ([@tom-reinders](https://github.com/tom-reinders))
+- `azure/storage_account_public`: Add variable `delete_retention_policy_days` ([#411](https://github.com/recognizegroup/terraform/pull/411)) ([@patrik-pa4k](https://github.com/patrik-pa4k))
+- `azure/postgresql`: Add variable `public_network_access_enabled` ([#412](https://github.com/recognizegroup/terraform/pull/412)) ([@khillen](https://github.com/khillen))
+- `azure/service_bus_public`: Add variable `log_analytics_workspace_id` ([#413](https://github.com/recognizegroup/terraform/pull/413)) ([@pipalmic](https://github.com/pipalmic))
+- `azure/function_app_linux_managed_identity`: Add variable `use_managed_identity` ([#414](https://github.com/recognizegroup/terraform/pull/414)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/monitoring_log_analytics_alert`: Add variable `action_groups` ([#415](https://github.com/recognizegroup/terraform/pull/415)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/event_grid_topic`: Add variable `loganalytics_diagnostic_setting` ([#417](https://github.com/recognizegroup/terraform/pull/417)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/event_hub`: Add variable `loganalytics_diagnostic_setting` ([#417](https://github.com/recognizegroup/terraform/pull/417)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/log_analytics_workspace`: Add variable `loganalytics_diagnostic_setting` ([#417](https://github.com/recognizegroup/terraform/pull/417)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/network_security_group`: Add variable `loganalytics_diagnostic_setting` ([#417](https://github.com/recognizegroup/terraform/pull/417)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/public_ip`: Add variable `loganalytics_diagnostic_setting` ([#417](https://github.com/recognizegroup/terraform/pull/417)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/service_plan`: Add variable `loganalytics_diagnostic_setting` ([#417](https://github.com/recognizegroup/terraform/pull/417)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/storage_account_public`: Add variable `loganalytics_diagnostic_setting` ([#417](https://github.com/recognizegroup/terraform/pull/417)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/stream_analytics`: Add variable `loganalytics_diagnostic_setting` ([#417](https://github.com/recognizegroup/terraform/pull/417)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/virtual_network`: Add variable `loganalytics_diagnostic_setting` ([#417](https://github.com/recognizegroup/terraform/pull/417)) ([@ArtiomMatiom](https://github.com/ArtiomMatiom))
+- `azure/function_app_windows`: Add variable `dotnet_version` ([#419](https://github.com/recognizegroup/terraform/pull/419)) ([@tom-reinders](https://github.com/tom-reinders))
+- `azure/function_app_windows`: Add variable `dotnet_isolated` ([#419](https://github.com/recognizegroup/terraform/pull/419)) ([@tom-reinders](https://github.com/tom-reinders))
+
+### Fixed
+
+- `azure/function_app_linux`: Fix VNET integration definition ([#373](https://github.com/recognizegroup/terraform/pull/373)) ([@pipalmic](https://github.com/pipalmic))
+- `azure/function_app_linux_managed_identity`: Fix VNET integration definition ([#373](https://github.com/recognizegroup/terraform/pull/373)) ([@pipalmic](https://github.com/pipalmic))
+- `azure/function_app_windows`: Fix VNET integration definition ([#373](https://github.com/recognizegroup/terraform/pull/373)) ([@pipalmic](https://github.com/pipalmic))
+
 ## [3.11.0] - 2023-10-02
 
 ### Added
@@ -199,6 +276,7 @@ _If you are upgrading: please see [UPGRADE_3.0.md](UPGRADE_3.0.md)._
 - **Breaking:** Remove module `azure/api_connectors/storage_account`, replace with `azure/api_connectors/storage_blob` and `azure/api_connectors/storage_table` ([#276](https://github.com/recognizegroup/terraform/pull/276)) ([`7a483886`](https://github.com/recognizegroup/terraform/commit/7a483886)) ([@pipalmic](https://github.com/pipalmic))
 
 [4.0.0]: https://github.com/recognizegroup/terraform/releases/tag/v4.0.0
+[3.12.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.12.0
 [3.11.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.11.0
 [3.10.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.10.0
 [3.9.0]: https://github.com/recognizegroup/terraform/releases/tag/v3.9.0

@@ -49,3 +49,13 @@ resource "azurerm_servicebus_subscription_rule" "correlation_filter" {
     properties          = var.correlation_filter.properties
   }
 }
+
+# When no filter is specified, we create a default to capture all (otherwise, the subs is unreachable)
+# This filter is automatically create by Azure during initial create, but is not created during update (if someone deletes a filter)
+resource "azurerm_servicebus_subscription_rule" "default_route_all_sql_filter" {
+  count           = var.sql_filter_query == null && var.correlation_filter == null ? 1 : 0
+  name            = "Default-ConsumeAll"
+  subscription_id = azurerm_servicebus_subscription.service_bus_subscription.id
+  filter_type     = "SqlFilter"
+  sql_filter      = "1=1"
+}

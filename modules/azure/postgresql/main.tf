@@ -27,13 +27,14 @@ resource "azurerm_postgresql_flexible_server" "postgresql_server" {
 
   sku_name = var.postgresql_sku_name
 
-  storage_mb            = var.postgresql_db_size
-  backup_retention_days = 30
+  storage_mb                    = var.postgresql_db_size
+  backup_retention_days         = 30
+  public_network_access_enabled = var.public_network_access_enabled
 
   administrator_login    = var.admin_username
   administrator_password = random_password.postgresql_admin.result
   version                = var.postgresql_version
-  zone                   = "1"
+  zone                   = var.postgresql_zone
   delegated_subnet_id    = var.delegated_subnet_id
   private_dns_zone_id    = var.private_dns_zone_id
 

@@ -11,543 +11,129 @@ updates:
     schedule:
       interval: "daily"
 
-  # Workaround till https://github.com/dependabot/dependabot-core/issues/2178 is fixed
   - package-ecosystem: "terraform"
-    directory: "/modules/azure/analysis_services"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_connectors/key_vault_managed_identity"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_connectors/log_analytics"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_connectors/office365"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_connectors/office365_set"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_connectors/service_bus_managed_identity"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_connectors/storage_blob"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_connectors/storage_blob_managed_identity"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_connectors/storage_table"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management_api"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management_api_operation_policy"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management_api_simple"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management_certificate"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management_custom_domains"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management_custom_domains_simple"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management_groups"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management_logging"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management_named_values"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/api_management_permissions"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/application_insights"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/application_insights_smart_detection_rule"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/application_insights_workbook"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/application_performance_workbook"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/application_role_assignment"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/container_registery"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/data_factory"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/data_factory_blob_to_blob"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/data_factory_http_to_blob"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/data_lake_filesystem"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/data_lake_storage"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/databricks_cluster"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/databricks_permissions"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/databricks_secrets"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/databricks_workspace"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/event_grid_topic"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/event_grid_topic_subscription"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/event_hub"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/frontdoor_classic"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/frontdoor_firewall_policy"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/function_app_linux"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/function_app_linux_managed_identity"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/function_app_windows"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/iam"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/key_vault"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/key_vault_certificate"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/key_vault_secret"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/key_vault_secrets_put"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/key_vault_secrets_put_once"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/log_analytics_diagnostic_setting"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/log_analytics_queries"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/log_analytics_workspace"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/logic_app"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/logic_app_set"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/logic_app_standard"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/logic_app_standard_connection"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/logic_app_standard_connection_access_policy"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/logic_app_trigger_http_request_data"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/maps_account"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/monitoring_action_group"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/monitoring_log_analytics_alert"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/monitoring_metric_alert"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/mssql"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/mysql"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/mysql_flexible_server"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/mysql_flexible_server_public"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/network_security_group"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/postgresql"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/postgresql_public"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/private_dns_zone"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/public_ip"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/recovery_services_vault"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/resource_group"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/route_table"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/service_bus_public"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/service_bus_subscription"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/service_bus_topic"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/service_plan"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/storage_account_private"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/storage_account_public"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/storage_blob"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/storage_container"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/storage_event_grid"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/storage_queue"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/storage_share"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/storage_table"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/storage_table_entities"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/storage_table_entity"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/stream_analytics"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/subnet"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/synapse_workspace"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/virtual_machine"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/virtual_machine_extension"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/virtual_network"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/virtual_network_peering"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/web_app_linux"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/azure/web_app_windows"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/cloudflare/dns_records"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/elastic/cluster"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/other/local_exec"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/other/password_generator"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/kubernetes/configmap"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/kubernetes/cron_job"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/kubernetes/deployment_with_service"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/kubernetes/ingress"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/kubernetes/secret"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/kubernetes/pvc"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/other/vm_with_power_automate_desktop"
+    directories:
+      - "/modules/azure/analysis_services"
+      - "/modules/azure/api_connectors/arm_managed_identity"
+      - "/modules/azure/api_connectors/custom_connector"
+      - "/modules/azure/api_connectors/event_hub_managed_identity"
+      - "/modules/azure/api_connectors/excel_online"
+      - "/modules/azure/api_connectors/key_vault_managed_identity"
+      - "/modules/azure/api_connectors/log_analytics"
+      - "/modules/azure/api_connectors/logic_app_custom_connector"
+      - "/modules/azure/api_connectors/office365"
+      - "/modules/azure/api_connectors/office365_set"
+      - "/modules/azure/api_connectors/service_bus_managed_identity"
+      - "/modules/azure/api_connectors/service_bus_managed_identity_set"
+      - "/modules/azure/api_connectors/sharepoint_online"
+      - "/modules/azure/api_connectors/storage_blob"
+      - "/modules/azure/api_connectors/storage_blob_managed_identity"
+      - "/modules/azure/api_connectors/storage_table"
+      - "/modules/azure/api_management"
+      - "/modules/azure/api_management_api"
+      - "/modules/azure/api_management_api_operation"
+      - "/modules/azure/api_management_api_operation_policy"
+      - "/modules/azure/api_management_api_schema"
+      - "/modules/azure/api_management_api_simple"
+      - "/modules/azure/api_management_certificate"
+      - "/modules/azure/api_management_custom_domains"
+      - "/modules/azure/api_management_custom_domains_simple"
+      - "/modules/azure/api_management_groups"
+      - "/modules/azure/api_management_logging"
+      - "/modules/azure/api_management_named_values"
+      - "/modules/azure/api_management_permissions"
+      - "/modules/azure/application_insights"
+      - "/modules/azure/application_insights_smart_detection_rule"
+      - "/modules/azure/application_insights_workbook"
+      - "/modules/azure/application_performance_workbook"
+      - "/modules/azure/application_role_assignment"
+      - "/modules/azure/container_registery"
+      - "/modules/azure/databricks_cluster"
+      - "/modules/azure/databricks_permissions"
+      - "/modules/azure/databricks_permissions_user_based"
+      - "/modules/azure/databricks_secrets"
+      - "/modules/azure/databricks_workspace"
+      - "/modules/azure/data_factory"
+      - "/modules/azure/data_factory_blob_to_blob"
+      - "/modules/azure/data_factory_http_to_blob"
+      - "/modules/azure/data_lake_filesystem"
+      - "/modules/azure/data_lake_storage"
+      - "/modules/azure/event_grid_topic"
+      - "/modules/azure/event_grid_topic_subscription"
+      - "/modules/azure/event_hub"
+      - "/modules/azure/frontdoor_classic"
+      - "/modules/azure/frontdoor_firewall_policy"
+      - "/modules/azure/function_app_linux"
+      - "/modules/azure/function_app_linux_managed_identity"
+      - "/modules/azure/function_app_windows"
+      - "/modules/azure/iam"
+      - "/modules/azure/iam_set"
+      - "/modules/azure/key_vault"
+      - "/modules/azure/key_vault_certificate"
+      - "/modules/azure/key_vault_secret"
+      - "/modules/azure/key_vault_secrets_put"
+      - "/modules/azure/key_vault_secrets_put_once"
+      - "/modules/azure/log_analytics_diagnostic_setting"
+      - "/modules/azure/log_analytics_queries"
+      - "/modules/azure/log_analytics_workspace"
+      - "/modules/azure/logic_app"
+      - "/modules/azure/logic_app_bicep"
+      - "/modules/azure/logic_app_set"
+      - "/modules/azure/logic_app_standard"
+      - "/modules/azure/logic_app_standard_connection"
+      - "/modules/azure/logic_app_standard_connection_access_policy"
+      - "/modules/azure/logic_app_trigger_http_request_data"
+      - "/modules/azure/maps_account"
+      - "/modules/azure/monitoring_action_group"
+      - "/modules/azure/monitoring_log_analytics_alert"
+      - "/modules/azure/monitoring_metric_alert"
+      - "/modules/azure/mssql"
+      - "/modules/azure/mysql"
+      - "/modules/azure/mysql_flexible_server"
+      - "/modules/azure/mysql_flexible_server_public"
+      - "/modules/azure/network_security_group"
+      - "/modules/azure/postgresql"
+      - "/modules/azure/postgresql_public"
+      - "/modules/azure/private_dns_zone"
+      - "/modules/azure/private_endpoint"
+      - "/modules/azure/public_ip"
+      - "/modules/azure/recovery_services_vault"
+      - "/modules/azure/resource_group"
+      - "/modules/azure/route_table"
+      - "/modules/azure/service_bus_public"
+      - "/modules/azure/service_bus_subscription"
+      - "/modules/azure/service_bus_topic"
+      - "/modules/azure/service_plan"
+      - "/modules/azure/storage_account_private"
+      - "/modules/azure/storage_account_public"
+      - "/modules/azure/storage_blob"
+      - "/modules/azure/storage_container"
+      - "/modules/azure/storage_event_grid"
+      - "/modules/azure/storage_queue"
+      - "/modules/azure/storage_share"
+      - "/modules/azure/storage_table"
+      - "/modules/azure/storage_table_entities"
+      - "/modules/azure/storage_table_entities_rewritable"
+      - "/modules/azure/storage_table_entity"
+      - "/modules/azure/stream_analytics"
+      - "/modules/azure/subnet"
+      - "/modules/azure/synapse_workspace"
+      - "/modules/azure/virtual_machine"
+      - "/modules/azure/virtual_machine_extension"
+      - "/modules/azure/virtual_network"
+      - "/modules/azure/virtual_network_peering"
+      - "/modules/azure/web_app_linux"
+      - "/modules/azure/web_app_windows"
+      - "/modules/cloudflare/dns_records"
+      - "/modules/elastic/cluster"
+      - "/modules/kubernetes/configmap"
+      - "/modules/kubernetes/cron_job"
+      - "/modules/kubernetes/deployment_with_service"
+      - "/modules/kubernetes/ingress"
+      - "/modules/kubernetes/pvc"
+      - "/modules/kubernetes/secret"
+      - "/modules/other/local_exec"
+      - "/modules/other/password_generator"
+      - "/modules/other/vm_with_power_automate_desktop"
     schedule:
       interval: "daily"

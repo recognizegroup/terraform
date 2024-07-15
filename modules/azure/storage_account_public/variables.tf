@@ -89,7 +89,7 @@ variable "cors_rules" {
     max_age_in_seconds = number
   }))
   description = "Describes the CORS rules for the storage account"
-  default     = null
+  default     = []
 }
 
 variable "static_website" {
@@ -109,3 +109,38 @@ variable "custom_domain" {
   description = "Describes the custom domain configuration for the storage account"
   default     = null
 }
+
+variable "delete_retention_policy_days" {
+  type        = number
+  description = "Number of days to retain deleted blobs."
+  default     = null
+}
+
+variable "loganalytics_diagnostic_setting" {
+  type = object({
+    workspace_id = string, // log analytics workspace ID
+    blob = optional(object({
+      categories       = optional(list(string)), // null list,means send all categories
+      metrics          = optional(list(string)), // null list means send all metrics
+      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+    })),
+    queue = optional(object({
+      categories       = optional(list(string)), // null list,means send all categories
+      metrics          = optional(list(string)), // null list means send all metrics
+      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+    })),
+    table = optional(object({
+      categories       = optional(list(string)), // null list,means send all categories
+      metrics          = optional(list(string)), // null list means send all metrics
+      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+    }))
+    file = optional(object({
+      categories       = optional(list(string)), // null list,means send all categories
+      metrics          = optional(list(string)), // null list means send all metrics
+      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+    }))
+  })
+  description = "Specifies the log categories that have to be sent to Log analytics."
+  default     = null
+}
+

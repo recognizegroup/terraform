@@ -27,6 +27,15 @@ resource "azurerm_windows_function_app" "function_app" {
     vnet_route_all_enabled = var.route_all_outbound_traffic
     use_32_bit_worker      = var.use_32_bit_worker
 
+    dynamic "application_stack" {
+      for_each = var.dotnet_version != "" ? [1] : []
+
+      content {
+        dotnet_version              = var.dotnet_version
+        use_dotnet_isolated_runtime = var.dotnet_isolated
+      }
+    }
+
     dynamic "ip_restriction" {
       for_each = var.ip_restrictions
 
@@ -63,6 +72,14 @@ resource "azurerm_windows_function_app" "function_app" {
 
   identity {
     type = "SystemAssigned"
+  }
+
+  /*
+   * VNet integration is set by a separate resource below, so this must be ignored, see 'NOTE on regional virtual network integration:' here
+   * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_function_app
+   */
+  lifecycle {
+    ignore_changes = [virtual_network_subnet_id]
   }
 }
 

@@ -13,3 +13,11 @@ output "application_id" {
 output "default_role" {
   value = azuread_application.application.app_role_ids["Default.Access"]
 }
+
+output "api_audiences" {
+  value = azuread_application.application.identifier_uris
+}
+
+output "api_audience" {
+  value = "api://${local.app_api_endpoint}"
+}

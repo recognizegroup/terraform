@@ -11,6 +11,8 @@ find ./modules -name "*.tf" -exec dirname {} + | sort | uniq | while read -r lin
   cd "$line" || exit
   terraform init
   terraform validate
+  rm -r .terraform
+  rm .terraform.lock.hcl
   cd - || exit
   rm "$line/temp_local_backend.tf"
 done

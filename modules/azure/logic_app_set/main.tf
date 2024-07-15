@@ -18,6 +18,13 @@ resource "azurerm_logic_app_workflow" "workflow" {
   name                = each.value.logic_app_name
   location            = var.location
   resource_group_name = var.resource_group_name
+
+  dynamic "identity" {
+    for_each = var.use_managed_identity ? [1] : []
+    content {
+      type = "SystemAssigned"
+    }
+  }
 }
 
 // Deploy workflow as ARM template conditional when arm_template_path is specified

@@ -70,23 +70,31 @@ variable "api_management_logger_settings" {
 
 variable "diagnostic_settings" {
   type = object({
-    sampling_percentage       = number,
-    always_log_errors         = bool,
-    log_client_ip             = bool,
-    verbosity                 = string, # possible values: verbose, information, error
-    http_correlation_protocol = string, # possible values: None, Legacy, W3C
-    headers_to_log_request    = list(string),
-    headers_to_log_response   = list(string)
+    sampling_percentage          = number,
+    always_log_errors            = bool,
+    log_client_ip                = bool,
+    verbosity                    = string, # possible values: verbose, information, error
+    http_correlation_protocol    = string, # possible values: None, Legacy, W3C
+    headers_to_log_request       = list(string),
+    headers_to_log_response      = list(string),
+    frontend_request_body_bytes  = optional(number, 32),
+    frontend_response_body_bytes = optional(number, 32),
+    backend_request_body_bytes   = optional(number, 32),
+    backend_response_body_bytes  = optional(number, 32)
   })
   description = "Settings for api management diagnostic, api-management-diagnostic will be created only if api_management_logger_settings have been provided. "
   default = {
-    sampling_percentage       = 5.0,
-    always_log_errors         = true,
-    log_client_ip             = true,
-    verbosity                 = "verbose", # possible values: verbose, information, error
-    http_correlation_protocol = "W3C",
-    headers_to_log_request    = ["content-type", "accept", "origin"],
-    headers_to_log_response   = ["content-type", "content-length", "origin"]
+    sampling_percentage          = 5.0,
+    always_log_errors            = true,
+    log_client_ip                = true,
+    verbosity                    = "verbose", # possible values: verbose, information, error
+    http_correlation_protocol    = "W3C",
+    headers_to_log_request       = ["content-type", "accept", "origin"],
+    headers_to_log_response      = ["content-type", "content-length", "origin"],
+    frontend_request_body_bytes  = 32,
+    frontend_response_body_bytes = 32,
+    backend_request_body_bytes   = 32,
+    backend_response_body_bytes  = 32
   }
 }
 

@@ -43,6 +43,12 @@ variable "owners" {
   default     = []
 }
 
+variable "group_id" {
+  type        = string
+  description = "Group ID where service principal of the existing application will belong to"
+  default     = null
+}
+
 variable "api_management_logger_id" {
   type        = string
   description = "The Id of the API management Logger"

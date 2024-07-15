@@ -10,6 +10,7 @@ terraform {
 }
 
 locals {
+  do_schema = var.schema.file_location != null && var.schema.type != null && var.schema.schema_id != null ? true : false
 }
 
 #######################################################
@@ -232,4 +233,13 @@ resource "azurerm_api_management_product_api" "product_api" {
   product_id          = azurerm_api_management_product.product.product_id
   api_management_name = var.api_management_name
   resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_api_management_global_schema" "json" {
+  count               = local.do_schema ? 1 : 0
+  schema_id           = var.schema.schema_id
+  api_management_name = var.api_management_name
+  resource_group_name = var.resource_group_name
+  type                = var.schema.type
+  value               = file(var.schema.file_location)
 }

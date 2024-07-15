@@ -94,3 +94,34 @@ resource "azurerm_stream_analytics_output_blob" "stream_output" {
     format   = each.value.serialization.format
   }
 }
+
+
+data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
+  count       = var.loganalytics_diagnostic_setting == null ? 0 : 1
+  resource_id = azurerm_stream_analytics_job.job.id
+}
+
+resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
+  count                      = var.loganalytics_diagnostic_setting == null ? 0 : 1
+  name                       = "diag-${var.name}"
+  target_resource_id         = azurerm_stream_analytics_job.job.id
+  log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
+
+
+  dynamic "enabled_log" {
+    for_each = var.loganalytics_diagnostic_setting.categories == null ? data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types : var.loganalytics_diagnostic_setting.categories
+
+    content {
+      category = enabled_log.value
+    }
+  }
+
+  dynamic "metric" {
+    for_each = var.loganalytics_diagnostic_setting.metrics == null ? data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics : var.loganalytics_diagnostic_setting.metrics
+
+    content {
+      category = metric.value
+      enabled  = true
+    }
+  }
+}

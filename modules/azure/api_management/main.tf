@@ -94,22 +94,22 @@ resource "azurerm_api_management_diagnostic" "apim_diagnostic" {
   http_correlation_protocol = var.diagnostic_settings.http_correlation_protocol
 
   frontend_request {
-    body_bytes     = 32
+    body_bytes     = var.diagnostic_settings.frontend_request_body_bytes
     headers_to_log = var.diagnostic_settings.headers_to_log_request
   }
 
   frontend_response {
-    body_bytes     = 32
+    body_bytes     = var.diagnostic_settings.frontend_response_body_bytes
     headers_to_log = var.diagnostic_settings.headers_to_log_response
   }
 
   backend_request {
-    body_bytes     = 32
+    body_bytes     = var.diagnostic_settings.backend_request_body_bytes
     headers_to_log = var.diagnostic_settings.headers_to_log_request
   }
 
   backend_response {
-    body_bytes     = 32
+    body_bytes     = var.diagnostic_settings.backend_response_body_bytes
     headers_to_log = var.diagnostic_settings.headers_to_log_response
   }
 }

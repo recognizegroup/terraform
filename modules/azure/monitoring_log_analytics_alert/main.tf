@@ -22,7 +22,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "query_alert" {
   data_source_id      = each.value.data_source_id
 
   action {
-    action_group  = [var.action_group_id]
+    action_group  = var.action_groups != null ? var.action_groups : [var.action_group_id]
     email_subject = "Monitoring Alert"
   }
 
