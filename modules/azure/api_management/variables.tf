@@ -77,10 +77,10 @@ variable "diagnostic_settings" {
     http_correlation_protocol    = string, # possible values: None, Legacy, W3C
     headers_to_log_request       = list(string),
     headers_to_log_response      = list(string),
-    frontend_request_body_bytes  = number,
-    frontend_response_body_bytes = number,
-    backend_request_body_bytes   = number,
-    backend_response_body_bytes  = number
+    frontend_request_body_bytes  = optional(number, 32),
+    frontend_response_body_bytes = optional(number, 32),
+    backend_request_body_bytes   = optional(number, 32),
+    backend_response_body_bytes  = optional(number, 32)
   })
   description = "Settings for api management diagnostic, api-management-diagnostic will be created only if api_management_logger_settings have been provided. "
   default = {

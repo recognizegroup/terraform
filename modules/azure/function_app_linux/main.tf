@@ -34,9 +34,10 @@ resource "azurerm_linux_function_app" "function_app" {
     use_32_bit_worker      = var.use_32_bit_worker
 
     dynamic "application_stack" {
-      for_each = var.dotnet_version != "" ? [var.dotnet_version] : []
+      for_each = var.dotnet_version != "" ? [1] : []
+
       content {
-        dotnet_version              = application_stack.value
+        dotnet_version              = var.dotnet_version
         use_dotnet_isolated_runtime = var.dotnet_isolated
       }
     }

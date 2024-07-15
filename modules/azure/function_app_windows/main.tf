@@ -33,6 +33,15 @@ resource "azurerm_windows_function_app" "function_app" {
     vnet_route_all_enabled = var.route_all_outbound_traffic
     use_32_bit_worker      = var.use_32_bit_worker
 
+    dynamic "application_stack" {
+      for_each = var.dotnet_version != "" ? [1] : []
+
+      content {
+        dotnet_version              = var.dotnet_version
+        use_dotnet_isolated_runtime = var.dotnet_isolated
+      }
+    }
+
     dynamic "ip_restriction" {
       for_each = var.ip_restrictions
 
