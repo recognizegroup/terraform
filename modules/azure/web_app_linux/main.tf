@@ -113,6 +113,18 @@ resource "azurerm_app_service_custom_hostname_binding" "custom_domain" {
   resource_group_name = var.resource_group_name
 }
 
+resource "azurerm_app_service_managed_certificate" "custom_hostname_certificate" {
+  for_each = azurerm_app_service_custom_hostname_binding.custom_domain
+  custom_hostname_binding_id = each.value.id
+}
+
+resource "azurerm_app_service_certificate_binding" "custom_hostname_certificate_binding" {
+  for_each = azurerm_app_service_custom_hostname_binding.custom_domain
+  hostname_binding_id = each.value.id
+  certificate_id      = azurerm_app_service_managed_certificate.custom_hostname_certificate[each.key].id
+  ssl_state           = "SniEnabled"
+}
+
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   count       = var.log_analytics_workspace_id == null ? 0 : 1
   resource_id = azurerm_linux_web_app.web_app.id
