@@ -118,27 +118,27 @@ resource "azurerm_storage_management_policy" "storage_management_policy" {
 }
 
 data "azurerm_monitor_diagnostic_categories" "blob" {
-  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.blob == null ? 0 : 1
+  count       = var.loganalytics_diagnostic_setting != null ? var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.blob == null ? 0 : 1 : 0
   resource_id = "${azurerm_storage_account.storage_account.id}/blobServices/default/"
 }
 
 data "azurerm_monitor_diagnostic_categories" "queue" {
-  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.queue == null ? 0 : 1
+  count       = var.loganalytics_diagnostic_setting != null ? var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.queue == null ? 0 : 1 : 0
   resource_id = "${azurerm_storage_account.storage_account.id}/queueServices/default/"
 }
 
 data "azurerm_monitor_diagnostic_categories" "table" {
-  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1
+  count       = var.loganalytics_diagnostic_setting != null ? var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1 : 0
   resource_id = "${azurerm_storage_account.storage_account.id}/tableServices/default/"
 }
 
 data "azurerm_monitor_diagnostic_categories" "file" {
-  count       = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.file == null ? 0 : 1
+  count       = var.loganalytics_diagnostic_setting != null ? var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.file == null ? 0 : 1 : 0
   resource_id = "${azurerm_storage_account.storage_account.id}/fileServices/default/"
 }
 
 resource "azurerm_monitor_diagnostic_setting" "blob" {
-  count                      = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.blob == null ? 0 : 1
+  count                      = var.loganalytics_diagnostic_setting != null ? var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.blob == null ? 0 : 1 : 0
   name                       = "diag-blob-${var.name}"
   target_resource_id         = "${azurerm_storage_account.storage_account.id}/blobServices/default/"
   log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
@@ -162,7 +162,7 @@ resource "azurerm_monitor_diagnostic_setting" "blob" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "queue" {
-  count                      = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.queue == null ? 0 : 1
+  count                      = var.loganalytics_diagnostic_setting != null ? var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.queue == null ? 0 : 1 : 0
   name                       = "diag-queue-${var.name}"
   target_resource_id         = "${azurerm_storage_account.storage_account.id}/queueServices/default/"
   log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
@@ -186,7 +186,7 @@ resource "azurerm_monitor_diagnostic_setting" "queue" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "table" {
-  count                      = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1
+  count                      = var.loganalytics_diagnostic_setting != null ? var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1 : 0
   name                       = "diag-table-${var.name}"
   target_resource_id         = "${azurerm_storage_account.storage_account.id}/tableServices/default/"
   log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
@@ -210,7 +210,7 @@ resource "azurerm_monitor_diagnostic_setting" "table" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "file" {
-  count                      = var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1
+  count                      = var.loganalytics_diagnostic_setting != null ? var.loganalytics_diagnostic_setting.workspace_id == null || var.loganalytics_diagnostic_setting.table == null ? 0 : 1 : 0
   name                       = "diag-file-${var.name}"
   target_resource_id         = "${azurerm_storage_account.storage_account.id}/fileServices/default/"
   log_analytics_workspace_id = var.loganalytics_diagnostic_setting.workspace_id
