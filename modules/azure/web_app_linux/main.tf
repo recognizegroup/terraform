@@ -114,12 +114,12 @@ resource "azurerm_app_service_custom_hostname_binding" "custom_domain" {
 }
 
 resource "azurerm_app_service_managed_certificate" "custom_hostname_certificate" {
-  for_each = azurerm_app_service_custom_hostname_binding.custom_domain
+  for_each                   = azurerm_app_service_custom_hostname_binding.custom_domain
   custom_hostname_binding_id = each.value.id
 }
 
 resource "azurerm_app_service_certificate_binding" "custom_hostname_certificate_binding" {
-  for_each = azurerm_app_service_custom_hostname_binding.custom_domain
+  for_each            = azurerm_app_service_custom_hostname_binding.custom_domain
   hostname_binding_id = each.value.id
   certificate_id      = azurerm_app_service_managed_certificate.custom_hostname_certificate[each.key].id
   ssl_state           = "SniEnabled"
