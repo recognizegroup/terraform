@@ -12,7 +12,7 @@
     "connection_name": {
       "type": "String",
       "metadata": {
-        "description": "Connection resource name to connect to an SharePoint Online."
+        "description": "Connection resource name to connect to sftp ssh."
       }
     },
     "password": {
