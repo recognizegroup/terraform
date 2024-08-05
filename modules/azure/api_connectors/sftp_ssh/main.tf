@@ -15,7 +15,7 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group_template_deployment" "log_analytics" {
+resource "azurerm_resource_group_template_deployment" "sftp_ssh" {
   name                = "${var.connection_name}_deployment"
   resource_group_name = var.resource_group_name
 
