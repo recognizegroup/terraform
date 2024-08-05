@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "String",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "location"
+      }
+    },
+    "connection_name": {
+      "type": "String",
+      "metadata": {
+        "description": "Connection resource name to connect to sftp ssh."
+      }
+    },
+    "password": {
+      "type": "string",
+      "metadata": {
+        "description": "The sftp password"
+      }
+    },
+    "username": {
+      "type": "string",
+      "metadata": {
+        "description": "The sftp username"
+      }
+    },
+    "hostname": {
+      "type": "string",
+      "metadata": {
+        "description": "The sftp hostName"
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "[parameters('connection_name')]",
+      "type": "Microsoft.Web/connections",
+      "apiVersion": "2016-06-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "displayName": "SFTP - SSH",
+        "parameterValues": {
+          "hostName": "[parameters('hostname')]",
+          "password": "[parameters('password')]",
+          "userName": "[parameters('username')]",
+          "acceptAnySshHostKey": true
+        },
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', resourceGroup().location ,'/managedApis/sftpwithssh')]"
+        }
+      }
+    }
+  ]
+}
