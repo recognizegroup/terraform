@@ -49,7 +49,7 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
   }
 
   dynamic "identity" {
-    for_each = var.entra_administrator_enabled == false ? [] : ["1"]
+    for_each = var.entra_administrator_enabled == false ? [] : [1]
 
     content {
       type         = "UserAssigned"
@@ -78,7 +78,7 @@ resource "azurerm_mysql_flexible_server_configuration" "mysql_flexible_server_co
 }
 
 resource "azurerm_mysql_flexible_server_active_directory_administrator" "entra_admin" {
-  for_each = var.entra_administrator_enabled == false ? [] : ["1"]
+  count = var.entra_administrator_enabled == false ? 0 : 1
 
   server_id   = azurerm_mysql_flexible_server.mysql_flexible_server.id
   identity_id = var.entra_identity_id
