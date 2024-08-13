@@ -44,6 +44,12 @@ resource "azurerm_postgresql_flexible_server" "postgresql_server" {
   delegated_subnet_id    = var.delegated_subnet_id
   private_dns_zone_id    = var.private_dns_zone_id
 
+  authentication {
+    active_directory_auth_enabled = var.authentication_active_directory_auth_enabled
+    password_auth_enabled         = var.authentication_password_auth_enabled
+    tenant_id                     = var.authentication_tenant_id
+  }
+
   maintenance_window {
     day_of_week  = 1 # Monday
     start_hour   = 2
