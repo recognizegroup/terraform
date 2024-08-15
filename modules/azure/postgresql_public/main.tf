@@ -41,6 +41,12 @@ resource "azurerm_postgresql_flexible_server" "postgresql_server" {
   version                = var.postgresql_version
   zone                   = "1"
 
+  authentication {
+    active_directory_auth_enabled = var.authentication_active_directory_auth_enabled
+    password_auth_enabled         = var.authentication_password_auth_enabled
+    tenant_id                     = var.authentication_tenant_id
+  }
+
   maintenance_window {
     day_of_week  = 1 # Monday
     start_hour   = 2

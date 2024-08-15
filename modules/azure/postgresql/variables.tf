@@ -72,6 +72,24 @@ variable "private_dns_zone_id" {
   description = "ID of the private DNS zone."
 }
 
+variable "authentication_active_directory_auth_enabled" {
+  type        = bool
+  description = "Specifies whether or not Active Directory authentication is enabled for this PostgreSQL Server"
+  default     = false
+}
+
+variable "authentication_password_auth_enabled" {
+  type        = bool
+  description = "Specifies whether or not password authentication is enabled for this PostgreSQL Server"
+  default     = true
+}
+
+variable "authentication_tenant_id" {
+  type        = string
+  description = "Specifies the Tenant ID for this PostgreSQL Server"
+  default     = null
+}
+
 variable "password_keeper" {
   type        = map(string)
   description = "Random map of strings, when changed the postgresql admin password will rotate."
