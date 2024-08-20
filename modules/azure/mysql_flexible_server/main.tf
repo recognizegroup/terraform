@@ -48,6 +48,15 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
     size_gb           = var.mysql_server_storage_max
   }
 
+  dynamic "identity" {
+    for_each = var.entra_administrator_enabled == false ? [] : ["1"]
+
+    content {
+      type         = "UserAssigned"
+      identity_ids = [var.entra_identity_id]
+    }
+  }
+
   lifecycle {
     ignore_changes = [zone]
   }
@@ -69,7 +78,7 @@ resource "azurerm_mysql_flexible_server_configuration" "mysql_flexible_server_co
 }
 
 resource "azurerm_mysql_flexible_server_active_directory_administrator" "entra_admin" {
-  for_each = var.entra_administrator_enabled == false ? [] : [1]
+  for_each = var.entra_administrator_enabled == false ? [] : ["1"]
 
   server_id   = azurerm_mysql_flexible_server.mysql_flexible_server.id
   identity_id = var.entra_identity_id
