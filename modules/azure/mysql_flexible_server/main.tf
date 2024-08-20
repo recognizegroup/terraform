@@ -68,6 +68,16 @@ resource "azurerm_mysql_flexible_server_configuration" "mysql_flexible_server_co
   value               = var.slow_query_log
 }
 
+resource "azurerm_mysql_flexible_server_active_directory_administrator" "entra_admin" {
+  for_each = var.entra_administrator_enabled == false ? [] : [1]
+
+  server_id   = azurerm_mysql_flexible_server.mysql_flexible_server.id
+  identity_id = var.entra_identity_id
+  login       = var.entra_login
+  object_id   = var.entra_object_id
+  tenant_id   = var.entra_tenant_id
+}
+
 data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
   count       = var.log_analytics_workspace_id == null ? 0 : 1
   resource_id = azurerm_mysql_flexible_server.mysql_flexible_server.id
