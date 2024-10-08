@@ -45,5 +45,6 @@ resource "azurerm_resource_group_template_deployment" "connection_v2" {
     connection_name = { value = var.connection_name }
     api_id          = { value = var.managed_api_id }
     parameters      = { value = var.parameter_values }
+    location        = {value = var.location}
   })
 }
