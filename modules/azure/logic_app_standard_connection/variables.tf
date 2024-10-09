@@ -1,3 +1,9 @@
+variable "location" {
+  type        = string
+  description = "A datacenter location in Azure."
+  default     = "northeurope" //Was hardcoded in ARM, for backward compatibility kept as northeurope
+}
+
 variable "resource_group_name" {
   type        = string
   description = "Name of the resource group."
