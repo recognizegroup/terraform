@@ -16,7 +16,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group_template_deployment" "policy" {
-  name                = "${var.connection_name}-ap"
+  name                = var.name != null ? var.name : "${var.connection_name}-ap"
   resource_group_name = var.resource_group_name
   deployment_mode     = "Incremental"
   template_content    = file("${path.module}/policy.json")
