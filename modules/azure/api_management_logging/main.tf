@@ -34,14 +34,14 @@ resource "azurerm_api_management_api_diagnostic" "diagnostic" {
   api_name                 = each.key
   api_management_logger_id = azurerm_api_management_logger.logger.id
 
-  sampling_percentage       = 5.0
+  sampling_percentage       = var.sampling_percentage
   always_log_errors         = true
   log_client_ip             = true
   verbosity                 = "verbose"
   http_correlation_protocol = "W3C"
 
   frontend_request {
-    body_bytes = 32
+    body_bytes = var.log_payload_size
     headers_to_log = [
       "content-type",
       "accept",
@@ -50,7 +50,7 @@ resource "azurerm_api_management_api_diagnostic" "diagnostic" {
   }
 
   frontend_response {
-    body_bytes = 32
+    body_bytes = var.log_payload_size
     headers_to_log = [
       "content-type",
       "content-length",
@@ -59,7 +59,7 @@ resource "azurerm_api_management_api_diagnostic" "diagnostic" {
   }
 
   backend_request {
-    body_bytes = 32
+    body_bytes = var.log_payload_size
     headers_to_log = [
       "content-type",
       "accept",
@@ -68,7 +68,7 @@ resource "azurerm_api_management_api_diagnostic" "diagnostic" {
   }
 
   backend_response {
-    body_bytes = 32
+    body_bytes = var.log_payload_size
     headers_to_log = [
       "content-type",
       "content-length",
