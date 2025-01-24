@@ -134,7 +134,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
   dynamic "enabled_log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
+    for_each = length(var.log_analytics_diagnostic_categories) > 0 ? var.log_analytics_diagnostic_categories : data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types 
 
     content {
       category = enabled_log.value

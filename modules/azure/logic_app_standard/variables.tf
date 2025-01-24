@@ -98,3 +98,9 @@ variable "log_analytics_workspace_id" {
   description = "Specifies the ID of a Log Analytics Workspace where diagnostics data should be sent."
   default     = null
 }
+
+variable "log_analytics_diagnostic_categories" {
+  type        = list(string)
+  description = "Optional list of diagnostic categories to override the default categories."
+  default     = []
+}
