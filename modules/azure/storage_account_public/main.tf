@@ -27,6 +27,7 @@ resource "azurerm_storage_account" "storage_account" {
   min_tls_version                 = var.min_tls_version
   nfsv3_enabled                   = var.nfsv3_enabled
   is_hns_enabled                  = var.is_hns_enabled
+  sftp_enabled                    = var.sftp_enabled
 
   blob_properties {
     dynamic "cors_rule" {

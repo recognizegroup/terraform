@@ -143,4 +143,9 @@ variable "loganalytics_diagnostic_setting" {
   description = "Specifies the log categories that have to be sent to Log analytics."
   default     = null
 }
+variable "sftp_enabled" {
+  type        = bool
+  description = "Enable or disable SFTP access for the storage account."
+  default     = false
+}
 
