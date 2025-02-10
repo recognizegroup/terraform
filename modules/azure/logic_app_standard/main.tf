@@ -79,7 +79,7 @@ resource "azurerm_logic_app_standard" "app" {
   app_settings = merge({
     WEBSITE_NODE_DEFAULT_VERSION             = "~18",
     FUNCTIONS_WORKER_RUNTIME                 = "node",
-    MICROSOFT_PROVIDER_AUTHENTICATION_SECRET = "${var.managed_identity_provider != null ? azuread_application_password.password[0].value : ""}"
+    MICROSOFT_PROVIDER_AUTHENTICATION_SECRET = var.managed_identity_provider == null ? azuread_application_password.password[0].value : null
   }, var.app_settings)
 
   app_service_plan_id        = var.service_plan_id
