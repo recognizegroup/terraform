@@ -6,9 +6,13 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.48"
     }
-    archive = {
-      source  = "hashicorp/archive"
-      version = "~> 2.3"
+    azapi = {
+      source  = "Azure/azapi"
+      version = "~> 1.4"
+    }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 2.36"
     }
   }
 
@@ -19,12 +23,11 @@ provider "azurerm" {
   features {}
 }
 
-provider "archive" {
-}
-
 locals {
-  identity_type = var.use_managed_identity && length(var.identity_ids) > 0 ? "SystemAssigned, UserAssigned" : var.use_managed_identity ? "SystemAssigned" : length(var.identity_ids) > 0 ? "UserAssigned" : null
-  is_linux      = length(regexall("/home/", lower(abspath(path.root)))) > 0
+  identity_type     = var.use_managed_identity && length(var.identity_ids) > 0 ? "SystemAssigned, UserAssigned" : var.use_managed_identity ? "SystemAssigned" : length(var.identity_ids) > 0 ? "UserAssigned" : null
+  is_linux          = length(regexall("/home/", lower(abspath(path.root)))) > 0
+  identifiers       = var.managed_identity_provider != null ? concat(["api://${var.managed_identity_provider.create.application_name}"], var.managed_identity_provider.identifier_uris != null ? var.managed_identity_provider.identifier_uris : []) : []
+  allowed_audiences = var.managed_identity_provider != null ? concat(local.identifiers, var.managed_identity_provider.allowed_audiences != null ? var.managed_identity_provider.allowed_audiences : []) : []
 }
 
 resource "azurerm_logic_app_standard" "app" {
@@ -47,11 +50,36 @@ resource "azurerm_logic_app_standard" "app" {
     ftps_state                = "Disabled"
     elastic_instance_minimum  = var.elastic_instance_minimum
     pre_warmed_instance_count = var.pre_warmed_instance_count
+
+    dynamic "ip_restriction" {
+      for_each = var.ip_restrictions
+
+      content {
+        ip_address                = ip_restriction.value.ip_address
+        service_tag               = ip_restriction.value.service_tag
+        virtual_network_subnet_id = ip_restriction.value.virtual_network_subnet_id
+        name                      = ip_restriction.value.name
+        priority                  = ip_restriction.value.priority
+        action                    = ip_restriction.value.action
+
+        dynamic "headers" {
+          for_each = ip_restriction.value.headers
+
+          content {
+            x_azure_fdid      = headers.value.x_azure_fdid
+            x_fd_health_probe = headers.value.x_fd_health_probe
+            x_forwarded_for   = headers.value.x_forwarded_for
+            x_forwarded_host  = headers.value.x_forwarded_host
+          }
+        }
+      }
+    }
   }
 
   app_settings = merge({
-    WEBSITE_NODE_DEFAULT_VERSION = "~18",
-    FUNCTIONS_WORKER_RUNTIME     = "node",
+    WEBSITE_NODE_DEFAULT_VERSION             = "~18",
+    FUNCTIONS_WORKER_RUNTIME                 = "node",
+    MICROSOFT_PROVIDER_AUTHENTICATION_SECRET = "${var.managed_identity_provider != null ? azuread_application_password.password[0].value : ""}"
   }, var.app_settings)
 
   app_service_plan_id        = var.service_plan_id
@@ -157,4 +185,106 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
       }
     }
   }
+}
+
+# Managed Identity Provider
+data "azuread_client_config" "current" {}
+
+resource "random_uuid" "oath2_uuid" {}
+
+resource "azuread_application" "application" {
+  count            = var.managed_identity_provider != null ? 1 : 0
+  display_name     = var.managed_identity_provider.create.display_name
+  owners           = var.managed_identity_provider.create.owners != null ? concat([data.azuread_client_config.current.object_id], var.managed_identity_provider.create.owners) : [data.azuread_client_config.current.object_id]
+  sign_in_audience = "AzureADMyOrg"
+  identifier_uris  = local.identifiers
+
+  api {
+    requested_access_token_version = 2
+
+    oauth2_permission_scope {
+      admin_consent_description  = var.managed_identity_provider.create.oauth2_settings.admin_consent_description
+      admin_consent_display_name = var.managed_identity_provider.create.oauth2_settings.admin_consent_display_name
+      enabled                    = var.managed_identity_provider.create.oauth2_settings.enabled
+      id                         = random_uuid.oath2_uuid.result
+      type                       = var.managed_identity_provider.create.oauth2_settings.type
+      user_consent_description   = var.managed_identity_provider.create.oauth2_settings.user_consent_description
+      user_consent_display_name  = var.managed_identity_provider.create.oauth2_settings.user_consent_display_name
+      value                      = var.managed_identity_provider.create.oauth2_settings.role_value
+    }
+  }
+
+  web {
+    redirect_uris = ["https://${var.logic_app_name}.azurewebsites.net/.auth/login/aad/callback"]
+
+    implicit_grant {
+      access_token_issuance_enabled = false
+      id_token_issuance_enabled     = true
+    }
+  }
+
+  required_resource_access {
+    resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+
+    resource_access {
+      id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d" # User.Read
+      type = "Scope"
+    }
+  }
+}
+
+resource "null_resource" "always_run" {
+  triggers = {
+    timestamp = "${timestamp()}"
+  }
+}
+
+resource "azapi_update_resource" "setup_auth_settings" {
+  count       = var.managed_identity_provider != null ? 1 : 0
+  type        = "Microsoft.Web/sites/config@2020-12-01"
+  resource_id = "${azurerm_logic_app_standard.app.id}/config/web"
+
+  depends_on = [
+    azurerm_logic_app_standard.app,
+    null_resource.always_run
+  ]
+
+  body = jsonencode({
+    properties = {
+      siteAuthSettingsV2 = {
+        globalValidation = {
+          excludedPaths          = []
+          require_authentication = true,
+          // Even though is looks weird, it is needed. Otherwise, the app and also the designer in Azure Portal are not working
+          // https://techcommunity.microsoft.com/blog/integrationsonazureblog/trigger-workflows-in-standard-logic-apps-with-easy-auth/3207378
+          unauthenticatedClientAction = "AllowAnonymous"
+        },
+        IdentityProviders = {
+          azureActiveDirectory = {
+            enabled = true,
+            registration = {
+              clientId                = azuread_application.application[0].application_id
+              clientSecretSettingName = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
+            },
+            validation = {
+              allowedAudiences = local.allowed_audiences
+            }
+          }
+        }
+      }
+    }
+  })
+  lifecycle {
+    /* This action should always be replaces since is works under the hood as an api call
+    * So it does not really track issues with the function app properly
+    */
+    replace_triggered_by = [
+      null_resource.always_run
+    ]
+  }
+}
+
+resource "azuread_application_password" "password" {
+  count                 = var.managed_identity_provider != null ? 1 : 0
+  application_object_id = azuread_application.application[0].object_id
 }
