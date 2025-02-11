@@ -104,3 +104,56 @@ variable "log_analytics_diagnostic_categories" {
   description = "Optional list of diagnostic categories to override the default categories."
   default     = []
 }
+
+variable "managed_identity_provider" {
+  type = object({
+    existing = optional(object({
+      client_id     = string
+      client_secret = string
+    }))
+    create = optional(object({
+      application_name = string
+      display_name     = string
+      oauth2_settings = object({
+        admin_consent_description  = string
+        admin_consent_display_name = string
+        enabled                    = bool
+        type                       = string
+        user_consent_description   = string
+        user_consent_display_name  = string
+        role_value                 = string
+      })
+      owners        = optional(list(string)) # Deployment user will be added as owner by default
+      redirect_uris = optional(list(string)) # Only for additional URIs, function uri will be added by default
+      group_id      = optional(string)       # Group ID where service principal of the existing application will belong to
+    }))
+    identifier_uris   = optional(list(string)) #  api://<application_name> will be added by default if application is create
+    allowed_audiences = optional(list(string)) # api://<application-name> will be added by default
+  })
+  validation {
+    condition     = var.managed_identity_provider.existing != null || var.managed_identity_provider.create != null
+    error_message = "Variable managed_identity_provider has to provide either an existing managed identity provider or given information to create one"
+  }
+  description = "The managed identity provider to use for connections on this function app"
+  default     = null
+}
+
+variable "ip_restrictions" {
+  type = list(object({
+    ip_address                = optional(string),
+    service_tag               = optional(string),
+    virtual_network_subnet_id = optional(string),
+    name                      = optional(string),
+    priority                  = optional(number),
+    action                    = optional(string),
+
+    headers = optional(list(object({
+      x_azure_fdid      = optional(list(string)),
+      x_fd_health_probe = optional(list(string)),
+      x_forwarded_for   = optional(list(string)),
+      x_forwarded_host  = optional(list(string))
+    })))
+  }))
+  description = "A List of objects representing IP restrictions."
+  default     = []
+}
