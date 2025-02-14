@@ -130,10 +130,6 @@ variable "managed_identity_provider" {
     identifier_uris   = optional(list(string)) #  api://<application_name> will be added by default if application is create
     allowed_audiences = optional(list(string)) # api://<application-name> will be added by default
   })
-  validation {
-    condition     = var.managed_identity_provider.existing != null || var.managed_identity_provider.create != null
-    error_message = "Variable managed_identity_provider has to provide either an existing managed identity provider or given information to create one"
-  }
   description = "The managed identity provider to use for connections on this function app"
   default     = null
 }
