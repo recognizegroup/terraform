@@ -32,9 +32,7 @@ resource "azurerm_windows_function_app" "function_app" {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic
     use_32_bit_worker      = var.use_32_bit_worker
-    
-    # Only set app_scale_limit if it's not null. Can be set to 0 or null for unrestricted, or a valid value between 1 and the app maximum
-    app_scale_limit        = var.app_scale_limit != null ? var.app_scale_limit : 0
+    app_scale_limit        = var.app_scale_limit == null ? 0 : var.app_scale_limit
 
     dynamic "application_stack" {
       for_each = var.dotnet_version != "" ? [1] : []
