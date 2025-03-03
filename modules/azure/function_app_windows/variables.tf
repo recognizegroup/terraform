@@ -115,5 +115,6 @@ variable "use_32_bit_worker" {
 variable "app_scale_limit" {
   type        = number
   description = "Number of workers this function app can scale out to. Only applicable to apps on the Consumption and Premium plan."
-  default     = 1
+  default     = null
+  nullable    = true
 }
