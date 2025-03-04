@@ -32,6 +32,7 @@ resource "azurerm_windows_function_app" "function_app" {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic
     use_32_bit_worker      = var.use_32_bit_worker
+    app_scale_limit        = var.app_scale_limit
 
     dynamic "application_stack" {
       for_each = var.dotnet_version != "" ? [1] : []

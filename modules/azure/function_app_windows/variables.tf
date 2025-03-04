@@ -111,3 +111,9 @@ variable "use_32_bit_worker" {
   description = "Should the Windows Function App use a 32-bit worker process."
   default     = true
 }
+
+variable "app_scale_limit" {
+  type        = number
+  description = "Number of workers this function app can scale out to. Only applicable to apps on the Consumption and Premium plan."
+  default     = 0
+}
