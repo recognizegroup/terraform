@@ -69,6 +69,12 @@ variable "elastic_instance_minimum" {
   default     = 1
 }
 
+variable "runtime_scale_monitoring_enabled" {
+  type        = bool
+  description = " Should Runtime Scale Monitoring be enabled? Only applicable to apps on the Premium plan."
+  default     = false
+}
+
 variable "pre_warmed_instance_count" {
   type        = number
   description = "Amount of pre-warmed instances. Requires at least 1 for VNet-integration."
