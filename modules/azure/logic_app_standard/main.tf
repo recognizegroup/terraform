@@ -47,9 +47,10 @@ resource "azurerm_logic_app_standard" "app" {
   }
 
   site_config {
-    ftps_state                = "Disabled"
-    elastic_instance_minimum  = var.elastic_instance_minimum
-    pre_warmed_instance_count = var.pre_warmed_instance_count
+    ftps_state                       = "Disabled"
+    elastic_instance_minimum         = var.elastic_instance_minimum
+    pre_warmed_instance_count        = var.pre_warmed_instance_count
+    runtime_scale_monitoring_enabled = var.runtime_scale_monitoring_enabled
 
     dynamic "ip_restriction" {
       for_each = var.ip_restrictions
