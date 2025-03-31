@@ -71,7 +71,7 @@ resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
   http_correlation_protocol = var.api_diagnostic_settings.http_correlation_protocol
 
   frontend_request {
-    body_bytes = 32
+    body_bytes = var.api_diagnostic_settings.bytes_to_log
     headers_to_log = [
       "content-type",
       "accept",
@@ -80,7 +80,7 @@ resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
   }
 
   frontend_response {
-    body_bytes = 32
+    body_bytes = var.api_diagnostic_settings.bytes_to_log
     headers_to_log = [
       "content-type",
       "content-length",
@@ -89,7 +89,7 @@ resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
   }
 
   backend_request {
-    body_bytes = 32
+    body_bytes = var.api_diagnostic_settings.bytes_to_log
     headers_to_log = [
       "content-type",
       "accept",
@@ -98,7 +98,7 @@ resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
   }
 
   backend_response {
-    body_bytes = 32
+    body_bytes = var.api_diagnostic_settings.bytes_to_log
     headers_to_log = [
       "content-type",
       "content-length",
