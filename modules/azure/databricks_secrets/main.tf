@@ -1,14 +1,14 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.48"
+      version = "~> 3.117"
     }
     databricks = {
       source  = "databricks/databricks"
-      version = "~> 1.0"
+      version = "~> 1.84"
     }
   }
 
