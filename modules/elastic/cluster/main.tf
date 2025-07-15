@@ -1,10 +1,10 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     ec = {
       source  = "elastic/ec"
-      version = "0.1.1"
+      version = "0.12.2"
     }
   }
 

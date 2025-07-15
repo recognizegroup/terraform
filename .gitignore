@@ -32,3 +32,5 @@ override.tf.json
 
 #IDE files
 .idea
+
+.vs/
