@@ -221,7 +221,7 @@ resource "azuread_application" "application" {
 
 resource "azuread_service_principal" "application" {
   count                        = local.should_assign_group ? 1 : 0
-  application_id               = azuread_application.application[0].application_id
+  application_id               = azuread_application.application[0].client_id
   app_role_assignment_required = false
   owners                       = [data.azuread_client_config.current.object_id]
 }
