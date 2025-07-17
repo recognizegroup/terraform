@@ -64,7 +64,7 @@ variable "custom_rules" {
     rate_limit_duration_in_minutes = optional(number)
     rate_limit_threshold           = optional(number)
   }))
-  description = "A list of custom rule objects. For details see https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/frontdoor_firewall_policy#custom_rule"
+  description = "A list of custom rule objects. For details see https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_firewall_policy#custom_rule-1"
   default     = []
 }
 

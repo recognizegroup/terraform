@@ -70,6 +70,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "firewall_policy" {
     content {
       type    = rule.value.type
       version = rule.value.version
+      action  = rule.value.action
 
       # Managed rule exclusions
       dynamic "exclusion" {
