@@ -15,10 +15,9 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_cdn_frontdoor_firewall_policy" "firewall_policy" {
+resource "azurerm_frontdoor_firewall_policy" "firewall_policy" {
   name                              = var.name
   resource_group_name               = var.resource_group_name
-  sku_name                          = var.sku_name
   enabled                           = var.enabled
   mode                              = var.mode
   redirect_url                      = var.redirect_url

@@ -13,16 +13,6 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
-variable "sku_name" {
-  type        = string
-  description = "The SKU name of the WAF policy. Possible values are Standard_AzureFrontDoor and Premium_AzureFrontDoor."
-
-  validation {
-    condition     = can(regex("^(Standard_AzureFrontDoor|Premium_AzureFrontDoor)$", var.sku_name))
-    error_message = "The SKU name must be either Standard_AzureFrontDoor or Premium_AzureFrontDoor."
-  }
-}
-
 variable "enabled" {
   type        = bool
   description = "Is the WAF policy in a enabled state or disabled state."
@@ -33,11 +23,6 @@ variable "mode" {
   type        = string
   description = "The firewall policy mode. Possible values are Detection, Prevention."
   default     = "Prevention"
-
-  validation {
-    condition     = can(regex("^(Detection|Prevention)$", var.mode))
-    error_message = "The mode must be either Detection or Prevention."
-  }
 }
 
 variable "redirect_url" {
@@ -76,7 +61,7 @@ variable "custom_block_response_status_code" {
 
 variable "custom_block_response_body" {
   type        = string
-  description = "If a custom_rule block's action type is block, this is the response body. Must be base64 encoded."
+  description = "If a custom_rule block's action type is block, this is the response body. Must be bas64 encoded."
   default     = null
 }
 
@@ -108,6 +93,6 @@ variable "managed_rules" {
       })))
     })))
   }))
-  description = "A list of managed rule objects. For details see https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_firewall_policy#managed_rule"
+  description = "A list of managed rule objects. For details see https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/frontdoor_firewall_policy#managed_rule"
   default     = []
 }
