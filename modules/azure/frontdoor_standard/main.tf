@@ -66,7 +66,7 @@ resource "azurerm_cdn_frontdoor_origin_group" "fd_origin_groups" {
 resource "azurerm_cdn_frontdoor_origin" "fd_origins" {
   for_each = {
     for group in var.origin_groups :
-        group.name => group.fd_origins[0] # assumes 1 origin per pool (can be expanded)
+        group.name => group.origins[0] # assumes 1 origin per origin group (can be expanded)
   }
 
   name                          = each.key
