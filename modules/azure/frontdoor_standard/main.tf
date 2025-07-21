@@ -32,7 +32,7 @@ resource "azurerm_cdn_frontdoor_endpoint" "fd_endpoint" {
 resource "azurerm_cdn_frontdoor_custom_domain" "fd_default_domain" {
   name                = "default"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
-  host_name           = "{var.name}.azurefd.net"
+  host_name           = "${var.name}.azurefd.net"
 
   tls {
     certificate_type = "ManagedCertificate"
@@ -147,10 +147,11 @@ resource "azurerm_cdn_frontdoor_route" "fd_forwarding_routes" {
   cdn_frontdoor_origin_ids        = [azurerm_cdn_frontdoor_origin.fd_origins[each.value.origin_group_name].id]
   cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.fd_custom_domains[each.value.custom_domain_name].id]
                                   
-  forwarding_protocol             = "HttpsOnly"
+  enabled                         = each.value.enabled
   patterns_to_match               = each.value.patterns_to_match
   supported_protocols             = each.value.supported_protocols
-  enabled                         = each.value.enabled
+  https_redirect_enabled          = false
+  forwarding_protocol             = "HttpsOnly"
   link_to_default_domain          = false
 }
 
