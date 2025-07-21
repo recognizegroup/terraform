@@ -14,20 +14,17 @@ variable "name" {
   }
 }
 
-variable "endpoints" {
-  type = list(string)
-  description = "List of frontend_endpoint names for frontdoor."
-
-  validation {
-    condition     = length(var.endpoints) > 0
-    error_message = "The list with endpoints should at least contain one object."
-  }
+variable "custom_domains" {
+  type = list(object({
+    name                    = string
+    host_name               = string
+  }))
+  description = "List of custom domains for frontdoor."
 }
-
 variable "redirect_routes" {
   type = list(object({
     name               = string
-    frontend_endpoint  = string
+    custom_domain_name  = string
     origin_group_name  = string
     enabled            = optional(bool)
     supported_protocols = list(string)

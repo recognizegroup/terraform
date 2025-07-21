@@ -22,17 +22,26 @@ resource "azurerm_cdn_frontdoor_profile" "fd_profile" {
   sku_name            = "Standard_AzureFrontDoor"
 }
 
-# Endpoints
-resource "azurerm_cdn_frontdoor_endpoint" "fd_endpoints" {
-  for_each = { for endpoint in var.endpoints : endpoint => endpoint }
-
-  name                    = each.value
+# Endpoint
+resource "azurerm_cdn_frontdoor_endpoint" "fd_endpoint" {
+  name                    = var.name
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
+}
+
+# Default FD domain
+resource "azurerm_cdn_frontdoor_custom_domain" "fd_default_domain" {
+  name                = "default"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
+  host_name           = "{var.name}.azurefd.net"
+
+  tls {
+    certificate_type = "ManagedCertificate"
+  }
 }
 
 # Custom domains
 resource "azurerm_cdn_frontdoor_custom_domain" "fd_custom_domains" {
-  for_each            = { for fd_endpoint in azurerm_cdn_frontdoor_endpoint.fd_endpoints : fd_endpoint.name => fd_endpoint }
+  for_each            = { for custom_domain in var.custom_domains: custom_domain.name => custom_domain }
   
   name                = each.key
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
@@ -113,16 +122,17 @@ resource "azurerm_cdn_frontdoor_route" "fd_redirect_routes" {
     for route in var.redirect_routes : route.name => route
   }
 
-  name                          = each.key
-  cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.fd_endpoints[each.value.frontend_endpoint].id
-  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.fd_origin_groups[each.value.origin_group_name].id
-  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.fd_origins[each.value.origin_group_name].id]
-  cdn_frontdoor_rule_set_ids    = [azurerm_cdn_frontdoor_rule_set.fd_rs_redirect.id]
-  enabled                       = lookup(each.value, "enabled", true)
+  name                            = each.key
+  cdn_frontdoor_endpoint_id       = azurerm_cdn_frontdoor_endpoint.fd_endpoint.id
+  cdn_frontdoor_origin_group_id   = azurerm_cdn_frontdoor_origin_group.fd_origin_groups[each.value.origin_group_name].id
+  cdn_frontdoor_origin_ids        = [azurerm_cdn_frontdoor_origin.fd_origins[each.value.origin_group_name].id]
+  cdn_frontdoor_rule_set_ids      = [azurerm_cdn_frontdoor_rule_set.fd_rs_redirect.id]
+  cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.fd_custom_domains[each.value.custom_domain_name].id]
 
-  patterns_to_match             = each.value.patterns_to_match
-  supported_protocols           = each.value.supported_protocols
-  https_redirect_enabled        = false
+  enabled                         = each.value.enabled
+  patterns_to_match               = each.value.patterns_to_match
+  supported_protocols             = each.value.supported_protocols
+  https_redirect_enabled          = false
 }
 
 # Routes (forwarding)
@@ -132,16 +142,15 @@ resource "azurerm_cdn_frontdoor_route" "fd_forwarding_routes" {
   }
 
   name                            = each.key
-  cdn_frontdoor_endpoint_id       = azurerm_cdn_frontdoor_endpoint.fd_endpoints[each.value.frontend_endpoint].id
+  cdn_frontdoor_endpoint_id       = azurerm_cdn_frontdoor_endpoint.fd_endpoint.id
   cdn_frontdoor_origin_group_id   = azurerm_cdn_frontdoor_origin_group.fd_origin_groups[each.value.origin_group_name].id
   cdn_frontdoor_origin_ids        = [azurerm_cdn_frontdoor_origin.fd_origins[each.value.origin_group_name].id]
-  enabled                         = lookup(each.value, "enabled", true)
+  cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.fd_custom_domains[each.value.custom_domain_name].id]
                                   
   forwarding_protocol             = "HttpsOnly"
   patterns_to_match               = each.value.patterns_to_match
   supported_protocols             = each.value.supported_protocols
-
-  cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.fd_custom_domains[each.value.frontend_endpoint].id]
+  enabled                         = each.value.enabled
   link_to_default_domain          = false
 }
 
