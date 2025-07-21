@@ -34,4 +34,5 @@ data "cloudflare_record" "record" {
   for_each = { for rec in var.records : rec.name => rec }  
   zone_id   = data.cloudflare_zone.zone.id
   hostname = each.key
+  type = "CNAME"
 }
