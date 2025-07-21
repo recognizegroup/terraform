@@ -69,9 +69,9 @@ variable "origin_groups" {
     }))
     origins = list(object({
       host_name     = string
-      origin_host_header = string
-      http_port   = number
-      https_port  = number
+      origin_host_header = optional(string)
+      http_port   = optional(number)
+      https_port  = optional(number)
       enabled     = optional(bool)
       priority    = optional(number)
       weight      = optional(number)
