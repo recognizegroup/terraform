@@ -17,14 +17,21 @@ data "cloudflare_zone" "zone" {
   name = var.zone_name
 }
 
-resource "cloudflare_record" "record" {
-  for_each        = { for idx, rec in var.records : rec.name => rec }
-  zone_id         = data.cloudflare_zone.zone.id
-  name            = each.value.name
-  value           = each.value.value
-  type            = each.value.type
-  ttl             = each.value.ttl
-  priority        = each.value.priority
-  proxied         = each.value.proxied
-  allow_overwrite = each.value.allow_overwrite
+# Temporarily set to data, just to extract into state
+# resource "cloudflare_record" "record" {
+#  for_each        = { for idx, rec in var.records : rec.name => rec }
+#  zone_id         = data.cloudflare_zone.zone.id
+#  name            = each.value.name
+#  value           = each.value.value
+#  type            = each.value.type
+#  ttl             = each.value.ttl
+#  priority        = each.value.priority
+#  proxied         = each.value.proxied
+#  allow_overwrite = each.value.allow_overwrite
+#}
+
+data "cloudflare_record" "record" {
+  for_each = { for rec in var.records : rec.name => rec }  
+  zone_id   = data.cloudflare_zone.zone.id
+  hostname = each.key
 }
