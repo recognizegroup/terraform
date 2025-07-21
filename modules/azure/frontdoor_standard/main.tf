@@ -133,6 +133,7 @@ resource "azurerm_cdn_frontdoor_route" "fd_redirect_routes" {
   patterns_to_match               = each.value.patterns_to_match
   supported_protocols             = each.value.supported_protocols
   https_redirect_enabled          = false
+  link_to_default_domain          = false
 }
 
 # Routes (forwarding)
