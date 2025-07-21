@@ -16,19 +16,19 @@ variable "name" {
 
 variable "custom_domains" {
   type = list(object({
-    name                    = string
-    host_name               = string
+    name      = string
+    host_name = string
   }))
   description = "List of custom domains for frontdoor."
 }
 variable "redirect_routes" {
   type = list(object({
-    name               = string
+    name                = string
     custom_domain_name  = string
-    origin_group_name  = string
-    enabled            = optional(bool)
+    origin_group_name   = string
+    enabled             = optional(bool)
     supported_protocols = list(string)
-    patterns_to_match  = list(string)
+    patterns_to_match   = list(string)
   }))
   description = "A list of redirect routes for frontdoor."
 
@@ -40,12 +40,12 @@ variable "redirect_routes" {
 
 variable "forwarding_routes" {
   type = list(object({
-    name               = string
-    frontend_endpoint  = string
-    origin_group_name  = string
-    enabled            = optional(bool)
+    name                = string
+    custom_domain_name  = string
+    origin_group_name   = string
+    enabled             = optional(bool)
     supported_protocols = list(string)
-    patterns_to_match  = list(string)
+    patterns_to_match   = list(string)
   }))
   description = "A list of forwarding routes for frontdoor."
 
@@ -57,21 +57,21 @@ variable "forwarding_routes" {
 
 variable "origin_groups" {
   type = list(object({
-    name                = string
-    health_probe   = optional(object({
-      protocol     = string
+    name         = string
+    health_probe = optional(object({
+      protocol            = string
       interval_in_seconds = number
-      path         = optional(string)
-      request_type = optional(string)
+      path                = optional(string)
+      request_type        = optional(string)
     }))
     origins = list(object({
-      host_name     = string
+      host_name          = string
       origin_host_header = optional(string)
-      http_port   = optional(number)
-      https_port  = optional(number)
-      enabled     = optional(bool)
-      priority    = optional(number)
-      weight      = optional(number)
+      http_port          = optional(number)
+      https_port         = optional(number)
+      enabled            = optional(bool)
+      priority           = optional(number)
+      weight             = optional(number)
     }))
   }))
   description = "A list of origin groups for frontdoor."
