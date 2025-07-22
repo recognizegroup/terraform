@@ -1,7 +1,5 @@
 # Terraform
 
-(Delete this line)
-
 This repository contains terraform modules which can be used in combination with [Terragrunt](https://terragrunt.gruntwork.io/). Terragrunt allows you to keep your Terraform backend configuration DRY (“Don’t Repeat Yourself”) by defining versioned modules once and reusing those modules inside terragrunt configuration files.
 
 ## Getting started
