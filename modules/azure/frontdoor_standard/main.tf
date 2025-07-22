@@ -28,17 +28,6 @@ resource "azurerm_cdn_frontdoor_endpoint" "fd_endpoint" {
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
 }
 
-# Default FD domain
-resource "azurerm_cdn_frontdoor_custom_domain" "fd_default_domain" {
-  name                = "default"
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
-  host_name           = "${var.name}.azurefd.net"
-
-  tls {
-    certificate_type = "ManagedCertificate"
-  }
-}
-
 # Custom domains
 resource "azurerm_cdn_frontdoor_custom_domain" "fd_custom_domains" {
   for_each            = { for custom_domain in var.custom_domains: custom_domain.name => custom_domain }
@@ -154,6 +143,32 @@ resource "azurerm_cdn_frontdoor_route" "fd_forwarding_routes" {
   https_redirect_enabled          = false
   forwarding_protocol             = "HttpsOnly"
   link_to_default_domain          = false
+}
+
+data "azurerm_cdn_frontdoor_firewall_policy" "fd_firewall_policy" {
+  count = var.security_policy == null ? 0 : 1  
+  name                = var.security_policy.firewall_policy_name
+  resource_group_name = var.resource_group_name
+}
+
+# Security policy
+resource "azurerm_cdn_frontdoor_security_policy" "fd_security_policy" {
+  count                    = var.security_policy == null ? 0 : 1
+  name                     = "${var.security_policy.firewall_policy_name}-securityPolicy" 
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
+
+  security_policies {
+    firewall {
+      cdn_frontdoor_firewall_policy_id = data.azurerm_cdn_frontdoor_firewall_policy.fd_firewall_policy[0].id
+
+      association {
+        domain {
+          cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_custom_domain.fd_custom_domains[var.security_policy.custom_domain_name].id
+        }
+        patterns_to_match = ["/*"]
+      }
+    }
+  }
 }
 
 # Diagnostic settings

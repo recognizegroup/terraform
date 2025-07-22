@@ -14,6 +14,14 @@ variable "name" {
   }
 }
 
+variable "security_policy" {
+  type = object({
+    firewall_policy_name = string
+    custom_domain_name   = string
+  })
+  description = "Specifies front door security policy details."
+}
+
 variable "custom_domains" {
   type = list(object({
     name      = string
