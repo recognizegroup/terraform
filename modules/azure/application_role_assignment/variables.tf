@@ -6,9 +6,9 @@ variable "assignments" {
   description = "The assignments you want to add to an application."
 }
 
-variable "application_id" {
+variable "client_id" {
   type        = string
-  description = "The application ID of the application the assignments are added to."
+  description = "The client ID of the application the assignments are added to."
 }
 
 variable "use_existing_service_principal" {

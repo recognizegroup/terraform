@@ -221,7 +221,7 @@ resource "azuread_application" "application" {
 
 resource "azuread_service_principal" "application" {
   count                        = local.should_assign_group ? 1 : 0
-  application_id               = azuread_application.application[0].client_id
+  client_id                    = azuread_application.application[0].client_id
   app_role_assignment_required = false
   owners                       = [data.azuread_client_config.current.object_id]
 }
@@ -234,7 +234,7 @@ resource "azuread_group_member" "registered_app_member" {
 
 resource "azuread_application_password" "password" {
   count                 = local.should_create_app ? 1 : 0
-  application_object_id = azuread_application.application[0].object_id
+  application_id = azuread_application.application[0].object_id
 }
 
 resource "random_uuid" "oath2_uuid" {}
