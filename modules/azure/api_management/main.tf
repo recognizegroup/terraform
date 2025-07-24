@@ -204,7 +204,7 @@ resource "azuread_application" "application" {
 }
 
 resource "azuread_application_password" "password" {
-  application_id = azuread_application.application.object_id
+  application_id = azuread_application.application.id
 }
 
 resource "azurerm_api_management_identity_provider_aad" "identity_provider_aad" {

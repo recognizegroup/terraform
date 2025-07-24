@@ -338,7 +338,7 @@ resource "azuread_group_member" "registered_app_member" {
 }
 
 resource "azuread_application_password" "password" {
-  application_id = azuread_application.application.object_id
+  application_id = azuread_application.application.id
 }
 
 resource "random_uuid" "oath2_uuid" {}

@@ -234,7 +234,7 @@ resource "azuread_group_member" "registered_app_member" {
 
 resource "azuread_application_password" "password" {
   count                 = local.should_create_app ? 1 : 0
-  application_id = azuread_application.application[0].object_id
+  application_id = azuread_application.application[0].id
 }
 
 resource "random_uuid" "oath2_uuid" {}
