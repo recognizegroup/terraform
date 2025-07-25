@@ -111,6 +111,12 @@ resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
 ##########            API Policy             ##########
 #######################################################
 
+# This temporary output is used to retrieve the XML content of the API policy.
+output "api_policy_xml_content" {
+  value = azurerm_api_management_api_policy.api_policy.xml_content
+  description = "The XML content of the API policy."
+}
+
 resource "azurerm_api_management_api_policy" "api_policy" {
   api_name            = azurerm_api_management_api.api.name
   api_management_name = var.api_management_name
