@@ -105,7 +105,7 @@ resource "azurerm_linux_function_app" "function_app" {
     active_directory_v2 {
       client_id                  = local.should_create_app ? azuread_application.application[0].client_id : var.managed_identity_provider.existing.client_id
       client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
-      tenant_auth_endpoint       = "https://login.microsoftonline.com/v2.0/${data.azurerm_client_config.current.tenant_id}/"
+      tenant_auth_endpoint       = "https://login.microsoftonline.com/${data.azurerm_client_config.current.tenant_id}/v2.0/"
       allowed_audiences          = local.allowed_audiences
     }
 
