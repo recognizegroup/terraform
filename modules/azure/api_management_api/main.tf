@@ -325,7 +325,6 @@ resource "azurerm_api_management_authorization_server" "oauth2" {
 }
 
 resource "azuread_service_principal" "application" {
-  count                        = local.should_assign_group ? 1 : 0
   client_id                    = azuread_application.application.client_id
   app_role_assignment_required = false
   owners                       = [data.azuread_client_config.current.object_id]
