@@ -1,10 +1,10 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.48"
+      version = "~> 3.117"
     }
   }
 
@@ -45,5 +45,6 @@ resource "azurerm_resource_group_template_deployment" "connection_v2" {
     connection_name = { value = var.connection_name }
     api_id          = { value = var.managed_api_id }
     parameters      = { value = var.parameter_values }
+    location        = { value = var.location }
   })
 }

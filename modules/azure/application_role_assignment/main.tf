@@ -1,10 +1,10 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 2.36"
+      version = "~> 2.53"
     }
   }
 
@@ -14,8 +14,8 @@ terraform {
 provider "azuread" {}
 
 resource "azuread_service_principal" "internal" {
-  application_id = var.application_id
-  use_existing   = var.use_existing_service_principal
+  client_id    = var.client_id
+  use_existing = var.use_existing_service_principal
 }
 
 resource "azuread_app_role_assignment" "role_assignment" {

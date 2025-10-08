@@ -27,3 +27,15 @@ variable "api_names" {
   type        = set(string)
   description = ""
 }
+
+variable "log_payload_size" {
+  type        = number
+  description = "max payload side to log "
+  default     = 32
+}
+
+variable "sampling_percentage" {
+  type        = number
+  description = "% of requests to log"
+  default     = 5
+}

@@ -1,10 +1,10 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.48"
+      version = "~> 3.117"
     }
   }
 
@@ -20,6 +20,7 @@ resource "azurerm_servicebus_namespace" "service_bus" {
   location            = var.location
   resource_group_name = var.resource_group_name
   sku                 = var.sku
+  minimum_tls_version = var.minimum_tls_version
 }
 
 resource "azurerm_servicebus_namespace_authorization_rule" "authorization_rule" {

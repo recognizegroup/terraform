@@ -69,6 +69,12 @@ variable "elastic_instance_minimum" {
   default     = 1
 }
 
+variable "runtime_scale_monitoring_enabled" {
+  type        = bool
+  description = " Should Runtime Scale Monitoring be enabled? Only applicable to apps on the Premium plan."
+  default     = false
+}
+
 variable "pre_warmed_instance_count" {
   type        = number
   description = "Amount of pre-warmed instances. Requires at least 1 for VNet-integration."
@@ -91,4 +97,65 @@ variable "logic_app_version" {
   type        = string
   description = "The runtime version associated with the Logic App."
   default     = "~4"
+}
+
+variable "log_analytics_workspace_id" {
+  type        = string
+  description = "Specifies the ID of a Log Analytics Workspace where diagnostics data should be sent."
+  default     = null
+}
+
+variable "log_analytics_diagnostic_categories" {
+  type        = list(string)
+  description = "Optional list of diagnostic categories to override the default categories."
+  default     = []
+}
+
+variable "managed_identity_provider" {
+  type = object({
+    existing = optional(object({
+      client_id     = string
+      client_secret = string
+    }))
+    create = optional(object({
+      application_name = string
+      display_name     = string
+      oauth2_settings = object({
+        admin_consent_description  = string
+        admin_consent_display_name = string
+        enabled                    = bool
+        type                       = string
+        user_consent_description   = string
+        user_consent_display_name  = string
+        role_value                 = string
+      })
+      owners        = optional(list(string)) # Deployment user will be added as owner by default
+      redirect_uris = optional(list(string)) # Only for additional URIs, function uri will be added by default
+      group_id      = optional(string)       # Group ID where service principal of the existing application will belong to
+    }))
+    identifier_uris   = optional(list(string)) #  api://<application_name> will be added by default if application is create
+    allowed_audiences = optional(list(string)) # api://<application-name> will be added by default
+  })
+  description = "The managed identity provider to use for connections on this function app"
+  default     = null
+}
+
+variable "ip_restrictions" {
+  type = list(object({
+    ip_address                = optional(string),
+    service_tag               = optional(string),
+    virtual_network_subnet_id = optional(string),
+    name                      = optional(string),
+    priority                  = optional(number),
+    action                    = optional(string),
+
+    headers = optional(list(object({
+      x_azure_fdid      = optional(list(string)),
+      x_fd_health_probe = optional(list(string)),
+      x_forwarded_for   = optional(list(string)),
+      x_forwarded_host  = optional(list(string))
+    })))
+  }))
+  description = "A List of objects representing IP restrictions."
+  default     = []
 }

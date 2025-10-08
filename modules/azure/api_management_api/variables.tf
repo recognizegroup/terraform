@@ -222,3 +222,9 @@ variable "custom_backend_policy" {
   description = "Additional backend xml policies"
   default     = null
 }
+
+variable "role_assignments" {
+  type        = list(string)
+  description = "Roles to validate in the JWT token's 'roles' claim for access control."
+  default     = []
+}

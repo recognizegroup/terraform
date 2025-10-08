@@ -1,10 +1,10 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.48"
+      version = "~> 3.117"
     }
   }
 
@@ -32,6 +32,7 @@ resource "azurerm_windows_function_app" "function_app" {
     always_on              = var.always_on
     vnet_route_all_enabled = var.route_all_outbound_traffic
     use_32_bit_worker      = var.use_32_bit_worker
+    app_scale_limit        = var.app_scale_limit
 
     dynamic "application_stack" {
       for_each = var.dotnet_version != "" ? [1] : []

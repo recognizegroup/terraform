@@ -1,10 +1,10 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.48"
+      version = "~> 3.117"
     }
   }
 
@@ -71,7 +71,7 @@ resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
   http_correlation_protocol = var.api_diagnostic_settings.http_correlation_protocol
 
   frontend_request {
-    body_bytes = 32
+    body_bytes = var.api_diagnostic_settings.bytes_to_log
     headers_to_log = [
       "content-type",
       "accept",
@@ -80,7 +80,7 @@ resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
   }
 
   frontend_response {
-    body_bytes = 32
+    body_bytes = var.api_diagnostic_settings.bytes_to_log
     headers_to_log = [
       "content-type",
       "content-length",
@@ -89,7 +89,7 @@ resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
   }
 
   backend_request {
-    body_bytes = 32
+    body_bytes = var.api_diagnostic_settings.bytes_to_log
     headers_to_log = [
       "content-type",
       "accept",
@@ -98,7 +98,7 @@ resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
   }
 
   backend_response {
-    body_bytes = 32
+    body_bytes = var.api_diagnostic_settings.bytes_to_log
     headers_to_log = [
       "content-type",
       "content-length",
@@ -110,6 +110,12 @@ resource "azurerm_api_management_api_diagnostic" "api_diagnostic" {
 #######################################################
 ##########            API Policy             ##########
 #######################################################
+
+# This temporary output is used to retrieve the XML content of the API policy.
+output "api_policy_xml_content" {
+  value = azurerm_api_management_api_policy.api_policy.xml_content
+  description = "The XML content of the API policy."
+}
 
 resource "azurerm_api_management_api_policy" "api_policy" {
   api_name            = azurerm_api_management_api.api.name

@@ -1,14 +1,14 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.48"
+      version = "~> 3.117"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 2.36"
+      version = "~> 2.53"
     }
   }
 
@@ -125,11 +125,22 @@ resource "azurerm_api_management_api_policy" "api_policy" {
       <openid-config url="${var.aad_settings.openid_url}"/>
       <required-claims>
         <claim name="aud" match="any">
-          <value>${azuread_application.application.application_id}</value>
+          <value>${azuread_application.application.client_id}</value>
         </claim>
         <claim name="iss" match="any">
           <value>${var.aad_settings.issuer}</value>
         </claim>
+        %{if length(var.role_assignments) > 0}
+          <claim name="roles" match="any">
+            %{
+  for role in var.role_assignments
+  }
+              <value>${role}</value>
+            %{
+  endfor
+}
+          </claim>
+        %{endif}
       </required-claims>
     </validate-jwt>
     %{if var.backend_type == "managed-identity"}
@@ -305,7 +316,7 @@ resource "azurerm_api_management_authorization_server" "oauth2" {
   authorization_endpoint       = var.auth_endpoint != null ? var.auth_endpoint : "https://login.microsoftonline.com/${var.authorization_tenant}/oauth2/v2.0/authorize"
   token_endpoint               = var.token_endpoint != null ? var.token_endpoint : "https://login.microsoftonline.com/${var.authorization_tenant}/oauth2/v2.0/token"
   client_registration_endpoint = var.client_registration_endpoint
-  client_id                    = azuread_application.application.application_id
+  client_id                    = azuread_application.application.client_id
   client_secret                = azuread_application_password.password.value
   bearer_token_sending_methods = ["authorizationHeader"]
   client_authentication_method = ["Body"]
@@ -314,20 +325,20 @@ resource "azurerm_api_management_authorization_server" "oauth2" {
 }
 
 resource "azuread_service_principal" "application" {
-  count                        = local.should_assign_group ? 1 : 0
-  application_id               = azuread_application.application.application_id
+  client_id                    = azuread_application.application.client_id
   app_role_assignment_required = false
   owners                       = [data.azuread_client_config.current.object_id]
+  use_existing                 = true
 }
 
 resource "azuread_group_member" "registered_app_member" {
   count            = local.should_assign_group ? 1 : 0
   group_object_id  = var.group_id
-  member_object_id = azuread_service_principal.application[0].object_id
+  member_object_id = azuread_service_principal.application.object_id
 }
 
 resource "azuread_application_password" "password" {
-  application_object_id = azuread_application.application.object_id
+  application_id = azuread_application.application.id
 }
 
 resource "random_uuid" "oath2_uuid" {}

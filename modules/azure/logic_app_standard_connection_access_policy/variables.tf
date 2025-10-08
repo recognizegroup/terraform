@@ -3,6 +3,12 @@ variable "resource_group_name" {
   description = "Name of the resource group."
 }
 
+variable "name" {
+  type        = string
+  description = "Name of the resource which will be created"
+  default     = null
+}
+
 variable "connection_name" {
   type        = string
   description = "Name of the connection."

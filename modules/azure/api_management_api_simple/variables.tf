@@ -46,6 +46,7 @@ variable "api_management_logger_id" {
 variable "api_diagnostic_settings" {
   type = object({
     sampling_percentage       = number,
+    bytes_to_log              = number,
     always_log_errors         = bool,
     log_client_ip             = bool,
     verbosity                 = string, # possible values: verbose, information, error
@@ -56,6 +57,7 @@ variable "api_diagnostic_settings" {
 
   default = {
     sampling_percentage       = 5.0,
+    bytes_to_log              = 32
     always_log_errors         = true,
     log_client_ip             = true,
     verbosity                 = "verbose", # possible values: verbose, information, error

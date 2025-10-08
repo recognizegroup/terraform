@@ -1,10 +1,10 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.48"
+      version = "~> 3.117"
     }
   }
 
@@ -15,9 +15,10 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_frontdoor_firewall_policy" "firewall_policy" {
+resource "azurerm_cdn_frontdoor_firewall_policy" "firewall_policy" {
   name                              = var.name
   resource_group_name               = var.resource_group_name
+  sku_name                          = var.sku_name
   enabled                           = var.enabled
   mode                              = var.mode
   redirect_url                      = var.redirect_url
@@ -69,6 +70,7 @@ resource "azurerm_frontdoor_firewall_policy" "firewall_policy" {
     content {
       type    = rule.value.type
       version = rule.value.version
+      action  = rule.value.action
 
       # Managed rule exclusions
       dynamic "exclusion" {

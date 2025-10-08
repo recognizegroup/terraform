@@ -1,10 +1,10 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.48"
+      version = "~> 3.117"
     }
   }
 
@@ -16,7 +16,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group_template_deployment" "policy" {
-  name                = "${var.connection_name}-ap"
+  name                = var.name != null ? var.name : "${var.connection_name}-ap"
   resource_group_name = var.resource_group_name
   deployment_mode     = "Incremental"
   template_content    = file("${path.module}/policy.json")

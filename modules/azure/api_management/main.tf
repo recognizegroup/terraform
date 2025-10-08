@@ -1,14 +1,14 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.48"
+      version = "~> 3.117"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 2.36"
+      version = "~> 2.53"
     }
   }
 
@@ -204,13 +204,13 @@ resource "azuread_application" "application" {
 }
 
 resource "azuread_application_password" "password" {
-  application_object_id = azuread_application.application.object_id
+  application_id = azuread_application.application.id
 }
 
 resource "azurerm_api_management_identity_provider_aad" "identity_provider_aad" {
   resource_group_name = var.resource_group_name
   api_management_name = azurerm_api_management.api_management.name
-  client_id           = azuread_application.application.application_id
+  client_id           = azuread_application.application.client_id
   client_secret       = azuread_application_password.password.value
   allowed_tenants     = var.allowed_tenants
   signin_tenant       = var.signin_tenant

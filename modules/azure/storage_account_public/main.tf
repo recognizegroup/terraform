@@ -1,10 +1,10 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = "~> 1.12"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.48"
+      version = "~> 3.117"
     }
   }
 
@@ -27,6 +27,7 @@ resource "azurerm_storage_account" "storage_account" {
   min_tls_version                 = var.min_tls_version
   nfsv3_enabled                   = var.nfsv3_enabled
   is_hns_enabled                  = var.is_hns_enabled
+  sftp_enabled                    = var.sftp_enabled
 
   blob_properties {
     dynamic "cors_rule" {
