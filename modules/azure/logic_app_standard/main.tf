@@ -263,7 +263,7 @@ resource "azapi_update_resource" "setup_auth_settings" {
           azureActiveDirectory = {
             enabled = true,
             registration = {
-              clientId                = azuread_application.application[0].application_id
+              clientId                = azuread_application.application[0].client_id
               clientSecretSettingName = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
             },
             validation = {
@@ -286,5 +286,5 @@ resource "azapi_update_resource" "setup_auth_settings" {
 
 resource "azuread_application_password" "password" {
   count                 = var.managed_identity_provider != null ? 1 : 0
-  application_object_id = azuread_application.application[0].object_id
+  application_id = azuread_application.application[0].id
 }

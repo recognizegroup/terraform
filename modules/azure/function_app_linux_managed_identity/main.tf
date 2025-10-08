@@ -31,6 +31,9 @@ provider "null" {
 
 }
 
+data "azurerm_client_config" "current" {
+}
+
 locals {
   should_create_app   = var.managed_identity_provider.existing != null ? false : true
   should_assign_group = var.managed_identity_provider.create.group_id != null ? true : false
@@ -93,6 +96,26 @@ resource "azurerm_linux_function_app" "function_app" {
     }
   }
 
+  auth_settings_v2 {  
+    auth_enabled           = true
+    require_authentication = var.authentication_settings.require_authentication == null ? false : var.authentication_settings.require_authentication
+    unauthenticated_action = var.authentication_settings.unauthenticated_action == null ? null : var.authentication_settings.unauthenticated_action
+    excluded_paths         = var.authentication_settings.excluded_paths == null ? [] : var.authentication_settings.excluded_paths
+
+    active_directory_v2 {
+      client_id                  = local.should_create_app ? azuread_application.application[0].client_id : var.managed_identity_provider.existing.client_id
+      client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
+      tenant_auth_endpoint       = "https://login.microsoftonline.com/${data.azurerm_client_config.current.tenant_id}/v2.0/"
+      allowed_audiences          = local.allowed_audiences
+    }
+
+    login {
+      // Bug within terraform module it just requires it
+      // https://github.com/hashicorp/terraform-provider-azurerm/issues/21002
+    }
+  }
+
+
   dynamic "connection_string" {
     for_each = var.connection_strings
     content {
@@ -115,7 +138,6 @@ resource "azurerm_linux_function_app" "function_app" {
   }
 }
 
-
 /*
  * https://github.com/hashicorp/terraform-provider-azurerm/issues/12928 blocked by https://github.com/Azure/azure-rest-api-specs/issues/18888
  *
@@ -126,7 +148,7 @@ resource "azurerm_linux_function_app" "function_app" {
  */
 
 // Needed to have a trigger that allows recreating some resource every time
-resource "null_resource" "always_run" {
+/*resource "null_resource" "always_run" {
   triggers = {
     timestamp = "${timestamp()}"
   }
@@ -153,7 +175,7 @@ resource "azapi_update_resource" "setup_auth_settings" {
           azureActiveDirectory = {
             enabled = true,
             registration = {
-              clientId                = "${local.should_create_app ? azuread_application.application[0].application_id : var.managed_identity_provider.existing.client_id}",
+              clientId                = "${local.should_create_app ? azuread_application.application[0].client_id : var.managed_identity_provider.existing.client_id}",
               clientSecretSettingName = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
             },
             validation = {
@@ -165,15 +187,14 @@ resource "azapi_update_resource" "setup_auth_settings" {
     }
   })
   lifecycle {
-    /* This action should always be replaces since is works under the hood as an api call
-    * So it does not really track issues with the function app properly
-    */
+    // This action should always be replaces since is works under the hood as an api call
+    // So it does not really track issues with the function app properly
     replace_triggered_by = [
       null_resource.always_run
     ]
   }
 }
-
+*/
 
 # Managed Identity Provider
 data "azuread_client_config" "current" {}
@@ -221,7 +242,7 @@ resource "azuread_application" "application" {
 
 resource "azuread_service_principal" "application" {
   count                        = local.should_assign_group ? 1 : 0
-  application_id               = azuread_application.application[0].application_id
+  client_id                    = azuread_application.application[0].client_id
   app_role_assignment_required = false
   owners                       = [data.azuread_client_config.current.object_id]
 }
@@ -234,7 +255,7 @@ resource "azuread_group_member" "registered_app_member" {
 
 resource "azuread_application_password" "password" {
   count                 = local.should_create_app ? 1 : 0
-  application_object_id = azuread_application.application[0].object_id
+  application_id = azuread_application.application[0].id
 }
 
 resource "random_uuid" "oath2_uuid" {}
