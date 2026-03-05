@@ -96,7 +96,7 @@ resource "azurerm_linux_function_app" "function_app" {
     }
   }
 
-  auth_settings_v2 {  
+  auth_settings_v2 {
     auth_enabled           = true
     require_authentication = var.authentication_settings.require_authentication == null ? false : var.authentication_settings.require_authentication
     unauthenticated_action = var.authentication_settings.unauthenticated_action == null ? null : var.authentication_settings.unauthenticated_action
@@ -254,7 +254,7 @@ resource "azuread_group_member" "registered_app_member" {
 }
 
 resource "azuread_application_password" "password" {
-  count                 = local.should_create_app ? 1 : 0
+  count          = local.should_create_app ? 1 : 0
   application_id = azuread_application.application[0].id
 }
 
