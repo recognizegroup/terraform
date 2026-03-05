@@ -285,6 +285,6 @@ resource "azapi_update_resource" "setup_auth_settings" {
 }
 
 resource "azuread_application_password" "password" {
-  count                 = var.managed_identity_provider != null ? 1 : 0
+  count          = var.managed_identity_provider != null ? 1 : 0
   application_id = azuread_application.application[0].id
 }
