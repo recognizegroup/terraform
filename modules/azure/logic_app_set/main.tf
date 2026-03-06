@@ -50,11 +50,6 @@ resource "azurerm_resource_group_template_deployment" "workflow_deployment" {
   depends_on = [azurerm_logic_app_workflow.workflow]
 }
 
-data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
-  for_each    = var.log_analytics_workspace_id == null ? {} : local.logic_app_instances
-  resource_id = azurerm_logic_app_workflow.workflow[each.key].id
-}
-
 // Write logs and metrics to log analytics if specified
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   for_each                   = var.log_analytics_workspace_id == null ? {} : local.logic_app_instances
@@ -65,28 +60,12 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   // TODO: not yet implemented by Azure
   // log_analytics_destination_type = "Dedicated"
 
-  dynamic "enabled_log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[each.key].log_category_types
-
-    content {
-      category = enabled_log.value
-
-      retention_policy {
-        enabled = false
-      }
-    }
+  enabled_log {
+    category_group = "allLogs"
   }
 
-  dynamic "metric" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[each.key].metrics
-
-    content {
-      category = metric.value
-      enabled  = true
-
-      retention_policy {
-        enabled = false
-      }
-    }
+  metric {
+    category = "AllMetrics"
+    enabled  = true
   }
 }
