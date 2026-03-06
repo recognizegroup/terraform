@@ -65,7 +65,7 @@ variable "forwarding_routes" {
 
 variable "origin_groups" {
   type = list(object({
-    name         = string
+    name = string
     health_probe = optional(object({
       protocol            = string
       interval_in_seconds = number
