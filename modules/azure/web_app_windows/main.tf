@@ -114,11 +114,6 @@ resource "azurerm_app_service_custom_hostname_binding" "custom_domain" {
   resource_group_name = var.resource_group_name
 }
 
-data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
-  count       = var.log_analytics_workspace_id == null ? 0 : 1
-  resource_id = azurerm_windows_web_app.web_app.id
-}
-
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   count                      = var.log_analytics_workspace_id == null ? 0 : 1
   name                       = "diag-${var.name}"
@@ -128,28 +123,12 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   // TODO: not yet implemented by Azure
   // log_analytics_destination_type = "Dedicated"
 
-  dynamic "enabled_log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
-
-    content {
-      category = enabled_log.value
-
-      retention_policy {
-        enabled = false
-      }
-    }
+  enabled_log {
+    category_group = "allLogs"
   }
 
-  dynamic "metric" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
-
-    content {
-      category = metric.value
-      enabled  = true
-
-      retention_policy {
-        enabled = false
-      }
-    }
+  metric {
+    category = "AllMetrics"
+    enabled  = true
   }
 }

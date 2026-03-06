@@ -172,34 +172,18 @@ resource "azurerm_cdn_frontdoor_security_policy" "fd_security_policy" {
 }
 
 # Diagnostic settings
-data "azurerm_monitor_diagnostic_categories" "fd_categories" {
-  count       = var.log_analytics_workspace_id == null ? 0 : 1
-  resource_id = azurerm_cdn_frontdoor_profile.fd_profile.id
-}
-
 resource "azurerm_monitor_diagnostic_setting" "fd_diagnostics" {
   count                      = var.log_analytics_workspace_id == null ? 0 : 1
   name                       = "diag-${var.name}"
   target_resource_id         = azurerm_cdn_frontdoor_profile.fd_profile.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  dynamic "enabled_log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.fd_categories[0].log_category_types
-    content {
-      category = enabled_log.value
-      retention_policy {
-        enabled = false
-      }
-    }
+  enabled_log {
+    category_group = "allLogs"
   }
 
-  dynamic "metric" {
-    for_each = data.azurerm_monitor_diagnostic_categories.fd_categories[0].metrics
-    content {
-      category = metric.value
-      retention_policy {
-        enabled = false
-      }
-    }
+  metric {
+    category = "AllMetrics"
+    enabled  = true
   }
 }

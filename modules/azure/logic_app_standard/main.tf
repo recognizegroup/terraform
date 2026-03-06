@@ -143,11 +143,6 @@ resource "null_resource" "deploy" {
   }
 }
 
-data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
-  count       = var.log_analytics_workspace_id == null ? 0 : 1
-  resource_id = azurerm_logic_app_standard.app.id
-}
-
 // Write logs and metrics to log analytics if specified
 // Needs to be done once the deployment is finished, because updating Diagnostic Settings leads to a restart of the Logic App
 // which causes the deployment to fail if it is not finished yet
@@ -161,29 +156,13 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   target_resource_id         = azurerm_logic_app_standard.app.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  dynamic "enabled_log" {
-    for_each = length(var.log_analytics_diagnostic_categories) > 0 ? var.log_analytics_diagnostic_categories : data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
-
-    content {
-      category = enabled_log.value
-
-      retention_policy {
-        enabled = false
-      }
-    }
+  enabled_log {
+    category_group = "allLogs"
   }
 
-  dynamic "metric" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
-
-    content {
-      category = metric.value
-      enabled  = true
-
-      retention_policy {
-        enabled = false
-      }
-    }
+  metric {
+    category = "AllMetrics"
+    enabled  = true
   }
 }
 
