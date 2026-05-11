@@ -15,7 +15,7 @@ variable "api_settings" {
     service_url           = string,
     revision              = string,
     basepath              = string,
-    subscription_required = string,
+    subscription_required = bool,
     openapi_file_path     = optional(string),
     wsdl_file_path        = optional(string)
   })
