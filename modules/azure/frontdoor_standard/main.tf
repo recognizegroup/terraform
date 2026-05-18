@@ -24,17 +24,17 @@ resource "azurerm_cdn_frontdoor_profile" "fd_profile" {
 
 # Endpoint
 resource "azurerm_cdn_frontdoor_endpoint" "fd_endpoint" {
-  name                    = var.name
+  name                     = var.name
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
 }
 
 # Custom domains
 resource "azurerm_cdn_frontdoor_custom_domain" "fd_custom_domains" {
-  for_each            = { for custom_domain in var.custom_domains: custom_domain.name => custom_domain }
-  
-  name                = each.key
+  for_each = { for custom_domain in var.custom_domains : custom_domain.name => custom_domain }
+
+  name                     = each.key
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
-  host_name           = each.value.host_name
+  host_name                = each.value.host_name
 
   tls {
     certificate_type = "ManagedCertificate"
@@ -43,9 +43,9 @@ resource "azurerm_cdn_frontdoor_custom_domain" "fd_custom_domains" {
 
 # Origin groups
 resource "azurerm_cdn_frontdoor_origin_group" "fd_origin_groups" {
-  for_each            = { for group in var.origin_groups : group.name => group }
+  for_each = { for group in var.origin_groups : group.name => group }
 
-  name                = each.key
+  name                     = each.key
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
 
   session_affinity_enabled = false
@@ -57,28 +57,28 @@ resource "azurerm_cdn_frontdoor_origin_group" "fd_origin_groups" {
     request_type        = each.value.health_probe.request_type
   }
 
-  load_balancing { }
+  load_balancing {}
 }
 
 # Origins
 resource "azurerm_cdn_frontdoor_origin" "fd_origins" {
   for_each = {
     for group in var.origin_groups :
-        group.name => group.origins[0] # assumes 1 origin per origin group (can be expanded)
+    group.name => group.origins[0] # assumes 1 origin per origin group (can be expanded)
   }
 
   name                          = each.key
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.fd_origin_groups[each.key].id
-  
+
   certificate_name_check_enabled = false
 
-  host_name                     = each.value.host_name
-  http_port                     = each.value.http_port
-  https_port                    = each.value.https_port
-  origin_host_header            = each.value.origin_host_header
-  priority                      = each.value.priority
-  weight                        = each.value.weight
-  enabled                       = each.value.enabled
+  host_name          = each.value.host_name
+  http_port          = each.value.http_port
+  https_port         = each.value.https_port
+  origin_host_header = each.value.origin_host_header
+  priority           = each.value.priority
+  weight             = each.value.weight
+  enabled            = each.value.enabled
 }
 
 # Redirect Rule Set
@@ -118,11 +118,11 @@ resource "azurerm_cdn_frontdoor_route" "fd_redirect_routes" {
   cdn_frontdoor_rule_set_ids      = [azurerm_cdn_frontdoor_rule_set.fd_rs_redirect.id]
   cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.fd_custom_domains[each.value.custom_domain_name].id]
 
-  enabled                         = each.value.enabled
-  patterns_to_match               = each.value.patterns_to_match
-  supported_protocols             = each.value.supported_protocols
-  https_redirect_enabled          = false
-  link_to_default_domain          = false
+  enabled                = each.value.enabled
+  patterns_to_match      = each.value.patterns_to_match
+  supported_protocols    = each.value.supported_protocols
+  https_redirect_enabled = false
+  link_to_default_domain = false
 }
 
 # Routes (forwarding)
@@ -136,17 +136,17 @@ resource "azurerm_cdn_frontdoor_route" "fd_forwarding_routes" {
   cdn_frontdoor_origin_group_id   = azurerm_cdn_frontdoor_origin_group.fd_origin_groups[each.value.origin_group_name].id
   cdn_frontdoor_origin_ids        = [azurerm_cdn_frontdoor_origin.fd_origins[each.value.origin_group_name].id]
   cdn_frontdoor_custom_domain_ids = [azurerm_cdn_frontdoor_custom_domain.fd_custom_domains[each.value.custom_domain_name].id]
-                                  
-  enabled                         = each.value.enabled
-  patterns_to_match               = each.value.patterns_to_match
-  supported_protocols             = each.value.supported_protocols
-  https_redirect_enabled          = false
-  forwarding_protocol             = "HttpsOnly"
-  link_to_default_domain          = false
+
+  enabled                = each.value.enabled
+  patterns_to_match      = each.value.patterns_to_match
+  supported_protocols    = each.value.supported_protocols
+  https_redirect_enabled = false
+  forwarding_protocol    = "HttpsOnly"
+  link_to_default_domain = false
 }
 
 data "azurerm_cdn_frontdoor_firewall_policy" "fd_firewall_policy" {
-  count = var.security_policy == null ? 0 : 1  
+  count               = var.security_policy == null ? 0 : 1
   name                = var.security_policy.firewall_policy_name
   resource_group_name = var.resource_group_name
 }
@@ -154,7 +154,7 @@ data "azurerm_cdn_frontdoor_firewall_policy" "fd_firewall_policy" {
 # Security policy
 resource "azurerm_cdn_frontdoor_security_policy" "fd_security_policy" {
   count                    = var.security_policy == null ? 0 : 1
-  name                     = "${var.security_policy.firewall_policy_name}-securityPolicy" 
+  name                     = "${var.security_policy.firewall_policy_name}-securityPolicy"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.fd_profile.id
 
   security_policies {
@@ -172,34 +172,18 @@ resource "azurerm_cdn_frontdoor_security_policy" "fd_security_policy" {
 }
 
 # Diagnostic settings
-data "azurerm_monitor_diagnostic_categories" "fd_categories" {
-  count       = var.log_analytics_workspace_id == null ? 0 : 1
-  resource_id = azurerm_cdn_frontdoor_profile.fd_profile.id
-}
-
 resource "azurerm_monitor_diagnostic_setting" "fd_diagnostics" {
   count                      = var.log_analytics_workspace_id == null ? 0 : 1
   name                       = "diag-${var.name}"
   target_resource_id         = azurerm_cdn_frontdoor_profile.fd_profile.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  dynamic "enabled_log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.fd_categories[0].log_category_types
-    content {
-      category = enabled_log.value
-      retention_policy {
-        enabled = false
-      }
-    }
+  enabled_log {
+    category_group = "allLogs"
   }
 
-  dynamic "metric" {
-    for_each = data.azurerm_monitor_diagnostic_categories.fd_categories[0].metrics
-    content {
-      category = metric.value
-      retention_policy {
-        enabled = false
-      }
-    }
+  metric {
+    category = "AllMetrics"
+    enabled  = true
   }
 }

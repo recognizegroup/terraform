@@ -96,7 +96,7 @@ resource "azurerm_linux_function_app" "function_app" {
     }
   }
 
-  auth_settings_v2 {  
+  auth_settings_v2 {
     auth_enabled           = true
     require_authentication = var.authentication_settings.require_authentication == null ? false : var.authentication_settings.require_authentication
     unauthenticated_action = var.authentication_settings.unauthenticated_action == null ? null : var.authentication_settings.unauthenticated_action
@@ -254,7 +254,7 @@ resource "azuread_group_member" "registered_app_member" {
 }
 
 resource "azuread_application_password" "password" {
-  count                 = local.should_create_app ? 1 : 0
+  count          = local.should_create_app ? 1 : 0
   application_id = azuread_application.application[0].id
 }
 
@@ -270,39 +270,18 @@ resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integratio
 
 # Logging and analytics
 
-data "azurerm_monitor_diagnostic_categories" "diagnostic_categories" {
-  count       = var.log_analytics_workspace_id == null ? 0 : 1
-  resource_id = azurerm_linux_function_app.function_app.id
-}
-
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
   count                      = var.log_analytics_workspace_id == null ? 0 : 1
   name                       = "diag-${var.name}"
   target_resource_id         = azurerm_linux_function_app.function_app.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  dynamic "enabled_log" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].log_category_types
-
-    content {
-      category = enabled_log.value
-
-      retention_policy {
-        enabled = false
-      }
-    }
+  enabled_log {
+    category_group = "allLogs"
   }
 
-  dynamic "metric" {
-    for_each = data.azurerm_monitor_diagnostic_categories.diagnostic_categories[0].metrics
-
-    content {
-      category = metric.value
-      enabled  = true
-
-      retention_policy {
-        enabled = false
-      }
-    }
+  metric {
+    category = "AllMetrics"
+    enabled  = true
   }
 }
