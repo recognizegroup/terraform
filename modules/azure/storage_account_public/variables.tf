@@ -149,3 +149,9 @@ variable "sftp_enabled" {
   default     = false
 }
 
+variable "shared_access_key_enabled" {
+  type        = bool
+  description = "Whether the storage account permits requests to be authorized with the account access key (Shared Key). Set to false to enforce Entra ID (Azure AD) authorization only."
+  default     = true
+}
+
