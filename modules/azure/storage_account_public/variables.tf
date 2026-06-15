@@ -155,3 +155,9 @@ variable "shared_access_key_enabled" {
   default     = true
 }
 
+variable "storage_use_azuread" {
+  type        = bool
+  description = "Authenticate Storage data-plane operations (blob/queue properties) with Entra ID (Azure AD) instead of the account access key. Set to true when shared key access is disabled on the account."
+  default     = false
+}
+
