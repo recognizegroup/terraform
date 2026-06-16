@@ -141,3 +141,15 @@ variable "sftp_enabled" {
   default     = false
 }
 
+variable "shared_access_key_enabled" {
+  type        = bool
+  description = "Whether the storage account permits requests to be authorized with the account access key (Shared Key). Set to false to enforce Entra ID (Azure AD) authorization only."
+  default     = true
+}
+
+variable "storage_use_azuread" {
+  type        = bool
+  description = "Authenticate Storage data-plane operations (blob/queue properties) with Entra ID (Azure AD) instead of the account access key. Set to true when shared key access is disabled on the account."
+  default     = false
+}
+
