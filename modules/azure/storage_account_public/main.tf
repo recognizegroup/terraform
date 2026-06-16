@@ -13,6 +13,10 @@ terraform {
 
 provider "azurerm" {
   features {}
+
+  # Use Entra ID (Azure AD) for the Storage data plane instead of Shared Key.
+  # Required when the target storage account has shared_access_key_enabled = false.
+  storage_use_azuread = var.storage_use_azuread
 }
 
 resource "azurerm_storage_account" "storage_account" {
@@ -28,6 +32,7 @@ resource "azurerm_storage_account" "storage_account" {
   nfsv3_enabled                   = var.nfsv3_enabled
   is_hns_enabled                  = var.is_hns_enabled
   sftp_enabled                    = var.sftp_enabled
+  shared_access_key_enabled       = var.shared_access_key_enabled
 
   blob_properties {
     dynamic "cors_rule" {

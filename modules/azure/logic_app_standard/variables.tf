@@ -105,12 +105,6 @@ variable "log_analytics_workspace_id" {
   default     = null
 }
 
-variable "log_analytics_diagnostic_categories" {
-  type        = list(string)
-  description = "Optional list of diagnostic categories to override the default categories."
-  default     = []
-}
-
 variable "managed_identity_provider" {
   type = object({
     existing = optional(object({

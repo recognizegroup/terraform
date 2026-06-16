@@ -30,3 +30,9 @@ variable "local_source" {
   default     = null
 }
 
+variable "storage_use_azuread" {
+  type        = bool
+  description = "Authenticate Storage data-plane operations (blob upload/read) with Entra ID (Azure AD) instead of the account access key. Set to true when shared key access is disabled on the account."
+  default     = false
+}
+

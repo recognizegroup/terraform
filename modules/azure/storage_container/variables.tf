@@ -13,3 +13,9 @@ variable "storage_container_access_type" {
   description = "Access type of the storage account."
   default     = "private"
 }
+
+variable "storage_use_azuread" {
+  type        = bool
+  description = "Authenticate Storage data-plane operations (container create/read) with Entra ID (Azure AD) instead of the account access key. Set to true when shared key access is disabled on the account."
+  default     = false
+}

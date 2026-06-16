@@ -120,24 +120,16 @@ variable "loganalytics_diagnostic_setting" {
   type = object({
     workspace_id = string, // log analytics workspace ID
     blob = optional(object({
-      categories       = optional(list(string)), // null list,means send all categories
-      metrics          = optional(list(string)), // null list means send all metrics
-      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+      destination_type = optional(string) // AzureDiagnostics or Dedicated
     })),
     queue = optional(object({
-      categories       = optional(list(string)), // null list,means send all categories
-      metrics          = optional(list(string)), // null list means send all metrics
-      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+      destination_type = optional(string) // AzureDiagnostics or Dedicated
     })),
     table = optional(object({
-      categories       = optional(list(string)), // null list,means send all categories
-      metrics          = optional(list(string)), // null list means send all metrics
-      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+      destination_type = optional(string) // AzureDiagnostics or Dedicated
     }))
     file = optional(object({
-      categories       = optional(list(string)), // null list,means send all categories
-      metrics          = optional(list(string)), // null list means send all metrics
-      destination_type = optional(string),       // AzureDiagnostics or Dedicated
+      destination_type = optional(string) // AzureDiagnostics or Dedicated
     }))
   })
   description = "Specifies the log categories that have to be sent to Log analytics."
@@ -146,6 +138,18 @@ variable "loganalytics_diagnostic_setting" {
 variable "sftp_enabled" {
   type        = bool
   description = "Enable or disable SFTP access for the storage account."
+  default     = false
+}
+
+variable "shared_access_key_enabled" {
+  type        = bool
+  description = "Whether the storage account permits requests to be authorized with the account access key (Shared Key). Set to false to enforce Entra ID (Azure AD) authorization only."
+  default     = true
+}
+
+variable "storage_use_azuread" {
+  type        = bool
+  description = "Authenticate Storage data-plane operations (blob/queue properties) with Entra ID (Azure AD) instead of the account access key. Set to true when shared key access is disabled on the account."
   default     = false
 }
 
