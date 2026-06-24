@@ -4,7 +4,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.117"
+      version = "~> 4.66"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -21,6 +21,11 @@ terraform {
 
 provider "azurerm" {
   features {}
+
+  # azurerm v4 removed the ARM_SKIP_PROVIDER_REGISTRATION env var in favour of this argument.
+  # The deploy service principals do not have rights to register resource providers, so keep
+  # registration disabled (matches the pipelines that still export ARM_SKIP_PROVIDER_REGISTRATION).
+  resource_provider_registrations = "none"
 }
 
 provider "azapi" {
@@ -280,8 +285,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
     category_group = "allLogs"
   }
 
-  metric {
+  enabled_metric {
     category = "AllMetrics"
-    enabled  = true
   }
 }

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- `azure/function_app_linux_managed_identity`: **Breaking** — require `azurerm ~> 4.66` (was `~> 3.117`) so the module accepts `dotnet_version = "10.0"`. Adds `resource_provider_registrations = "none"` to the `azurerm` provider (the v4 replacement for the removed `ARM_SKIP_PROVIDER_REGISTRATION`) and migrates the diagnostic setting's deprecated `metric` block to `enabled_metric`.
+
 ## [3.14.0] - 2024-08-15
 
 ### Added
