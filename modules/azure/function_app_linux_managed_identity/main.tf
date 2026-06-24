@@ -21,11 +21,9 @@ terraform {
 
 provider "azurerm" {
   features {}
-
-  # azurerm v4 removed the ARM_SKIP_PROVIDER_REGISTRATION env var in favour of this argument.
-  # The deploy service principals do not have rights to register resource providers, so keep
-  # registration disabled (matches the pipelines that still export ARM_SKIP_PROVIDER_REGISTRATION).
-  resource_provider_registrations = "none"
+  # Provider registration stays disabled via the ARM_SKIP_PROVIDER_REGISTRATION env var the
+  # pipelines export (still honoured by azurerm v4). Do NOT also set resource_provider_registrations
+  # here: v4 rejects having both set at once.
 }
 
 provider "azapi" {
