@@ -35,6 +35,8 @@ resource "azurerm_storage_account" "storage_account" {
   shared_access_key_enabled       = var.shared_access_key_enabled
 
   blob_properties {
+    change_feed_enabled = var.change_feed_enabled
+
     dynamic "cors_rule" {
       for_each = var.cors_rules
 
