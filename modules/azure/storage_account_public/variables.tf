@@ -116,6 +116,12 @@ variable "delete_retention_policy_days" {
   default     = null
 }
 
+variable "versioning_enabled" {
+  type        = bool
+  description = "Enable or disable blob versioning. Azure keeps versioning on for as long as an object replication policy uses this account as its source and rejects an update that turns it off, so such an account has to set this to true."
+  default     = false
+}
+
 variable "change_feed_enabled" {
   type        = bool
   description = "Enable or disable the blob service change feed. Azure keeps the change feed on for as long as an object replication policy uses this account as its source and rejects an update that turns it off, so such an account has to set this to true."
