@@ -116,6 +116,12 @@ variable "delete_retention_policy_days" {
   default     = null
 }
 
+variable "change_feed_enabled" {
+  type        = bool
+  description = "Enable or disable the blob service change feed. Azure keeps the change feed on for as long as an object replication policy uses this account as its source and rejects an update that turns it off, so such an account has to set this to true."
+  default     = false
+}
+
 variable "loganalytics_diagnostic_setting" {
   type = object({
     workspace_id = string, // log analytics workspace ID
