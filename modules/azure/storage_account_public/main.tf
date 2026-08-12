@@ -36,6 +36,7 @@ resource "azurerm_storage_account" "storage_account" {
 
   blob_properties {
     change_feed_enabled = var.change_feed_enabled
+    versioning_enabled  = var.versioning_enabled
 
     dynamic "cors_rule" {
       for_each = var.cors_rules
