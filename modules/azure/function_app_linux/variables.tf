@@ -43,7 +43,14 @@ variable "storage_account_name" {
 
 variable "storage_account_access_key" {
   type        = string
-  description = " The access key which will be used to access the backend storage account for the Function App."
+  description = "The access key which will be used to access the backend storage account for the Function App. Leave empty when use_managed_identity is true."
+  default     = null
+}
+
+variable "use_managed_identity" {
+  type        = bool
+  description = "Connect to the backend storage account with the system assigned identity instead of the access key, so the account can run without shared key access."
+  default     = false
 }
 
 variable "app_settings" {
