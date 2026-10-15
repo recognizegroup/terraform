@@ -15,7 +15,8 @@ variable "storage_container_name" {
 
 variable "storage_connection_string" {
   type        = string
-  description = "The connection string for the storage account to which this SAS applies. Typically directly from the primary_connection_string attribute of a terraform created azurerm_storage_account resource."
+  description = "The connection string for the storage account to which this SAS applies. Typically directly from the primary_connection_string attribute of a terraform created azurerm_storage_account resource. Leave null when shared key access is disabled on the account: no SAS token is created and storage_blob_url is null, so use storage_blob_url_without_sas with a managed identity instead."
+  default     = null
 }
 
 variable "type" {
