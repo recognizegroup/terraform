@@ -59,6 +59,14 @@ resource "azurerm_storage_account" "storage_account" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [
+      blob_properties[0].change_feed_retention_in_days,
+      blob_properties[0].delete_retention_policy,
+      blob_properties[0].restore_policy,
+    ]
+  }
+
   dynamic "network_rules" {
     for_each = var.nfsv3_enabled == true ? [1] : []
     content {

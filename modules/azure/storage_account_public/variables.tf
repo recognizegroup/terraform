@@ -112,7 +112,7 @@ variable "custom_domain" {
 
 variable "delete_retention_policy_days" {
   type        = number
-  description = "Number of days to retain deleted blobs."
+  description = "Number of days to retain deleted blobs. Only applied when the account is created: Azure Backup manages blob soft delete, point in time restore and change feed retention afterwards, so later changes to these settings are ignored."
   default     = null
 }
 
