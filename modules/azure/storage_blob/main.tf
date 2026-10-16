@@ -28,6 +28,8 @@ resource "azurerm_storage_blob" "storage_blob" {
 }
 
 data "azurerm_storage_account_sas" "sas_token" {
+  count = var.storage_connection_string == null ? 0 : 1
+
   connection_string = var.storage_connection_string
   https_only        = true
   signed_version    = "2017-07-29"
